@@ -1,0 +1,12 @@
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.venv
+env/
+venv/
+.DS_Store
+.env*
+dist
+build
+site

@@ -1,0 +1,13 @@
+node_modules
+.svelte-kit
+.vite
+dist
+.DS_Store
+npm-debug.log*
+pnpm-debug.log*
+.env.example
+coverage
+playwright-report
+test-results
+
+

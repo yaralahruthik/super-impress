@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: super-impress-backend
+    container_name: super-impress-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - UVICORN_HOST=0.0.0.0
+    networks:
+      - app
+
+  frontend:
+    build:
+      context: ./frontend
+    image: super-impress-frontend
+    container_name: super-impress-frontend
+    ports:
+      - "5173:5173"
+    env_file:
+      - frontend/.env
+    depends_on:
+      - backend
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge

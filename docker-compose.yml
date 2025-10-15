@@ -4,10 +4,10 @@ services:
       context: ./backend
     image: super-impress-backend
     container_name: super-impress-backend
-    ports:
-      - "8000:8000"
     environment:
       - UVICORN_HOST=0.0.0.0
+    ports:
+      - "8000:80"
     networks:
       - app
 

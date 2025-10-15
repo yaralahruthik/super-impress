@@ -1,11 +1,10 @@
-FROM python:3.9
+FROM python:3.13-slim
 
-WORKDIR /code
+COPY --from=ghcr.io/astral-sh/uv:0.9.2 /uv /uvx /bin/
+WORKDIR /app
 
-COPY ./requirements.txt /code/requirements.txt
+COPY . .
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN uv sync --frozen --no-cache
 
-COPY ./app /code/app
-
-CMD ["fastapi", "run", "app/main.py", "--port", "8000"]
+CMD ["/app/.venv/bin/fastapi", "run", "app/main.py", "--port", "80", "--host", "0.0.0.0"]

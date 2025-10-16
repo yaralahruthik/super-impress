@@ -13,4 +13,4 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"message": "This is a response from backend"}
+    return {"message": "This is a response from backend."}

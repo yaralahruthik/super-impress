@@ -1,3 +1,5 @@
+node_modules
+
 # Package Managers
 package-lock.json
 pnpm-lock.yaml
@@ -7,3 +9,7 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Output
+/.svelte-kit
+/build

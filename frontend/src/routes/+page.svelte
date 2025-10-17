@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-
-	const API_BASE = import.meta.env?.VITE_API_BASE;
 	let data: { message: string } | null = null;
 
 	onMount(async () => {
 		try {
-			const res = await fetch(`${API_BASE}/`);
+			const res = await fetch('/api/test');
 			data = await res.json();
 		} catch (error) {
 			console.error(error);

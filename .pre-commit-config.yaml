@@ -1,0 +1,38 @@
+repos:
+  # Backend hooks
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.1
+    hooks:
+      - id: ruff-check
+        files: ^backend/
+        args: [--fix]
+      - id: ruff-format
+        files: ^backend/
+
+  # Frontend hooks
+  - repo: local
+    hooks:
+      - id: frontend-format
+        name: Frontend Format (Prettier)
+        entry: bash -c 'cd frontend && pnpm run format'
+        language: system
+        files: ^frontend/.*\.(js|ts|svelte|css|json|html)$
+
+      - id: frontend-lint
+        name: Frontend Lint (ESLint)
+        entry: bash -c 'cd frontend && pnpm run lint'
+        language: system
+        files: ^frontend/.*\.(js|ts|svelte)$
+
+  # General hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: ^frontend/(node_modules|\.svelte-kit|build)/
+      - id: end-of-file-fixer
+        exclude: ^frontend/(node_modules|\.svelte-kit|build)/
+      - id: check-yaml
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      - id: check-merge-conflict

@@ -34,3 +34,32 @@ Join [the discord community](https://discord.gg/DWAVqksVtx) for the latest updat
 ---
 
 ## Getting Started
+
+### Pre-commit Setup
+
+This project uses pre-commit hooks to ensure code quality and consistency.
+
+**Steps to setup pre-commit:**
+
+```bash
+# Install pre-commit
+pip install pre-commit
+
+# or if you have uv installed
+uv tool install pre-commit
+
+# Install the git hooks
+pre-commit install
+```
+
+Now pre-commit hooks will automatically run on staged files before each commit. If a hook fails, the commit will be blocked until issues are resolved.
+
+**Manual execution (optional):**
+
+```bash
+# Run on staged files
+pre-commit run
+
+# Run on all files
+pre-commit run --all-files
+```

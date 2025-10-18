@@ -5,8 +5,8 @@ on:
     branches: [main]
 
 jobs:
-  format-check:
-    name: Format Check
+  backend-format-check:
+    name: Backend Format Check
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +19,14 @@ jobs:
           version: "0.14.1"
           args: "format --check"
           src: "./backend"
+
+  frontend-format-check:
+    name: Frontend Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4

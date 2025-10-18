@@ -1,0 +1,51 @@
+name: Code Formatting
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend-format-check:
+    name: Backend Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Run Ruff
+        uses: astral-sh/ruff-action@v3
+        with:
+          version: "0.14.1"
+          args: "format --check"
+          src: "./backend"
+
+  frontend-format-check:
+    name: Frontend Format Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "10.18.0"
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install frontend dependencies
+        run: pnpm install
+        working-directory: frontend
+
+      - name: Check Formatting
+        run: pnpm format:check
+        working-directory: frontend
+
+      - name: Check Linting
+        run: pnpm lint:check
+        working-directory: frontend

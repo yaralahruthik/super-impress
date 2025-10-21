@@ -63,3 +63,35 @@ pre-commit run
 # Run on all files
 pre-commit run --all-files
 ```
+
+## Database Setup
+
+Super Impress uses PostgreSQL as its database. The database choice is documented in `decisions/tech/5-postgresql.md`.
+
+The application connects via `DATABASE_URL` and works with any PostgreSQL instance - Docker (recommended for development), local installation, or cloud services like AWS RDS.
+
+### Quick Setup
+
+1. **Create environment file:**
+
+   ```bash
+   # Create .env file with DATABASE_URL pointing to your PostgreSQL instance
+   # For Docker setup: postgresql+psycopg://postgres:password@localhost:5432/super_impress
+   # For local/cloud: postgresql+psycopg://user:pass@your-host:5432/your_db
+   ```
+
+2. **Start the database:**
+
+   ```bash
+   docker compose up postgres -d
+   ```
+
+3. **Start the backend:**
+
+   ```bash
+   cd backend
+   uv run fastapi dev
+   ```
+
+4. **Test the setup:**
+   - Visit: http://localhost:8000/docs

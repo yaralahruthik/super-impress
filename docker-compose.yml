@@ -1,4 +1,16 @@
 services:
+  postgres:
+    image: postgres:18
+    container_name: super-impress-postgres
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app
+
   backend:
     build:
       context: ./backend
@@ -6,8 +18,11 @@ services:
     container_name: super-impress-backend
     environment:
       - UVICORN_HOST=0.0.0.0
+      - DATABASE_URL=${DATABASE_URL_DOCKER}
     ports:
       - "8000:80"
+    depends_on:
+      - postgres
     networks:
       - app
 
@@ -24,6 +39,9 @@ services:
       - backend
     networks:
       - app
+
+volumes:
+  postgres-data:
 
 networks:
   app:

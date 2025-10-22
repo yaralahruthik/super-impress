@@ -16,9 +16,8 @@ services:
       context: ./backend
     image: super-impress-backend
     container_name: super-impress-backend
-    environment:
-      - UVICORN_HOST=0.0.0.0
-      - DATABASE_URL=${DATABASE_URL_DOCKER}
+    env_file:
+      - backend/.env
     ports:
       - "8000:80"
     depends_on:

@@ -1,7 +1,6 @@
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import Cookie, Depends, HTTPException, status
 from sqlmodel import Session
 
 from app.database import get_session
@@ -10,20 +9,24 @@ from app.auth import get_user_by_email, decode_token
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login/swagger")
-
 
 async def get_current_user(
-    token: Annotated[str, Depends(oauth2_scheme)], session: SessionDep
+    session: SessionDep,
+    access_token: Annotated[str | None, Cookie()] = None,
 ) -> User:
-    """Get the current authenticated user"""
+    """
+    Get the current authenticated user
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
 
-    email = decode_token(token)
+    if access_token is None:
+        raise credentials_exception
+
+    email = decode_token(access_token)
     if email is None:
         raise credentials_exception
 

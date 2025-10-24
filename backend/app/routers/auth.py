@@ -1,8 +1,6 @@
 from datetime import timedelta
-from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi import APIRouter, HTTPException, Response, status
 
 from app.models.auth import (
     LoginRequest,
@@ -49,7 +47,9 @@ async def register(user_data: RegisterRequest, session: SessionDep) -> RegisterR
 
 
 @router.post("/login", response_model=LoginResponse)
-async def login(login_data: LoginRequest, session: SessionDep) -> LoginResponse:
+async def login(
+    login_data: LoginRequest, session: SessionDep, response: Response
+) -> LoginResponse:
     user = authenticate_user(session, login_data.email, login_data.password)
     if not user:
         raise HTTPException(
@@ -64,34 +64,30 @@ async def login(login_data: LoginRequest, session: SessionDep) -> LoginResponse:
         subject=user.email, expires_delta=access_token_expires
     )
 
+    # Set HTTP-only cookie
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True,
+        secure=settings.cookie_secure,
+        samesite="lax",
+        max_age=settings.access_token_expire_minutes * 60,
+        domain=settings.cookie_domain,
+    )
+
     return LoginResponse(
-        access_token=access_token,
-        token_type="bearer",
+        message="Login successful",
         user=UserPublic.model_validate(user),
     )
 
 
-@router.post("/login/swagger")
-async def login_swagger_ui(
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: SessionDep
-):
-    """
-    OAuth2 compatible login endpoint for Swagger UI.
-    Regular clients should use the /login endpoint instead.
-
-    Note: Use your email as the username in Swagger UI.
-    """
-    user = authenticate_user(session, form_data.username, form_data.password)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
-    access_token = create_access_token(
-        subject=user.email, expires_delta=access_token_expires
+@router.post("/logout")
+async def logout(response: Response):
+    response.delete_cookie(
+        key="access_token",
+        httponly=True,
+        secure=settings.cookie_secure,
+        samesite="lax",
+        domain=settings.cookie_domain,
     )
-
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"message": "Successfully logged out"}

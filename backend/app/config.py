@@ -15,6 +15,21 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = Field(
         default=0, alias="ACCESS_TOKEN_EXPIRE_MINUTES"
     )
+    frontend_url: str = Field(
+        default="http://localhost:5173",
+        alias="FRONTEND_URL",
+        description="Frontend URL for CORS",
+    )
+    cookie_domain: str | None = Field(
+        default=None,
+        alias="COOKIE_DOMAIN",
+        description="Cookie domain (None for same-origin)",
+    )
+    cookie_secure: bool = Field(
+        default=False,
+        alias="COOKIE_SECURE",
+        description="Use secure cookies (HTTPS only)",
+    )
 
 
 settings = Settings()

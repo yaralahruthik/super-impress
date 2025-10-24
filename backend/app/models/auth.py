@@ -8,8 +8,7 @@ class LoginRequest(BaseModel):
 
 
 class LoginResponse(BaseModel):
-    access_token: str
-    token_type: str
+    message: str
     user: UserPublic
 
 

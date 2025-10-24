@@ -20,15 +20,11 @@ class Post(PostBase, table=True):
 
 
 class PostCreate(PostBase):
-    """Schema for creating a post"""
-
     title: str = Field(min_length=1, max_length=200)
     content: str = Field(min_length=1, max_length=10000)
 
 
 class PostPublic(PostBase):
-    """Schema for returning a post"""
-
     id: int
     user_id: int
     created_at: datetime

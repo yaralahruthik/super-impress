@@ -9,7 +9,6 @@ router = APIRouter(prefix="/posts", tags=["posts"])
 
 @router.post("/", response_model=PostPublic, status_code=status.HTTP_201_CREATED)
 def create_post(post_data: PostCreate, session: SessionDep, current_user: CurrentUser):
-    """Create a new post for the authenticated user"""
     post = Post.model_validate(post_data, update={"user_id": current_user.id})
     session.add(post)
     session.commit()
@@ -19,7 +18,6 @@ def create_post(post_data: PostCreate, session: SessionDep, current_user: Curren
 
 @router.get("/{post_id}", response_model=PostPublic)
 def read_post(post_id: int, session: SessionDep, current_user: CurrentUser):
-    """Get a specific post by ID (only if owned by current user)"""
     post = session.get(Post, post_id)
     if not post:
         raise HTTPException(status_code=404, detail="Post not found")
@@ -36,7 +34,6 @@ def read_post(post_id: int, session: SessionDep, current_user: CurrentUser):
 def read_posts(
     session: SessionDep, current_user: CurrentUser, skip: int = 0, limit: int = 20
 ):
-    """Get all posts for the authenticated user"""
     statement = (
         select(Post).where(Post.user_id == current_user.id).offset(skip).limit(limit)
     )

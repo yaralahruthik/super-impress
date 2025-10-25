@@ -15,6 +15,10 @@ class Settings(BaseSettings):
     access_token_expire_minutes: int = Field(
         default=0, alias="ACCESS_TOKEN_EXPIRE_MINUTES"
     )
+    refresh_token_expire_minutes: int = Field(
+        default=10080,
+        alias="REFRESH_TOKEN_EXPIRE_MINUTES",  # 7 days
+    )
     frontend_url: str = Field(
         default="http://localhost:5173",
         alias="FRONTEND_URL",

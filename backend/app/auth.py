@@ -1,10 +1,12 @@
 from datetime import datetime, timedelta, timezone
 import jwt
 from jwt.exceptions import InvalidTokenError
+from pydantic import ValidationError
 from pwdlib import PasswordHash
 from sqlmodel import Session, select
 
 from app.config import settings
+from app.models.token import TokenPayload
 from app.models.user import User
 
 password_hash = PasswordHash.recommended()
@@ -44,22 +46,37 @@ def create_access_token(subject: str, expires_delta: timedelta | None = None) ->
     else:
         expire = datetime.now(timezone.utc) + timedelta(minutes=15)
 
-    to_encode = {"sub": subject, "exp": expire}
+    to_encode = {"sub": subject, "exp": expire, "type": "access"}
     encoded_jwt = jwt.encode(
         to_encode, settings.secret_key, algorithm=settings.algorithm
     )
     return encoded_jwt
 
 
-def decode_token(token: str) -> str | None:
+def create_refresh_token(subject: str, expires_delta: timedelta | None = None) -> str:
+    """Create a JWT refresh token"""
+    if expires_delta:
+        expire = datetime.now(timezone.utc) + expires_delta
+    else:
+        expire = datetime.now(timezone.utc) + timedelta(
+            minutes=settings.refresh_token_expire_minutes
+        )
+
+    to_encode = {"sub": subject, "exp": expire, "type": "refresh"}
+    encoded_jwt = jwt.encode(
+        to_encode, settings.secret_key, algorithm=settings.algorithm
+    )
+    return encoded_jwt
+
+
+def decode_token(token: str) -> TokenPayload | None:
     """Decode a JWT token and return the email"""
     try:
         payload = jwt.decode(
             token, settings.secret_key, algorithms=[settings.algorithm]
         )
-        email: str = payload.get("sub")
-        return email
-    except InvalidTokenError:
+        return TokenPayload.model_validate(payload)
+    except (InvalidTokenError, ValidationError):
         return None
 
 

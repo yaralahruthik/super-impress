@@ -14,7 +14,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan, title="Super Impress API")
+app = FastAPI(lifespan=lifespan, title="Super Impress API", root_path="/api")
 
 app.add_middleware(
     CORSMiddleware,
@@ -25,6 +25,5 @@ app.add_middleware(
 )
 
 
-# Include routers
 app.include_router(auth.router)
 app.include_router(post.router)

@@ -26,11 +26,11 @@ async def get_current_user(
     if access_token is None:
         raise credentials_exception
 
-    email = decode_token(access_token)
-    if email is None:
+    payload = decode_token(access_token)
+    if payload is None or payload.type != "access":
         raise credentials_exception
 
-    user = get_user_by_email(session, email)
+    user = get_user_by_email(session, payload.sub)
     if user is None:
         raise credentials_exception
 

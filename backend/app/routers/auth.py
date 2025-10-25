@@ -177,3 +177,9 @@ async def refresh_token(
         message="Token refreshed successfully",
         user=UserPublic.model_validate(user),
     )
+
+
+@router.get("/me", response_model=UserPublic)
+async def get_current_user(user: CurrentUser) -> UserPublic:
+    """Get current authenticated user information"""
+    return UserPublic.model_validate(user)

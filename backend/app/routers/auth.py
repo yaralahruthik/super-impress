@@ -1,6 +1,9 @@
 from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, HTTPException, Request, Response, status
+from fastapi.responses import RedirectResponse
+from app.oauth import oauth
+from app.auth import get_or_create_oauth_user
 
 from app.models.auth import (
     LoginRequest,
@@ -183,3 +186,78 @@ async def refresh_token(
 async def get_current_user(user: CurrentUser) -> UserPublic:
     """Get current authenticated user information"""
     return UserPublic.model_validate(user)
+
+
+@router.get("/google")
+async def google_login(request: Request):
+    """Initiate Google OAuth flow"""
+    redirect_uri = settings.google_redirect_uri
+    return await oauth.google.authorize_redirect(request, redirect_uri)
+
+
+@router.get("/google/callback")
+async def google_callback(request: Request, session: SessionDep):
+    """Handle Google OAuth callback"""
+    try:
+        token = await oauth.google.authorize_access_token(request)
+        user_info = token.get("userinfo")
+
+        if not user_info:
+            return RedirectResponse(
+                url=f"{settings.frontend_url}/login?error=no_user_info"
+            )
+
+        user = get_or_create_oauth_user(
+            session=session,
+            email=user_info["email"],
+            name=user_info.get("name", user_info["email"]),
+            oauth_provider="google",
+            oauth_id=user_info["sub"],
+        )
+
+        access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
+        access_token = create_access_token(
+            subject=user.email, expires_delta=access_token_expires
+        )
+
+        refresh_token_expires = timedelta(minutes=settings.refresh_token_expire_minutes)
+        refresh_token = create_refresh_token(
+            subject=user.email, expires_delta=refresh_token_expires
+        )
+
+        user.refresh_token = get_password_hash(refresh_token)
+        user.refresh_token_expires_at = (
+            datetime.now(timezone.utc) + refresh_token_expires
+        )
+        session.add(user)
+        session.commit()
+
+        redirect_response = RedirectResponse(
+            url=f"{settings.frontend_url}/callback/google"
+        )
+
+        redirect_response.set_cookie(
+            key="access_token",
+            value=access_token,
+            httponly=True,
+            secure=settings.cookie_secure,
+            samesite="lax",
+            max_age=settings.access_token_expire_minutes * 60,
+            domain=settings.cookie_domain,
+        )
+
+        redirect_response.set_cookie(
+            key="refresh_token",
+            value=refresh_token,
+            httponly=True,
+            secure=settings.cookie_secure,
+            samesite="lax",
+            max_age=int(refresh_token_expires.total_seconds()),
+            domain=settings.cookie_domain,
+        )
+
+        return redirect_response
+
+    except Exception as e:
+        print(f"OAuth error: {e}")
+        return RedirectResponse(url=f"{settings.frontend_url}/login?error=oauth_failed")

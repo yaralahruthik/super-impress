@@ -12,6 +12,8 @@ class User(SQLModel, table=True):
     refresh_token_expires_at: datetime | None = Field(
         default=None, description="Expiry date of the refresh token"
     )
+    oauth_provider: str | None = None
+    oauth_id: str | None = None
 
 
 class UserPublic(SQLModel):

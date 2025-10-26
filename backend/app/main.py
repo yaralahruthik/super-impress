@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from starlette.middleware.sessions import SessionMiddleware  # Add this import
 from app.database import create_db_and_tables
 from app.routers import post, auth
 from app.config import settings
@@ -16,6 +16,12 @@ async def lifespan(_: FastAPI):
 
 app = FastAPI(lifespan=lifespan, title="Super Impress API", root_path="/api")
 
+# required for OAuth
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.secret_key,
+)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[settings.frontend_url],
@@ -23,7 +29,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 app.include_router(auth.router)
 app.include_router(post.router)

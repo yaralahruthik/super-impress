@@ -92,3 +92,43 @@ def create_user(session: Session, name: str, email: str, password: str) -> User:
     session.commit()
     session.refresh(user)
     return user
+
+
+def get_or_create_oauth_user(
+    session: Session,
+    email: str,
+    name: str,
+    oauth_provider: str,
+    oauth_id: str,
+) -> User:
+    """Get existing user or create new one from OAuth data"""
+    statement = select(User).where(
+        User.oauth_provider == oauth_provider, User.oauth_id == oauth_id
+    )
+    user = session.exec(statement).first()
+
+    if user:
+        return user
+
+    user = get_user_by_email(session, email)
+
+    if user:
+        if user.oauth_provider is None:
+            user.oauth_provider = oauth_provider
+            user.oauth_id = oauth_id
+            session.add(user)
+            session.commit()
+            session.refresh(user)
+        return user
+
+    user = User(
+        name=name,
+        email=email,
+        oauth_provider=oauth_provider,
+        oauth_id=oauth_id,
+        password=get_password_hash(""),  # Empty password for OAuth users
+    )
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user

@@ -30,9 +30,12 @@ from app.auth import (
     get_user_by_email,
 )
 from app.config import settings
+import secrets
 
 bearer_scheme = HTTPBearer()
 router = APIRouter(tags=["auth"])
+
+temp_token_storage = {}
 
 
 @router.post(
@@ -217,9 +220,28 @@ async def google_callback(request: Request, session: SessionDep):
         session.add(user)
         session.commit()
 
-        redirect_url = f"{settings.frontend_url}/callback/google?access_token={access_token}&refresh_token={refresh_token}"
+        one_time_code = secrets.token_urlsafe(32)
+        temp_token_storage[one_time_code] = {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "user": UserPublic.model_validate(user),
+        }
+
+        redirect_url = f"{settings.frontend_url}/callback/google?code={one_time_code}"
         return RedirectResponse(url=redirect_url)
 
     except Exception as e:
         print(f"OAuth error: {e}")
         return RedirectResponse(url=f"{settings.frontend_url}/login?error=oauth_failed")
+
+
+@router.post("/google/exchange-code")
+async def exchange_code_for_token(request: Request):
+    data = await request.json()
+    code = data.get("code")
+
+    if not code or code not in temp_token_storage:
+        raise HTTPException(status_code=400, detail="Invalid or expired code")
+
+    tokens = temp_token_storage.pop(code)
+    return tokens

@@ -1,22 +1,47 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	import { authenticatedFetch } from '$lib/api';
+	import { authStore, clearTokens } from '$lib/stores/authStore';
+	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
-	let { data } = $props();
+	let userEmail: string | null = null;
 
-	let userEmail = $derived(data.user?.email);
+	onMount(async () => {
+		const currentAuth = get(authStore);
+		if (currentAuth.accessToken) {
+			try {
+				const response = await authenticatedFetch('/api/me');
+				if (response.ok) {
+					const userData = await response.json();
+					userEmail = userData.email;
+				} else if (response.status === 401) {
+					console.warn('Access token invalid when fetching user data. Clearing tokens.');
+					clearTokens();
+				} else {
+					console.error('Failed to fetch user data:', response.status, response.statusText);
+				}
+			} catch (error) {
+				console.error('Network error fetching user data:', error);
+			}
+		}
+	});
 
 	async function handleLogout() {
 		try {
-			await fetch('/api/logout', {
-				method: 'POST',
-				credentials: 'include'
+			const response = await authenticatedFetch('/api/logout', {
+				method: 'POST'
 			});
 
-			await invalidateAll();
-			await goto(resolve('/login'));
+			if (!response.ok) {
+				console.error('Server-side logout failed:', response.status, response.statusText);
+			}
 		} catch (err) {
-			console.error('Logout failed:', err);
+			console.error('Network error during logout:', err);
+		} finally {
+			clearTokens();
+			await invalidateAll();
 			await goto(resolve('/login'));
 		}
 	}

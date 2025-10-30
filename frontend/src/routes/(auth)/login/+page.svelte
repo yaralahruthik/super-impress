@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	import { authenticatedFetch } from '$lib/api';
+	import { setTokens } from '$lib/stores/authStore';
 	import { onMount } from 'svelte';
 
 	let email = '';
@@ -27,13 +29,14 @@
 		error = '';
 		loading = true;
 		try {
-			const response = await fetch('/api/login', {
+			const response = await authenticatedFetch('/api/login', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				credentials: 'include',
 				body: JSON.stringify({ email, password })
 			});
 			if (response.ok) {
+				const data = await response.json();
+				setTokens(data.access_token, data.refresh_token);
 				await invalidateAll();
 				await goto(resolve('/dashboard'));
 			} else {

@@ -1,7 +1,13 @@
 from datetime import datetime, timedelta, timezone
+from typing import Annotated
 
-from fastapi import APIRouter, HTTPException, Request, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Request, Security, status
 from fastapi.responses import RedirectResponse
+from fastapi.security import (
+    HTTPAuthorizationCredentials,
+    HTTPBearer,
+    OAuth2PasswordRequestForm,
+)
 from app.oauth import oauth
 from app.auth import get_or_create_oauth_user
 
@@ -25,6 +31,7 @@ from app.auth import (
 )
 from app.config import settings
 
+bearer_scheme = HTTPBearer()
 router = APIRouter(tags=["auth"])
 
 
@@ -52,9 +59,7 @@ async def register(user_data: RegisterRequest, session: SessionDep) -> RegisterR
 
 
 @router.post("/login", response_model=LoginResponse)
-async def login(
-    login_data: LoginRequest, session: SessionDep, response: Response
-) -> LoginResponse:
+async def login(login_data: LoginRequest, session: SessionDep) -> LoginResponse:
     user = authenticate_user(session, login_data.email, login_data.password)
     if not user:
         raise HTTPException(
@@ -77,68 +82,57 @@ async def login(
     session.add(user)
     session.commit()
 
-    response.set_cookie(
-        key="access_token",
-        value=access_token,
-        httponly=True,
-        secure=settings.cookie_secure,
-        samesite="lax",
-        max_age=settings.access_token_expire_minutes * 60,
-        domain=settings.cookie_domain,
-    )
-
-    response.set_cookie(
-        key="refresh_token",
-        value=refresh_token,
-        httponly=True,
-        secure=settings.cookie_secure,
-        samesite="lax",
-        max_age=int(refresh_token_expires.total_seconds()),
-        domain=settings.cookie_domain,
-    )
-
     return LoginResponse(
+        access_token=access_token,
+        refresh_token=refresh_token,
         message="Login successful",
         user=UserPublic.model_validate(user),
     )
 
 
+@router.post("/login/swagger", include_in_schema=False)
+async def login_for_swagger(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()], session: SessionDep
+):
+    user = authenticate_user(session, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
+    access_token = create_access_token(
+        subject=user.email, expires_delta=access_token_expires
+    )
+
+    return {"access_token": access_token, "token_type": "bearer"}
+
+
 @router.post("/logout")
-async def logout(response: Response, user: CurrentUser, session: SessionDep):
+async def logout(user: CurrentUser, session: SessionDep):
     if user:
         user.refresh_token = None
         user.refresh_token_expires_at = None
         session.add(user)
         session.commit()
 
-    response.delete_cookie(
-        key="access_token",
-        httponly=True,
-        secure=settings.cookie_secure,
-        samesite="lax",
-        domain=settings.cookie_domain,
-    )
-    response.delete_cookie(
-        key="refresh_token",
-        httponly=True,
-        secure=settings.cookie_secure,
-        samesite="lax",
-        domain=settings.cookie_domain,
-    )
     return {"message": "Successfully logged out"}
 
 
 @router.post("/refresh", response_model=LoginResponse)
 async def refresh_token(
-    request: Request, response: Response, session: SessionDep
+    session: SessionDep,
+    token: HTTPAuthorizationCredentials = Security(bearer_scheme),
 ) -> LoginResponse:
-    token = request.cookies.get("refresh_token")
-    if not token:
+    refresh_token_str = token.credentials
+    if not refresh_token_str:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Refresh token not found"
         )
 
-    payload = decode_token(token)
+    payload = decode_token(refresh_token_str)
     if not payload or payload.type != "refresh":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token"
@@ -154,7 +148,7 @@ async def refresh_token(
     if (
         not user
         or not user.refresh_token
-        or not verify_password(token, user.refresh_token)
+        or not verify_password(refresh_token_str, user.refresh_token)
     ):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -166,17 +160,8 @@ async def refresh_token(
         subject=user.email, expires_delta=access_token_expires
     )
 
-    response.set_cookie(
-        key="access_token",
-        value=new_access_token,
-        httponly=True,
-        secure=settings.cookie_secure,
-        samesite="lax",
-        max_age=int(access_token_expires.total_seconds()),
-        domain=settings.cookie_domain,
-    )
-
     return LoginResponse(
+        access_token=new_access_token,
         message="Token refreshed successfully",
         user=UserPublic.model_validate(user),
     )
@@ -232,31 +217,8 @@ async def google_callback(request: Request, session: SessionDep):
         session.add(user)
         session.commit()
 
-        redirect_response = RedirectResponse(
-            url=f"{settings.frontend_url}/callback/google"
-        )
-
-        redirect_response.set_cookie(
-            key="access_token",
-            value=access_token,
-            httponly=True,
-            secure=settings.cookie_secure,
-            samesite="lax",
-            max_age=settings.access_token_expire_minutes * 60,
-            domain=settings.cookie_domain,
-        )
-
-        redirect_response.set_cookie(
-            key="refresh_token",
-            value=refresh_token,
-            httponly=True,
-            secure=settings.cookie_secure,
-            samesite="lax",
-            max_age=int(refresh_token_expires.total_seconds()),
-            domain=settings.cookie_domain,
-        )
-
-        return redirect_response
+        redirect_url = f"{settings.frontend_url}/callback/google?access_token={access_token}&refresh_token={refresh_token}"
+        return RedirectResponse(url=redirect_url)
 
     except Exception as e:
         print(f"OAuth error: {e}")

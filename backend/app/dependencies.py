@@ -1,6 +1,7 @@
 from typing import Annotated
 
-from fastapi import Cookie, Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
 
 from app.database import get_session
@@ -9,10 +10,12 @@ from app.auth import get_user_by_email, decode_token
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login/swagger")
+
 
 async def get_current_user(
     session: SessionDep,
-    access_token: Annotated[str | None, Cookie()] = None,
+    access_token: Annotated[str | None, Depends(oauth2_scheme)] = None,
 ) -> User:
     """
     Get the current authenticated user
@@ -37,10 +40,4 @@ async def get_current_user(
     return user
 
 
-async def get_current_active_user(
-    current_user: Annotated[User, Depends(get_current_user)],
-) -> User:
-    return current_user
-
-
-CurrentUser = Annotated[User, Depends(get_current_active_user)]
+CurrentUser = Annotated[User, Depends(get_current_user)]

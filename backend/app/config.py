@@ -24,16 +24,6 @@ class Settings(BaseSettings):
         alias="FRONTEND_URL",
         description="Frontend URL for CORS",
     )
-    cookie_domain: str | None = Field(
-        default=None,
-        alias="COOKIE_DOMAIN",
-        description="Cookie domain (None for same-origin)",
-    )
-    cookie_secure: bool = Field(
-        default=False,
-        alias="COOKIE_SECURE",
-        description="Use secure cookies (HTTPS only)",
-    )
     google_client_id: str = Field(
         default="",
         alias="GOOGLE_CLIENT_ID",

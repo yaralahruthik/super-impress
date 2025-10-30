@@ -1,4 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field
+
+
 from .user import UserPublic
 
 
@@ -8,6 +10,8 @@ class LoginRequest(BaseModel):
 
 
 class LoginResponse(BaseModel):
+    access_token: str
+    refresh_token: str | None = None
     message: str
     user: UserPublic
 

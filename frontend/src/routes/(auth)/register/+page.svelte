@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
+	import Button from '$lib/components/Button.svelte';
+	import FormField from '$lib/components/FormField.svelte';
 
 	let name = '';
 	let email = '';
@@ -34,63 +36,40 @@
 	}
 </script>
 
-<main>
+<main class="flex flex-col items-center p-5">
 	<h1>Register</h1>
-	{#if error}
-		<p style="color: red;">{error}</p>
-	{/if}
-	<form on:submit|preventDefault={registerUser}>
-		<label for="name">Name:</label>
-		<input type="text" id="name" bind:value={name} required disabled={loading} />
-		<label for="email">Email:</label>
-		<input type="email" id="email" bind:value={email} required disabled={loading} />
-		<label for="password">Password:</label>
-		<input type="password" id="password" bind:value={password} required disabled={loading} />
-		<button type="submit" disabled={loading}>
-			{loading ? 'Registering...' : 'Register'}
-		</button>
-	</form>
-	<p>Already have an account? <a href={resolve('/login')}>Login</a></p>
-</main>
 
-<style>
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 20px;
-	}
-	form {
-		display: flex;
-		flex-direction: column;
-		width: 300px;
-	}
-	label {
-		margin-bottom: 5px;
-	}
-	input {
-		padding: 8px;
-		margin-bottom: 10px;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-	}
-	input:disabled {
-		background-color: #f5f5f5;
-		cursor: not-allowed;
-	}
-	button {
-		padding: 10px 15px;
-		background-color: #4caf50;
-		color: white;
-		border: none;
-		border-radius: 4px;
-		cursor: pointer;
-	}
-	button:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
-	a {
-		color: blue;
-	}
-</style>
+	{#if error}
+		<p class="text-red-500">{error}</p>
+	{/if}
+
+	<form onsubmit={registerUser} class="flex w-xs flex-col gap-4">
+		<FormField label="Name" id="name" type="text" bind:value={name} required disabled={loading} />
+
+		<FormField
+			label="Email"
+			id="email"
+			type="email"
+			bind:value={email}
+			required
+			disabled={loading}
+		/>
+
+		<FormField
+			label="Password"
+			id="password"
+			type="password"
+			bind:value={password}
+			required
+			disabled={loading}
+		/>
+
+		<Button type="submit" disabled={loading}>
+			{loading ? 'Registering...' : 'Register'}
+		</Button>
+	</form>
+	<p class="my-4">
+		Already have an account?
+		<a class="text-blue-500" href={resolve('/login')}>Login</a>
+	</p>
+</main>

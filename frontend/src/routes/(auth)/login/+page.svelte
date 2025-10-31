@@ -2,6 +2,8 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { authenticatedFetch } from '$lib/api';
+	import Button from '$lib/components/Button.svelte';
+	import FormField from '$lib/components/FormField.svelte';
 	import { setTokens } from '$lib/stores/authStore';
 	import { onMount } from 'svelte';
 
@@ -28,12 +30,14 @@
 		event.preventDefault();
 		error = '';
 		loading = true;
+
 		try {
 			const response = await authenticatedFetch('/api/login', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ email, password })
 			});
+
 			if (response.ok) {
 				const data = await response.json();
 				setTokens(data.access_token, data.refresh_token);
@@ -56,114 +60,43 @@
 	}
 </script>
 
-<main>
+<main class="flex flex-col items-center p-5">
 	<h1>Login</h1>
+
 	{#if error}
-		<p style="color: red;">{error}</p>
+		<p class="text-red-500">{error}</p>
 	{/if}
-	<form onsubmit={loginUser}>
-		<label for="email">Email:</label>
-		<input type="email" id="email" bind:value={email} required disabled={loading} />
-		<label for="password">Password:</label>
-		<input type="password" id="password" bind:value={password} required disabled={loading} />
-		<button type="submit" disabled={loading}>
+
+	<form onsubmit={loginUser} class="flex w-xs flex-col gap-4">
+		<FormField
+			label="Email"
+			id="email"
+			type="email"
+			bind:value={email}
+			required
+			disabled={loading}
+		/>
+
+		<FormField
+			label="Password"
+			id="password"
+			type="password"
+			bind:value={password}
+			required
+			disabled={loading}
+		/>
+
+		<Button type="submit" disabled={loading}>
 			{loading ? 'Logging in...' : 'Login'}
-		</button>
+		</Button>
 	</form>
 
-	<div class="divider">
-		<span>or</span>
-	</div>
+	<Button variant="outline" classes="mt-4" onclick={signInWithGoogle} disabled={loading}
+		>Continue with Google</Button
+	>
 
-	<button class="google-btn" onclick={signInWithGoogle} disabled={loading}>
-		Continue with Google
-	</button>
-
-	<p>Don't have an account? <a href={resolve('/register')}>Register</a></p>
+	<p class="my-4">
+		Don't have an account?
+		<a class="text-blue-500" href={resolve('/register')}>Register</a>
+	</p>
 </main>
-
-<style>
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 20px;
-	}
-	form {
-		display: flex;
-		flex-direction: column;
-		width: 300px;
-	}
-	label {
-		margin-bottom: 5px;
-	}
-	input {
-		padding: 8px;
-		margin-bottom: 10px;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-	}
-	input:disabled {
-		background-color: #f5f5f5;
-		cursor: not-allowed;
-	}
-	button {
-		padding: 10px 15px;
-		background-color: #4caf50;
-		color: white;
-		border: none;
-		border-radius: 4px;
-		cursor: pointer;
-	}
-	button:disabled {
-		opacity: 0.6;
-		cursor: not-allowed;
-	}
-
-	.divider {
-		width: 300px;
-		text-align: center;
-		margin: 20px 0;
-		position: relative;
-	}
-	.divider::before {
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 0;
-		right: 0;
-		height: 1px;
-		background-color: #ccc;
-	}
-	.divider span {
-		background-color: white;
-		padding: 0 10px;
-		position: relative;
-		color: #666;
-		font-size: 14px;
-	}
-
-	.google-btn {
-		width: 300px;
-		background-color: white;
-		color: #3c4043;
-		border: 1px solid #dadce0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 10px;
-		font-weight: 500;
-		transition: background-color 0.2s;
-	}
-	.google-btn:hover:not(:disabled) {
-		background-color: #f8f9fa;
-	}
-	.google-btn:disabled {
-		background-color: white;
-		opacity: 0.6;
-	}
-
-	a {
-		color: blue;
-	}
-</style>

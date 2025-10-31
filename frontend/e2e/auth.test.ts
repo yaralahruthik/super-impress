@@ -10,18 +10,18 @@ async function registerUser(
 	name = 'Test User'
 ) {
 	await page.goto('/register');
-	await page.fill('input#name', name);
-	await page.fill('input#email', email);
-	await page.fill('input#password', password);
-	await page.click('button[type="submit"]');
+	await page.getByLabel('Name').fill(name);
+	await page.getByLabel('Email').fill(email);
+	await page.getByLabel('Password').fill(password);
+	await page.getByRole('button', { name: /register/i }).click();
 	await page.waitForURL('/login');
 }
 
 async function loginUser(page: Page, email: string, password = 'password123') {
 	await page.goto('/login');
-	await page.fill('input#email', email);
-	await page.fill('input#password', password);
-	await page.click('button[type="submit"]');
+	await page.getByLabel('Email').fill(email);
+	await page.getByLabel('Password').fill(password);
+	await page.getByRole('button', { name: /login/i }).click();
 	await page.waitForURL('/dashboard');
 }
 
@@ -30,14 +30,14 @@ test.describe('Authentication', () => {
 		await page.goto('/register');
 
 		const uniqueEmail = createUniqueEmail('newuser');
-		await page.fill('input#name', 'Test User');
-		await page.fill('input#email', uniqueEmail);
-		await page.fill('input#password', 'newpassword123');
+		await page.getByLabel('Name').fill('Test User');
+		await page.getByLabel('Email').fill(uniqueEmail);
+		await page.getByLabel('Password').fill('newpassword123');
 
-		await page.click('button[type="submit"]');
+		await page.getByRole('button', { name: /register/i }).click();
 
 		await expect(page).toHaveURL('/login');
-		await expect(page.locator('h1')).toHaveText('Login');
+		await expect(page.getByRole('heading', { level: 1 })).toHaveText('Login');
 	});
 
 	test('should prevent registration with existing email', async ({ page }) => {
@@ -47,13 +47,13 @@ test.describe('Authentication', () => {
 		await registerUser(page, existingEmail, password);
 
 		await page.goto('/register');
-		await page.fill('input#name', 'Test User');
-		await page.fill('input#email', existingEmail);
-		await page.fill('input#password', password);
-		await page.click('button[type="submit"]');
+		await page.getByLabel('Name').fill('Test User');
+		await page.getByLabel('Email').fill(existingEmail);
+		await page.getByLabel('Password').fill(password);
+		await page.getByRole('button', { name: /register/i }).click();
 
 		await expect(page).toHaveURL(/\/register/);
-		await expect(page.locator('p[style*="color: red"]')).toBeVisible();
+		await expect(page.getByText('Email already registered')).toBeVisible();
 	});
 
 	test('should allow a user to log in successfully', async ({ page }) => {
@@ -62,9 +62,9 @@ test.describe('Authentication', () => {
 
 		await registerUser(page, uniqueEmail, password);
 
-		await page.fill('input#email', uniqueEmail);
-		await page.fill('input#password', password);
-		await page.click('button[type="submit"]');
+		await page.getByLabel('Email').fill(uniqueEmail);
+		await page.getByLabel('Password').fill(password);
+		await page.getByRole('button', { name: /login/i }).click();
 
 		await expect(page).toHaveURL('/dashboard');
 	});
@@ -72,12 +72,12 @@ test.describe('Authentication', () => {
 	test('should display validation errors for invalid login', async ({ page }) => {
 		await page.goto('/login');
 
-		await page.fill('input#email', 'invalid@example.com');
-		await page.fill('input#password', 'wrongpassword');
-		await page.click('button[type="submit"]');
+		await page.getByLabel('Email').fill('invalid@example.com');
+		await page.getByLabel('Password').fill('wrongpassword');
+		await page.getByRole('button', { name: /login/i }).click();
 
 		await expect(page).toHaveURL(/\/login/);
-		await expect(page.locator('p[style*="color: red"]')).toBeVisible();
+		await expect(page.getByText('Incorrect email or password')).toBeVisible();
 	});
 
 	test('should allow a logged-in user to log out', async ({ page }) => {
@@ -87,11 +87,11 @@ test.describe('Authentication', () => {
 		await registerUser(page, uniqueEmail, password);
 		await loginUser(page, uniqueEmail, password);
 
-		await page.click('button:has-text("Logout")');
+		await page.getByRole('button', { name: /logout/i }).click();
 
 		await expect(page).toHaveURL('/login');
 		await expect(page.locator('h1')).toHaveText('Login');
-		await expect(page.locator('input#email')).toBeVisible();
+		await expect(page.getByLabel('Email')).toBeVisible();
 	});
 
 	test('should redirect authenticated user away from login page', async ({ page }) => {

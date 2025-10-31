@@ -10,7 +10,8 @@
 	let error = '';
 	let loading = false;
 
-	async function registerUser() {
+	async function registerUser(event: SubmitEvent) {
+		event.preventDefault();
 		error = '';
 		loading = true;
 

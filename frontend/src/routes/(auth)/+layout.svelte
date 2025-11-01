@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { authStore } from '$lib/stores/authStore';
+	import { authStore } from '$lib/stores/auth-store';
 	import { get } from 'svelte/store';
 
 	let { children } = $props();

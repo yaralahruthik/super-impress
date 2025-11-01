@@ -2,7 +2,7 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { authenticatedFetch } from '$lib/api';
-	import { authStore, clearTokens } from '$lib/stores/authStore';
+	import { authStore, clearTokens } from '$lib/stores/auth-store';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 

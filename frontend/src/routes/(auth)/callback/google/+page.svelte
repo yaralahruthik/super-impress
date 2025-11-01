@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { setTokens } from '$lib/stores/authStore';
+	import { setTokens } from '$lib/stores/auth-store';
 	import { onMount } from 'svelte';
 
 	onMount(async () => {

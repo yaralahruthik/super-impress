@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import Button from '$lib/components/Button.svelte';
-	import FormField from '$lib/components/FormField.svelte';
+	import Button from '$lib/components/button.svelte';
+	import FormField from '$lib/components/form-field.svelte';
 
 	let name = '';
 	let email = '';

@@ -2,9 +2,9 @@
 	import { goto, invalidateAll } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { authenticatedFetch } from '$lib/api';
-	import Button from '$lib/components/Button.svelte';
-	import FormField from '$lib/components/FormField.svelte';
-	import { setTokens } from '$lib/stores/authStore';
+	import Button from '$lib/components/button.svelte';
+	import FormField from '$lib/components/form-field.svelte';
+	import { setTokens } from '$lib/stores/auth-store';
 	import { onMount } from 'svelte';
 
 	let email = '';

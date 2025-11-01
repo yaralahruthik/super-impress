@@ -99,11 +99,16 @@ frontend/src/
 
 ### Environment Configuration
 
-**Root `.env`** (for docker-compose):
-- `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`
+**PostgreSQL (docker-compose)** - No setup required:
+- Default credentials configured in `docker-compose.yml`:
+  - `POSTGRES_USER=postgres`
+  - `POSTGRES_PASSWORD=postgres`
+  - `POSTGRES_DB=super_impress`
+- Optional: Create root `.env` to override defaults
 
 **Backend `.env`**:
 - `DATABASE_URL` - PostgreSQL connection string
+- Example: `postgresql+psycopg://postgres:postgres@localhost:5432/super_impress`
 
 **Frontend `.env`**:
 - `VITE_API_BASE` - Backend API URL (http://localhost:8000 for local dev)

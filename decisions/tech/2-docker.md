@@ -11,8 +11,8 @@ The `Dockerfiles` are not yet optimized but they are a decent starting point.
 
 ## Current Setup
 
-**Backend**: Python FastAPI container on port `8000`  
-**Frontend**: SvelteKit container on port `5173`  
+**Backend**: Python FastAPI container on port `8000`
+**Frontend**: SvelteKit container on port `5173`
 **Orchestration**: Docker Compose with custom `app` network for service communication
 
 ## Future Optimizations

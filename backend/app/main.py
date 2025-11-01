@@ -12,11 +12,13 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan, root_path='/api')
+app = FastAPI(lifespan=lifespan, root_path="/api")
+
 
 @app.get("/test")
 def read_root():
     return {"message": "This is a response from backend"}
+
 
 # Include routers
 app.include_router(post.router)

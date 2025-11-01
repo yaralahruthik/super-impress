@@ -30,8 +30,8 @@ app.add_middleware(
     secret_key=settings.secret_key,
 )
 
-app.include_router(auth.router, prefix="/api")
-app.include_router(post.router, prefix="/api")
+app.include_router(auth.router)
+app.include_router(post.router)
 
 BUILD_DIR = "../frontend/build"
 app.mount("/_app", StaticFiles(directory=f"{BUILD_DIR}/_app"), name="app_assets")

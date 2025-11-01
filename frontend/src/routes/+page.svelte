@@ -4,7 +4,7 @@
 
 	onMount(async () => {
 		try {
-			const res = await fetch('/api/test');
+			const res = await fetch('/api/posts');
 			data = await res.json();
 		} catch (error) {
 			console.error(error);

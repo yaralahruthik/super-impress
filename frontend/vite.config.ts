@@ -12,7 +12,12 @@ export default defineConfig(({ mode }) => {
 			proxy: {
 				'/api': {
 					changeOrigin: true,
-					target: env.VITE_API_BASE
+					target: env.VITE_API_BASE,
+					rewrite: (path) => {
+						// Ensure trailing slash for /api/posts (and similar)
+						if (/^\/api\/posts$/.test(path)) return '/api/posts/';
+						return path;
+					}
 				}
 			}
 		},

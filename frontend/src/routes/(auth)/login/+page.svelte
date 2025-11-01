@@ -12,8 +12,6 @@
 	let error = '';
 	let loading = false;
 
-	const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000';
-
 	onMount(() => {
 		const params = new URLSearchParams(window.location.search);
 		const oauthError = params.get('error');
@@ -55,8 +53,8 @@
 		}
 	}
 
-	function signInWithGoogle() {
-		window.location.href = `${API_BASE}/google`;
+	async function signInWithGoogle() {
+		await goto('/api/google');
 	}
 </script>
 

@@ -65,31 +65,56 @@ The application connects via `DATABASE_URL` and works with any PostgreSQL instan
 
 ### Development Setup
 
-The easiest way to run the database is using Docker Compose from the project root:
+There are two ways to run the backend during development:
 
-```bash
-# Start PostgreSQL container
-docker compose up postgres -d
+#### Option 1: Local Backend + Docker PostgreSQL (Recommended)
 
-# Check if database is running
-docker compose ps
-```
+Run the backend on your machine with PostgreSQL in Docker. Best for active development.
 
-### Environment Variables
-
-Create a `.env` file in the project root with the following database configuration:
-
+**1. Create `backend/.env`:**
 ```env
-# Database Configuration (for Docker setup)
-POSTGRES_DB=super_impress
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=your_secure_password
-
-# Application Database URLs
-# Docker: postgresql+psycopg://postgres:password@postgres:5432/your_db
-# Local: postgresql+psycopg://user:password@localhost:5432/your_db
-# Cloud: postgresql+psycopg://user:password@your-host:5432/your_db
+DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/super_impress
 ```
+
+**2. Start PostgreSQL:**
+```bash
+# From project root
+docker compose up postgres -d
+```
+
+**3. Run backend:**
+```bash
+cd backend
+uv sync
+uv run fastapi dev
+```
+
+**Note:** Use `localhost` as the database hostname since the backend runs on your local machine.
+
+#### Option 2: Full Docker (Backend + PostgreSQL)
+
+Run everything in Docker containers.
+
+**1. Create `backend/.env`:**
+```env
+DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/super_impress
+```
+
+**2. Start all services:**
+```bash
+# From project root
+docker compose up -d
+```
+
+**Note:** Use `postgres` as the database hostname since both services run in Docker and communicate via Docker networking.
+
+### Switching Between Modes
+
+To switch from one mode to another, simply update the hostname in `backend/.env`:
+- **Local Backend:** `localhost:5432`
+- **Docker Backend:** `postgres:5432`
+
+All other connection details remain the same (username: `postgres`, password: `postgres`, database: `super_impress`).
 
 ### Database Operations
 

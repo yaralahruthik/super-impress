@@ -1,13 +1,14 @@
 services:
   postgres:
     image: postgres:18
-    container_name: super-impress-postgres
-    env_file:
-      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-super_impress}
     ports:
       - "5432:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data/pgdata
     networks:
       - app
 
@@ -15,7 +16,6 @@ services:
     build:
       context: ./backend
     image: super-impress-backend
-    container_name: super-impress-backend
     env_file:
       - backend/.env
     ports:
@@ -29,7 +29,6 @@ services:
     build:
       context: ./frontend
     image: super-impress-frontend
-    container_name: super-impress-frontend
     ports:
       - "5173:5173"
     env_file:

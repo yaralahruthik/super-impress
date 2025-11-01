@@ -70,28 +70,58 @@ Super Impress uses PostgreSQL as its database. The database choice is documented
 
 The application connects via `DATABASE_URL` and works with any PostgreSQL instance - Docker (recommended for development), local installation, or cloud services like AWS RDS.
 
-### Quick Setup
+### Development Modes
 
-1. **Create environment file:**
+You can run the project in two modes:
 
+#### Mode 1: Local Backend + Docker PostgreSQL (Recommended)
+
+Best for active development with fast backend restarts and debugging.
+
+1. **Configure backend environment:**
+
+   Create `backend/.env`:
    ```bash
-   # Create .env file with DATABASE_URL pointing to your PostgreSQL instance
-   # For Docker setup: postgresql+psycopg://postgres:password@localhost:5432/super_impress
-   # For local/cloud: postgresql+psycopg://user:pass@your-host:5432/your_db
+   # Backend runs locally, PostgreSQL in Docker
+   DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/super_impress
    ```
 
-2. **Start the database:**
+2. **Start PostgreSQL:**
 
    ```bash
    docker compose up postgres -d
    ```
 
-3. **Start the backend:**
+3. **Start backend locally:**
 
    ```bash
    cd backend
+   uv sync
    uv run fastapi dev
    ```
 
 4. **Test the setup:**
-   - Visit: http://localhost:8000/docs
+   - Backend: http://localhost:8000/docs
+   - PostgreSQL: Available on `localhost:5432`
+
+#### Mode 2: Full Docker (Backend + PostgreSQL)
+
+Run everything in Docker with a single command.
+
+1. **Configure backend environment:**
+
+   Create `backend/.env`:
+   ```bash
+   # Both backend and PostgreSQL in Docker
+   DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/super_impress
+   ```
+
+2. **Start all services:**
+
+   ```bash
+   docker compose up -d
+   ```
+
+**Key Difference:** The hostname in `DATABASE_URL`:
+- `localhost` - Backend runs on your machine (Mode 1)
+- `postgres` - Backend runs in Docker (Mode 2)

@@ -16,7 +16,13 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(lifespan=lifespan, title="Super Impress API")
+app = FastAPI(lifespan=lifespan, title="Super Impress API", root_path="/api")
+
+
+@app.get("/test")
+def read_root():
+    return {"message": "This is a response from backend"}
+
 
 # required for OAuth
 app.add_middleware(

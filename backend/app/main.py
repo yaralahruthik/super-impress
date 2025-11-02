@@ -1,44 +1,42 @@
+from datetime import timedelta
 from typing import Annotated
 
-from fastapi import Depends, FastAPI
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 
-from pydantic import BaseModel
+from app.auth import (
+    Token,
+    User,
+    authenticate_user,
+    create_access_token,
+    fake_users_db,
+    get_current_active_user,
+)
+from app.config import settings
 
-
-app = FastAPI(root_path="/api")
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-
-class User(BaseModel):
-    username: str
-    email: str | None = None
-    full_name: str | None = None
-    disabled: bool | None = None
+app = FastAPI()
 
 
-def fake_decode_token(token):
-    return User(
-        username=token + "fakedecoded", email="john@example.com", full_name="John Doe"
+@app.post("/token")
+async def login_for_access_token(
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+) -> Token:
+    user = authenticate_user(fake_users_db, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
+    access_token = create_access_token(
+        data={"sub": user.username}, expires_delta=access_token_expires
     )
+    return Token(access_token=access_token, token_type="bearer")
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-    user = fake_decode_token(token)
-    return user
-
-
-@app.get("/test")
-def read_root():
-    return {"message": "This is a response from backend"}
-
-
-@app.get("/items/")
-async def read_items(token: Annotated[str, Depends(oauth2_scheme)]):
-    return {"token": token}
-
-
-@app.get("/users/me")
-async def read_users_me(current_user: Annotated[User, Depends(get_current_user)]):
+@app.get("/users/me/", response_model=User)
+async def read_users_me(
+    current_user: Annotated[User, Depends(get_current_active_user)],
+):
     return current_user

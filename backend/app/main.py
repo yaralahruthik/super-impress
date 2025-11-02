@@ -4,9 +4,8 @@ from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.auth import (
-    Token,
-    User,
+from app.auth.models import Token, User
+from app.auth.service import (
     authenticate_user,
     create_access_token,
     fake_users_db,

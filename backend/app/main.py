@@ -1,18 +1,32 @@
-from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from typing import Annotated
 
-from app.database import create_db_and_tables
-from app.routers import post
+from fastapi import Depends, FastAPI
+from fastapi.security import OAuth2PasswordBearer
 
-
-@asynccontextmanager
-async def lifespan(_: FastAPI):
-    # Startup
-    create_db_and_tables()
-    yield
+from pydantic import BaseModel
 
 
-app = FastAPI(lifespan=lifespan, root_path="/api")
+app = FastAPI(root_path="/api")
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+class User(BaseModel):
+    username: str
+    email: str | None = None
+    full_name: str | None = None
+    disabled: bool | None = None
+
+
+def fake_decode_token(token):
+    return User(
+        username=token + "fakedecoded", email="john@example.com", full_name="John Doe"
+    )
+
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    user = fake_decode_token(token)
+    return user
 
 
 @app.get("/test")
@@ -20,5 +34,11 @@ def read_root():
     return {"message": "This is a response from backend"}
 
 
-# Include routers
-app.include_router(post.router)
+@app.get("/items/")
+async def read_items(token: Annotated[str, Depends(oauth2_scheme)]):
+    return {"token": token}
+
+
+@app.get("/users/me")
+async def read_users_me(current_user: Annotated[User, Depends(get_current_user)]):
+    return current_user

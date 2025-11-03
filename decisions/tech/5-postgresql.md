@@ -15,3 +15,11 @@ So we will use PostgreSQL as our primary database.
 - **MongoDB**: Data is structured, not document-based
 - **SQLite**: Can't handle multi-user concurrent access
 - **MySQL**: PostgreSQL has better JSON support
+
+## Current Schema
+
+As of the authentication implementation, PostgreSQL stores:
+
+- **User Table**: Authentication data (email, hashed passwords using Argon2)
+  - Email serves as unique identifier with database-level uniqueness constraint
+  - Passwords never stored in plaintext

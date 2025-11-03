@@ -7,7 +7,9 @@ requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.119.0",
     "psycopg[binary]>=3.2.11",
+    "pwdlib[argon2]>=0.3.0",
     "pydantic-settings>=2.11.0",
+    "pyjwt>=2.10.1",
     "sqlmodel>=0.0.27",
 ]
 

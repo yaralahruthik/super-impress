@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
+from sqlmodel import Field, SQLModel
 
 
 class Token(BaseModel):
@@ -7,15 +8,13 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    username: str | None = None
+    email: EmailStr
 
 
-class User(BaseModel):
-    username: str
-    email: str | None = None
-    full_name: str | None = None
-    disabled: bool | None = None
+class UserBase(SQLModel):
+    email: EmailStr = Field(unique=True, index=True)
 
 
-class UserInDB(User):
-    hashed_password: str
+class User(UserBase, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    password: str

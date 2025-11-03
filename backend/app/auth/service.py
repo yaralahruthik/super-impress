@@ -6,47 +6,45 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from pwdlib import PasswordHash
+from pydantic import EmailStr
+from sqlmodel import select
 
+from app.auth.models import TokenData, User, UserCreate
 from app.config import settings
+from app.database import SessionDep
 
-from .models import TokenData, User, UserInDB
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "hashed_password": "$argon2id$v=19$m=65536,t=3,p=4$wagCPXjifgvUFBzq4hqe3w$CYaIb8sB+wtD+Vu/P4uod1+Qof8h+1g7bbDlBID48Rc",
-        "disabled": False,
-    }
-}
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 password_hash = PasswordHash.recommended()
 
 
-def verify_password(plain_password: str, hashed_password: str):
+def verify_password(plain_password: str, hashed_password: str) -> bool:
     return password_hash.verify(plain_password, hashed_password)
 
 
-def get_password_hash(password: str):
+def get_password_hash(password: str) -> str:
     return password_hash.hash(password)
 
 
-def get_user(db, username: str | None):
-    if username in db:
-        user_dict = db[username]
-        return UserInDB(**user_dict)
+def create_user(session: SessionDep, user: UserCreate):
+    session.add(user)
+    session.commit()
+    session.refresh(user)
+    return user
 
 
-def authenticate_user(fake_db, username: str, password: str):
-    user = get_user(fake_db, username)
+def get_user_by_email(session: SessionDep, email: EmailStr):
+    statement = select(User).where(User.email == email)
+    user = session.exec(statement).first()
+    return user
+
+
+def authenticate_user(session: SessionDep, email: EmailStr, password: str):
+    user = get_user_by_email(session, email)
     if not user:
         return False
-    if not verify_password(password, user.hashed_password):
+    if not verify_password(password, user.password):
         return False
     return user
 
@@ -66,7 +64,9 @@ def create_access_token(
     return encoded_jwt
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+async def get_current_user(
+    session: SessionDep, token: Annotated[str, Depends(oauth2_scheme)]
+):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -76,21 +76,13 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         payload = jwt.decode(
             token, settings.secret_key, algorithms=[settings.algorithm]
         )
-        username = payload.get("sub")
-        if username is None:
+        email = payload.get("sub")
+        if email is None:
             raise credentials_exception
-        token_data = TokenData(username=username)
+        token_data = TokenData(email=email)
     except InvalidTokenError:
         raise credentials_exception
-    user = get_user(fake_users_db, username=token_data.username)
+    user = get_user_by_email(session, email=token_data.email)
     if user is None:
         raise credentials_exception
     return user
-
-
-async def get_current_active_user(
-    current_user: Annotated[User, Depends(get_current_user)],
-):
-    if current_user.disabled:
-        raise HTTPException(status_code=400, detail="Inactive user")
-    return current_user

@@ -12,6 +12,6 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="Super Impress")
+app = FastAPI(title="Super Impress", lifespan=lifespan)
 
 app.include_router(auth_router)

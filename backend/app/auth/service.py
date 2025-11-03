@@ -9,8 +9,8 @@ from pwdlib import PasswordHash
 from pydantic import EmailStr
 from sqlmodel import select
 
+from app.auth.config import auth_settings
 from app.auth.models import TokenData, User, UserCreate
-from app.config import settings
 from app.database import SessionDep
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
@@ -61,7 +61,7 @@ def create_access_token(
         expire = datetime.now(timezone.utc) + timedelta(minutes=15)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(
-        to_encode, settings.secret_key, algorithm=settings.algorithm
+        to_encode, auth_settings.secret_key, algorithm=auth_settings.algorithm
     )
     return encoded_jwt
 
@@ -76,7 +76,7 @@ async def get_current_user(
     )
     try:
         payload = jwt.decode(
-            token, settings.secret_key, algorithms=[settings.algorithm]
+            token, auth_settings.secret_key, algorithms=[auth_settings.algorithm]
         )
         email = payload.get("sub")
         if email is None:

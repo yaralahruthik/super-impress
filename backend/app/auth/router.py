@@ -11,7 +11,7 @@ from app.auth.service import (
     create_user,
     get_current_user,
 )
-from app.config import settings
+from app.auth.config import auth_settings
 from app.database import SessionDep
 
 auth_router = APIRouter()
@@ -35,7 +35,7 @@ async def login_for_access_token(
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=settings.access_token_expire_minutes)
+    access_token_expires = timedelta(minutes=auth_settings.access_token_expire_minutes)
     access_token = create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )

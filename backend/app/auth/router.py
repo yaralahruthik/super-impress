@@ -4,13 +4,12 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.auth.models import Token, User, UserCreate
+from app.auth.models import Token, User, UserCreate, UserPublic
 from app.auth.service import (
     authenticate_user,
     create_access_token,
     create_user,
     get_current_user,
-    get_password_hash,
 )
 from app.config import settings
 from app.database import SessionDep
@@ -18,10 +17,10 @@ from app.database import SessionDep
 auth_router = APIRouter()
 
 
-@auth_router.post("/register")
-async def register_user(user: UserCreate, session: SessionDep):
-    user.password = get_password_hash(user.password)
-    return create_user(session, user)
+@auth_router.post("/register", response_model=UserPublic)
+async def register_user(user: UserCreate, session: SessionDep) -> UserPublic:
+    db_user = create_user(session, user)
+    return UserPublic.model_validate(db_user)
 
 
 @auth_router.post("/login")
@@ -43,8 +42,8 @@ async def login_for_access_token(
     return Token(access_token=access_token, token_type="bearer")
 
 
-@auth_router.get("/users/me/", response_model=User)
+@auth_router.get("/users/me/", response_model=UserPublic)
 async def read_users_me(
     current_user: Annotated[User, Depends(get_current_user)],
 ):
-    return current_user
+    return UserPublic.model_validate(current_user)

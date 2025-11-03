@@ -28,10 +28,12 @@ def get_password_hash(password: str) -> str:
 
 
 def create_user(session: SessionDep, user: UserCreate):
-    session.add(user)
+    hashed_password = get_password_hash(user.password)
+    db_user = User(email=user.email, password=hashed_password)
+    session.add(db_user)
     session.commit()
-    session.refresh(user)
-    return user
+    session.refresh(db_user)
+    return db_user
 
 
 def get_user_by_email(session: SessionDep, email: EmailStr):

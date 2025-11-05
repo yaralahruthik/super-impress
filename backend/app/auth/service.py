@@ -7,7 +7,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from pwdlib import PasswordHash
 from pydantic import EmailStr
-from sqlmodel import select
+from sqlalchemy import select
 
 from app.auth.config import auth_settings
 from app.auth.models import TokenData, User, UserCreate
@@ -38,7 +38,7 @@ def create_user(session: SessionDep, user: UserCreate):
 
 def get_user_by_email(session: SessionDep, email: EmailStr):
     statement = select(User).where(User.email == email)
-    user = session.exec(statement).first()
+    user = session.execute(statement).scalar_one_or_none()
     return user
 
 

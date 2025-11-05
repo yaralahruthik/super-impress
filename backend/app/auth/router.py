@@ -23,7 +23,7 @@ async def register_user(user: UserCreate, session: SessionDep) -> UserPublic:
     existing_user = get_user_by_email(session, user.email)
     if existing_user:
         raise HTTPException(
-            status_code=status.HTTP_409_BAD_REQUEST, detail="Email already registered"
+            status_code=status.HTTP_409_CONFLICT, detail="Email already registered"
         )
 
     db_user = create_user(session, user)

@@ -10,7 +10,8 @@ from pydantic import EmailStr
 from sqlalchemy import select
 
 from app.auth.config import auth_settings
-from app.auth.models import TokenData, User, UserCreate
+from app.auth.models import User
+from app.auth.schemas import TokenData, UserCreate
 from app.database import SessionDep
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")

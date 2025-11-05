@@ -1,15 +1,11 @@
 from typing import Annotated
 
 from fastapi import Depends
-from sqlmodel import Session, SQLModel, create_engine
+from sqlmodel import Session, create_engine
 
 from app.config import settings
 
 engine = create_engine(settings.db_url)
-
-
-def create_db_and_tables():
-    SQLModel.metadata.create_all(engine)
 
 
 def get_session():

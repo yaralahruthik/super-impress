@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+
 	let email = '';
 	let password = '';
 	let confirmPassword = '';
@@ -137,7 +139,6 @@
 
 	<p>
 		Already have an account?
-		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-		<a href="/login" class="underline" data-sveltekit-preload-data>Log in</a>
+		<a href={resolve('/login')} class="underline" data-sveltekit-preload-data>Log in</a>
 	</p>
 </main>

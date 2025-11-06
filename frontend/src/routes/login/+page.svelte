@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { SvelteURLSearchParams } from 'svelte/reactivity';
 
 	let email = '';
 	let password = '';
@@ -22,8 +23,7 @@
 
 		try {
 			// OAuth2PasswordRequestForm expects form-urlencoded data with username/password
-			// eslint-disable-next-line svelte/prefer-svelte-reactivity
-			const formData = new URLSearchParams();
+			const formData = new SvelteURLSearchParams();
 			formData.append('username', email);
 			formData.append('password', password);
 

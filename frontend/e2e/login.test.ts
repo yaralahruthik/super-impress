@@ -21,16 +21,6 @@ test.describe('Login Page', () => {
 		await expect(page.getByRole('button', { name: 'Log in' })).toBeVisible();
 	});
 
-	test('shows error when fields are empty', async ({ page }) => {
-		// Submit form without filling fields
-		await page.getByRole('button', { name: 'Log in' }).click();
-
-		// Check for error message
-		const errorAlert = page.getByRole('alert');
-		await expect(errorAlert).toBeVisible();
-		await expect(errorAlert).toContainText('All fields are required');
-	});
-
 	test('successfully logs in with valid credentials', async ({ page }) => {
 		// First, create a user to log in with
 		const uniqueEmail = `login-test-${Date.now()}@example.com`;

@@ -61,7 +61,8 @@
 <main class="container mx-auto flex h-svh flex-col items-center justify-center">
 	<h1 class="sr-only text-xl">Log in</h1>
 
-	<form on:submit={handleSubmit} aria-labelledby="form-heading">
+	<a class="text-3xl font-black" href={resolve('/')}>SuperImpress</a>
+	<form on:submit={handleSubmit} class="mt-4" aria-labelledby="form-heading">
 		<fieldset
 			class="fieldset w-xs rounded-box border border-base-300 bg-base-200 p-4"
 			disabled={isSubmitting}

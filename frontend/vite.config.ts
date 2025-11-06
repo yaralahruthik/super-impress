@@ -12,13 +12,7 @@ export default defineConfig(({ mode }) => {
 			proxy: {
 				'/api': {
 					changeOrigin: true,
-					target: env.VITE_API_BASE,
-					rewrite: (path) => {
-						// Ensure trailing slash for all /api/* paths (e.g., /api/posts, /api/users)
-						// To handle https://github.com/fastapi/fastapi/discussions/9328
-						if (/^\/api\/[^/]+$/.test(path)) return `${path}/`;
-						return path;
-					}
+					target: env.VITE_API_BASE
 				}
 			}
 		},

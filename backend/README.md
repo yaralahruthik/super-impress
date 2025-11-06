@@ -119,18 +119,20 @@ All other connection details remain the same (username: `postgres`, password: `p
 ### Database Operations
 
 ```bash
-# Run with database auto-creation
-uv run fastapi dev
+# Run migrations
+uv run alembic upgrade head
 
-# The application will automatically:
-# - Create database tables on startup
-# - Handle schema migrations via SQLModel
+# Create a new migration (after model changes)
+uv run alembic revision --autogenerate -m "Description of changes"
+
+# Run development server
+uv run fastapi dev
 ```
 
 ### Database Schema
 
-The application uses SQLModel for type-safe database operations. Current models:
+The application uses SQLAlchemy ORM for database operations and Pydantic for data validation. Current models:
 
-- `Post`: Basic content model with title, content, and timestamps
+- `User`: Authentication model with email and password
 
-Models are defined in `app/models/` and automatically create corresponding database tables.
+Database models are defined in `app/*/models.py` using SQLAlchemy ORM. Schema migrations are managed via Alembic.

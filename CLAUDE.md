@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Super Impress is an author-first LinkedIn content tool built as a full-stack monorepo. The project emphasizes authentic content creation with AI as a secondary tool, documented through Architecture Decision Records in the `decisions/` folder.
 
 **Stack:**
-- Backend: FastAPI (Python 3.13) with SQLModel ORM
+- Backend: FastAPI (Python 3.13) with SQLAlchemy ORM and Pydantic
 - Frontend: SvelteKit (Svelte 5) with Tailwind CSS
 - Database: PostgreSQL 18
 - Package Managers: uv (Python), pnpm (Node)
@@ -58,19 +58,23 @@ Pre-commit hooks automatically run ruff (backend) and eslint/prettier (frontend)
 ### Backend Structure
 ```
 backend/app/
-├── main.py          # FastAPI app with lifespan hooks for DB initialization
+├── main.py          # FastAPI app entry point
 ├── config.py        # Pydantic-settings based configuration
-├── database.py      # SQLModel engine and table creation
+├── database.py      # SQLAlchemy engine, Base, and session management
 ├── dependencies.py  # SessionDep for DB session injection
-├── models/          # SQLModel models (e.g., Post)
-└── routers/         # API endpoints organized by domain
+├── auth/
+│   ├── models.py    # SQLAlchemy ORM models and Pydantic schemas
+│   ├── router.py    # API endpoints for authentication
+│   └── service.py   # Business logic and database operations
+└── migrations/      # Alembic database migrations
 ```
 
 **Key Patterns:**
 - **Dependency Injection**: Use FastAPI's `Depends()` with `SessionDep` for database sessions
 - **Configuration**: All settings managed via pydantic-settings in `config.py`, loaded from environment variables
-- **Database**: SQLModel combines SQLAlchemy and Pydantic - models are both ORM and validation schemas. Tables auto-created on startup via `create_db_and_tables()` in lifespan
-- **Routing**: Endpoints organized in `routers/` and included in `main.py` with prefixes (e.g., `/posts`)
+- **Database**: SQLAlchemy ORM for database models, Pydantic for request/response validation. Separate concerns for type safety.
+- **Migrations**: Schema changes managed via Alembic migrations (`uv run alembic revision --autogenerate`)
+- **Routing**: Endpoints organized in `*/router.py` and included in `main.py`
 
 **Database Connection:**
 - Requires `DATABASE_URL` environment variable in backend/.env
@@ -118,5 +122,6 @@ frontend/src/
 - **uv over pip**: This project uses uv for Python package management (10-100x faster). Always use `uv sync`, `uv add`, not pip
 - **pnpm over npm**: Frontend uses pnpm with hoisted node_modules. Use `pnpm install`, not npm
 - **Pre-commit Required**: Install pre-commit hooks before contributing - they enforce code quality standards
-- **Database Schema**: No migration system currently - schema changes happen via SQLModel auto-creation on app startup
+- **Database Migrations**: Schema changes managed via Alembic. Run `uv run alembic upgrade head` before starting the app
+- **Model Separation**: SQLAlchemy for ORM, Pydantic for validation - learn the "raw way" first before considering abstractions
 - **Decisions Folder**: Check `decisions/` for architectural decisions and rationale behind tech choices

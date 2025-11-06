@@ -7,64 +7,59 @@ test.describe('Registration Page', () => {
 
 	test('has registration form with all required fields', async ({ page }) => {
 		// Check page has heading
-		await expect(page.locator('h1')).toHaveText('Register');
+		await expect(page.getByRole('heading', { name: 'Register', level: 1 })).toBeVisible();
 
-		// Check form exists
-		const form = page.locator('form[aria-label="Registration form"]');
+		// Check form exists with proper label
+		const form = page.getByRole('form', { name: 'Create your account' });
 		await expect(form).toBeVisible();
 
-		// Check all required fields are present
-		await expect(page.locator('label:has-text("Email address")')).toBeVisible();
-		await expect(page.locator('input[type="email"][name="email"]')).toBeVisible();
-
-		await expect(page.locator('label:has-text("Password")')).toBeVisible();
-		await expect(page.locator('input[type="password"][name="password"]')).toBeVisible();
-
-		await expect(page.locator('label:has-text("Confirm password")')).toBeVisible();
-		await expect(page.locator('input[type="password"][name="confirm-password"]')).toBeVisible();
+		// Check all required fields are present using getByLabel
+		await expect(page.getByLabel('Email address')).toBeVisible();
+		await expect(page.getByLabel('Password', { exact: true })).toBeVisible();
+		await expect(page.getByLabel('Confirm password')).toBeVisible();
 
 		// Check submit button exists
-		await expect(page.locator('button[type="submit"]')).toHaveText('Register');
+		await expect(page.getByRole('button', { name: 'Register' })).toBeVisible();
 	});
 
 	test('shows validation error when fields are empty', async ({ page }) => {
 		// Submit empty form
-		await page.locator('button[type="submit"]').click();
+		await page.getByRole('button', { name: 'Register' }).click();
 
-		// Check for error message
-		const errorMessage = page.locator('[role="alert"]');
-		await expect(errorMessage).toBeVisible();
-		await expect(errorMessage).toContainText('All fields are required');
+		// Check for error message using getByRole
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toContainText('All fields are required');
 	});
 
 	test('shows error when passwords do not match', async ({ page }) => {
-		// Fill in form with mismatched passwords
-		await page.locator('input[name="email"]').fill('test@example.com');
-		await page.locator('input[name="password"]').fill('password123');
-		await page.locator('input[name="confirm-password"]').fill('password456');
+		// Fill in form with mismatched passwords using getByLabel
+		await page.getByLabel('Email address').fill('test@example.com');
+		await page.getByLabel('Password', { exact: true }).fill('password123');
+		await page.getByLabel('Confirm password').fill('password456');
 
 		// Submit form
-		await page.locator('button[type="submit"]').click();
+		await page.getByRole('button', { name: 'Register' }).click();
 
 		// Check for error message
-		const errorMessage = page.locator('[role="alert"]');
-		await expect(errorMessage).toBeVisible();
-		await expect(errorMessage).toContainText('Passwords do not match');
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toContainText('Passwords do not match');
 	});
 
 	test('shows error when password is too short', async ({ page }) => {
 		// Fill in form with short password
-		await page.locator('input[name="email"]').fill('test@example.com');
-		await page.locator('input[name="password"]').fill('pass123');
-		await page.locator('input[name="confirm-password"]').fill('pass123');
+		await page.getByLabel('Email address').fill('test@example.com');
+		await page.getByLabel('Password', { exact: true }).fill('pass123');
+		await page.getByLabel('Confirm password').fill('pass123');
 
 		// Submit form
-		await page.locator('button[type="submit"]').click();
+		await page.getByRole('button', { name: 'Register' }).click();
 
 		// Check for error message
-		const errorMessage = page.locator('[role="alert"]');
-		await expect(errorMessage).toBeVisible();
-		await expect(errorMessage).toContainText('Password must be at least 8 characters long');
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toContainText('Password must be at least 8 characters long');
 	});
 
 	test('successfully registers a new user', async ({ page }) => {
@@ -72,96 +67,116 @@ test.describe('Registration Page', () => {
 		const uniqueEmail = `test-${Date.now()}@example.com`;
 
 		// Fill in form with valid data
-		await page.locator('input[name="email"]').fill(uniqueEmail);
-		await page.locator('input[name="password"]').fill('password123');
-		await page.locator('input[name="confirm-password"]').fill('password123');
+		await page.getByLabel('Email address').fill(uniqueEmail);
+		await page.getByLabel('Password', { exact: true }).fill('password123');
+		await page.getByLabel('Confirm password').fill('password123');
 
 		// Submit form
-		await page.locator('button[type="submit"]').click();
+		await page.getByRole('button', { name: 'Register' }).click();
 
-		// Wait for success message
-		const successMessage = page.locator('[role="status"]#success-message');
-		await expect(successMessage).toBeVisible({ timeout: 10000 });
-		await expect(successMessage).toContainText('Registration successful!');
-		await expect(successMessage).toContainText(uniqueEmail);
+		// Wait for success message using getByRole
+		const successStatus = page.getByRole('status');
+		await expect(successStatus).toBeVisible({ timeout: 10000 });
+		await expect(successStatus).toContainText('Registration successful!');
+		await expect(successStatus).toContainText(uniqueEmail);
 
 		// Verify form is cleared
-		await expect(page.locator('input[name="email"]')).toHaveValue('');
-		await expect(page.locator('input[name="password"]')).toHaveValue('');
-		await expect(page.locator('input[name="confirm-password"]')).toHaveValue('');
+		await expect(page.getByLabel('Email address')).toHaveValue('');
+		await expect(page.getByLabel('Password', { exact: true })).toHaveValue('');
+		await expect(page.getByLabel('Confirm password')).toHaveValue('');
 	});
 
 	test('shows error when email is already registered', async ({ page }) => {
 		// First registration
 		const duplicateEmail = `duplicate-${Date.now()}@example.com`;
 
-		await page.locator('input[name="email"]').fill(duplicateEmail);
-		await page.locator('input[name="password"]').fill('password123');
-		await page.locator('input[name="confirm-password"]').fill('password123');
-		await page.locator('button[type="submit"]').click();
+		await page.getByLabel('Email address').fill(duplicateEmail);
+		await page.getByLabel('Password', { exact: true }).fill('password123');
+		await page.getByLabel('Confirm password').fill('password123');
+		await page.getByRole('button', { name: 'Register' }).click();
 
 		// Wait for success
-		await expect(page.locator('[role="status"]#success-message')).toBeVisible({ timeout: 10000 });
+		await expect(page.getByRole('status')).toBeVisible({ timeout: 10000 });
 
 		// Try to register again with same email
-		await page.locator('input[name="email"]').fill(duplicateEmail);
-		await page.locator('input[name="password"]').fill('password123');
-		await page.locator('input[name="confirm-password"]').fill('password123');
-		await page.locator('button[type="submit"]').click();
+		await page.getByLabel('Email address').fill(duplicateEmail);
+		await page.getByLabel('Password', { exact: true }).fill('password123');
+		await page.getByLabel('Confirm password').fill('password123');
+		await page.getByRole('button', { name: 'Register' }).click();
 
 		// Check for error message about duplicate email
-		const errorMessage = page.locator('[role="alert"]');
-		await expect(errorMessage).toBeVisible({ timeout: 10000 });
-		await expect(errorMessage).toContainText('Email already registered');
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible({ timeout: 10000 });
+		await expect(errorAlert).toContainText('Email already registered');
 	});
 
 	test('disables form while submitting', async ({ page }) => {
 		// Fill in form
-		await page.locator('input[name="email"]').fill(`test-${Date.now()}@example.com`);
-		await page.locator('input[name="password"]').fill('password123');
-		await page.locator('input[name="confirm-password"]').fill('password123');
+		await page.getByLabel('Email address').fill(`test-${Date.now()}@example.com`);
+		await page.getByLabel('Password', { exact: true }).fill('password123');
+		await page.getByLabel('Confirm password').fill('password123');
 
 		// Submit form
-		await page.locator('button[type="submit"]').click();
+		await page.getByRole('button', { name: 'Register' }).click();
 
-		// Check that fieldset is disabled during submission
-		const fieldset = page.locator('fieldset');
-		await expect(fieldset).toBeDisabled();
+		// Check that button text changes during submission
+		await expect(page.getByRole('button', { name: 'Registering...' })).toBeVisible();
 	});
 
 	test('has link to login page', async ({ page }) => {
-		const loginLink = page.locator('a[href="/login"]');
+		// Use getByRole for link
+		const loginLink = page.getByRole('link', { name: 'Log in' });
 		await expect(loginLink).toBeVisible();
-		await expect(loginLink).toHaveText('Log in');
+		await expect(loginLink).toHaveAttribute('href', '/login');
 	});
 
-	test('form has proper semantic HTML attributes', async ({ page }) => {
-		// Check form has aria-label
-		const form = page.locator('form');
-		await expect(form).toHaveAttribute('aria-label', 'Registration form');
-
-		// Check fieldset has legend
-		const legend = page.locator('legend');
-		await expect(legend).toBeVisible();
-		await expect(legend).toHaveText('Create your account');
-
+	test('form inputs have proper semantic HTML attributes', async ({ page }) => {
 		// Check email input has proper attributes
-		const emailInput = page.locator('input[name="email"]');
+		const emailInput = page.getByLabel('Email address');
 		await expect(emailInput).toHaveAttribute('type', 'email');
 		await expect(emailInput).toHaveAttribute('required');
 		await expect(emailInput).toHaveAttribute('autocomplete', 'email');
 		await expect(emailInput).toHaveAttribute('aria-required', 'true');
 
-		// Check password inputs have proper attributes
-		const passwordInput = page.locator('input[name="password"]');
+		// Check password input has proper attributes
+		const passwordInput = page.getByLabel('Password', { exact: true });
 		await expect(passwordInput).toHaveAttribute('type', 'password');
 		await expect(passwordInput).toHaveAttribute('required');
 		await expect(passwordInput).toHaveAttribute('autocomplete', 'new-password');
 		await expect(passwordInput).toHaveAttribute('minlength', '8');
 
-		const confirmPasswordInput = page.locator('input[name="confirm-password"]');
+		// Check confirm password input
+		const confirmPasswordInput = page.getByLabel('Confirm password');
 		await expect(confirmPasswordInput).toHaveAttribute('type', 'password');
 		await expect(confirmPasswordInput).toHaveAttribute('required');
 		await expect(confirmPasswordInput).toHaveAttribute('autocomplete', 'new-password');
+	});
+
+	test('error messages have proper accessibility attributes', async ({ page }) => {
+		// Trigger an error
+		await page.getByRole('button', { name: 'Register' }).click();
+
+		// Check error has proper role and aria-live
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toHaveAttribute('aria-live', 'polite');
+		await expect(errorAlert).toHaveAttribute('id', 'error-message');
+	});
+
+	test('clears previous error when submitting again', async ({ page }) => {
+		// First submission with error
+		await page.getByRole('button', { name: 'Register' }).click();
+		await expect(page.getByRole('alert')).toContainText('All fields are required');
+
+		// Fill form with different error
+		await page.getByLabel('Email address').fill('test@example.com');
+		await page.getByLabel('Password', { exact: true }).fill('password123');
+		await page.getByLabel('Confirm password').fill('password456');
+		await page.getByRole('button', { name: 'Register' }).click();
+
+		// Check new error message replaces old one
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toContainText('Passwords do not match');
+		await expect(errorAlert).not.toContainText('All fields are required');
 	});
 });

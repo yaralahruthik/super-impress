@@ -62,9 +62,9 @@
 <main>
 	<h1>Register</h1>
 
-	<form on:submit={handleSubmit} aria-label="Registration form">
+	<form on:submit={handleSubmit} aria-labelledby="form-heading">
 		<fieldset disabled={isSubmitting}>
-			<legend>Create your account</legend>
+			<legend id="form-heading">Create your account</legend>
 
 			<div>
 				<label for="email">

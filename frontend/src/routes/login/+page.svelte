@@ -67,7 +67,7 @@
 			class="fieldset w-xs rounded-box border border-base-300 bg-base-200 p-4"
 			disabled={isSubmitting}
 		>
-			<legend id="form-heading" class="fieldset-legend">Log In</legend>
+			<legend id="form-heading" class="fieldset-legend">Log In to your account</legend>
 
 			<label for="email" class="label"> Email address </label>
 			<input

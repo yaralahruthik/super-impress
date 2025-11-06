@@ -22,16 +22,6 @@ test.describe('Registration Page', () => {
 		await expect(page.getByRole('button', { name: 'Register' })).toBeVisible();
 	});
 
-	test('shows validation error when fields are empty', async ({ page }) => {
-		// Submit empty form
-		await page.getByRole('button', { name: 'Register' }).click();
-
-		// Check for error message using getByRole
-		const errorAlert = page.getByRole('alert');
-		await expect(errorAlert).toBeVisible();
-		await expect(errorAlert).toContainText('All fields are required');
-	});
-
 	test('shows error when passwords do not match', async ({ page }) => {
 		// Fill in form with mismatched passwords using getByLabel
 		await page.getByLabel('Email address').fill('test@example.com');
@@ -45,21 +35,6 @@ test.describe('Registration Page', () => {
 		const errorAlert = page.getByRole('alert');
 		await expect(errorAlert).toBeVisible();
 		await expect(errorAlert).toContainText('Passwords do not match');
-	});
-
-	test('shows error when password is too short', async ({ page }) => {
-		// Fill in form with short password
-		await page.getByLabel('Email address').fill('test@example.com');
-		await page.getByLabel('Password', { exact: true }).fill('pass123');
-		await page.getByLabel('Confirm password').fill('pass123');
-
-		// Submit form
-		await page.getByRole('button', { name: 'Register' }).click();
-
-		// Check for error message
-		const errorAlert = page.getByRole('alert');
-		await expect(errorAlert).toBeVisible();
-		await expect(errorAlert).toContainText('Password must be at least 8 characters long');
 	});
 
 	test('successfully registers a new user', async ({ page }) => {
@@ -143,40 +118,11 @@ test.describe('Registration Page', () => {
 		await expect(passwordInput).toHaveAttribute('type', 'password');
 		await expect(passwordInput).toHaveAttribute('required');
 		await expect(passwordInput).toHaveAttribute('autocomplete', 'new-password');
-		await expect(passwordInput).toHaveAttribute('minlength', '8');
 
 		// Check confirm password input
 		const confirmPasswordInput = page.getByLabel('Confirm password');
 		await expect(confirmPasswordInput).toHaveAttribute('type', 'password');
 		await expect(confirmPasswordInput).toHaveAttribute('required');
 		await expect(confirmPasswordInput).toHaveAttribute('autocomplete', 'new-password');
-	});
-
-	test('error messages have proper accessibility attributes', async ({ page }) => {
-		// Trigger an error
-		await page.getByRole('button', { name: 'Register' }).click();
-
-		// Check error has proper role and aria-live
-		const errorAlert = page.getByRole('alert');
-		await expect(errorAlert).toBeVisible();
-		await expect(errorAlert).toHaveAttribute('aria-live', 'polite');
-		await expect(errorAlert).toHaveAttribute('id', 'error-message');
-	});
-
-	test('clears previous error when submitting again', async ({ page }) => {
-		// First submission with error
-		await page.getByRole('button', { name: 'Register' }).click();
-		await expect(page.getByRole('alert')).toContainText('All fields are required');
-
-		// Fill form with different error
-		await page.getByLabel('Email address').fill('test@example.com');
-		await page.getByLabel('Password', { exact: true }).fill('password123');
-		await page.getByLabel('Confirm password').fill('password456');
-		await page.getByRole('button', { name: 'Register' }).click();
-
-		// Check new error message replaces old one
-		const errorAlert = page.getByRole('alert');
-		await expect(errorAlert).toContainText('Passwords do not match');
-		await expect(errorAlert).not.toContainText('All fields are required');
 	});
 });

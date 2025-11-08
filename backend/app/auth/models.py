@@ -1,7 +1,7 @@
 import re
 from typing import Annotated
 
-from pydantic import AfterValidator, BaseModel, EmailStr, Field
+from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field
 from pydantic_core import PydanticCustomError
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
@@ -55,10 +55,9 @@ class UserCreate(UserBase):
 class UserPublic(UserBase):
     """Schema for user public data (excludes password)."""
 
-    id: int
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        from_attributes = True
+    id: int
 
 
 class Token(BaseModel):

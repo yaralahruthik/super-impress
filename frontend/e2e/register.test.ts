@@ -25,7 +25,7 @@ test.describe('Registration Page', () => {
 	test('shows error when passwords do not match', async ({ page }) => {
 		// Fill in form with mismatched passwords using getByLabel
 		await page.getByLabel('Email address').fill('test@example.com');
-		await page.getByLabel('Password', { exact: true }).fill('password123');
+		await page.getByLabel('Password', { exact: true }).fill('Password@123');
 		await page.getByLabel('Confirm password').fill('password456');
 
 		// Submit form
@@ -43,8 +43,8 @@ test.describe('Registration Page', () => {
 
 		// Fill in form with valid data
 		await page.getByLabel('Email address').fill(uniqueEmail);
-		await page.getByLabel('Password', { exact: true }).fill('password123');
-		await page.getByLabel('Confirm password').fill('password123');
+		await page.getByLabel('Password', { exact: true }).fill('Password@123');
+		await page.getByLabel('Confirm password').fill('Password@123');
 
 		// Submit form
 		await page.getByRole('button', { name: 'Register' }).click();
@@ -66,8 +66,8 @@ test.describe('Registration Page', () => {
 		const duplicateEmail = `duplicate-${Date.now()}@example.com`;
 
 		await page.getByLabel('Email address').fill(duplicateEmail);
-		await page.getByLabel('Password', { exact: true }).fill('password123');
-		await page.getByLabel('Confirm password').fill('password123');
+		await page.getByLabel('Password', { exact: true }).fill('Password@123');
+		await page.getByLabel('Confirm password').fill('Password@123');
 		await page.getByRole('button', { name: 'Register' }).click();
 
 		// Wait for success
@@ -75,8 +75,8 @@ test.describe('Registration Page', () => {
 
 		// Try to register again with same email
 		await page.getByLabel('Email address').fill(duplicateEmail);
-		await page.getByLabel('Password', { exact: true }).fill('password123');
-		await page.getByLabel('Confirm password').fill('password123');
+		await page.getByLabel('Password', { exact: true }).fill('Password@123');
+		await page.getByLabel('Confirm password').fill('Password@123');
 		await page.getByRole('button', { name: 'Register' }).click();
 
 		// Check for error message about duplicate email
@@ -88,8 +88,8 @@ test.describe('Registration Page', () => {
 	test('disables form while submitting', async ({ page }) => {
 		// Fill in form
 		await page.getByLabel('Email address').fill(`test-${Date.now()}@example.com`);
-		await page.getByLabel('Password', { exact: true }).fill('password123');
-		await page.getByLabel('Confirm password').fill('password123');
+		await page.getByLabel('Password', { exact: true }).fill('Password@123');
+		await page.getByLabel('Confirm password').fill('Password@123');
 
 		// Submit form
 		await page.getByRole('button', { name: 'Register' }).click();

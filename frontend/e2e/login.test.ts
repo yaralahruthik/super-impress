@@ -24,7 +24,7 @@ test.describe('Login Page', () => {
 	test('successfully logs in with valid credentials', async ({ page }) => {
 		// First, create a user to log in with
 		const uniqueEmail = `login-test-${Date.now()}@example.com`;
-		const password = 'password123';
+		const password = 'Password@123';
 
 		// Navigate to register page and create account
 		await page.goto('/register');
@@ -59,7 +59,7 @@ test.describe('Login Page', () => {
 	test('shows error with incorrect password', async ({ page }) => {
 		// First, create a user
 		const uniqueEmail = `incorrect-pwd-${Date.now()}@example.com`;
-		const correctPassword = 'password123';
+		const correctPassword = 'Password@123';
 
 		// Navigate to register page and create account
 		await page.goto('/register');
@@ -86,7 +86,7 @@ test.describe('Login Page', () => {
 	test('shows error with non-existent email', async ({ page }) => {
 		// Try to login with email that doesn't exist
 		await page.getByLabel('Email address').fill('nonexistent@example.com');
-		await page.getByLabel('Password').fill('password123');
+		await page.getByLabel('Password').fill('Password@123');
 
 		// Submit form
 		await page.getByRole('button', { name: 'Log in' }).click();
@@ -100,7 +100,7 @@ test.describe('Login Page', () => {
 	test('disables form while submitting', async ({ page }) => {
 		// Fill in form
 		await page.getByLabel('Email address').fill('test@example.com');
-		await page.getByLabel('Password').fill('password123');
+		await page.getByLabel('Password').fill('Password@123');
 
 		// Submit form
 		await page.getByRole('button', { name: 'Log in' }).click();
@@ -134,7 +134,7 @@ test.describe('Login Page', () => {
 	test('stores access token in localStorage on successful login', async ({ page }) => {
 		// First, create a user to log in with
 		const uniqueEmail = `token-test-${Date.now()}@example.com`;
-		const password = 'password123';
+		const password = 'Password@123';
 
 		// Navigate to register page and create account
 		await page.goto('/register');

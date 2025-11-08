@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import AuthLayout from '$lib/layouts/auth-layout.svelte';
 	import { SvelteURLSearchParams } from 'svelte/reactivity';
 
 	let email = '';
@@ -60,10 +61,8 @@
 	}
 </script>
 
-<div class="container mx-auto flex h-svh flex-col items-center justify-center">
+<AuthLayout>
 	<h1 class="sr-only text-xl">Log in</h1>
-
-	<a class="text-3xl font-black" href={resolve('/')}>SuperImpress</a>
 	<form onsubmit={handleSubmit} class="mt-4" aria-labelledby="form-heading">
 		<fieldset
 			class="fieldset w-xs rounded-box border border-base-300 bg-base-200 p-4"
@@ -119,4 +118,4 @@
 		Don't have an account?
 		<a href={resolve('/register')} class="link" data-sveltekit-preload-data>Register</a>
 	</p>
-</div>
+</AuthLayout>

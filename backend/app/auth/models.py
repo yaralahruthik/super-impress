@@ -1,6 +1,8 @@
+import re
 from typing import Annotated
 
-from pydantic import AfterValidator, BaseModel, EmailStr
+from pydantic import AfterValidator, BaseModel, EmailStr, Field
+from pydantic_core import PydanticCustomError
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -12,7 +14,6 @@ class User(Base):
     """User table for authentication."""
 
     __tablename__ = "user"
-
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String, unique=True, index=True)
     password: Mapped[str] = mapped_column(String)
@@ -27,23 +28,28 @@ class UserBase(BaseModel):
 
 def password_validator(password: str) -> str:
     """Validate password strength."""
-    if len(password) < 8 or len(password) > 15:
-        raise ValueError("Password must be between 8 and 15 characters long")
-    if not any(char.isupper() for char in password):
-        raise ValueError("Password must contain at least one uppercase letter")
-    if not any(char.islower() for char in password):
-        raise ValueError("Password must contain at least one lowercase letter")
-    if not any(char.isdigit() for char in password):
-        raise ValueError("Password must contain at least one digit")
-    if not any(char in "!@#$%^&*()-_=+[]{}|;:,.<>?/" for char in password):
-        raise ValueError("Password must contain at least one special character")
+    pattern = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\[\]{}|;:,.<>?/])[A-Za-z\d!@#$%^&*()\-_=+\[\]{}|;:,.<>?/]+$"
+    if not re.match(pattern, password):
+        raise PydanticCustomError(
+            "password_validation",
+            "Password must contain at least one uppercase letter, lowercase letter, digit, and special character",
+        )
     return password
 
 
 class UserCreate(UserBase):
     """Schema for creating a new user."""
 
-    password: Annotated[str, AfterValidator(password_validator)]
+    password: Annotated[
+        str,
+        Field(
+            min_length=8,
+            max_length=15,
+            description="Must contain uppercase, lowercase, digit, and special character",
+            examples=["MyP@ssw0rd"],
+        ),
+        AfterValidator(password_validator),
+    ]
 
 
 class UserPublic(UserBase):

@@ -85,6 +85,110 @@ test.describe('Registration Page', () => {
 		await expect(errorAlert).toContainText('Email already registered');
 	});
 
+	test('shows error for password less than 8 characters', async ({ page }) => {
+		// Fill in form with password that is too short
+		const uniqueEmail = `short-password-${Date.now()}@example.com`;
+		await page.getByLabel('Email address').fill(uniqueEmail);
+		await page.getByLabel('Password', { exact: true }).fill('Pass@1');
+		await page.getByLabel('Confirm password').fill('Pass@1');
+
+		// Submit form
+		await page.getByRole('button', { name: 'Register' }).click();
+
+		// Check for error message
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toContainText('Error: Password must be at least 8 characters long');
+	});
+
+	test('shows error for password more than 15 characters', async ({ page }) => {
+		// Fill in form with password that is too long
+		const uniqueEmail = `long-password-${Date.now()}@example.com`;
+		await page.getByLabel('Email address').fill(uniqueEmail);
+		await page.getByLabel('Password', { exact: true }).fill('ThisIsAVeryLongP@ssword');
+		await page.getByLabel('Confirm password').fill('ThisIsAVeryLongP@ssword');
+
+		// Submit form
+		await page.getByRole('button', { name: 'Register' }).click();
+
+		// Check for error message
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toContainText('String should have at most 15 characters');
+	});
+
+	test('shows error for password without uppercase letter', async ({ page }) => {
+		// Fill in form with password missing uppercase
+		const uniqueEmail = `no-upper-${Date.now()}@example.com`;
+		await page.getByLabel('Email address').fill(uniqueEmail);
+		await page.getByLabel('Password', { exact: true }).fill('password@123');
+		await page.getByLabel('Confirm password').fill('password@123');
+
+		// Submit form
+		await page.getByRole('button', { name: 'Register' }).click();
+
+		// Check for error message
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toContainText(
+			'Password must contain at least one uppercase letter, lowercase letter, digit, and special character'
+		);
+	});
+
+	test('shows error for password without lowercase letter', async ({ page }) => {
+		// Fill in form with password missing lowercase
+		const uniqueEmail = `no-lower-${Date.now()}@example.com`;
+		await page.getByLabel('Email address').fill(uniqueEmail);
+		await page.getByLabel('Password', { exact: true }).fill('PASSWORD@123');
+		await page.getByLabel('Confirm password').fill('PASSWORD@123');
+
+		// Submit form
+		await page.getByRole('button', { name: 'Register' }).click();
+
+		// Check for error message
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toContainText(
+			'Password must contain at least one uppercase letter, lowercase letter, digit, and special character'
+		);
+	});
+
+	test('shows error for password without digit', async ({ page }) => {
+		// Fill in form with password missing digit
+		const uniqueEmail = `no-digit-${Date.now()}@example.com`;
+		await page.getByLabel('Email address').fill(uniqueEmail);
+		await page.getByLabel('Password', { exact: true }).fill('Password@');
+		await page.getByLabel('Confirm password').fill('Password@');
+
+		// Submit form
+		await page.getByRole('button', { name: 'Register' }).click();
+
+		// Check for error message
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toContainText(
+			'Password must contain at least one uppercase letter, lowercase letter, digit, and special character'
+		);
+	});
+
+	test('shows error for password without special character', async ({ page }) => {
+		// Fill in form with password missing special character
+		const uniqueEmail = `no-special-${Date.now()}@example.com`;
+		await page.getByLabel('Email address').fill(uniqueEmail);
+		await page.getByLabel('Password', { exact: true }).fill('Password123');
+		await page.getByLabel('Confirm password').fill('Password123');
+
+		// Submit form
+		await page.getByRole('button', { name: 'Register' }).click();
+
+		// Check for error message
+		const errorAlert = page.getByRole('alert');
+		await expect(errorAlert).toBeVisible();
+		await expect(errorAlert).toContainText(
+			'Password must contain at least one uppercase letter, lowercase letter, digit, and special character'
+		);
+	});
+
 	test('disables form while submitting', async ({ page }) => {
 		// Fill in form
 		await page.getByLabel('Email address').fill(`test-${Date.now()}@example.com`);

@@ -29,6 +29,7 @@
 		"@tailwindcss/vite": "^4.1.13",
 		"@types/node": "^22",
 		"@vitest/browser": "^3.2.4",
+		"daisyui": "^5.4.5",
 		"eslint": "^9.36.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.12.4",

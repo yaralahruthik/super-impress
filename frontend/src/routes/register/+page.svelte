@@ -8,7 +8,9 @@
 	let successMessage = '';
 	let isSubmitting = false;
 
-	async function handleSubmit(event: Event) {
+	async function handleSubmit(
+		event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
+	) {
 		event.preventDefault();
 		errorMessage = '';
 		successMessage = '';
@@ -61,65 +63,57 @@
 	}
 </script>
 
-<main class="container space-y-4 p-10">
-	<h1 class="text-xl">Register</h1>
+<main class="container mx-auto flex h-svh flex-col items-center justify-center">
+	<h1 class="sr-only text-xl">Register</h1>
 
-	<form on:submit={handleSubmit} aria-labelledby="form-heading">
-		<fieldset class="space-y-2" disabled={isSubmitting}>
-			<legend id="form-heading">Create your account</legend>
+	<a class="text-3xl font-black" href={resolve('/')}>SuperImpress</a>
+	<form onsubmit={handleSubmit} class="mt-4" aria-labelledby="form-heading">
+		<fieldset
+			class="fieldset w-xs rounded-box border border-base-300 bg-base-200 p-4"
+			disabled={isSubmitting}
+		>
+			<legend id="form-heading" class="fieldset-legend">Create your account</legend>
 
-			<div>
-				<label for="email">
-					Email address
-					<input
-						type="email"
-						id="email"
-						name="email"
-						class="border"
-						bind:value={email}
-						required
-						autocomplete="email"
-						aria-required="true"
-						aria-describedby={errorMessage ? 'error-message' : undefined}
-					/>
-				</label>
-			</div>
+			<label for="email" class="label"> Email address </label>
+			<input
+				type="email"
+				id="email"
+				name="email"
+				class="input"
+				bind:value={email}
+				required
+				autocomplete="email"
+				aria-required="true"
+				aria-describedby={errorMessage ? 'error-message' : undefined}
+			/>
 
-			<div>
-				<label for="password">
-					Password
-					<input
-						type="password"
-						id="password"
-						name="password"
-						class="border"
-						bind:value={password}
-						required
-						autocomplete="new-password"
-						aria-required="true"
-						aria-describedby={errorMessage ? 'error-message' : undefined}
-					/>
-				</label>
-			</div>
+			<label for="password" class="label"> Password </label>
+			<input
+				type="password"
+				id="password"
+				name="password"
+				class="input"
+				bind:value={password}
+				required
+				autocomplete="new-password"
+				aria-required="true"
+				aria-describedby={errorMessage ? 'error-message' : undefined}
+			/>
 
-			<div>
-				<label for="confirm-password">
-					Confirm password
-					<input
-						type="password"
-						id="confirm-password"
-						name="confirm-password"
-						class="border"
-						bind:value={confirmPassword}
-						required
-						autocomplete="new-password"
-						aria-required="true"
-						aria-describedby={errorMessage ? 'error-message' : undefined}
-					/>
-				</label>
-			</div>
+			<label for="confirm-password" class="label"> Confirm password </label>
+			<input
+				type="password"
+				id="confirm-password"
+				name="confirm-password"
+				class="input"
+				bind:value={confirmPassword}
+				required
+				autocomplete="new-password"
+				aria-required="true"
+				aria-describedby={errorMessage ? 'error-message' : undefined}
+			/>
 
-			<button type="submit" class="border px-2 py-1" aria-busy={isSubmitting}>
+			<button type="submit" class="btn mt-4 btn-neutral" aria-busy={isSubmitting}>
 				{isSubmitting ? 'Registering...' : 'Register'}
 			</button>
 		</fieldset>
@@ -139,6 +133,6 @@
 
 	<p>
 		Already have an account?
-		<a href={resolve('/login')} class="underline" data-sveltekit-preload-data>Log in</a>
+		<a href={resolve('/login')} class="link" data-sveltekit-preload-data>Log in</a>
 	</p>
 </main>

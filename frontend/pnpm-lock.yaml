@@ -7,6 +7,13 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@tanstack/svelte-query':
+        specifier: ^6.0.5
+        version: 6.0.5(svelte@5.39.8)
+      '@tanstack/svelte-query-devtools':
+        specifier: ^6.0.0
+        version: 6.0.0(@tanstack/svelte-query@6.0.5(svelte@5.39.8))(svelte@5.39.8)
     devDependencies:
       '@eslint/compat':
         specifier: ^1.4.0
@@ -608,6 +615,23 @@ packages:
     resolution: {integrity: sha512-BoFUoU0XqgCUS1UXWhmDJroKKhNXeDzD7/XwabjkDIAbMnc4ULn5e2FuEuBbhZ6ENZoSYzKlzvZ44Yr6EUDUSA==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
+
+  '@tanstack/query-core@5.90.7':
+    resolution: {integrity: sha512-6PN65csiuTNfBMXqQUxQhCNdtm1rV+9kC9YwWAIKcaxAauq3Wu7p18j3gQY3YIBJU70jT/wzCCZ2uqto/vQgiQ==}
+
+  '@tanstack/query-devtools@5.90.1':
+    resolution: {integrity: sha512-GtINOPjPUH0OegJExZ70UahT9ykmAhmtNVcmtdnOZbxLwT7R5OmRztR5Ahe3/Cu7LArEmR6/588tAycuaWb1xQ==}
+
+  '@tanstack/svelte-query-devtools@6.0.0':
+    resolution: {integrity: sha512-YMvrLmQ/itQJ62WAV8+E0d7WsQlNUFOfKgijPxvHlIkBEZalKdF2BH0dIUsXc+as2xOdOZlSbR4Tw7c/hhli4w==}
+    peerDependencies:
+      '@tanstack/svelte-query': ^6.0.0
+      svelte: ^5.25.0
+
+  '@tanstack/svelte-query@6.0.5':
+    resolution: {integrity: sha512-9YgwlQJc1leQVknEalcvIzhUhKUHaxdq3xn8fc735fOAiS0uelvY6lBncKFS4uzfbj+iLyw/XsABU6FKj8XP4Q==}
+    peerDependencies:
+      svelte: ^5.25.0
 
   '@testing-library/dom@10.4.1':
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
@@ -2108,6 +2132,22 @@ snapshots:
       '@tailwindcss/oxide': 4.1.14
       tailwindcss: 4.1.14
       vite: 7.1.9(@types/node@22.18.8)(jiti@2.6.1)(lightningcss@1.30.1)
+
+  '@tanstack/query-core@5.90.7': {}
+
+  '@tanstack/query-devtools@5.90.1': {}
+
+  '@tanstack/svelte-query-devtools@6.0.0(@tanstack/svelte-query@6.0.5(svelte@5.39.8))(svelte@5.39.8)':
+    dependencies:
+      '@tanstack/query-devtools': 5.90.1
+      '@tanstack/svelte-query': 6.0.5(svelte@5.39.8)
+      esm-env: 1.2.2
+      svelte: 5.39.8
+
+  '@tanstack/svelte-query@6.0.5(svelte@5.39.8)':
+    dependencies:
+      '@tanstack/query-core': 5.90.7
+      svelte: 5.39.8
 
   '@testing-library/dom@10.4.1':
     dependencies:

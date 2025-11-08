@@ -1,79 +1,40 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import AuthLayout from '$lib/layouts/auth-layout.svelte';
+	import { createMutation } from '@tanstack/svelte-query';
+	import { registerApi } from './api';
 
-	let email = '';
-	let password = '';
-	let confirmPassword = '';
-	let errorMessage = '';
-	let successMessage = '';
-	let isSubmitting = false;
+	let email = $state('');
+	let password = $state('');
+	let confirmPassword = $state('');
+
+	const registerMutation = createMutation(() => ({
+		mutationFn: registerApi,
+		onSuccess: (data) => {
+			console.log('Registration success:', data);
+		}
+	}));
 
 	async function handleSubmit(
 		event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
 	) {
 		event.preventDefault();
-		errorMessage = '';
-		successMessage = '';
 
-		// Client-side validation
-		if (!email || !password || !confirmPassword) {
-			errorMessage = 'All fields are required';
-			return;
-		}
-
-		if (password !== confirmPassword) {
-			errorMessage = 'Passwords do not match';
-			return;
-		}
-
-		if (password.length < 8) {
-			errorMessage = 'Password must be at least 8 characters long';
-			return;
-		}
-
-		isSubmitting = true;
-
-		try {
-			const response = await fetch('/api/register', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ email, password })
-			});
-
-			if (!response.ok) {
-				const data = await response.json();
-				errorMessage = data.detail || 'Registration failed';
-				return;
-			}
-
-			const data = await response.json();
-			successMessage = `Registration successful! Welcome, ${data.email}`;
-
-			// Clear form
-			email = '';
-			password = '';
-			confirmPassword = '';
-		} catch {
-			errorMessage = 'An error occurred. Please try again.';
-		} finally {
-			isSubmitting = false;
-		}
+		registerMutation.mutate({ email, password });
 	}
 </script>
 
 <AuthLayout>
 	<h1 class="sr-only text-xl">Register</h1>
+
 	<form onsubmit={handleSubmit} class="mt-4" aria-labelledby="form-heading">
 		<fieldset
 			class="fieldset w-xs rounded-box border border-base-300 bg-base-200 p-4"
-			disabled={isSubmitting}
+			disabled={registerMutation.isPending}
 		>
 			<legend id="form-heading" class="fieldset-legend">Create your account</legend>
 
-			<label for="email" class="label"> Email address </label>
+			<label for="email" class="label">Email address</label>
 			<input
 				type="email"
 				id="email"
@@ -83,10 +44,9 @@
 				required
 				autocomplete="email"
 				aria-required="true"
-				aria-describedby={errorMessage ? 'error-message' : undefined}
 			/>
 
-			<label for="password" class="label"> Password </label>
+			<label for="password" class="label">Password</label>
 			<input
 				type="password"
 				id="password"
@@ -96,10 +56,9 @@
 				required
 				autocomplete="new-password"
 				aria-required="true"
-				aria-describedby={errorMessage ? 'error-message' : undefined}
 			/>
 
-			<label for="confirm-password" class="label"> Confirm password </label>
+			<label for="confirm-password" class="label">Confirm password</label>
 			<input
 				type="password"
 				id="confirm-password"
@@ -109,24 +68,23 @@
 				required
 				autocomplete="new-password"
 				aria-required="true"
-				aria-describedby={errorMessage ? 'error-message' : undefined}
 			/>
 
-			<button type="submit" class="btn mt-4 btn-neutral" aria-busy={isSubmitting}>
-				{isSubmitting ? 'Registering...' : 'Register'}
+			<button type="submit" class="btn mt-4 btn-neutral" aria-busy={registerMutation.isPending}>
+				{registerMutation.isPending ? 'Registering...' : 'Register'}
 			</button>
 		</fieldset>
 	</form>
 
-	{#if errorMessage}
+	{#if registerMutation.isError}
 		<div role="alert" aria-live="polite" id="error-message">
-			<p><strong>Error:</strong> {errorMessage}</p>
+			<p><strong>Error:</strong> {registerMutation.error?.message}</p>
 		</div>
 	{/if}
 
-	{#if successMessage}
+	{#if registerMutation.isSuccess}
 		<div role="status" aria-live="polite" id="success-message">
-			<p>{successMessage}</p>
+			<p>Registration successful! Welcome, {registerMutation.data?.email}</p>
 		</div>
 	{/if}
 

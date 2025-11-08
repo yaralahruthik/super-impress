@@ -42,13 +42,17 @@
 				body: JSON.stringify({ email, password })
 			});
 
+			const data = await response.json();
+
 			if (!response.ok) {
-				const data = await response.json();
-				errorMessage = data.detail || 'Registration failed';
+				if (Array.isArray(data.detail) && data.detail.length > 0 && data.detail[0].msg) {
+					errorMessage = data.detail[0].msg;
+				} else {
+					errorMessage = data.detail || 'Registration failed';
+				}
 				return;
 			}
 
-			const data = await response.json();
 			successMessage = `Registration successful! Welcome, ${data.email}`;
 
 			// Clear form

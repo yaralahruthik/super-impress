@@ -1,11 +1,10 @@
-import re
 from typing import Annotated
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field
-from pydantic_core import PydanticCustomError
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
+from app.auth.validators import password_validator
 from app.database import Base
 
 
@@ -24,17 +23,6 @@ class UserBase(BaseModel):
     """Base user schema with common fields."""
 
     email: EmailStr
-
-
-def password_validator(password: str) -> str:
-    """Validate password strength."""
-    pattern = r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+\[\]{}|;:,.<>?/])[A-Za-z\d!@#$%^&*()\-_=+\[\]{}|;:,.<>?/]+$"
-    if not re.match(pattern, password):
-        raise PydanticCustomError(
-            "password_validation_error",
-            "Password must contain at least one uppercase letter, lowercase letter, digit, and special character",
-        )
-    return password
 
 
 class UserCreate(UserBase):

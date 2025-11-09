@@ -58,4 +58,58 @@ test.describe('Registration Page', () => {
 		await expect(loginLink).toBeVisible();
 		await expect(loginLink).toHaveAttribute('href', '/login');
 	});
+
+	test.describe('Password validation', () => {
+		test('shows error when password does not have an uppercase letter', async ({ page }) => {
+			await page.getByLabel('Email address').fill('test-invalid-password@example.com');
+			await page.getByLabel('Password', { exact: true }).fill('password@123');
+			await page.getByLabel('Confirm password').fill('password@123');
+			await page.getByRole('button', { name: 'Register' }).click();
+
+			const errorAlert = page.getByRole('alert');
+			await expect(errorAlert).toBeVisible({ timeout: 10000 });
+			await expect(errorAlert).toContainText(
+				'Password must contain at least one uppercase letter, lowercase letter, digit, and special character'
+			);
+		});
+
+		test('shows error when password does not have a lowercase letter', async ({ page }) => {
+			await page.getByLabel('Email address').fill('test-invalid-password@example.com');
+			await page.getByLabel('Password', { exact: true }).fill('PASSWORD@123');
+			await page.getByLabel('Confirm password').fill('PASSWORD@123');
+			await page.getByRole('button', { name: 'Register' }).click();
+
+			const errorAlert = page.getByRole('alert');
+			await expect(errorAlert).toBeVisible({ timeout: 10000 });
+			await expect(errorAlert).toContainText(
+				'Password must contain at least one uppercase letter, lowercase letter, digit, and special character'
+			);
+		});
+
+		test('shows error when password does not have a digit', async ({ page }) => {
+			await page.getByLabel('Email address').fill('test-invalid-password@example.com');
+			await page.getByLabel('Password', { exact: true }).fill('Password@');
+			await page.getByLabel('Confirm password').fill('Password@');
+			await page.getByRole('button', { name: 'Register' }).click();
+
+			const errorAlert = page.getByRole('alert');
+			await expect(errorAlert).toBeVisible({ timeout: 10000 });
+			await expect(errorAlert).toContainText(
+				'Password must contain at least one uppercase letter, lowercase letter, digit, and special character'
+			);
+		});
+
+		test('shows error when password does not have a special character', async ({ page }) => {
+			await page.getByLabel('Email address').fill('test-invalid-password@example.com');
+			await page.getByLabel('Password', { exact: true }).fill('Password123');
+			await page.getByLabel('Confirm password').fill('Password123');
+			await page.getByRole('button', { name: 'Register' }).click();
+
+			const errorAlert = page.getByRole('alert');
+			await expect(errorAlert).toBeVisible({ timeout: 10000 });
+			await expect(errorAlert).toContainText(
+				'Password must contain at least one uppercase letter, lowercase letter, digit, and special character'
+			);
+		});
+	});
 });

@@ -19,7 +19,7 @@ test.describe('Login Page', () => {
 
 	test('successfully logs in with valid credentials', async ({ page }) => {
 		const uniqueEmail = `login-test-${Date.now()}@example.com`;
-		const password = 'password123';
+		const password = 'Password@123';
 
 		await page.goto('/register');
 		await page.getByLabel('Email address').fill(uniqueEmail);

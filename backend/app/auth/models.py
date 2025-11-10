@@ -1,7 +1,10 @@
-from pydantic import BaseModel, EmailStr
+from typing import Annotated
+
+from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
+from app.auth.validators import password_validator
 from app.database import Base
 
 
@@ -10,7 +13,6 @@ class User(Base):
     """User table for authentication."""
 
     __tablename__ = "user"
-
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String, unique=True, index=True)
     password: Mapped[str] = mapped_column(String)
@@ -26,16 +28,24 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     """Schema for creating a new user."""
 
-    password: str
+    password: Annotated[
+        str,
+        Field(
+            min_length=8,
+            max_length=15,
+            description="Must contain uppercase, lowercase, digit, and special character",
+            examples=["MyP@ssw0rd"],
+        ),
+        AfterValidator(password_validator),
+    ]
 
 
 class UserPublic(UserBase):
     """Schema for user public data (excludes password)."""
 
-    id: int
+    model_config = ConfigDict(from_attributes=True)
 
-    class Config:
-        from_attributes = True
+    id: int
 
 
 class Token(BaseModel):

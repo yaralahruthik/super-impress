@@ -1,6 +1,7 @@
 # Backend
 __pycache__/
 .venv
+.pytest_cache/
 
 # Ruff cache
 .ruff_cache/

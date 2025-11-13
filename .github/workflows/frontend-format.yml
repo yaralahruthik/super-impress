@@ -1,27 +1,14 @@
-name: Code Formatting
+name: Frontend Format
 
 on:
   pull_request:
     branches: [main]
+    paths:
+      - 'frontend/**'
 
 jobs:
-  backend-format-check:
-    name: Backend Format Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-
-      - name: Run Ruff
-        uses: astral-sh/ruff-action@v3
-        with:
-          version: "0.14.1"
-          args: "format --check"
-          src: "./backend"
-
   frontend-format-check:
-    name: Frontend Format Check
+    name: Frontend Format
     runs-on: ubuntu-latest
 
     steps:

@@ -17,6 +17,12 @@ importers:
       '@tanstack/svelte-query-devtools':
         specifier: ^6.0.0
         version: 6.0.0(@tanstack/svelte-query@6.0.5(svelte@5.39.8))(svelte@5.39.8)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      tailwind-merge:
+        specifier: ^3.4.0
+        version: 3.4.0
       zod:
         specifier: ^4.1.12
         version: 4.1.12
@@ -1576,6 +1582,9 @@ packages:
     resolution: {integrity: sha512-KfZ3hCITdxIXTOvrea4nFZX2o+47HPTChKeocgj9BwJQYqWrviVCcPj4boXHF5yf8+eBKqhHY8xii//XaakKXA==}
     engines: {node: '>=18'}
 
+  tailwind-merge@3.4.0:
+    resolution: {integrity: sha512-uSaO4gnW+b3Y2aWoWfFpX62vn2sR3skfhbjsEnaBI81WD1wBLlHZe5sWf0AqjksNdYTbGBEd0UasQMT3SNV15g==}
+
   tailwindcss@4.1.14:
     resolution: {integrity: sha512-b7pCxjGO98LnxVkKjaZSDeNuljC4ueKUddjENJOADtubtdo8llTaJy7HwBMeLNSSo2N5QIAgklslK1+Ir8r6CA==}
 
@@ -3074,6 +3083,8 @@ snapshots:
       locate-character: 3.0.0
       magic-string: 0.30.19
       zimmerframe: 1.1.4
+
+  tailwind-merge@3.4.0: {}
 
   tailwindcss@4.1.14: {}
 

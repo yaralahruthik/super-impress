@@ -4,8 +4,8 @@
 	import { createForm } from '@tanstack/svelte-form';
 	import { createMutation } from '@tanstack/svelte-query';
 	import z from 'zod';
+	import FieldInfo from '../field-info.svelte';
 	import { loginApi } from './api';
-	import FieldInfo from './field-info.svelte';
 
 	const loginMutation = createMutation(() => ({
 		mutationFn: loginApi,
@@ -20,7 +20,7 @@
 			password: ''
 		},
 		onSubmit: async ({ value }) => {
-			loginMutation.mutate({ ...value });
+			loginMutation.mutate(value);
 		}
 	}));
 </script>
@@ -50,7 +50,7 @@
 				}}
 			>
 				{#snippet children(field)}
-					<label for={field.name} class="label">Email:</label>
+					<label for={field.name} class="label">Email</label>
 					<input
 						id={field.name}
 						name={field.name}
@@ -69,9 +69,9 @@
 				{/snippet}
 			</form.Field>
 
-			<form.Field name="password" validators={{}}>
+			<form.Field name="password">
 				{#snippet children(field)}
-					<label for={field.name} class="label">Password:</label>
+					<label for={field.name} class="label">Password</label>
 					<input
 						id={field.name}
 						name={field.name}

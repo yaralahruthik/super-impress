@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import AuthLayout from '$lib/layouts/auth-layout.svelte';
 	import { createForm } from '@tanstack/svelte-form';
@@ -9,8 +10,8 @@
 
 	const registerMutation = createMutation(() => ({
 		mutationFn: registerApi,
-		onSuccess: (data) => {
-			console.log('Registration success:', data);
+		onSuccess: () => {
+			goto(resolve('/login'));
 		}
 	}));
 

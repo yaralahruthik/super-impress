@@ -6,7 +6,6 @@
 
 {#if field.state.meta.isTouched}
 	{#each field.state.meta.errors as error (error)}
-		<em role="alert" class="validator-hint">{error.message}</em>
+		<em role="alert" class="text-error">{error.message}</em>
 	{/each}
-	{field.state.meta.isValidating ? 'Validating...' : ''}
 {/if}

@@ -8,6 +8,11 @@
 	import FieldInfo from '../field-info.svelte';
 	import { loginApi } from './api';
 
+	const loginFormSchema = z.object({
+		email: z.email('Invalid email address').trim(),
+		password: z.string().trim().min(1, 'Password is required')
+	});
+
 	const loginMutation = createMutation(() => ({
 		mutationFn: loginApi,
 		onSuccess: () => {
@@ -19,6 +24,9 @@
 		defaultValues: {
 			email: '',
 			password: ''
+		},
+		validators: {
+			onSubmit: loginFormSchema
 		},
 		onSubmit: async ({ value }) => {
 			loginMutation.mutate(value);
@@ -35,7 +43,7 @@
 			e.stopPropagation();
 			form.handleSubmit();
 		}}
-		class="mt-4"
+		class="my-4"
 		aria-labelledby="form-heading"
 	>
 		<fieldset
@@ -44,12 +52,7 @@
 		>
 			<legend id="form-heading" class="fieldset-legend">Log In to your account</legend>
 
-			<form.Field
-				name="email"
-				validators={{
-					onChange: z.email('Invalid email address')
-				}}
-			>
+			<form.Field name="email">
 				{#snippet children(field)}
 					<label for={field.name} class="label">Email</label>
 					<input
@@ -57,8 +60,9 @@
 						name={field.name}
 						value={field.state.value}
 						type="email"
-						class="validator input"
-						required
+						class="input"
+						class:input-error={field.state.meta.isTouched && !field.state.meta.isValid}
+						aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
 						autocomplete="email"
 						onchange={(e) => {
 							const target = e.target as HTMLInputElement;
@@ -78,8 +82,9 @@
 						name={field.name}
 						value={field.state.value}
 						type="password"
-						class="validator input"
-						required
+						class="input"
+						class:input-error={field.state.meta.isTouched && !field.state.meta.isValid}
+						aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
 						autocomplete="current-password"
 						onchange={(e) => {
 							const target = e.target as HTMLInputElement;
@@ -95,19 +100,13 @@
 				{loginMutation.isPending ? 'Logging in...' : 'Log in'}
 			</button>
 		</fieldset>
+
+		{#if loginMutation.isError}
+			<em role="alert" class="text-sm text-error" aria-live="polite" id="error-message">
+				{loginMutation.error?.message}
+			</em>
+		{/if}
 	</form>
-
-	{#if loginMutation.isError}
-		<div role="alert" aria-live="polite" id="error-message">
-			<p><strong>Error:</strong> {loginMutation.error?.message}</p>
-		</div>
-	{/if}
-
-	{#if loginMutation.isSuccess}
-		<div role="status" aria-live="polite" id="success-message">
-			<p>Login successful! Welcome back.</p>
-		</div>
-	{/if}
 
 	<p>
 		Don't have an account?

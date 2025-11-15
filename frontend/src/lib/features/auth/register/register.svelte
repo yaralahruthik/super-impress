@@ -8,6 +8,17 @@
 	import FieldInfo from '../field-info.svelte';
 	import { registerApi } from './api';
 
+	const registerFormSchema = z
+		.object({
+			email: z.email('Invalid email address').trim(),
+			password: z.string().trim().min(1, 'Password is required'),
+			confirmPassword: z.string()
+		})
+		.refine((data) => data.password === data.confirmPassword, {
+			error: 'Passwords do not match',
+			path: ['confirmPassword']
+		});
+
 	const registerMutation = createMutation(() => ({
 		mutationFn: registerApi,
 		onSuccess: () => {
@@ -21,6 +32,7 @@
 			password: '',
 			confirmPassword: ''
 		},
+		validators: { onSubmit: registerFormSchema },
 		onSubmit: async ({ value }) => {
 			registerMutation.mutate(value);
 		}
@@ -36,7 +48,7 @@
 			e.stopPropagation();
 			form.handleSubmit();
 		}}
-		class="mt-4"
+		class="my-4"
 		aria-labelledby="form-heading"
 	>
 		<fieldset
@@ -45,12 +57,7 @@
 		>
 			<legend id="form-heading" class="fieldset-legend">Create your account</legend>
 
-			<form.Field
-				name="email"
-				validators={{
-					onChange: z.email('Invalid email address')
-				}}
-			>
+			<form.Field name="email">
 				{#snippet children(field)}
 					<label for={field.name} class="label">Email</label>
 					<input
@@ -58,8 +65,9 @@
 						name={field.name}
 						value={field.state.value}
 						type="email"
-						class="validator input"
-						required
+						class="input"
+						class:input-error={field.state.meta.isTouched && !field.state.meta.isValid}
+						aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
 						autocomplete="email"
 						onchange={(e) => {
 							const target = e.target as HTMLInputElement;
@@ -79,8 +87,9 @@
 						name={field.name}
 						value={field.state.value}
 						type="password"
-						class="validator input"
-						required
+						class="input"
+						class:input-error={field.state.meta.isTouched && !field.state.meta.isValid}
+						aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
 						autocomplete="new-password"
 						onchange={(e) => {
 							const target = e.target as HTMLInputElement;
@@ -100,8 +109,9 @@
 						name={field.name}
 						value={field.state.value}
 						type="password"
-						class="validator input"
-						required
+						class="input"
+						class:input-error={field.state.meta.isTouched && !field.state.meta.isValid}
+						aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
 						autocomplete="new-password"
 						onchange={(e) => {
 							const target = e.target as HTMLInputElement;
@@ -117,19 +127,13 @@
 				{registerMutation.isPending ? 'Registering...' : 'Register'}
 			</button>
 		</fieldset>
+
+		{#if registerMutation.isError}
+			<em role="alert" class="text-sm text-error" aria-live="polite" id="error-message">
+				{registerMutation.error?.message}
+			</em>
+		{/if}
 	</form>
-
-	{#if registerMutation.isError}
-		<div role="alert" aria-live="polite" id="error-message">
-			<p><strong>Error:</strong> {registerMutation.error?.message}</p>
-		</div>
-	{/if}
-
-	{#if registerMutation.isSuccess}
-		<div role="status" aria-live="polite" id="success-message">
-			<p>Registration successful! Welcome, {registerMutation.data?.email}</p>
-		</div>
-	{/if}
 
 	<p>
 		Already have an account?

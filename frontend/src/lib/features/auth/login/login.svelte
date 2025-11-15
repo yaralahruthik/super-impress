@@ -1,60 +1,95 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import AuthLayout from '$lib/layouts/auth-layout.svelte';
+	import { createForm } from '@tanstack/svelte-form';
 	import { createMutation } from '@tanstack/svelte-query';
+	import z from 'zod';
+	import FieldInfo from '../field-info.svelte';
 	import { loginApi } from './api';
-
-	let email = $state('');
-	let password = $state('');
 
 	const loginMutation = createMutation(() => ({
 		mutationFn: loginApi,
-		onSuccess: (data) => {
-			console.log('Login success', data);
+		onSuccess: () => {
+			goto(resolve('/'));
 		}
 	}));
 
-	async function handleSubmit(
-		event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
-	) {
-		event.preventDefault();
-		loginMutation.mutate({ email, password });
-	}
+	const form = createForm(() => ({
+		defaultValues: {
+			email: '',
+			password: ''
+		},
+		onSubmit: async ({ value }) => {
+			loginMutation.mutate(value);
+		}
+	}));
 </script>
 
 <AuthLayout>
 	<h1 class="sr-only text-xl">Log in</h1>
 
-	<form onsubmit={handleSubmit} class="mt-4" aria-labelledby="form-heading">
+	<form
+		onsubmit={(e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			form.handleSubmit();
+		}}
+		class="mt-4"
+		aria-labelledby="form-heading"
+	>
 		<fieldset
 			class="fieldset w-xs rounded-box border border-base-300 bg-base-200 p-4"
 			disabled={loginMutation.isPending}
 		>
 			<legend id="form-heading" class="fieldset-legend">Log In to your account</legend>
 
-			<label for="email" class="label">Email address</label>
-			<input
-				type="email"
-				id="email"
+			<form.Field
 				name="email"
-				class="input"
-				bind:value={email}
-				required
-				autocomplete="email"
-				aria-required="true"
-			/>
+				validators={{
+					onChange: z.email('Invalid email address')
+				}}
+			>
+				{#snippet children(field)}
+					<label for={field.name} class="label">Email</label>
+					<input
+						id={field.name}
+						name={field.name}
+						value={field.state.value}
+						type="email"
+						class="validator input"
+						required
+						autocomplete="email"
+						onchange={(e) => {
+							const target = e.target as HTMLInputElement;
+							field.handleChange(target.value);
+						}}
+					/>
 
-			<label for="password" class="label">Password</label>
-			<input
-				type="password"
-				id="password"
-				name="password"
-				class="input"
-				bind:value={password}
-				required
-				autocomplete="current-password"
-				aria-required="true"
-			/>
+					<FieldInfo {field} />
+				{/snippet}
+			</form.Field>
+
+			<form.Field name="password">
+				{#snippet children(field)}
+					<label for={field.name} class="label">Password</label>
+					<input
+						id={field.name}
+						name={field.name}
+						value={field.state.value}
+						type="password"
+						class="validator input"
+						required
+						autocomplete="current-password"
+						onchange={(e) => {
+							const target = e.target as HTMLInputElement;
+							field.handleChange(target.value);
+						}}
+					/>
+
+					<FieldInfo {field} />
+				{/snippet}
+			</form.Field>
 
 			<button type="submit" class="btn mt-4 btn-neutral" aria-busy={loginMutation.isPending}>
 				{loginMutation.isPending ? 'Logging in...' : 'Log in'}

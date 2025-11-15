@@ -8,12 +8,18 @@ importers:
 
   .:
     dependencies:
+      '@tanstack/svelte-form':
+        specifier: ^1.25.0
+        version: 1.25.0(svelte@5.39.8)
       '@tanstack/svelte-query':
         specifier: ^6.0.5
         version: 6.0.5(svelte@5.39.8)
       '@tanstack/svelte-query-devtools':
         specifier: ^6.0.0
         version: 6.0.0(@tanstack/svelte-query@6.0.5(svelte@5.39.8))(svelte@5.39.8)
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
     devDependencies:
       '@eslint/compat':
         specifier: ^1.4.0
@@ -616,11 +622,30 @@ packages:
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
 
+  '@tanstack/devtools-event-client@0.3.5':
+    resolution: {integrity: sha512-RL1f5ZlfZMpghrCIdzl6mLOFLTuhqmPNblZgBaeKfdtk5rfbjykurv+VfYydOFXj0vxVIoA2d/zT7xfD7Ph8fw==}
+    engines: {node: '>=18'}
+
+  '@tanstack/form-core@1.25.0':
+    resolution: {integrity: sha512-OEWW2uTOFMyRmHrVEiPOn+J27ekQ/vXwRAJt9kD8U8vCt8CmpClj989OOGGSBSVJtDNxGUcWyKF8gYznnqIyaw==}
+
+  '@tanstack/pacer@0.15.4':
+    resolution: {integrity: sha512-vGY+CWsFZeac3dELgB6UZ4c7OacwsLb8hvL2gLS6hTgy8Fl0Bm/aLokHaeDIP+q9F9HUZTnp360z9uv78eg8pg==}
+    engines: {node: '>=18'}
+
   '@tanstack/query-core@5.90.7':
     resolution: {integrity: sha512-6PN65csiuTNfBMXqQUxQhCNdtm1rV+9kC9YwWAIKcaxAauq3Wu7p18j3gQY3YIBJU70jT/wzCCZ2uqto/vQgiQ==}
 
   '@tanstack/query-devtools@5.90.1':
     resolution: {integrity: sha512-GtINOPjPUH0OegJExZ70UahT9ykmAhmtNVcmtdnOZbxLwT7R5OmRztR5Ahe3/Cu7LArEmR6/588tAycuaWb1xQ==}
+
+  '@tanstack/store@0.7.7':
+    resolution: {integrity: sha512-xa6pTan1bcaqYDS9BDpSiS63qa6EoDkPN9RsRaxHuDdVDNntzq3xNwR5YKTU/V3SkSyC9T4YVOPh2zRQN0nhIQ==}
+
+  '@tanstack/svelte-form@1.25.0':
+    resolution: {integrity: sha512-uSXClHkiFo9qSu79b6TrkHdb5H4TYA+kF6OaJt1OvtAHnn6TVk5sa3Dqo/NAlc/f+QziLCplCbhDKJehKIpAow==}
+    peerDependencies:
+      svelte: ^5.0.0
 
   '@tanstack/svelte-query-devtools@6.0.0':
     resolution: {integrity: sha512-YMvrLmQ/itQJ62WAV8+E0d7WsQlNUFOfKgijPxvHlIkBEZalKdF2BH0dIUsXc+as2xOdOZlSbR4Tw7c/hhli4w==}
@@ -632,6 +657,11 @@ packages:
     resolution: {integrity: sha512-9YgwlQJc1leQVknEalcvIzhUhKUHaxdq3xn8fc735fOAiS0uelvY6lBncKFS4uzfbj+iLyw/XsABU6FKj8XP4Q==}
     peerDependencies:
       svelte: ^5.25.0
+
+  '@tanstack/svelte-store@0.7.7':
+    resolution: {integrity: sha512-JeDyY7SxBi6EKzkf2wWoghdaC2bvmwNL9X/dgkx7LKEvJVle+te7tlELI3cqRNGbjXt9sx+97jx9M5dCCHcuog==}
+    peerDependencies:
+      svelte: ^5.0.0
 
   '@testing-library/dom@10.4.1':
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
@@ -1748,6 +1778,9 @@ packages:
   zimmerframe@1.1.4:
     resolution: {integrity: sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ==}
 
+  zod@4.1.12:
+    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
+
 snapshots:
 
   '@babel/code-frame@7.27.1':
@@ -2133,9 +2166,30 @@ snapshots:
       tailwindcss: 4.1.14
       vite: 7.1.9(@types/node@22.18.8)(jiti@2.6.1)(lightningcss@1.30.1)
 
+  '@tanstack/devtools-event-client@0.3.5': {}
+
+  '@tanstack/form-core@1.25.0':
+    dependencies:
+      '@tanstack/devtools-event-client': 0.3.5
+      '@tanstack/pacer': 0.15.4
+      '@tanstack/store': 0.7.7
+
+  '@tanstack/pacer@0.15.4':
+    dependencies:
+      '@tanstack/devtools-event-client': 0.3.5
+      '@tanstack/store': 0.7.7
+
   '@tanstack/query-core@5.90.7': {}
 
   '@tanstack/query-devtools@5.90.1': {}
+
+  '@tanstack/store@0.7.7': {}
+
+  '@tanstack/svelte-form@1.25.0(svelte@5.39.8)':
+    dependencies:
+      '@tanstack/form-core': 1.25.0
+      '@tanstack/svelte-store': 0.7.7(svelte@5.39.8)
+      svelte: 5.39.8
 
   '@tanstack/svelte-query-devtools@6.0.0(@tanstack/svelte-query@6.0.5(svelte@5.39.8))(svelte@5.39.8)':
     dependencies:
@@ -2147,6 +2201,11 @@ snapshots:
   '@tanstack/svelte-query@6.0.5(svelte@5.39.8)':
     dependencies:
       '@tanstack/query-core': 5.90.7
+      svelte: 5.39.8
+
+  '@tanstack/svelte-store@0.7.7(svelte@5.39.8)':
+    dependencies:
+      '@tanstack/store': 0.7.7
       svelte: 5.39.8
 
   '@testing-library/dom@10.4.1':
@@ -3185,3 +3244,5 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zimmerframe@1.1.4: {}
+
+  zod@4.1.12: {}

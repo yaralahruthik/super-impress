@@ -57,6 +57,7 @@
 		"@tanstack/svelte-form": "^1.25.0",
 		"@tanstack/svelte-query": "^6.0.5",
 		"@tanstack/svelte-query-devtools": "^6.0.0",
+		"bits-ui": "^2.14.3",
 		"clsx": "^2.1.1",
 		"tailwind-merge": "^3.4.0",
 		"zod": "^4.1.12"

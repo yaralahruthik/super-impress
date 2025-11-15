@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import Input from '$lib/components/ui/input.svelte';
+	import Label from '$lib/components/ui/label.svelte';
 	import AuthLayout from '$lib/layouts/auth-layout.svelte';
 	import { cn } from '$lib/utils/cn';
 	import { createForm } from '@tanstack/svelte-form';
@@ -61,7 +62,7 @@
 
 			<form.Field name="email">
 				{#snippet children(field)}
-					<label for={field.name} class="label">Email</label>
+					<Label for={field.name}>Email</Label>
 					<Input
 						id={field.name}
 						name={field.name}
@@ -82,7 +83,7 @@
 
 			<form.Field name="password">
 				{#snippet children(field)}
-					<label for={field.name} class="label">Password</label>
+					<Label for={field.name}>Password</Label>
 					<Input
 						id={field.name}
 						name={field.name}
@@ -103,7 +104,7 @@
 
 			<form.Field name="confirmPassword">
 				{#snippet children(field)}
-					<label for={field.name} class="label">Confirm password</label>
+					<Label for={field.name}>Confirm password</Label>
 					<Input
 						id={field.name}
 						name={field.name}

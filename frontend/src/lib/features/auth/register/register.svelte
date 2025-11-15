@@ -126,13 +126,13 @@
 			<button type="submit" class="btn mt-4 btn-neutral" aria-busy={registerMutation.isPending}>
 				{registerMutation.isPending ? 'Registering...' : 'Register'}
 			</button>
-		</fieldset>
 
-		{#if registerMutation.isError}
-			<em role="alert" class="text-sm text-error" aria-live="polite" id="error-message">
-				{registerMutation.error?.message}
-			</em>
-		{/if}
+			{#if registerMutation.isError}
+				<em role="alert" class="text-sm text-error" aria-live="polite" id="error-message">
+					{registerMutation.error?.message}
+				</em>
+			{/if}
+		</fieldset>
 	</form>
 
 	<p>

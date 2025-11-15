@@ -99,13 +99,12 @@
 			<button type="submit" class="btn mt-4 btn-neutral" aria-busy={loginMutation.isPending}>
 				{loginMutation.isPending ? 'Logging in...' : 'Log in'}
 			</button>
+			{#if loginMutation.isError}
+				<em role="alert" class="text-sm text-error" aria-live="polite" id="error-message">
+					{loginMutation.error?.message}
+				</em>
+			{/if}
 		</fieldset>
-
-		{#if loginMutation.isError}
-			<em role="alert" class="text-sm text-error" aria-live="polite" id="error-message">
-				{loginMutation.error?.message}
-			</em>
-		{/if}
 	</form>
 
 	<p>

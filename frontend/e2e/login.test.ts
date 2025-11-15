@@ -11,7 +11,7 @@ test.describe('Login Page', () => {
 		const form = page.getByRole('form', { name: 'Log in to your account' });
 		await expect(form).toBeVisible();
 
-		await expect(page.getByLabel('Email address')).toBeVisible();
+		await expect(page.getByLabel('Email')).toBeVisible();
 		await expect(page.getByLabel('Password')).toBeVisible();
 
 		await expect(page.getByRole('button', { name: 'Log in' })).toBeVisible();
@@ -22,23 +22,19 @@ test.describe('Login Page', () => {
 		const password = 'Password@123';
 
 		await page.goto('/register');
-		await page.getByLabel('Email address').fill(uniqueEmail);
+		await page.getByLabel('Email').fill(uniqueEmail);
 		await page.getByLabel('Password', { exact: true }).fill(password);
 		await page.getByLabel('Confirm password').fill(password);
 		await page.getByRole('button', { name: 'Register' }).click();
 
-		await expect(page.getByRole('status')).toBeVisible({ timeout: 10000 });
-
 		await page.goto('/login');
 
-		await page.getByLabel('Email address').fill(uniqueEmail);
+		await page.getByLabel('Email').fill(uniqueEmail);
 		await page.getByLabel('Password').fill(password);
 
 		await page.getByRole('button', { name: 'Log in' }).click();
 
-		const successStatus = page.getByRole('status');
-		await expect(successStatus).toBeVisible({ timeout: 10000 });
-		await expect(successStatus).toContainText('Login successful!');
+		await expect(page).toHaveURL('/');
 	});
 
 	test('has link to register page', async ({ page }) => {

@@ -35,6 +35,22 @@ Join [the discord community](https://discord.gg/DWAVqksVtx) for the latest updat
 
 ## Getting Started
 
+### Setup Environment
+
+First, make the setup script executable:
+
+```bash
+chmod +x setup.sh
+```
+
+Then, run the script to set up your environment variables:
+
+```bash
+./setup.sh
+```
+
+Follow the prompts to select your development mode.
+
 ### Pre-commit Setup
 
 This project uses pre-commit hooks to ensure code quality and consistency.

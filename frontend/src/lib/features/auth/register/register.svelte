@@ -1,14 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import Input from '$lib/components/ui/input.svelte';
-	import Label from '$lib/components/ui/label.svelte';
 	import AuthLayout from '$lib/layouts/auth-layout.svelte';
-	import { cn } from '$lib/utils/cn';
 	import { createForm } from '@tanstack/svelte-form';
 	import { createMutation } from '@tanstack/svelte-query';
 	import z from 'zod';
-	import FieldInfo from '../field-info.svelte';
+	import FormField from '../form-field.svelte';
 	import { registerApi } from './api';
 
 	const registerFormSchema = z
@@ -62,64 +59,19 @@
 
 			<form.Field name="email">
 				{#snippet children(field)}
-					<Label for={field.name}>Email</Label>
-					<Input
-						id={field.name}
-						name={field.name}
-						value={field.state.value}
-						type="email"
-						class={cn(field.state.meta.isTouched && !field.state.meta.isValid && 'input-error')}
-						aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-						autocomplete="email"
-						onchange={(e) => {
-							const target = e.target as HTMLInputElement;
-							field.handleChange(target.value);
-						}}
-					/>
-
-					<FieldInfo {field} />
+					<FormField {field} type="email" label="Email" autocomplete="email" />
 				{/snippet}
 			</form.Field>
 
 			<form.Field name="password">
 				{#snippet children(field)}
-					<Label for={field.name}>Password</Label>
-					<Input
-						id={field.name}
-						name={field.name}
-						value={field.state.value}
-						type="password"
-						class={cn(field.state.meta.isTouched && !field.state.meta.isValid && 'input-error')}
-						aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-						autocomplete="new-password"
-						onchange={(e) => {
-							const target = e.target as HTMLInputElement;
-							field.handleChange(target.value);
-						}}
-					/>
-
-					<FieldInfo {field} />
+					<FormField {field} type="password" label="Password" autocomplete="new-password" />
 				{/snippet}
 			</form.Field>
 
 			<form.Field name="confirmPassword">
 				{#snippet children(field)}
-					<Label for={field.name}>Confirm password</Label>
-					<Input
-						id={field.name}
-						name={field.name}
-						value={field.state.value}
-						type="password"
-						class={cn(field.state.meta.isTouched && !field.state.meta.isValid && 'input-error')}
-						aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-						autocomplete="new-password"
-						onchange={(e) => {
-							const target = e.target as HTMLInputElement;
-							field.handleChange(target.value);
-						}}
-					/>
-
-					<FieldInfo {field} />
+					<FormField {field} type="password" label="Confirm Password" autocomplete="new-password" />
 				{/snippet}
 			</form.Field>
 

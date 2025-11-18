@@ -15,7 +15,23 @@ else
 fi
 
 # Generate a secret key
-SECRET_KEY=$(openssl rand -hex 32)
+if command -v openssl &> /dev/null; then
+  SECRET_KEY=$(openssl rand -hex 32)
+else
+  SECRET_KEY="your-secret-key-here-change-this-in-production"
+  echo "WARNING: openssl not found. Using a placeholder for SECRET_KEY."
+  echo "Please generate a real secret for production and set it in backend/.env"
+fi
+
+# Check if .env files already exist
+if [ -f "backend/.env" ] || [ -f "frontend/.env" ]; then
+  echo "WARNING: .env files already exist. This will overwrite them."
+  read -p "Continue? (y/n): " confirm
+  if [ "$confirm" != "y" ]; then
+    echo "Setup cancelled."
+    exit 0
+  fi
+fi
 
 echo "Creating backend/.env"
 cat > backend/.env << EOL

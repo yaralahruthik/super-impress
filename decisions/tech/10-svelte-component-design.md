@@ -134,7 +134,7 @@ We will adopt the following patterns for all new Svelte components (specifically
 <input
 	bind:this={ref}
 	bind:value
-	class={cn('input input-bordered', className)}
+	class={cn('input', className)}
 	{...restProps}
 />
 ```

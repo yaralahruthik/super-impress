@@ -119,7 +119,7 @@ We will adopt the following patterns for all new Svelte components (specifically
 	import { cn } from '$lib/utils/cn';
 	import type { HTMLInputAttributes } from 'svelte/elements';
 
-	type InputProps = HTMLInputAttributes & {
+	export type InputProps = HTMLInputAttributes & {
         // Custom props if any
     };
 

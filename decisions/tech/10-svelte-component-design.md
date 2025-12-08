@@ -59,7 +59,7 @@ We will adopt the following patterns for all new Svelte components (specifically
 
 ```svelte
 <script lang="ts" module>
-	import type { Button as ButtonPrimitive } from 'bits-ui';
+	import type { Button as ButtonPrimitiveTypes } from 'bits-ui';
 	import { cva, type VariantProps } from 'class-variance-authority';
 
 	export const buttonVariants = cva('btn', {
@@ -83,7 +83,7 @@ We will adopt the following patterns for all new Svelte components (specifically
 
 	export type ButtonVariant = VariantProps<typeof buttonVariants>['variant'];
 	export type ButtonSize = VariantProps<typeof buttonVariants>['size'];
-	export type ButtonProps = ButtonPrimitive.RootProps & {
+	export type ButtonProps = ButtonPrimitiveTypes.RootProps & {
 		variant?: ButtonVariant;
 		size?: ButtonSize;
 	};

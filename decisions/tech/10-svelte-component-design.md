@@ -44,7 +44,7 @@ We will adopt the following patterns for all new Svelte components (specifically
 
 - **Explicit Props**: Define a `Props` interface/type.
 - **Extending Types**:
-  - For primitives wrapping Bits UI: Extend `BitsPrimitive.RootProps`.
+  - For primitives wrapping Bits UI: Extend the specific primitive's root props type (e.g., `ButtonPrimitiveTypes.RootProps` for buttons).
   - For HTML wrappers: Extend `HTMLAttributes<HTMLElement>` (imported from `svelte/elements`).
 - **Exports**: Export the `Props` type and the variant types (e.g., `ButtonVariant`) module-side for consumers.
 

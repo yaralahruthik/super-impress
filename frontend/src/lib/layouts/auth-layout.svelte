@@ -1,8 +1,8 @@
-<script>
-	import { resolve } from '$app/paths';
+<script lang="ts">
+	import Logo from '$lib/components/logo.svelte';
 </script>
 
 <div class="container mx-auto flex h-svh flex-col items-center justify-center">
-	<a class="text-3xl font-black" href={resolve('/')}>SuperImpress</a>
+	<Logo />
 	<slot></slot>
 </div>

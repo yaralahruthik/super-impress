@@ -4,6 +4,7 @@
 	import { page } from '$app/state';
 	import { auth } from '$lib/stores/auth';
 	import Logo from './logo.svelte';
+	import Button from './ui/button.svelte';
 
 	function handleLogout() {
 		auth.logout();
@@ -36,12 +37,9 @@
 		</a>
 	</nav>
 
-	<div class="border-t border-base-200 p-4">
-		<button
-			onclick={handleLogout}
-			class="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-error transition-colors hover:bg-error/10"
-		>
+	<div class="border-t border-base-200 p-2">
+		<Button variant="ghost" class="w-full" onclick={handleLogout}>
 			<span>Logout</span>
-		</button>
+		</Button>
 	</div>
 </aside>

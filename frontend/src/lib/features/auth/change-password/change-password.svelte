@@ -5,7 +5,7 @@
 	import Button from '$lib/components/ui/button.svelte';
 	import Input from '$lib/components/ui/input.svelte';
 	import Label from '$lib/components/ui/label.svelte';
-	import AuthLayout from '$lib/layouts/auth-layout.svelte';
+	import AppLayout from '$lib/layouts/app-layout.svelte';
 	import { cn } from '$lib/utils/cn';
 	import { getErrorMessage } from '$lib/utils/get-error-message';
 	import { createForm } from '@tanstack/svelte-form';
@@ -46,7 +46,7 @@
 	}));
 </script>
 
-<AuthLayout>
+<AppLayout>
 	<h1 class="sr-only text-xl">Change Password</h1>
 
 	<form
@@ -137,4 +137,4 @@
 			{/if}
 		</fieldset>
 	</form>
-</AuthLayout>
+</AppLayout>

@@ -1,41 +1,39 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
 	import { createReadCurrentUser } from '$lib/api/authentication/authentication';
-	import Button from '$lib/components/ui/button.svelte';
-	import { auth } from '$lib/stores/auth';
+	import AppLayout from '$lib/layouts/app-layout.svelte';
 	import UserInfoCard from './user-info-card.svelte';
 
 	const userQuery = createReadCurrentUser();
 </script>
 
-<div class="container mx-auto flex min-h-svh flex-col items-center justify-center p-4">
+<AppLayout>
 	{#if userQuery.isPending}
-		<div
-			class="loading loading-lg loading-spinner"
-			role="status"
-			aria-label="Loading user information"
-		></div>
+		<div class="flex h-[50vh] items-center justify-center">
+			<div
+				class="loading loading-lg loading-spinner text-primary"
+				role="status"
+				aria-label="Loading user information"
+			></div>
+		</div>
 	{:else if userQuery.isError}
-		<div role="alert" class="alert max-w-md alert-error">
+		<div role="alert" class="alert alert-error">
 			<span>Failed to load user information. Please try again.</span>
 		</div>
 	{:else if userQuery.data}
-		<h1 class="mb-8 text-3xl font-black">Welcome back, {userQuery.data.email}!</h1>
+		<div class="space-y-1">
+			<h1 class="text-3xl font-bold tracking-tight">Dashboard</h1>
+			<p class="text-base-content/70">
+				Welcome back, <span class="font-medium text-base-content">{userQuery.data.email}</span>
+			</p>
+		</div>
 
-		<UserInfoCard user={userQuery.data} />
+		<hr class="border-base-200" />
 
-		<div class="mt-8 flex w-full max-w-md flex-col gap-4">
-			<a href={resolve('/change-password')} class="btn btn-outline"> Change Password </a>
-			<Button
-				type="button"
-				onclick={() => {
-					auth.logout();
-					goto(resolve('/login'));
-				}}
-			>
-				Logout
-			</Button>
+		<div class="grid gap-6 md:grid-cols-2">
+			<div class="space-y-6">
+				<h2 class="text-lg font-semibold">Profile Information</h2>
+				<UserInfoCard user={userQuery.data} />
+			</div>
 		</div>
 	{/if}
-</div>
+</AppLayout>

@@ -1,8 +1,10 @@
-<script>
-	import { resolve } from '$app/paths';
+<script lang="ts">
+	import Logo from '$lib/components/logo.svelte';
+
+	let { children } = $props();
 </script>
 
 <div class="container mx-auto flex h-svh flex-col items-center justify-center">
-	<a class="text-3xl font-black" href={resolve('/')}>SuperImpress</a>
-	<slot></slot>
+	<Logo />
+	{@render children?.()}
 </div>

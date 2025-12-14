@@ -18,10 +18,10 @@ def generate_verification_token() -> str:
 
 def send_verification_email(email: str, token: str) -> bool:
     """Send verification email using Resend."""
-    verification_link = f"{email_settings.app_url}/verify-email?token={token}"
+    verification_link = f"{email_settings.app_url}/verify-email/{token}"
 
     try:
-        params = {
+        params: resend.Emails.SendParams = {
             "from": email_settings.resend_from_email,
             "to": [email],
             "subject": "Verify your email address",
@@ -72,10 +72,10 @@ def create_verification_token(session: Session, user: User) -> str:
     """Create and store verification token for user."""
     token = generate_verification_token()
     user.verification_token = token
-    user.verification_token_expires_at = datetime.utcnow() + timedelta(
+    user.verification_token_expires_at = datetime.now() + timedelta(
         hours=email_settings.verification_token_expire_hours
     )
-    user.verification_sent_at = datetime.utcnow()
+    user.verification_sent_at = datetime.now()
     session.commit()
     return token
 
@@ -90,12 +90,12 @@ def verify_email_token(session: Session, token: str) -> User | None:
 
     if (
         user.verification_token_expires_at
-        and user.verification_token_expires_at < datetime.utcnow()
+        and user.verification_token_expires_at < datetime.now()
     ):
         return None
 
     user.email_verified = True
-    user.verified_at = datetime.utcnow()
+    user.verified_at = datetime.now()
     user.verification_token = None
     user.verification_token_expires_at = None
     session.commit()
@@ -108,6 +108,6 @@ def can_resend_verification(user: User) -> bool:
     if not user.verification_sent_at:
         return True
 
-    time_since_last = datetime.utcnow() - user.verification_sent_at
+    time_since_last = datetime.now() - user.verification_sent_at
     cooldown = timedelta(minutes=email_settings.resend_cooldown_minutes)
     return time_since_last >= cooldown

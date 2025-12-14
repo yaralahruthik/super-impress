@@ -10,7 +10,7 @@ class EmailSettings(BaseSettings):
     )
     resend_api_key: str = Field(default="", alias="RESEND_API_KEY")
     resend_from_email: str = Field(default="", alias="RESEND_FROM_EMAIL")
-    app_url: str = Field(default="http://localhost:8000", alias="APP_URL")
+    app_url: str = Field(default="http://localhost:5173", alias="APP_URL")
     verification_token_expire_hours: int = Field(
         default=24, alias="VERIFICATION_TOKEN_EXPIRE_HOURS"
     )

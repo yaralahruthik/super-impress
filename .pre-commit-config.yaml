@@ -14,13 +14,13 @@ repos:
     hooks:
       - id: frontend-format
         name: Frontend Format (Prettier)
-        entry: bash -c 'cd frontend && pnpm run format'
+        entry: bash -ic 'cd frontend && pnpm run format'
         language: system
         files: ^frontend/.*\.(js|ts|svelte|css|json|html)$
 
       - id: frontend-lint
         name: Frontend Lint (ESLint)
-        entry: bash -c 'cd frontend && pnpm run lint'
+        entry: bash -ic 'cd frontend && pnpm run lint'
         language: system
         files: ^frontend/.*\.(js|ts|svelte)$
 

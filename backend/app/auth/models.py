@@ -1,7 +1,8 @@
-from typing import Annotated
+from datetime import datetime
+from typing import Annotated, Optional
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field
-from sqlalchemy import String
+from sqlalchemy import Boolean, DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.auth.validators import password_validator
@@ -13,9 +14,23 @@ class User(Base):
     """User table for authentication."""
 
     __tablename__ = "user"
+
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String, unique=True, index=True)
     password: Mapped[str] = mapped_column(String)
+
+    # Email verification fields
+    email_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+    verification_token: Mapped[Optional[str]] = mapped_column(
+        String, nullable=True, index=True
+    )
+    verification_token_expires_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime, nullable=True
+    )
+    verification_sent_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime, nullable=True
+    )
+    verified_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
 
 # Pydantic Schemas
@@ -46,6 +61,7 @@ class UserPublic(UserBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    email_verified: bool
 
 
 class Token(BaseModel):

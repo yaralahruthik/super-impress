@@ -12,6 +12,10 @@ from sqlalchemy import select
 from app.auth.config import auth_settings
 from app.auth.models import TokenData, User, UserCreate
 from app.database import SessionDep
+from app.email_verification.service import (
+    create_verification_token,
+    send_verification_email,
+)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -29,10 +33,14 @@ def get_password_hash(password: str) -> str:
 
 def create_user(session: SessionDep, user: UserCreate):
     hashed_password = get_password_hash(user.password)
-    db_user = User(email=user.email, password=hashed_password)
+    db_user = User(email=user.email, password=hashed_password, email_verified=False)
     session.add(db_user)
     session.commit()
     session.refresh(db_user)
+
+    token = create_verification_token(session, db_user)
+    send_verification_email(db_user.email, token)
+
     return db_user
 
 
@@ -104,3 +112,13 @@ def change_user_password(
     session.commit()
     session.refresh(user)
     return user
+
+
+def get_verified_user(current_user: Annotated[User, Depends(get_current_user)]):
+    """Ensure user has verified their email."""
+    if not current_user.email_verified:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Please verify your email address first",
+        )
+    return current_user

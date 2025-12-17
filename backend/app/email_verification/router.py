@@ -1,6 +1,9 @@
-from fastapi import APIRouter, HTTPException, status
+from typing import Annotated
 
-from app.auth.service import get_user_by_email
+from fastapi import APIRouter, Depends, HTTPException, status
+
+from app.auth.models import User
+from app.auth.service import get_current_user, get_user_by_email
 from app.database import SessionDep
 from app.email_verification.config import email_settings
 from app.email_verification.models import (
@@ -33,6 +36,34 @@ async def verify_email(data: EmailVerificationConfirm, session: SessionDep):
 
     return EmailVerificationResponse(
         message="Email verified successfully", email=user.email
+    )
+
+
+@email_verification_router.post(
+    "/request",
+    response_model=EmailVerificationResponse,
+    operation_id="request_verification",
+)
+async def request_verification(
+    current_user: Annotated[User, Depends(get_current_user)], session: SessionDep
+):
+    """Request email verification for authenticated user."""
+    if current_user.email_verified:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Email already verified"
+        )
+
+    if not can_resend_verification(current_user):
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail=f"Please wait {email_settings.resend_cooldown_minutes} minutes before requesting another verification email",
+        )
+
+    token = create_verification_token(session, current_user)
+    send_verification_email(current_user.email, token)
+
+    return EmailVerificationResponse(
+        message="Verification email sent", email=current_user.email
     )
 
 

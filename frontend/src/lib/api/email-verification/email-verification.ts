@@ -102,6 +102,80 @@ export const createVerifyEmail = <TError = ErrorType<HTTPValidationError>, TCont
 	return createMutation(() => ({ ...mutationOptions, queryClient }));
 };
 /**
+ * Request email verification for authenticated user.
+ * @summary Request Verification
+ */
+export const requestVerification = (signal?: AbortSignal) => {
+	return customInstance<EmailVerificationResponse>({
+		url: `/api/verify/request`,
+		method: 'POST',
+		signal
+	});
+};
+
+export const getRequestVerificationMutationOptions = <
+	TError = ErrorType<unknown>,
+	TContext = unknown
+>(options?: {
+	mutation?: CreateMutationOptions<
+		Awaited<ReturnType<typeof requestVerification>>,
+		TError,
+		void,
+		TContext
+	>;
+}): CreateMutationOptions<
+	Awaited<ReturnType<typeof requestVerification>>,
+	TError,
+	void,
+	TContext
+> => {
+	const mutationKey = ['requestVerification'];
+	const { mutation: mutationOptions } = options
+		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+			? options
+			: { ...options, mutation: { ...options.mutation, mutationKey } }
+		: { mutation: { mutationKey } };
+
+	const mutationFn: MutationFunction<
+		Awaited<ReturnType<typeof requestVerification>>,
+		void
+	> = () => {
+		return requestVerification();
+	};
+
+	return { mutationFn, ...mutationOptions };
+};
+
+export type RequestVerificationMutationResult = NonNullable<
+	Awaited<ReturnType<typeof requestVerification>>
+>;
+
+export type RequestVerificationMutationError = ErrorType<unknown>;
+
+/**
+ * @summary Request Verification
+ */
+export const createRequestVerification = <TError = ErrorType<unknown>, TContext = unknown>(
+	options?: {
+		mutation?: CreateMutationOptions<
+			Awaited<ReturnType<typeof requestVerification>>,
+			TError,
+			void,
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): CreateMutationResult<
+	Awaited<ReturnType<typeof requestVerification>>,
+	TError,
+	void,
+	TContext
+> => {
+	const mutationOptions = getRequestVerificationMutationOptions(options);
+
+	return createMutation(() => ({ ...mutationOptions, queryClient }));
+};
+/**
  * Resend verification email.
  * @summary Resend Verification
  */

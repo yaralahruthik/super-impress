@@ -12,10 +12,6 @@ from sqlalchemy import select
 from app.auth.config import auth_settings
 from app.auth.models import TokenData, User, UserCreate
 from app.database import SessionDep
-from app.email_verification.service import (
-    create_verification_token,
-    send_verification_email,
-)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -37,9 +33,6 @@ def create_user(session: SessionDep, user: UserCreate):
     session.add(db_user)
     session.commit()
     session.refresh(db_user)
-
-    token = create_verification_token(session, db_user)
-    send_verification_email(db_user.email, token)
 
     return db_user
 

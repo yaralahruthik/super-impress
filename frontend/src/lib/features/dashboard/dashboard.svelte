@@ -20,6 +20,12 @@
 			<span>Failed to load user information. Please try again.</span>
 		</div>
 	{:else if userQuery.data}
+		{#if !userQuery.data.email_verified}
+			<div class="mb-6 alert flex justify-center alert-warning">
+				<span>Your email is not verified. Please verify your email to access all features.</span>
+			</div>
+		{/if}
+
 		<div class="space-y-1">
 			<h1 class="text-3xl font-bold tracking-tight">Dashboard</h1>
 			<p class="text-base-content/70">

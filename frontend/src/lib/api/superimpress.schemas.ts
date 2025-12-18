@@ -19,6 +19,30 @@ export interface BodyLoginUser {
 	client_secret?: BodyLoginUserClientSecret;
 }
 
+/**
+ * Schema for confirming email verification.
+ */
+export interface EmailVerificationConfirm {
+	token: string;
+}
+
+/**
+ * Schema for requesting email verification resend.
+ */
+export interface EmailVerificationRequest {
+	email: string;
+}
+
+export type EmailVerificationResponseEmail = string | null;
+
+/**
+ * Schema for verification responses.
+ */
+export interface EmailVerificationResponse {
+	message: string;
+	email?: EmailVerificationResponseEmail;
+}
+
 export interface HTTPValidationError {
 	detail?: ValidationError[];
 }
@@ -63,6 +87,7 @@ export interface UserCreate {
 export interface UserPublic {
 	email: string;
 	id: number;
+	email_verified: boolean;
 }
 
 export type ValidationErrorLocItem = string | number;

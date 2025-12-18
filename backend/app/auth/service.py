@@ -29,10 +29,11 @@ def get_password_hash(password: str) -> str:
 
 def create_user(session: SessionDep, user: UserCreate):
     hashed_password = get_password_hash(user.password)
-    db_user = User(email=user.email, password=hashed_password)
+    db_user = User(email=user.email, password=hashed_password, email_verified=False)
     session.add(db_user)
     session.commit()
     session.refresh(db_user)
+
     return db_user
 
 
@@ -104,3 +105,13 @@ def change_user_password(
     session.commit()
     session.refresh(user)
     return user
+
+
+def get_verified_user(current_user: Annotated[User, Depends(get_current_user)]):
+    """Ensure user has verified their email."""
+    if not current_user.email_verified:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Please verify your email address first",
+        )
+    return current_user

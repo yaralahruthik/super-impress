@@ -1,3 +1,4 @@
+import logging
 import secrets
 from datetime import datetime, timedelta
 
@@ -7,6 +8,8 @@ from sqlalchemy.orm import Session
 
 from app.auth.models import User
 from app.email_verification.config import email_settings
+
+logger = logging.getLogger(__name__)
 
 resend.api_key = email_settings.resend_api_key
 
@@ -64,7 +67,11 @@ def send_verification_email(email: str, token: str) -> bool:
         resend.Emails.send(params)
         return True
     except Exception as e:
-        print(f"Error sending email: {e}")
+        logger.error(
+            "Failed to send verification email",
+            extra={"email": email, "error": str(e)},
+            exc_info=True,
+        )
         return False
 
 

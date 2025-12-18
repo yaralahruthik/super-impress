@@ -60,7 +60,13 @@ async def request_verification(
         )
 
     token = create_verification_token(session, current_user)
-    send_verification_email(current_user.email, token)
+    email_sent = send_verification_email(current_user.email, token)
+
+    if not email_sent:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to send verification email. Please try again later.",
+        )
 
     return EmailVerificationResponse(
         message="Verification email sent", email=current_user.email
@@ -93,6 +99,12 @@ async def resend_verification(data: EmailVerificationRequest, session: SessionDe
         )
 
     token = create_verification_token(session, user)
-    send_verification_email(user.email, token)
+    email_sent = send_verification_email(user.email, token)
+
+    if not email_sent:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to send verification email. Please try again later.",
+        )
 
     return EmailVerificationResponse(message="Verification email sent")

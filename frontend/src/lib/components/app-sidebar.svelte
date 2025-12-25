@@ -29,6 +29,16 @@
 		</a>
 
 		<a
+			href={resolve('/posts')}
+			class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-base-200
+				{isActive('/posts') || page.url.pathname.startsWith('/posts')
+				? 'bg-primary/10 text-primary'
+				: 'text-base-content/70'}"
+		>
+			<span>Posts</span>
+		</a>
+
+		<a
 			href={resolve('/change-password')}
 			class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-base-200
 				{isActive('/change-password') ? 'bg-primary/10 text-primary' : 'text-base-content/70'}"

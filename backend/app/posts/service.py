@@ -68,7 +68,7 @@ def list_user_posts(
 
     # Apply tag filter (check if tag exists in array)
     if tag_filter:
-        statement = statement.where(Post.tags.any(tag_filter))
+        statement = statement.where(Post.tags.contains([tag_filter]))
 
     # Get total count before pagination
     count_statement = select(func.count()).select_from(statement.subquery())

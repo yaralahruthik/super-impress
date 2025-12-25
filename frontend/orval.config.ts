@@ -15,7 +15,25 @@ export default defineConfig({
 			}
 		},
 		hooks: {
-			afterAllFilesWrite: 'prettier --write'
+			afterAllFilesWrite: {
+				command: 'prettier --write ./src/lib/api/**',
+				injectGeneratedDirsAndFiles: false
+			}
+		}
+	},
+	'super-impress-zod': {
+		input: 'http://localhost:8000/openapi.json',
+		output: {
+			target: './src/lib/api',
+			mode: 'tags-split',
+			client: 'zod',
+			fileExtension: '.zod.ts'
+		},
+		hooks: {
+			afterAllFilesWrite: {
+				command: 'prettier --write ./src/lib/api/**',
+				injectGeneratedDirsAndFiles: false
+			}
 		}
 	}
 });

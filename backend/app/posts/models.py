@@ -31,7 +31,9 @@ class Post(Base):
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), index=True)
 
     # Content fields
-    title: Mapped[str] = mapped_column(String(255), index=True)  # Indexed for search
+    title: Mapped[str | None] = mapped_column(
+        String(255), nullable=True, index=True
+    )  # Indexed for search
     content: Mapped[str] = mapped_column(Text)
     tags: Mapped[list[str]] = mapped_column(
         ARRAY(String), default=list
@@ -55,7 +57,9 @@ class Post(Base):
 class PostBase(BaseModel):
     """Base post schema with common fields."""
 
-    title: str = Field(min_length=1, max_length=255, description="Post title")
+    title: str | None = Field(
+        None, min_length=1, max_length=255, description="Post title"
+    )
     content: str = Field(min_length=1, description="Post content")
     tags: list[str] = Field(default_factory=list, description="Post tags")
 

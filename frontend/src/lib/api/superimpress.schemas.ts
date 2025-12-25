@@ -61,15 +61,16 @@ export interface PasswordChange {
 }
 
 /**
+ * Post title
+ */
+export type PostCreateTitle = string | null;
+
+/**
  * Schema for creating a new post.
  */
 export interface PostCreate {
-	/**
-	 * Post title
-	 * @minLength 1
-	 * @maxLength 255
-	 */
-	title: string;
+	/** Post title */
+	title?: PostCreateTitle;
 	/**
 	 * Post content
 	 * @minLength 1
@@ -89,15 +90,16 @@ export interface PostListResponse {
 }
 
 /**
+ * Post title
+ */
+export type PostPublicTitle = string | null;
+
+/**
  * Schema for post public data.
  */
 export interface PostPublic {
-	/**
-	 * Post title
-	 * @minLength 1
-	 * @maxLength 255
-	 */
-	title: string;
+	/** Post title */
+	title?: PostPublicTitle;
 	/**
 	 * Post content
 	 * @minLength 1

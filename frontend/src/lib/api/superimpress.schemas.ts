@@ -61,6 +61,89 @@ export interface PasswordChange {
 }
 
 /**
+ * Post title
+ */
+export type PostCreateTitle = string | null;
+
+/**
+ * Schema for creating a new post.
+ */
+export interface PostCreate {
+	/** Post title */
+	title?: PostCreateTitle;
+	/**
+	 * Post content
+	 * @minLength 1
+	 */
+	content: string;
+	/** Post tags */
+	tags?: string[];
+	status?: PostStatus;
+}
+
+/**
+ * Response schema for listing posts.
+ */
+export interface PostListResponse {
+	posts: PostPublic[];
+	total: number;
+}
+
+/**
+ * Post title
+ */
+export type PostPublicTitle = string | null;
+
+/**
+ * Schema for post public data.
+ */
+export interface PostPublic {
+	/** Post title */
+	title?: PostPublicTitle;
+	/**
+	 * Post content
+	 * @minLength 1
+	 */
+	content: string;
+	/** Post tags */
+	tags?: string[];
+	id: number;
+	user_id: number;
+	status: PostStatus;
+	created_at: string;
+	updated_at: string;
+}
+
+/**
+ * Post status enumeration.
+ */
+export type PostStatus = (typeof PostStatus)[keyof typeof PostStatus];
+
+export const PostStatus = {
+	draft: 'draft',
+	published: 'published',
+	archived: 'archived'
+} as const;
+
+export type PostUpdateTitle = string | null;
+
+export type PostUpdateContent = string | null;
+
+export type PostUpdateTags = string[] | null;
+
+export type PostUpdateStatus = PostStatus | null;
+
+/**
+ * Schema for updating a post (all fields optional).
+ */
+export interface PostUpdate {
+	title?: PostUpdateTitle;
+	content?: PostUpdateContent;
+	tags?: PostUpdateTags;
+	status?: PostUpdateStatus;
+}
+
+/**
  * JWT token response schema.
  */
 export interface Token {
@@ -97,3 +180,25 @@ export interface ValidationError {
 	msg: string;
 	type: string;
 }
+
+export type ListPostsParams = {
+	/**
+	 * Filter by post status
+	 */
+	status?: PostStatus | null;
+	/**
+	 * Filter by tag
+	 */
+	tag?: string | null;
+	/**
+	 * Number of posts to return
+	 * @minimum 1
+	 * @maximum 100
+	 */
+	limit?: number;
+	/**
+	 * Number of posts to skip
+	 * @minimum 0
+	 */
+	offset?: number;
+};

@@ -4,6 +4,7 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 from app.auth.models import User  # noqa: F401
+from app.posts.models import Post  # noqa: F401
 from app.config import settings
 from app.database import Base
 

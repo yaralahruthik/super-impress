@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from app.auth.router import auth_router
 from app.email_verification.router import email_verification_router
+from app.linkedin.router import linkedin_router
 from app.posts.router import posts_router
 
 app = FastAPI(title="Super Impress")
@@ -14,4 +15,5 @@ async def root():
 
 app.include_router(auth_router, prefix="/api")
 app.include_router(email_verification_router, prefix="/api")
+app.include_router(linkedin_router, prefix="/api")
 app.include_router(posts_router, prefix="/api")

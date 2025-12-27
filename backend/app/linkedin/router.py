@@ -26,7 +26,7 @@ from app.linkedin.service import (
 )
 from app.posts.service import get_post_by_id
 
-linkedin_router = APIRouter(prefix="/linkedin", tags=["LinkedIn"])
+linkedin_router = APIRouter(prefix="/linkedin", tags=["linkedin"])
 
 
 @linkedin_router.post(

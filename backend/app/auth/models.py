@@ -32,6 +32,19 @@ class User(Base):
     )
     verified_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
+    # LinkedIn connection fields
+    linkedin_connected: Mapped[bool] = mapped_column(Boolean, default=False)
+    linkedin_person_urn: Mapped[Optional[str]] = mapped_column(
+        String, nullable=True, unique=True
+    )
+    linkedin_refresh_token: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    linkedin_refresh_token_expires_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime, nullable=True
+    )
+    linkedin_connected_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime, nullable=True
+    )
+
 
 # Pydantic Schemas
 class UserBase(BaseModel):
@@ -62,6 +75,7 @@ class UserPublic(UserBase):
 
     id: int
     email_verified: bool
+    linkedin_connected: bool
 
 
 class Token(BaseModel):

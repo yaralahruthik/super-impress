@@ -27,7 +27,8 @@ export const registerUserResponse = zod
 	.object({
 		email: zod.email(),
 		id: zod.number(),
-		email_verified: zod.boolean()
+		email_verified: zod.boolean(),
+		linkedin_connected: zod.boolean()
 	})
 	.describe('Schema for user public data (excludes password).');
 
@@ -48,7 +49,8 @@ export const readCurrentUserResponse = zod
 	.object({
 		email: zod.email(),
 		id: zod.number(),
-		email_verified: zod.boolean()
+		email_verified: zod.boolean(),
+		linkedin_connected: zod.boolean()
 	})
 	.describe('Schema for user public data (excludes password).');
 

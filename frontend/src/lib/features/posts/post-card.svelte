@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PostPublic } from '$lib/api/superimpress.schemas';
+	import PostToLinkedinButton from '$lib/features/linkedin/post-to-linkedin-button.svelte';
 
 	type Props = {
 		post: PostPublic;
@@ -30,5 +31,11 @@
 				Created: {new Date(post.created_at).toLocaleDateString()}
 			</span>
 		</div>
+
+		{#if post.status === 'draft'}
+			<div class="mt-4 card-actions justify-end">
+				<PostToLinkedinButton postId={post.id} />
+			</div>
+		{/if}
 	</div>
 </div>

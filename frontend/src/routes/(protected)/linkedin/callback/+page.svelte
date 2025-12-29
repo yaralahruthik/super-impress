@@ -11,7 +11,7 @@
 		mutation: {
 			onSuccess: () => {
 				sessionStorage.removeItem('linkedin_oauth_state');
-				goto(resolve('/settings?linkedin=connected'));
+				goto(resolve('/settings'));
 			},
 			onError: (err) => {
 				error = err.message || 'Failed to connect LinkedIn account';

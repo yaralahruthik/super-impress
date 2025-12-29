@@ -94,7 +94,7 @@ async def get_fresh_access_token(user: User) -> str:
 
 async def post_to_linkedin(session: Session, user: User, post: Post) -> str:
     """Post content to LinkedIn on behalf of user."""
-    if not user.linkedin_connected:
+    if not user.linkedin_connected or not user.linkedin_person_urn:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="LinkedIn account not connected",

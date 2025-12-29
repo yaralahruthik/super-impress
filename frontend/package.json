@@ -59,6 +59,7 @@
 		"node": "24.11.1"
 	},
 	"dependencies": {
+		"@lucide/svelte": "^0.561.0",
 		"@tanstack/svelte-form": "^1.25.0",
 		"@tanstack/svelte-query": "^6.0.5",
 		"@tanstack/svelte-query-devtools": "^6.0.0",

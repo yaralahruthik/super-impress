@@ -2,6 +2,7 @@
 	import { createGetLinkedinStatus } from '$lib/api/linkedin/linkedin';
 	import LinkedInConnectButton from '$lib/features/linkedin/linkedin-connect-button.svelte';
 	import LinkedInDisconnectButton from '$lib/features/linkedin/linkedin-disconnect-button.svelte';
+	import { Check } from '@lucide/svelte';
 
 	const statusQuery = createGetLinkedinStatus();
 </script>
@@ -20,20 +21,7 @@
 					<p class="text-sm text-base-content/60">Checking LinkedIn connection...</p>
 				{:else if statusQuery.data?.connected}
 					<div class="alert alert-success">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M5 13l4 4L19 7"
-							/>
-						</svg>
+						<Check class="h-6 w-6" />
 						<span class="font-bold">LinkedIn Connected</span>
 					</div>
 					<div class="mt-4">

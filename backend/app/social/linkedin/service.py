@@ -11,6 +11,13 @@ from app.social.linkedin.client import create_post as create_linkedin_post
 from app.social.linkedin.client import get_user_info
 from app.social.linkedin.encryption import decrypt_token, encrypt_token
 from app.social.linkedin.oauth import exchange_code_for_tokens
+from app.social.models import SocialPlatform
+from app.social.service import (
+    create_or_update_connection,
+    delete_connection,
+    get_connection,
+    get_valid_access_token,
+)
 
 
 async def connect_linkedin(session: Session, user: User, code: str) -> User:
@@ -31,72 +38,59 @@ async def connect_linkedin(session: Session, user: User, code: str) -> User:
             detail="Failed to retrieve LinkedIn person URN",
         )
 
-    # Store encrypted access token
-    user.linkedin_connected = True
-    user.linkedin_person_urn = person_urn
-    user.linkedin_access_token = encrypt_token(access_token)
-    user.linkedin_access_token_expires_at = datetime.now() + timedelta(
-        seconds=expires_in
+    # Store encrypted access token in social_connection
+    create_or_update_connection(
+        session=session,
+        user=user,
+        platform=SocialPlatform.LINKEDIN,
+        platform_user_id=person_urn,
+        access_token=encrypt_token(access_token),
+        expires_at=datetime.now() + timedelta(seconds=expires_in),
     )
-    user.linkedin_connected_at = datetime.now()
 
-    session.commit()
     session.refresh(user)
-
     return user
 
 
 async def disconnect_linkedin(session: Session, user: User) -> User:
     """Disconnect LinkedIn account and clear tokens."""
-    user.linkedin_connected = False
-    user.linkedin_person_urn = None
-    user.linkedin_access_token = None
-    user.linkedin_access_token_expires_at = None
-    user.linkedin_connected_at = None
-
-    session.commit()
+    delete_connection(session, user, SocialPlatform.LINKEDIN)
     session.refresh(user)
-
     return user
 
 
-async def get_access_token(user: User) -> str:
+async def get_access_token(session: Session, user: User) -> str:
     """Get stored access token if valid, raise error if expired."""
-    if not user.linkedin_connected or not user.linkedin_access_token:
+    linkedin_conn = get_connection(session, user, SocialPlatform.LINKEDIN)
+
+    if not linkedin_conn:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="LinkedIn account not connected",
         )
 
-    # Check if access token is expired
-    if (
-        user.linkedin_access_token_expires_at
-        and user.linkedin_access_token_expires_at < datetime.now()
-    ):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="LinkedIn access token expired. Please reconnect your account.",
-        )
-
-    # Decrypt and return access token
-    return decrypt_token(user.linkedin_access_token)
+    # Get valid token and decrypt
+    encrypted_token = get_valid_access_token(linkedin_conn)
+    return decrypt_token(encrypted_token)
 
 
 async def post_to_linkedin(session: Session, user: User, post: Post) -> str:
     """Post content to LinkedIn on behalf of user."""
-    if not user.linkedin_connected or not user.linkedin_person_urn:
+    linkedin_conn = get_connection(session, user, SocialPlatform.LINKEDIN)
+
+    if not linkedin_conn:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="LinkedIn account not connected",
         )
 
     # Get access token
-    access_token = await get_access_token(user)
+    access_token = await get_access_token(session, user)
 
     # Create LinkedIn post (use only content, ignore title)
     linkedin_post_id = await create_linkedin_post(
         access_token=access_token,
-        person_urn=user.linkedin_person_urn,
+        person_urn=linkedin_conn.platform_user_id,
         content=post.content,
     )
 

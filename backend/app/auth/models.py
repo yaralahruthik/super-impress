@@ -1,12 +1,15 @@
 from datetime import datetime
-from typing import Annotated, Optional
+from typing import TYPE_CHECKING, Annotated, Optional
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field
 from sqlalchemy import Boolean, DateTime, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.auth.validators import password_validator
 from app.database import Base
+
+if TYPE_CHECKING:
+    from app.social.models import SocialConnection
 
 
 # SQLAlchemy ORM Model
@@ -32,17 +35,12 @@ class User(Base):
     )
     verified_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
-    # LinkedIn connection fields
-    linkedin_connected: Mapped[bool] = mapped_column(Boolean, default=False)
-    linkedin_person_urn: Mapped[Optional[str]] = mapped_column(
-        String, nullable=True, unique=True
-    )
-    linkedin_access_token: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-    linkedin_access_token_expires_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime, nullable=True
-    )
-    linkedin_connected_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime, nullable=True
+    # Social media connections
+    social_connections: Mapped[list["SocialConnection"]] = relationship(
+        "SocialConnection",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        lazy="selectin",  # Eager load to avoid N+1 queries
     )
 
 
@@ -75,7 +73,6 @@ class UserPublic(UserBase):
 
     id: int
     email_verified: bool
-    linkedin_connected: bool
 
 
 class Token(BaseModel):

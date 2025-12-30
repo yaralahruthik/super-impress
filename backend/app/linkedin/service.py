@@ -10,7 +10,7 @@ from app.linkedin.client import create_post as create_linkedin_post
 from app.linkedin.client import get_user_info
 from app.linkedin.encryption import decrypt_token, encrypt_token
 from app.linkedin.oauth import exchange_code_for_tokens
-from app.posts.models import Post
+from app.posts.models import Post, PostStatus
 
 
 async def connect_linkedin(session: Session, user: User, code: str) -> User:
@@ -99,5 +99,9 @@ async def post_to_linkedin(session: Session, user: User, post: Post) -> str:
         person_urn=user.linkedin_person_urn,
         content=post.content,
     )
+
+    post.status = PostStatus.PUBLISHED
+    session.commit()
+    session.refresh(post)
 
     return linkedin_post_id

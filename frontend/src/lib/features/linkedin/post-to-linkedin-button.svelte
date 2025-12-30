@@ -1,12 +1,17 @@
 <script lang="ts">
 	import { createGetLinkedinStatus, createPostToLinkedin } from '$lib/api/linkedin/linkedin';
 	import { Linkedin } from '@lucide/svelte';
+	import { useQueryClient } from '@tanstack/svelte-query';
 
 	type Props = {
 		postId: number;
+		status: string;
 	};
 
-	let { postId }: Props = $props();
+	let { postId, status }: Props = $props();
+
+	const isPublished = $derived(status === 'published');
+	const queryClient = useQueryClient();
 
 	const statusQuery = createGetLinkedinStatus();
 
@@ -14,6 +19,7 @@
 		mutation: {
 			onSuccess: (data) => {
 				if (data.success) {
+					queryClient.invalidateQueries({ queryKey: ['/api/posts'] });
 					alert('Successfully posted to LinkedIn!');
 				} else {
 					alert(`Failed to post to LinkedIn: ${data.error}`);
@@ -32,9 +38,19 @@
 </script>
 
 {#if statusQuery.data?.connected}
-	<button onclick={handlePost} disabled={postMutation.isPending} class="btn gap-2 btn-primary">
+	<button
+		onclick={handlePost}
+		disabled={postMutation.isPending || isPublished}
+		class="btn gap-2 btn-primary"
+	>
 		<Linkedin size={16} />
-		{postMutation.isPending ? 'Posting...' : 'Post to LinkedIn'}
+		{#if isPublished}
+			Just Published
+		{:else if postMutation.isPending}
+			Posting...
+		{:else}
+			Post to LinkedIn
+		{/if}
 	</button>
 
 	{#if postMutation.isError}

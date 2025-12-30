@@ -32,10 +32,8 @@
 			</span>
 		</div>
 
-		{#if post.status === 'draft'}
-			<div class="mt-4 card-actions justify-end">
-				<PostToLinkedinButton postId={post.id} />
-			</div>
-		{/if}
+		<div class="mt-4 card-actions justify-end">
+			<PostToLinkedinButton postId={post.id} status={post.status} />
+		</div>
 	</div>
 </div>

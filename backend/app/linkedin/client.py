@@ -36,7 +36,7 @@ async def create_post(access_token: str, person_urn: str, content: str) -> str:
     current_version = "202511"
 
     post_data = {
-        "author": person_urn,
+        "author": f"urn:li:person:{person_urn}",
         "commentary": content,
         "visibility": "PUBLIC",
         "distribution": {

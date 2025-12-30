@@ -2,12 +2,13 @@
 	import { createGetLinkedinStatus } from '$lib/api/linkedin/linkedin';
 	import LinkedInConnectButton from '$lib/features/linkedin/linkedin-connect-button.svelte';
 	import LinkedInDisconnectButton from '$lib/features/linkedin/linkedin-disconnect-button.svelte';
+	import AppLayout from '$lib/layouts/app-layout.svelte';
 	import { Check } from '@lucide/svelte';
 
 	const statusQuery = createGetLinkedinStatus();
 </script>
 
-<div class="container mx-auto max-w-4xl px-4 py-8">
+<AppLayout>
 	<div class="mb-6">
 		<h1 class="text-3xl font-bold tracking-tight">Settings</h1>
 	</div>
@@ -33,4 +34,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</AppLayout>

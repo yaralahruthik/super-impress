@@ -2,8 +2,8 @@ from fastapi import FastAPI
 
 from app.auth.router import auth_router
 from app.email_verification.router import email_verification_router
-from app.linkedin.router import linkedin_router
 from app.posts.router import posts_router
+from app.social.linkedin.router import linkedin_router
 
 app = FastAPI(title="Super Impress")
 

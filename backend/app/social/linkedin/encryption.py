@@ -2,7 +2,7 @@
 
 from cryptography.fernet import Fernet
 
-from app.linkedin.config import linkedin_settings
+from app.social.linkedin.config import linkedin_settings
 
 
 def get_cipher() -> Fernet:

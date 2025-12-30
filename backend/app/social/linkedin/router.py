@@ -7,19 +7,19 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.auth.models import User
 from app.auth.service import get_current_user
 from app.database import SessionDep
-from app.linkedin.models import (
+from app.social.linkedin.models import (
     LinkedInConnectCallback,
     LinkedInConnectInitiate,
     LinkedInConnectionStatus,
     LinkedInPostRequest,
     LinkedInPostResponse,
 )
-from app.linkedin.oauth import (
+from app.social.linkedin.oauth import (
     generate_oauth_state,
     get_authorization_url,
     verify_oauth_state,
 )
-from app.linkedin.service import (
+from app.social.linkedin.service import (
     connect_linkedin,
     disconnect_linkedin,
     post_to_linkedin,

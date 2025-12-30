@@ -3,7 +3,7 @@
 import httpx
 from fastapi import HTTPException, status
 
-from app.linkedin.config import linkedin_settings
+from app.social.linkedin.config import linkedin_settings
 
 
 async def get_user_info(access_token: str) -> dict:

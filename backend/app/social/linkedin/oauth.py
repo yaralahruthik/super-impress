@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import httpx
 from fastapi import HTTPException, status
 
-from app.linkedin.config import linkedin_settings
+from app.social.linkedin.config import linkedin_settings
 
 # In-memory store for OAuth state tokens (production: use Redis)
 oauth_states: dict[str, datetime] = {}

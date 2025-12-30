@@ -65,26 +65,3 @@ async def exchange_code_for_tokens(code: str) -> dict:
             )
 
         return response.json()
-
-
-async def refresh_access_token(refresh_token: str) -> dict:
-    """Use refresh token to get a new access token."""
-    async with httpx.AsyncClient() as client:
-        response = await client.post(
-            linkedin_settings.token_url,
-            data={
-                "grant_type": "refresh_token",
-                "refresh_token": refresh_token,
-                "client_id": linkedin_settings.client_id,
-                "client_secret": linkedin_settings.client_secret,
-            },
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-        )
-
-        if response.status_code != 200:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Failed to refresh access token. Please reconnect LinkedIn.",
-            )
-
-        return response.json()

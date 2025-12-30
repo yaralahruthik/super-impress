@@ -74,8 +74,8 @@ async def complete_linkedin_connection(
             else None
         ),
         expires_at=(
-            user.linkedin_refresh_token_expires_at.isoformat()
-            if user.linkedin_refresh_token_expires_at
+            user.linkedin_access_token_expires_at.isoformat()
+            if user.linkedin_access_token_expires_at
             else None
         ),
     )
@@ -119,8 +119,8 @@ async def get_linkedin_connection_status(
             else None
         ),
         expires_at=(
-            current_user.linkedin_refresh_token_expires_at.isoformat()
-            if current_user.linkedin_refresh_token_expires_at
+            current_user.linkedin_access_token_expires_at.isoformat()
+            if current_user.linkedin_access_token_expires_at
             else None
         ),
     )

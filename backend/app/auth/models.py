@@ -37,8 +37,8 @@ class User(Base):
     linkedin_person_urn: Mapped[Optional[str]] = mapped_column(
         String, nullable=True, unique=True
     )
-    linkedin_refresh_token: Mapped[Optional[str]] = mapped_column(String, nullable=True)
-    linkedin_refresh_token_expires_at: Mapped[Optional[datetime]] = mapped_column(
+    linkedin_access_token: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    linkedin_access_token_expires_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime, nullable=True
     )
     linkedin_connected_at: Mapped[Optional[datetime]] = mapped_column(

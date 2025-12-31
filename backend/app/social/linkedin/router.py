@@ -7,23 +7,25 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.auth.models import User
 from app.auth.service import get_current_user
 from app.database import SessionDep
-from app.linkedin.models import (
+from app.social.linkedin.models import (
     LinkedInConnectCallback,
     LinkedInConnectInitiate,
     LinkedInConnectionStatus,
     LinkedInPostRequest,
     LinkedInPostResponse,
 )
-from app.linkedin.oauth import (
+from app.social.linkedin.oauth import (
     generate_oauth_state,
     get_authorization_url,
     verify_oauth_state,
 )
-from app.linkedin.service import (
+from app.social.linkedin.service import (
     connect_linkedin,
     disconnect_linkedin,
     post_to_linkedin,
 )
+from app.social.models import SocialPlatform
+from app.social.service import get_connection
 from app.posts.service import get_post_by_id
 
 linkedin_router = APIRouter(prefix="/linkedin", tags=["linkedin"])
@@ -65,17 +67,18 @@ async def complete_linkedin_connection(
     # Connect LinkedIn account
     user = await connect_linkedin(session, current_user, callback_data.code)
 
+    # Get connection details
+    linkedin_conn = get_connection(session, user, SocialPlatform.LINKEDIN)
+
     return LinkedInConnectionStatus(
-        connected=user.linkedin_connected,
-        person_urn=user.linkedin_person_urn,
+        connected=linkedin_conn is not None,
+        person_urn=linkedin_conn.platform_user_id if linkedin_conn else None,
         connected_at=(
-            user.linkedin_connected_at.isoformat()
-            if user.linkedin_connected_at
-            else None
+            linkedin_conn.connected_at.isoformat() if linkedin_conn else None
         ),
         expires_at=(
-            user.linkedin_access_token_expires_at.isoformat()
-            if user.linkedin_access_token_expires_at
+            linkedin_conn.access_token_expires_at.isoformat()
+            if linkedin_conn and linkedin_conn.access_token_expires_at
             else None
         ),
     )
@@ -108,19 +111,26 @@ async def disconnect_linkedin_account(
 )
 async def get_linkedin_connection_status(
     current_user: Annotated[User, Depends(get_current_user)],
+    session: SessionDep,
 ) -> LinkedInConnectionStatus:
     """Get current LinkedIn connection status."""
+    linkedin_conn = get_connection(session, current_user, SocialPlatform.LINKEDIN)
+
+    if not linkedin_conn:
+        return LinkedInConnectionStatus(
+            connected=False,
+            person_urn=None,
+            connected_at=None,
+            expires_at=None,
+        )
+
     return LinkedInConnectionStatus(
-        connected=current_user.linkedin_connected,
-        person_urn=current_user.linkedin_person_urn,
-        connected_at=(
-            current_user.linkedin_connected_at.isoformat()
-            if current_user.linkedin_connected_at
-            else None
-        ),
+        connected=True,
+        person_urn=linkedin_conn.platform_user_id,
+        connected_at=linkedin_conn.connected_at.isoformat(),
         expires_at=(
-            current_user.linkedin_access_token_expires_at.isoformat()
-            if current_user.linkedin_access_token_expires_at
+            linkedin_conn.access_token_expires_at.isoformat()
+            if linkedin_conn.access_token_expires_at
             else None
         ),
     )

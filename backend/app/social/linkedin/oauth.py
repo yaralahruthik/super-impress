@@ -8,7 +8,7 @@ from fastapi import HTTPException, status
 
 from app.social.linkedin.config import linkedin_settings
 
-# In-memory store for OAuth state tokens (production: use Redis)
+# TODO: In-memory store for OAuth state tokens (production: use Redis)
 oauth_states: dict[str, datetime] = {}
 
 

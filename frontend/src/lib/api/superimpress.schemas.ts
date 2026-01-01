@@ -223,7 +223,6 @@ export interface UserPublic {
 	email: string;
 	id: number;
 	email_verified: boolean;
-	linkedin_connected: boolean;
 }
 
 export type ValidationErrorLocItem = string | number;

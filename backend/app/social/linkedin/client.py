@@ -32,9 +32,6 @@ async def create_post(access_token: str, person_urn: str, content: str) -> str:
     Returns: LinkedIn post URN
     """
 
-    # Posts API requires specific version header
-    current_version = "202511"
-
     post_data = {
         "author": f"urn:li:person:{person_urn}",
         "commentary": content,
@@ -56,7 +53,7 @@ async def create_post(access_token: str, person_urn: str, content: str) -> str:
                 "Authorization": f"Bearer {access_token}",
                 "Content-Type": "application/json",
                 "X-Restli-Protocol-Version": "2.0.0",
-                "LinkedIn-Version": current_version,
+                "LinkedIn-Version": linkedin_settings.api_version,
             },
         )
 

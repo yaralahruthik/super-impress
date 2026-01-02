@@ -25,6 +25,7 @@ class LinkedInSettings(BaseSettings):
     authorization_url: str = "https://www.linkedin.com/oauth/v2/authorization"
     token_url: str = "https://www.linkedin.com/oauth/v2/accessToken"
     api_base_url: str = "https://api.linkedin.com"
+    api_version: str = Field(default="202511", alias="LINKEDIN_API_VERSION")
 
     # OAuth scopes
     scopes: list[str] = Field(default=["openid", "profile", "email", "w_member_social"])

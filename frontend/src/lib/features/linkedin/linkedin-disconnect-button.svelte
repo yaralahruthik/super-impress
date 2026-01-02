@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { createDisconnectLinkedin } from '$lib/api/linkedin/linkedin';
+	import { useQueryClient } from '@tanstack/svelte-query';
+
+	const queryClient = useQueryClient();
 
 	const disconnectMutation = createDisconnectLinkedin({
 		mutation: {
 			onSuccess: () => {
-				window.location.reload();
+				queryClient.invalidateQueries({ queryKey: ['/api/linkedin/status'] });
 			}
 		}
 	});

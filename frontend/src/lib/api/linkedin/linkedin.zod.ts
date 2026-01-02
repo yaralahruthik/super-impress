@@ -76,7 +76,6 @@ export const postToLinkedinBody = zod
 export const postToLinkedinResponse = zod
 	.object({
 		success: zod.boolean(),
-		linkedin_post_id: zod.union([zod.string(), zod.null()]).optional(),
-		error: zod.union([zod.string(), zod.null()]).optional()
+		linkedin_post_id: zod.string()
 	})
 	.describe('Response after posting to LinkedIn.');

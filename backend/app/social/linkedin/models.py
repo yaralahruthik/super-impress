@@ -36,5 +36,4 @@ class LinkedInPostResponse(BaseModel):
     """Response after posting to LinkedIn."""
 
     success: bool
-    linkedin_post_id: str | None = None
-    error: str | None = None
+    linkedin_post_id: str

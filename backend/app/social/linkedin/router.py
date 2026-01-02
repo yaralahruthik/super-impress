@@ -150,14 +150,7 @@ async def post_to_linkedin_endpoint(
     # Verify user owns the post
     post = get_post_by_id(session, post_request.post_id, current_user.id)
 
-    try:
-        linkedin_post_id = await post_to_linkedin(session, current_user, post)
-        return LinkedInPostResponse(
-            success=True, linkedin_post_id=linkedin_post_id, error=None
-        )
-    except HTTPException as e:
-        return LinkedInPostResponse(
-            success=False, linkedin_post_id=None, error=e.detail
-        )
-    except Exception as e:
-        return LinkedInPostResponse(success=False, linkedin_post_id=None, error=str(e))
+    linkedin_post_id = await post_to_linkedin(session, current_user, post)
+    return LinkedInPostResponse(
+        success=True, linkedin_post_id=linkedin_post_id, error=None
+    )

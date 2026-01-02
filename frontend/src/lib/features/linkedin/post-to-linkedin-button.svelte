@@ -17,13 +17,9 @@
 
 	const postMutation = createPostToLinkedin({
 		mutation: {
-			onSuccess: (data) => {
-				if (data.success) {
-					queryClient.invalidateQueries({ queryKey: ['/api/posts'] });
-					alert('Successfully posted to LinkedIn!');
-				} else {
-					alert(`Failed to post to LinkedIn: ${data.error}`);
-				}
+			onSuccess: () => {
+				queryClient.invalidateQueries({ queryKey: ['/api/posts'] });
+				alert('Successfully posted to LinkedIn!');
 			}
 		}
 	});

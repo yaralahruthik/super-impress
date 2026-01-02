@@ -8,15 +8,24 @@
 	let error = $state('');
 	let processing = $state(true);
 
+	function cleanupOAuthState() {
+		sessionStorage.removeItem('linkedin_oauth_state');
+	}
+
+	function handleError(message: string) {
+		cleanupOAuthState();
+		error = message;
+		processing = false;
+	}
+
 	const callbackMutation = createCompleteLinkedinConnection({
 		mutation: {
 			onSuccess: () => {
-				sessionStorage.removeItem('linkedin_oauth_state');
+				cleanupOAuthState();
 				goto(resolve('/settings'));
 			},
 			onError: (err) => {
-				error = err.message || 'Failed to connect LinkedIn account';
-				processing = false;
+				handleError(err.message || 'Failed to connect LinkedIn account');
 			}
 		}
 	});
@@ -28,21 +37,18 @@
 		const errorParam = urlParams.get('error');
 
 		if (errorParam) {
-			error = `LinkedIn OAuth error: ${errorParam}`;
-			processing = false;
+			handleError(`LinkedIn OAuth error: ${errorParam}`);
 			return;
 		}
 
 		if (!code || !state) {
-			error = 'Missing authorization code or state';
-			processing = false;
+			handleError('Missing authorization code or state');
 			return;
 		}
 
 		const storedState = sessionStorage.getItem('linkedin_oauth_state');
 		if (state !== storedState) {
-			error = 'Invalid state parameter. Please try connecting again.';
-			processing = false;
+			handleError('Invalid state parameter. Please try connecting again.');
 			return;
 		}
 

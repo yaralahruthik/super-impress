@@ -59,7 +59,7 @@ async def disconnect_linkedin(session: Session, user: User) -> User:
     return user
 
 
-async def get_access_token(session: Session, user: User) -> str:
+def get_access_token(session: Session, user: User) -> str:
     """Get stored access token if valid, raise error if expired."""
     linkedin_conn = get_connection(session, user, SocialPlatform.LINKEDIN)
 
@@ -85,17 +85,21 @@ async def post_to_linkedin(session: Session, user: User, post: Post) -> str:
         )
 
     # Get access token
-    access_token = await get_access_token(session, user)
+    access_token = get_access_token(session, user)
 
-    # Create LinkedIn post (use only content, ignore title)
-    linkedin_post_id = await create_linkedin_post(
-        access_token=access_token,
-        person_urn=linkedin_conn.platform_user_id,
-        content=post.content,
-    )
+    try:
+        linkedin_post_id = await create_linkedin_post(
+            access_token=access_token,
+            person_urn=linkedin_conn.platform_user_id,
+            content=post.content,
+        )
 
-    post.status = PostStatus.PUBLISHED
-    session.commit()
-    session.refresh(post)
+        post.status = PostStatus.PUBLISHED
+        session.commit()
+        session.refresh(post)
 
-    return linkedin_post_id
+        return linkedin_post_id
+
+    except Exception:
+        session.rollback()
+        raise

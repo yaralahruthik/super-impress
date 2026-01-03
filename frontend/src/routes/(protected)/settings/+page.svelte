@@ -1,37 +1,28 @@
 <script lang="ts">
 	import { createGetLinkedinStatus } from '$lib/api/linkedin/linkedin';
-	import LinkedInConnectButton from '$lib/features/linkedin/linkedin-connect-button.svelte';
-	import LinkedInDisconnectButton from '$lib/features/linkedin/linkedin-disconnect-button.svelte';
+	import LinkedInConnectionCard from '$lib/features/linkedin/linkedin-connection-card.svelte';
 	import AppLayout from '$lib/layouts/app-layout.svelte';
-	import { Check } from '@lucide/svelte';
 
 	const statusQuery = createGetLinkedinStatus();
 </script>
 
 <AppLayout>
-	<div class="mb-6">
-		<h1 class="text-3xl font-bold tracking-tight">Settings</h1>
+	<div class="mb-8">
+		<h1 class="mb-2 text-3xl font-bold tracking-tight">Settings</h1>
+		<p class="text-base-content/60">Manage your account integrations and preferences.</p>
 	</div>
 
-	<div class="space-y-6">
-		<div class="card bg-base-100 shadow">
-			<div class="card-body">
-				<h2 class="mb-4 card-title text-xl">LinkedIn Integration</h2>
-
-				{#if statusQuery.isLoading}
-					<p class="text-sm text-base-content/60">Checking LinkedIn connection...</p>
-				{:else if statusQuery.data?.connected}
-					<div class="alert alert-success">
-						<Check class="h-6 w-6" />
-						<span class="font-bold">LinkedIn Connected</span>
-					</div>
-					<div class="mt-4">
-						<LinkedInDisconnectButton />
-					</div>
-				{:else}
-					<LinkedInConnectButton />
-				{/if}
+	<div class="max-w-4xl space-y-8">
+		<section>
+			<div class="mb-4 flex items-center gap-2">
+				<h2 class="text-xl font-bold tracking-tight">Integrations</h2>
+				<div class="ml-2 h-px flex-1 bg-base-content/10"></div>
 			</div>
-		</div>
+
+			<LinkedInConnectionCard
+				status={statusQuery.data || { connected: false }}
+				loading={statusQuery.isLoading}
+			/>
+		</section>
 	</div>
 </AppLayout>

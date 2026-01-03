@@ -26,9 +26,14 @@
 <button
 	onclick={handleDisconnect}
 	disabled={disconnectMutation.isPending}
-	class="btn btn-outline btn-error"
+	class="btn border-error/20 text-error btn-ghost btn-sm hover:bg-error/10"
 >
-	{disconnectMutation.isPending ? 'Disconnecting...' : 'Disconnect LinkedIn'}
+	{#if disconnectMutation.isPending}
+		<span class="loading loading-xs loading-spinner"></span>
+		Disconnecting...
+	{:else}
+		Disconnect
+	{/if}
 </button>
 
 {#if disconnectMutation.isError}

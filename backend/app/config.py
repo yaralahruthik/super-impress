@@ -11,6 +11,11 @@ class Settings(BaseSettings):
     db_url: str = Field(
         default="", alias="DATABASE_URL", description="Database connection URL"
     )
+    token_encryption_key: str = Field(
+        default="",
+        alias="TOKEN_ENCRYPTION_KEY",
+        description="Fernet key for token encryption",
+    )
 
 
 settings = Settings()

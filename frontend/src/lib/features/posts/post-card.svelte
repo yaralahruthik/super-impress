@@ -9,31 +9,51 @@
 	let { post }: Props = $props();
 </script>
 
-<div class="card bg-base-200 shadow-xl">
-	<div class="card-body">
-		{#if post.title}
-			<h3 class="card-title">{post.title}</h3>
-		{/if}
-
-		<p class="whitespace-pre-wrap text-base-content/90">{post.content}</p>
-
-		{#if post.tags && post.tags.length > 0}
-			<div class="mt-2 card-actions justify-start">
-				{#each post.tags as tag (tag)}
-					<div class="badge badge-outline badge-sm">{tag}</div>
-				{/each}
+<div
+	class="card border border-base-200 bg-base-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+>
+	<div class="card-body p-6">
+		<div class="mb-2 flex items-start justify-between">
+			<div class="flex flex-col">
+				<div class="flex items-center gap-2 text-xs font-medium text-base-content/60">
+					<span>{new Date(post.created_at).toLocaleDateString()}</span>
+					<span>•</span>
+					<span
+						class:text-success={post.status === 'published'}
+						class:text-base-content={post.status !== 'published'}
+						class="capitalize"
+					>
+						{post.status}
+					</span>
+				</div>
 			</div>
-		{/if}
-
-		<div class="mt-2 text-xs text-base-content/50">
-			<div class="badge badge-ghost badge-sm">{post.status}</div>
-			<span class="ml-2">
-				Created: {new Date(post.created_at).toLocaleDateString()}
-			</span>
 		</div>
 
-		<div class="mt-4 card-actions justify-end">
-			<PostToLinkedinButton postId={post.id} status={post.status} />
+		{#if post.title}
+			<h3 class="mb-2 card-title text-xl font-bold tracking-tight text-base-content">
+				{post.title}
+			</h3>
+		{/if}
+
+		<p class="line-clamp-3 text-base text-base-content/80">
+			{post.content}
+		</p>
+
+		<div class="mt-6 flex items-center justify-between">
+			{#if post.tags && post.tags.length > 0}
+				<div class="flex gap-2">
+					{#each post.tags.slice(0, 3) as tag (tag)}
+						<div class="badge badge-sm font-medium badge-neutral">{tag}</div>
+					{/each}
+					{#if post.tags.length > 3}
+						<div class="badge badge-ghost badge-sm">+{post.tags.length - 3}</div>
+					{/if}
+				</div>
+			{/if}
+
+			<div class="ml-auto">
+				<PostToLinkedinButton postId={post.id} status={post.status} />
+			</div>
 		</div>
 	</div>
 </div>

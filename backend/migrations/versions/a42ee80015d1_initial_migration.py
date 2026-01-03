@@ -1,8 +1,8 @@
-"""initial_schema
+"""initial migration
 
-Revision ID: 7112aa48a833
+Revision ID: a42ee80015d1
 Revises:
-Create Date: 2026-01-03 01:14:24.314682
+Create Date: 2026-01-03 09:18:02.921127
 
 """
 
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = "7112aa48a833"
+revision: str = "a42ee80015d1"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -29,9 +29,11 @@ def upgrade() -> None:
         sa.Column("password", sa.String(), nullable=False),
         sa.Column("email_verified", sa.Boolean(), nullable=False),
         sa.Column("verification_token", sa.String(), nullable=True),
-        sa.Column("verification_token_expires_at", sa.DateTime(), nullable=True),
-        sa.Column("verification_sent_at", sa.DateTime(), nullable=True),
-        sa.Column("verified_at", sa.DateTime(), nullable=True),
+        sa.Column(
+            "verification_token_expires_at", sa.DateTime(timezone=True), nullable=True
+        ),
+        sa.Column("verification_sent_at", sa.DateTime(timezone=True), nullable=True),
+        sa.Column("verified_at", sa.DateTime(timezone=True), nullable=True),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(op.f("ix_user_email"), "user", ["email"], unique=True)
@@ -52,8 +54,8 @@ def upgrade() -> None:
             ),
             nullable=False,
         ),
-        sa.Column("created_at", sa.DateTime(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(), nullable=False),
+        sa.Column("created_at", sa.DateTime(timezone=True), nullable=False),
+        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False),
         sa.ForeignKeyConstraint(
             ["user_id"],
             ["user.id"],
@@ -70,9 +72,9 @@ def upgrade() -> None:
         sa.Column("platform", sa.String(length=50), nullable=False),
         sa.Column("platform_user_id", sa.String(length=255), nullable=False),
         sa.Column("access_token", sa.String(), nullable=True),
-        sa.Column("access_token_expires_at", sa.DateTime(), nullable=True),
-        sa.Column("connected_at", sa.DateTime(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(), nullable=False),
+        sa.Column("access_token_expires_at", sa.DateTime(timezone=True), nullable=True),
+        sa.Column("connected_at", sa.DateTime(timezone=True), nullable=False),
+        sa.Column("updated_at", sa.DateTime(timezone=True), nullable=False),
         sa.Column("platform_data", sa.JSON(), nullable=True),
         sa.ForeignKeyConstraint(["user_id"], ["user.id"], ondelete="CASCADE"),
         sa.PrimaryKeyConstraint("id"),

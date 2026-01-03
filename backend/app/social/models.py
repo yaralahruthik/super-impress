@@ -43,12 +43,16 @@ class SocialConnection(Base):
     # Token storage (encrypted)
     access_token: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     access_token_expires_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime, nullable=True
+        DateTime(timezone=True), nullable=True
     )
 
     # Timestamps
-    connected_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    connected_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False
+    )
 
     # Optional platform-specific data
     platform_data: Mapped[Optional[dict]] = mapped_column(JSON, nullable=True)

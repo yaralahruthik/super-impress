@@ -52,7 +52,7 @@ async def connect_linkedin(session: Session, user: User, code: str) -> User:
     return user
 
 
-async def disconnect_linkedin(session: Session, user: User) -> User:
+def disconnect_linkedin(session: Session, user: User) -> User:
     """Disconnect LinkedIn account and clear tokens."""
     delete_connection(session, user, SocialPlatform.LINKEDIN)
     session.refresh(user)

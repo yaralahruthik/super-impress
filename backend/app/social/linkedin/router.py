@@ -94,7 +94,7 @@ async def disconnect_linkedin_account(
     session: SessionDep,
 ) -> LinkedInConnectionStatus:
     """Disconnect LinkedIn account."""
-    await disconnect_linkedin(session, current_user)
+    disconnect_linkedin(session, current_user)
 
     return LinkedInConnectionStatus(
         connected=False,

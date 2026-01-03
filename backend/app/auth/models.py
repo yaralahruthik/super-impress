@@ -1,12 +1,15 @@
 from datetime import datetime
-from typing import Annotated, Optional
+from typing import TYPE_CHECKING, Annotated, Optional
 
 from pydantic import AfterValidator, BaseModel, ConfigDict, EmailStr, Field
 from sqlalchemy import Boolean, DateTime, String
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.auth.validators import password_validator
 from app.database import Base
+
+if TYPE_CHECKING:
+    from app.social.models import SocialConnection
 
 
 # SQLAlchemy ORM Model
@@ -25,12 +28,22 @@ class User(Base):
         String, nullable=True, index=True
     )
     verification_token_expires_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime, nullable=True
+        DateTime(timezone=True), nullable=True
     )
     verification_sent_at: Mapped[Optional[datetime]] = mapped_column(
-        DateTime, nullable=True
+        DateTime(timezone=True), nullable=True
     )
-    verified_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    verified_at: Mapped[Optional[datetime]] = mapped_column(
+        DateTime(timezone=True), nullable=True
+    )
+
+    # Social media connections
+    social_connections: Mapped[list["SocialConnection"]] = relationship(
+        "SocialConnection",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        lazy="selectin",  # Eager load to avoid N+1 queries
+    )
 
 
 # Pydantic Schemas

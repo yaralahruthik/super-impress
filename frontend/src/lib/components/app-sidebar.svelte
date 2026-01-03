@@ -39,6 +39,14 @@
 		</a>
 
 		<a
+			href={resolve('/settings')}
+			class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-base-200
+				{isActive('/settings') ? 'bg-primary/10 text-primary' : 'text-base-content/70'}"
+		>
+			<span>Settings</span>
+		</a>
+
+		<a
 			href={resolve('/change-password')}
 			class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-base-200
 				{isActive('/change-password') ? 'bg-primary/10 text-primary' : 'text-base-content/70'}"

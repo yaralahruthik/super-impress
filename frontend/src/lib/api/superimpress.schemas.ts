@@ -48,6 +48,53 @@ export interface HTTPValidationError {
 }
 
 /**
+ * Request body for OAuth callback.
+ */
+export interface LinkedInConnectCallback {
+	code: string;
+	state: string;
+}
+
+/**
+ * Response when initiating LinkedIn OAuth flow.
+ */
+export interface LinkedInConnectInitiate {
+	authorization_url: string;
+	state: string;
+}
+
+export type LinkedInConnectionStatusPersonUrn = string | null;
+
+export type LinkedInConnectionStatusConnectedAt = string | null;
+
+export type LinkedInConnectionStatusExpiresAt = string | null;
+
+/**
+ * LinkedIn connection status for a user.
+ */
+export interface LinkedInConnectionStatus {
+	connected: boolean;
+	person_urn?: LinkedInConnectionStatusPersonUrn;
+	connected_at?: LinkedInConnectionStatusConnectedAt;
+	expires_at?: LinkedInConnectionStatusExpiresAt;
+}
+
+/**
+ * Request to post content to LinkedIn.
+ */
+export interface LinkedInPostRequest {
+	post_id: number;
+}
+
+/**
+ * Response after posting to LinkedIn.
+ */
+export interface LinkedInPostResponse {
+	success: boolean;
+	linkedin_post_id: string;
+}
+
+/**
  * Schema for changing a user's password.
  */
 export interface PasswordChange {

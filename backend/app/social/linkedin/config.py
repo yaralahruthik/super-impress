@@ -19,7 +19,6 @@ class LinkedInSettings(BaseSettings):
         default="http://localhost:5173/linkedin/callback",
         alias="LINKEDIN_REDIRECT_URI",
     )
-    token_encryption_key: str = Field(default="", alias="LINKEDIN_TOKEN_ENCRYPTION_KEY")
 
     # LinkedIn API URLs
     authorization_url: str = "https://www.linkedin.com/oauth/v2/authorization"

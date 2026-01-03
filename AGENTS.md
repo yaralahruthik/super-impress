@@ -15,7 +15,7 @@ super-impress/
 ## Quick Reference
 
 | Component | Language    | Package Manager | Framework                |
-|-----------|-------------|-----------------|--------------------------|
+| --------- | ----------- | --------------- | ------------------------ |
 | Backend   | Python 3.13 | uv              | FastAPI + SQLAlchemy 2.0 |
 | Frontend  | TypeScript  | pnpm            | SvelteKit + Svelte 5     |
 
@@ -112,17 +112,20 @@ docker compose down             # Stop services
 ## Pre-commit Hooks
 
 Pre-commit runs automatically on staged files:
+
 - **Backend:** Ruff check + format
 - **Frontend:** Prettier format + ESLint
 - **General:** trailing whitespace, EOF fixer, YAML check, large file check
 
 Setup:
+
 ```bash
 pip install pre-commit
 pre-commit install
 ```
 
 Run manually:
+
 ```bash
 pre-commit run --all-files
 ```
@@ -134,6 +137,7 @@ The frontend API client in `frontend/src/lib/api/` is auto-generated from the ba
 **DO NOT manually edit files in `frontend/src/lib/api/`** (except `axios.ts` for interceptors).
 
 To regenerate after backend API changes:
+
 ```bash
 # 1. Ensure backend is running
 cd backend && uv run fastapi dev
@@ -147,6 +151,7 @@ cd frontend && pnpm codegen
 ### Backend
 
 Create `backend/.env`:
+
 ```
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/super_impress
 SECRET_KEY=your-secret-key
@@ -155,6 +160,7 @@ SECRET_KEY=your-secret-key
 ### Frontend
 
 Create `frontend/.env`:
+
 ```
 PUBLIC_API_URL=http://localhost:8000
 ```
@@ -166,6 +172,7 @@ PUBLIC_API_URL=http://localhost:8000
 - **E2E tests:** Playwright in `frontend/e2e/` directory
 
 Run tests before committing changes. CI pipelines check:
+
 - Backend formatting (Ruff)
 - Frontend formatting (Prettier + ESLint)
 - E2E tests (Playwright)
@@ -173,5 +180,6 @@ Run tests before committing changes. CI pipelines check:
 ## Detailed Documentation
 
 For comprehensive guidelines specific to each subsystem:
+
 - **Backend:** See `backend/AGENTS.md` (Python/FastAPI patterns, SQLAlchemy, Pydantic)
 - **Frontend:** See `frontend/AGENTS.md` (Svelte 5, TanStack, component patterns)

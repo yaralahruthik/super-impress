@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { createInitiateLinkedinConnection } from '$lib/api/linkedin/linkedin';
 
+	import { Linkedin } from '@lucide/svelte';
+
 	const connectMutation = createInitiateLinkedinConnection({
 		mutation: {
 			onSuccess: (data) => {
@@ -16,8 +18,18 @@
 </script>
 
 <div>
-	<button onclick={handleConnect} disabled={connectMutation.isPending} class="btn btn-primary">
-		{connectMutation.isPending ? 'Connecting...' : 'Connect LinkedIn'}
+	<button
+		onclick={handleConnect}
+		disabled={connectMutation.isPending}
+		class="btn border-none bg-[#0077B5] text-white shadow-md transition-all hover:bg-[#006097] hover:shadow-lg"
+	>
+		{#if connectMutation.isPending}
+			<span class="loading loading-xs loading-spinner"></span>
+			Connecting...
+		{:else}
+			<Linkedin class="h-4 w-4" />
+			Connect LinkedIn
+		{/if}
 	</button>
 
 	{#if connectMutation.isError}

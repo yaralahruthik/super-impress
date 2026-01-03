@@ -9,7 +9,7 @@ from app.auth.models import User
 from app.posts.models import Post, PostStatus
 from app.social.linkedin.client import create_post as create_linkedin_post
 from app.social.linkedin.client import get_user_info
-from app.social.linkedin.encryption import decrypt_token, encrypt_token
+from app.utils.encryption import decrypt_token, encrypt_token
 from app.social.linkedin.oauth import exchange_code_for_tokens
 from app.social.models import SocialPlatform
 from app.social.service import (

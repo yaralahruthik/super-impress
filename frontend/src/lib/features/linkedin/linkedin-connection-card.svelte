@@ -3,18 +3,10 @@
 	import LinkedInConnectButton from './linkedin-connect-button.svelte';
 	import LinkedInDisconnectButton from './linkedin-disconnect-button.svelte';
 	import type { LinkedInConnectionStatus } from '$lib/api/superimpress.schemas';
+	import { formatDate } from '$lib/utils/format-date';
 
 	let { status, loading = false }: { status: LinkedInConnectionStatus; loading?: boolean } =
 		$props();
-
-	function formatDate(dateString: string | null | undefined) {
-		if (!dateString) return 'N/A';
-		return new Date(dateString).toLocaleDateString(undefined, {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric'
-		});
-	}
 </script>
 
 <div class="group card overflow-hidden border border-base-content/5 bg-base-100 shadow-xl">
@@ -66,7 +58,7 @@
 							<Calendar class="size-3.5" />
 							Connected on
 						</div>
-						<p class="text-sm font-medium">{formatDate(status.connected_at)}</p>
+						<p class="text-sm font-medium">{formatDate(status.connected_at, 'MMMM D, YYYY')}</p>
 					</div>
 					{#if status.expires_at}
 						<div class="space-y-1">
@@ -76,7 +68,7 @@
 								<div class="h-1.5 w-1.5 rounded-full bg-warning"></div>
 								Re-auth required by
 							</div>
-							<p class="text-sm font-medium">{formatDate(status.expires_at)}</p>
+							<p class="text-sm font-medium">{formatDate(status.expires_at, 'MMMM D, YYYY')}</p>
 						</div>
 					{/if}
 				</div>

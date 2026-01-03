@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PostPublic } from '$lib/api/superimpress.schemas';
 	import PostToLinkedinButton from '$lib/features/linkedin/post-to-linkedin-button.svelte';
+	import { formatDate } from '$lib/utils/format-date';
 
 	type Props = {
 		post: PostPublic;
@@ -16,7 +17,7 @@
 		<div class="mb-2 flex items-start justify-between">
 			<div class="flex flex-col">
 				<div class="flex items-center gap-2 text-xs font-medium text-base-content/60">
-					<span>{new Date(post.created_at).toLocaleDateString()}</span>
+					<span>{formatDate(post.created_at, 'MM/DD/YYYY')}</span>
 					<span>•</span>
 					<span
 						class:text-success={post.status === 'published'}

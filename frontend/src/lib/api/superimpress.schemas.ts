@@ -86,17 +86,12 @@ export interface LinkedInPostRequest {
 	post_id: number;
 }
 
-export type LinkedInPostResponseLinkedinPostId = string | null;
-
-export type LinkedInPostResponseError = string | null;
-
 /**
  * Response after posting to LinkedIn.
  */
 export interface LinkedInPostResponse {
 	success: boolean;
-	linkedin_post_id?: LinkedInPostResponseLinkedinPostId;
-	error?: LinkedInPostResponseError;
+	linkedin_post_id: string;
 }
 
 /**

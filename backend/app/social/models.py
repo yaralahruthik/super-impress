@@ -1,6 +1,6 @@
 """Social connection models and enums."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import TYPE_CHECKING, Optional
 
@@ -75,4 +75,4 @@ class SocialConnection(Base):
         """Check if access token is expired."""
         if not self.access_token_expires_at:
             return False
-        return self.access_token_expires_at < datetime.now()
+        return self.access_token_expires_at < datetime.now(timezone.utc)

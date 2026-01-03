@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Linkedin, CheckCircle2, AlertCircle, Calendar, ExternalLink } from '@lucide/svelte';
+	import { Linkedin, CheckCircle2, AlertCircle, Calendar, MessageCircle } from '@lucide/svelte';
 	import LinkedInConnectButton from './linkedin-connect-button.svelte';
 	import LinkedInDisconnectButton from './linkedin-disconnect-button.svelte';
 	import type { LinkedInConnectionStatus } from '$lib/api/superimpress.schemas';
@@ -25,7 +25,7 @@
 				<div
 					class="rounded-2xl bg-[#0077B5]/10 p-3 text-[#0077B5] transition-colors group-hover:bg-[#0077B5]/20"
 				>
-					<Linkedin class="h-8 w-8" />
+					<Linkedin class="size-8" />
 				</div>
 				<div>
 					<h2 class="text-xl font-bold tracking-tight">LinkedIn</h2>
@@ -40,14 +40,14 @@
 					<span class="loading loading-sm loading-spinner text-[#0077B5]"></span>
 				{:else if status.connected}
 					<div class="badge gap-1.5 badge-outline p-3.5 text-xs font-semibold badge-success">
-						<CheckCircle2 class="h-3.5 w-3.5" />
+						<CheckCircle2 class="size-3.5" />
 						ACTIVE
 					</div>
 				{:else}
 					<div
 						class="badge gap-1.5 border-dashed badge-ghost p-3.5 text-xs font-semibold text-base-content/40"
 					>
-						<AlertCircle class="h-3.5 w-3.5" />
+						<AlertCircle class="size-3.5" />
 						NOT CONNECTED
 					</div>
 				{/if}
@@ -63,7 +63,7 @@
 						<div
 							class="flex items-center gap-2 text-xs font-semibold tracking-tight text-base-content/50 uppercase"
 						>
-							<Calendar class="h-3.5 w-3.5" />
+							<Calendar class="size-3.5" />
 							Connected on
 						</div>
 						<p class="text-sm font-medium">{formatDate(status.connected_at)}</p>
@@ -83,7 +83,7 @@
 
 				<div class="flex flex-col items-center justify-between gap-4 pt-2 sm:flex-row">
 					<div class="flex items-center gap-2 text-xs text-base-content/40 italic">
-						<ExternalLink class="h-3.5 w-3.5" />
+						<MessageCircle class="size-3.5" />
 						<span>Super Impress is authorized to post updates to your profile.</span>
 					</div>
 					<div class="w-full sm:w-auto">

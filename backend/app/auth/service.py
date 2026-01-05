@@ -115,3 +115,12 @@ def get_verified_user(current_user: Annotated[User, Depends(get_current_user)]):
             detail="Please verify your email address first",
         )
     return current_user
+
+
+def delete_user(session: SessionDep, user: User) -> None:
+    """Delete user and all associated data.
+
+    Posts and social_connections will cascade automatically via ondelete="CASCADE".
+    """
+    session.delete(user)
+    session.commit()

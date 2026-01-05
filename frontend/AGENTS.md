@@ -1,229 +1,252 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This document provides guidance for AI coding agents working in this SvelteKit frontend codebase.
 
 ## Project Overview
 
-This is a SvelteKit SPA (Single Page Application) frontend for Super Impress. It uses static adapter with client-side routing, TanStack Query for data fetching, and auto-generated API clients from OpenAPI specs.
+- **Framework**: SvelteKit with Svelte 5 (runes syntax)
+- **Package Manager**: pnpm
+- **Styling**: Tailwind CSS v4 + DaisyUI
+- **API Client**: Auto-generated via Orval from OpenAPI spec
+- **State Management**: Svelte stores + TanStack Query
+- **Forms**: TanStack Form + Zod validation
 
-## Essential Commands
+## Build / Lint / Test Commands
 
-### Development
+```bash
+# Development
+pnpm dev                    # Start dev server
+pnpm build                  # Production build
+pnpm preview                # Preview production build
 
-- `pnpm dev` - Start development server
-- `pnpm build` - Build for production
-- `pnpm preview` - Preview production build
+# Type Checking
+pnpm check                  # Run svelte-check (type checking)
+pnpm check:watch            # Type checking in watch mode
 
-### Code Quality
+# Linting & Formatting
+pnpm lint:check             # Check ESLint issues
+pnpm lint                   # Fix ESLint issues
+pnpm format:check           # Check Prettier formatting
+pnpm format                 # Fix formatting
 
-- `pnpm format` - Format code with Prettier
-- `pnpm format:check` - Check formatting without changes
-- `pnpm lint` - Lint and auto-fix issues
-- `pnpm lint:check` - Lint without fixes
-- `pnpm check` - Run svelte-check for type errors
+# Testing
+pnpm test:unit              # Run unit tests in watch mode
+pnpm test:unit -- --run     # Run unit tests once (CI mode)
+pnpm test:unit -- --run src/demo.spec.ts              # Run single test file
+pnpm test:unit -- --run -t "test name pattern"        # Run tests matching pattern
+pnpm test:e2e               # Run Playwright E2E tests
+pnpm test:e2e e2e/login.test.ts                       # Run single E2E test file
+pnpm test:e2e --grep "test name"                      # Run E2E tests matching pattern
+pnpm test                   # Run all tests (unit + e2e)
 
-### Testing
+# Code Generation
+pnpm codegen                # Generate API client from OpenAPI spec (requires backend running)
+```
 
-- `pnpm test:unit` - Run Vitest unit tests in watch mode
-- `pnpm test:unit -- --run` - Run unit tests once
-- `pnpm test:e2e` - Run Playwright E2E tests (builds first)
-- `pnpm test` - Run all tests
-- Run single test file: `pnpm vitest run src/path/to/test.spec.ts`
-
-### API Code Generation
-
-- `pnpm codegen` - Regenerate API client from OpenAPI spec at `http://localhost:8000/openapi.json`
-  - Must have backend running before executing
-  - Generates files in `src/lib/api/` (do not manually edit these files)
-
-## Architecture
-
-### Project Structure
+## Project Structure
 
 ```
 src/
 ├── lib/
-│   ├── api/                        # Auto-generated API clients (via Orval)
-│   │   ├── authentication/         # Auth endpoints
-│   │   ├── default/                # Other endpoints
-│   │   ├── axios.ts                # Custom axios instance (manual)
-│   │   └── superimpress.schemas.ts # TypeScript types
-│   ├── components/ui/              # Reusable UI components
-│   ├── features/                   # Feature-specific components
-│   │   └── auth/                   # Auth forms (login, register, etc.)
-│   ├── layouts/                    # Page layout components
-│   ├── stores/                     # Global Svelte stores
-│   │   └── auth.ts                 # Authentication state
-│   └── utils/                      # Utility functions
-└── routes/                         # SvelteKit file-based routing
-    ├── (protected)/                # Protected route group with guard
-    │   └── +layout.ts              # Checks auth, redirects to /login
-    ├── +layout.svelte              # Root layout (QueryClientProvider)
-    └── [page folders]
+│   ├── api/                 # Auto-generated API clients (DO NOT EDIT MANUALLY)
+│   │   └── axios.ts         # Custom Axios instance (edit this for interceptors)
+│   ├── components/
+│   │   └── ui/              # Primitive UI components (button, input, label, textarea)
+│   ├── features/            # Feature modules (domain-specific components)
+│   │   ├── auth/            # Authentication (login, register, verify-email, etc.)
+│   │   ├── dashboard/
+│   │   ├── linkedin/
+│   │   └── posts/
+│   ├── layouts/             # Layout components (app-layout, auth-layout)
+│   ├── stores/              # Svelte stores (auth.ts)
+│   └── utils/               # Utility functions
+├── routes/                  # SvelteKit file-based routes
+│   └── (protected)/         # Auth-protected routes (guard in +layout.ts)
+e2e/                         # Playwright E2E tests
 ```
 
-### State Management
+## Code Style Guidelines
 
-Uses custom Svelte writable store for authentication (src/lib/stores/auth.ts):
+### Formatting (Prettier)
 
-- Stores `isAuthenticated` boolean and JWT `token`
-- Persists token to localStorage with key `'access_token'`
-- Methods: `auth.login(token)`, `auth.logout()`
-- No Redux/Pinia - just vanilla Svelte stores
+- Use **tabs** for indentation
+- **Single quotes** for strings
+- **No trailing commas**
+- **100 character** print width
+- Plugins: prettier-plugin-svelte, prettier-plugin-tailwindcss
 
-### API Integration
+### Imports
 
-**Orval Code Generation:**
-
-- Configuration: `orval.config.ts`
-- Fetches OpenAPI spec from backend at `http://localhost:8000/openapi.json`
-- Generates TanStack Query hooks with TypeScript types
-- Files split by OpenAPI tags into `src/lib/api/{tag}/{tag}.ts`
-- Uses custom axios instance from `src/lib/api/axios.ts`
-
-**Custom Axios Instance (src/lib/api/axios.ts):**
-
-- Request interceptor: Auto-adds `Authorization: Bearer {token}` header from localStorage
-- Response interceptor: Catches 401 errors, logs out user, redirects to `/login`
-- All generated API functions use this instance automatically
-
-**Usage Pattern:**
+Order imports logically (framework, libraries, local):
 
 ```typescript
+// 1. SvelteKit imports
+import { goto } from '$app/navigation';
+import { browser } from '$app/environment';
+
+// 2. Library imports (API clients, external packages)
 import { createLoginUser } from '$lib/api/authentication/authentication';
+import { createForm } from '@tanstack/svelte-form';
+import z from 'zod';
 
-const loginMutation = createLoginUser({
-	mutation: {
-		onSuccess: (data) => {
-			auth.login(data.access_token);
-			goto('/');
-		}
-	}
-});
+// 3. Local components and utilities
+import Button from '$lib/components/ui/button.svelte';
+import { cn } from '$lib/utils/cn';
+import { getErrorMessage } from '$lib/utils/get-error-message';
 
-loginMutation.mutate({ data: { username, password } });
+// 4. Relative imports (same feature)
+import FieldInfo from '../field-info.svelte';
 ```
 
-### Authentication & Route Guards
+### Svelte 5 Patterns
 
-**Route Protection:**
+Use Svelte 5 runes syntax throughout:
 
-- Protected routes live in `src/routes/(protected)/` route group
-- Guard logic in `src/routes/(protected)/+layout.ts`
-- Reads auth store synchronously with `get(auth)`
-- Throws `redirect(302, '/login')` if not authenticated
+```svelte
+<script lang="ts" module>
+  // Module-level exports (types, constants)
+  export type ButtonProps = { ... };
+</script>
 
-**Auth Flow:**
+<script lang="ts">
+	// Use $props() for component props
+	let { variant = 'default', class: className, ...restProps }: ButtonProps = $props();
 
-1. User submits login form
-2. API returns JWT token
-3. Token stored via `auth.login(token)` → localStorage
-4. Axios interceptor auto-includes token in all subsequent requests
-5. On 401 response, user logged out and redirected to `/login`
+	// Use $bindable() for two-way bindings
+	let { ref = $bindable(null) } = $props();
+</script>
 
-**SSR:** Disabled (`export const ssr = false` in root `+layout.ts`) - this is a pure SPA
+<!-- Use {@render} for children/slots -->
+{@render children?.()}
+```
+
+### Component Variants
+
+Use class-variance-authority (CVA) for component variants:
+
+```typescript
+import { cva, type VariantProps } from 'class-variance-authority';
+
+export const buttonVariants = cva('btn', {
+	variants: {
+		variant: { default: 'btn-primary', ghost: 'btn-ghost' },
+		size: { default: '', sm: 'btn-sm', lg: 'btn-lg' }
+	},
+	defaultVariants: { variant: 'default', size: 'default' }
+});
+```
+
+### CSS Classes
+
+Use the `cn()` utility for conditional class merging:
+
+```typescript
+import { cn } from '$lib/utils/cn';
+cn('base-class', condition && 'conditional-class', className);
+```
 
 ### Form Handling
 
-Uses TanStack Svelte Form with Zod validation:
+Standard pattern for forms with TanStack Form + Zod:
 
-```typescript
-// 1. Define schema
-const schema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(1, 'Password is required')
-});
+```svelte
+<script lang="ts">
+	// 1. Define schema
+	const formSchema = z.object({
+		email: z.email('Invalid email').trim(),
+		password: z.string().min(1, 'Required')
+	});
 
-// 2. Create form
-const form = createForm(() => ({
-  defaultValues: { email: '', password: '' },
-  validators: { onSubmit: schema },
-  onSubmit: async ({ value }) => {
-    mutation.mutate({ data: value });
-  }
-}));
+	// 2. Create mutation
+	const mutation = createApiEndpoint({
+		mutation: {
+			onSuccess: (data) => {
+				/* handle success */
+			}
+		}
+	});
 
-// 3. Use in template
-<form.Field name="email">
-  {#snippet children(field)}
-    <Input
-      value={field.state.value}
-      onchange={(e) => field.handleChange(e.target.value)}
-      aria-invalid={field.state.meta.isTouched && !field.state.meta.isValid}
-    />
-    <FieldInfo {field} />
-  {/snippet}
-</form.Field>
+	// 3. Create form
+	const form = createForm(() => ({
+		defaultValues: { email: '', password: '' },
+		validators: { onSubmit: formSchema },
+		onSubmit: async ({ value }) => {
+			mutation.mutate({ data: value });
+		}
+	}));
+</script>
 ```
 
-**Error Display:**
+### Error Handling
 
-- Use `<FieldInfo>` component (src/lib/features/auth/field-info.svelte) for field errors
-- Handles both Zod validation errors and server-side validation errors
-- Server errors extracted via `getErrorMessage()` utility
+Use `getErrorMessage()` utility for API errors:
+
+```svelte
+{#if mutation.isError}
+	<em role="alert" class="text-error">{getErrorMessage(mutation.error)}</em>
+{/if}
+```
+
+### Naming Conventions
+
+- **Files**: kebab-case (`login.svelte`, `get-error-message.ts`)
+- **Components**: PascalCase in imports (`Button`, `AuthLayout`)
+- **Functions/variables**: camelCase (`createAuthStore`, `loginMutation`)
+- **Types**: PascalCase (`ButtonProps`, `AuthState`)
+- **Constants**: camelCase or SCREAMING_SNAKE_CASE for true constants
+
+### TypeScript
+
+- Strict mode enabled
+- Use explicit types for function parameters and return types
+- Prefer `type` over `interface` for object types
+- Use Zod schemas for runtime validation
 
 ### Testing
 
-**Two test environments:**
+**Unit tests** (Vitest):
 
-1. **Unit Tests (Vitest):**
-   - Component tests: `src/**/*.svelte.{test,spec}.{js,ts}` (run in browser via Playwright)
-   - Server tests: `src/**/*.{test,spec}.{js,ts}` (run in Node)
-   - Uses `vitest-browser-svelte` for component rendering
+```typescript
+import { describe, it, expect } from 'vitest';
 
-2. **E2E Tests (Playwright):**
-   - Located in `e2e/` directory
-   - Runs against production build on port 4173
-   - Auto-builds before running
+describe('feature', () => {
+	it('does something', () => {
+		expect(result).toBe(expected);
+	});
+});
+```
 
-### Configuration
+**E2E tests** (Playwright):
 
-**Important Files:**
+- Use accessible selectors: `getByRole`, `getByLabel`, `getByText`
+- Page object pattern for complex flows
 
-- `svelte.config.js` - Static adapter, outputs to `build/`, uses `200.html` fallback for SPA routing
-- `vite.config.ts` - Tailwind v4 plugin, API proxy (`/api/*` → `VITE_API_BASE`), Vitest config
-- `orval.config.ts` - API code generation config, uses `tags-split` mode
-- `.env.example` - Set `VITE_API_BASE=http://localhost:8000` for local development
+```typescript
+import { expect, test } from '@playwright/test';
 
-**Package Manager:** pnpm 10.25.0+ (specified in packageManager field)
-**Node Version:** 24.11.1
+test.describe('Feature', () => {
+	test('scenario', async ({ page }) => {
+		await page.goto('/path');
+		await expect(page.getByRole('button', { name: 'Submit' })).toBeVisible();
+	});
+});
+```
 
-## Development Workflow
+### Accessibility
 
-### Adding New API Endpoints
+- Use semantic HTML and ARIA attributes
+- Add `aria-invalid` for form validation states
+- Add `aria-busy` for loading states
+- Use `role="alert"` with `aria-live="polite"` for error messages
+- Ensure form fields have associated labels
 
-1. Update backend OpenAPI spec
-2. Ensure backend is running on `http://localhost:8000`
-3. Run `pnpm codegen` to regenerate API client
-4. Import generated hooks from `src/lib/api/{tag}/{tag}.ts`
-5. Do not manually edit generated files
+## API Layer
 
-### Adding Protected Routes
+- API clients are auto-generated in `src/lib/api/` - **DO NOT EDIT** these files
+- Edit `src/lib/api/axios.ts` for custom interceptors
+- Run `pnpm codegen` to regenerate after backend API changes (backend must be running)
+- Use TanStack Query mutations/queries from generated clients
 
-1. Create route under `src/routes/(protected)/your-route/`
-2. Route guard automatically applies (checks auth store)
-3. Unauthenticated users redirected to `/login`
+## Protected Routes
 
-### Form Validation
-
-- Use Zod schemas for client-side validation
-- Use `.refine()` for cross-field validation (e.g., password confirmation)
-- Display errors with `<FieldInfo field={field} />` component
-- Server-side errors automatically merged via mutation error handling
-
-### Styling
-
-- Tailwind CSS v4 with DaisyUI components
-- Use `cn()` utility (src/lib/utils/cn.ts) to safely merge Tailwind classes
-- Global styles in `src/app.css`
-- Prettier plugin automatically sorts Tailwind classes
-
-## Key Architectural Decisions
-
-1. **SPA Architecture:** No SSR, static adapter with 200.html fallback
-2. **Token Storage:** localStorage (not httpOnly cookies)
-3. **Type Safety:** Full TypeScript from OpenAPI spec to UI via Orval
-4. **Code Generation:** API client auto-generated, keeps frontend/backend in sync
-5. **State Management:** Minimal - just Svelte stores for auth, TanStack Query for server state
-6. **Route Guards:** SvelteKit layout load functions, not middleware
-7. **Error Handling:** Centralized in axios interceptors + utility functions
+Routes under `src/routes/(protected)/` require authentication. The auth guard in `(protected)/+layout.ts` redirects unauthenticated users to `/login`.

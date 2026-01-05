@@ -1,313 +1,185 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidelines for AI coding agents working in this monorepo.
 
-## Project Overview
+## Repository Structure
 
-Super Impress is a full-stack web application for creating authentic LinkedIn content. It's built as a community project in public, prioritizing author-first content creation over AI-generated posts.
-
-**Stack:**
-- Frontend: SvelteKit SPA with TailwindCSS, TanStack Query
-- Backend: FastAPI (Python 3.13) with SQLAlchemy ORM
-- Database: PostgreSQL 18
-- Package Managers: pnpm (frontend), uv (backend)
-
-**Monorepo Structure:**
 ```
-.
-├── frontend/          # SvelteKit SPA (see frontend/CLAUDE.md)
-├── backend/           # FastAPI API server (see backend/CLAUDE.md)
-├── decisions/         # Architectural Decision Records (ADRs)
-│   ├── tech/          # Technical decisions
-│   └── product/       # Product decisions
-└── docker-compose.yml # Multi-service orchestration
+super-impress/
+├── backend/                 # FastAPI/Python backend (see backend/AGENTS.md)
+├── frontend/                # SvelteKit frontend (see frontend/AGENTS.md)
+├── docker-compose.yml       # Local development services
+└── .pre-commit-config.yaml  # Pre-commit hooks
 ```
 
-Each subdirectory has its own CLAUDE.md with detailed guidance. This file covers cross-cutting concerns and project-wide workflows.
+## Quick Reference
 
-## Quick Start
+| Component | Language    | Package Manager | Framework                |
+| --------- | ----------- | --------------- | ------------------------ |
+| Backend   | Python 3.13 | uv              | FastAPI + SQLAlchemy 2.0 |
+| Frontend  | TypeScript  | pnpm            | SvelteKit + Svelte 5     |
 
-### Prerequisites
-- Node.js 24.11.1
-- pnpm 10.25.0+
-- Python 3.13
-- uv package manager
-- Docker + Docker Compose
-- pre-commit (optional but recommended)
+## Build/Lint/Test Commands
 
-### Full Stack Setup (Recommended for Development)
+### Backend (run from `backend/` directory)
 
 ```bash
-# 1. Install pre-commit hooks (optional)
-pip install pre-commit  # or: uv tool install pre-commit
+# Setup
+uv sync                         # Install dependencies
+
+# Development
+uv run fastapi dev              # Start dev server (hot reload)
+
+# Database
+uv run alembic upgrade head                              # Apply migrations
+uv run alembic revision --autogenerate -m "description"  # Create migration
+
+# Lint/Format
+uv run ruff check .             # Lint
+uv run ruff check --fix .       # Lint + auto-fix
+uv run ruff format .            # Format
+
+# Testing
+uv run pytest                                            # All tests
+uv run pytest path/to/test_file.py                       # Single file
+uv run pytest path/to/test_file.py::test_function_name   # Single test
+uv run pytest -k "pattern"                               # Pattern match
+```
+
+### Frontend (run from `frontend/` directory)
+
+```bash
+# Setup
+pnpm install                    # Install dependencies
+
+# Development
+pnpm dev                        # Start dev server
+pnpm build                      # Production build
+pnpm check                      # Type checking
+
+# Lint/Format
+pnpm lint:check                 # Check ESLint
+pnpm lint                       # Fix ESLint
+pnpm format:check               # Check Prettier
+pnpm format                     # Fix Prettier
+
+# Testing
+pnpm test:unit -- --run                                  # All unit tests (once)
+pnpm test:unit -- --run src/path/to/file.spec.ts         # Single file
+pnpm test:unit -- --run -t "test name"                   # Pattern match
+pnpm test:e2e                                            # All E2E tests
+pnpm test:e2e e2e/specific.test.ts                       # Single E2E file
+pnpm test:e2e --grep "test name"                         # E2E pattern match
+
+# Code Generation
+pnpm codegen                    # Regenerate API client (backend must be running)
+```
+
+### Docker (run from project root)
+
+```bash
+docker compose up -d            # Start all services
+docker compose up postgres -d   # Start only PostgreSQL
+docker compose down             # Stop services
+```
+
+## Code Style Guidelines
+
+### Backend (Python)
+
+- **Formatter/Linter:** Ruff
+- **Imports:** stdlib, third-party, local (separated by blank lines)
+- **Naming:** snake_case (files, functions, variables), PascalCase (classes)
+- **Types:** Always use type hints; `Annotated` for DI, `Mapped[T]` for ORM
+- **Errors:** `HTTPException` with `status.HTTP_XXX` codes
+- **Structure:** Feature packages with `models.py`, `service.py`, `router.py`
+- **Schemas:** `XxxBase`, `XxxCreate`, `XxxUpdate`, `XxxPublic` pattern
+- **Async:** Routers are `async def`, services are sync unless making HTTP calls
+
+### Frontend (TypeScript/Svelte)
+
+- **Formatter:** Prettier (tabs, single quotes, no trailing commas, 100 width)
+- **Linter:** ESLint with Svelte/TypeScript plugins
+- **Imports:** SvelteKit, libraries, local components, relative (in order)
+- **Naming:** kebab-case (files), PascalCase (components/types), camelCase (functions)
+- **Svelte 5:** Use runes (`$props()`, `$bindable()`, `{@render}`)
+- **Variants:** class-variance-authority (CVA) pattern
+- **Classes:** `cn()` utility for conditional merging
+- **Forms:** TanStack Form + Zod validation
+- **Errors:** `getErrorMessage()` utility for API errors
+- **Tests:** Vitest (unit), Playwright (E2E with accessible selectors)
+
+## Pre-commit Hooks
+
+Pre-commit runs automatically on staged files:
+
+- **Backend:** Ruff check + format
+- **Frontend:** Prettier format + ESLint
+- **General:** trailing whitespace, EOF fixer, YAML check, large file check
+
+Setup:
+
+```bash
+pip install pre-commit
 pre-commit install
-
-# 2. Start PostgreSQL in Docker
-docker compose up postgres -d
-
-# 3. Setup backend
-cd backend
-cp .env.example .env  # Edit DATABASE_URL to use localhost:5432
-uv sync
-uv run alembic upgrade head
-uv run fastapi dev  # Runs on http://localhost:8000
-
-# 4. Setup frontend (in new terminal)
-cd frontend
-cp .env.example .env  # Set VITE_API_BASE=http://localhost:8000
-pnpm install
-pnpm codegen  # Generate API client from backend OpenAPI spec
-pnpm dev  # Runs on http://localhost:5173
 ```
 
-**Access Points:**
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:8000/docs (Swagger UI)
-- PostgreSQL: localhost:5432
-
-### Alternative: Full Docker Setup
+Run manually:
 
 ```bash
-# Configure backend/.env with DATABASE_URL using 'postgres' hostname
-docker compose up -d
-docker compose exec backend uv run alembic upgrade head
+pre-commit run --all-files
 ```
 
-## Development Workflow
+## API Client Generation
 
-### Working on Backend
+The frontend API client in `frontend/src/lib/api/` is auto-generated from the backend OpenAPI spec.
 
-```bash
-cd backend
+**DO NOT manually edit files in `frontend/src/lib/api/`** (except `axios.ts` for interceptors).
 
-# Make model changes in app/*/models.py
-# Create migration
-uv run alembic revision --autogenerate -m "add user profile"
-
-# Review migration in migrations/versions/
-# Apply migration
-uv run alembic upgrade head
-
-# Run tests
-uv run pytest
-
-# Lint/format
-uv run ruff check . --fix
-uv run ruff format .
-```
-
-See `backend/CLAUDE.md` for detailed backend architecture and patterns.
-
-### Working on Frontend
+To regenerate after backend API changes:
 
 ```bash
-cd frontend
-
-# After backend API changes, regenerate client
-pnpm codegen  # Backend must be running on localhost:8000
-
-# Run dev server
-pnpm dev
-
-# Run tests
-pnpm test:unit  # Unit tests
-pnpm test:e2e   # E2E tests with Playwright
-
-# Lint/format
-pnpm lint
-pnpm format
-```
-
-See `frontend/CLAUDE.md` for detailed frontend architecture and patterns.
-
-### Adding New Features
-
-When implementing features that span frontend and backend:
-
-1. **Backend First:**
-   - Add SQLAlchemy models in `backend/app/{feature}/models.py`
-   - Create migration: `uv run alembic revision --autogenerate -m "..."`
-   - Add routes in `backend/app/{feature}/router.py`
-   - Add business logic in `backend/app/{feature}/service.py`
-   - Register router in `backend/app/main.py`
-   - Test backend endpoint in Swagger UI
-
-2. **Frontend Second:**
-   - Regenerate API client: `cd frontend && pnpm codegen`
-   - Create UI components in `frontend/src/lib/features/{feature}/`
-   - Add route in `frontend/src/routes/`
-   - Use generated TanStack Query hooks from `src/lib/api/`
-
-3. **Protected Routes:**
-   - Backend: Add `current_user: CurrentUserDep` to endpoint
-   - Frontend: Place route under `src/routes/(protected)/`
-
-### Pre-commit Hooks
-
-Hooks run automatically on commit after `pre-commit install`:
-
-**Backend:**
-- Ruff linting (auto-fix)
-- Ruff formatting
-
-**Frontend:**
-- Prettier formatting
-- ESLint linting
-
-**General:**
-- Trailing whitespace removal
-- End-of-file fixer
-- YAML validation
-- Large file check
-- Merge conflict detection
-
-**Manual execution:**
-```bash
-pre-commit run              # Run on staged files
-pre-commit run --all-files  # Run on entire codebase
-```
-
-## Architecture Decisions
-
-All technical decisions are documented in `decisions/tech/`:
-- `1-svelte.md` - Frontend framework choice
-- `2-docker.md` - Containerization strategy
-- `3-uv.md` - Python package manager
-- `4-pnpm.md` - JavaScript package manager
-- `5-postgresql.md` - Database choice
-- `6-authentication.md` - Auth strategy (JWT)
-- `7-ui-component-architecture.md` - Component patterns
-- `8-ui-form-decisions.md` - Form handling
-- `9-orval-api-client.md` - API client generation
-
-When making architectural changes, document them following the existing ADR format.
-
-## Key Integration Points
-
-### API Client Generation (Orval)
-
-Frontend API client is auto-generated from backend OpenAPI spec:
-
-```bash
-# In frontend directory
-pnpm codegen
-```
-
-**Configuration:** `frontend/orval.config.ts`
-- Fetches spec from `http://localhost:8000/openapi.json`
-- Generates TanStack Query hooks in `src/lib/api/`
-- Splits by OpenAPI tags (authentication, default, etc.)
-- Uses custom axios instance with auth interceptors
-
-**Important:** Backend must be running before codegen.
-
-### Authentication Flow
-
-**Backend (JWT):**
-- Login: `POST /api/login` returns JWT token
-- Protected routes: Use `CurrentUserDep` dependency
-- Password hashing: Argon2 via pwdlib
-- Config: `backend/app/auth/config.py`
-
-**Frontend (Token Storage):**
-- Token stored in localStorage via `auth` store
-- Axios interceptor auto-adds `Authorization` header
-- 401 responses trigger logout + redirect to `/login`
-- Protected routes use layout guard in `(protected)/+layout.ts`
-
-### Database Migrations
-
-Backend uses Alembic for schema management:
-
-```bash
-# Create migration after model changes
-cd backend
-uv run alembic revision --autogenerate -m "description"
-
-# Review generated file in migrations/versions/
-# Apply migration
-uv run alembic upgrade head
-
-# Rollback
-uv run alembic downgrade -1
-```
-
-**Important:** Always review autogenerated migrations before applying.
-
-## Docker Modes
-
-### Mode 1: Local Backend + Docker PostgreSQL (Recommended)
-- Fast backend restarts for active development
-- Easy debugging with local Python process
-- Backend `.env`: `DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/super_impress`
-
-```bash
-docker compose up postgres -d
+# 1. Ensure backend is running
 cd backend && uv run fastapi dev
+
+# 2. Regenerate client
+cd frontend && pnpm codegen
 ```
 
-### Mode 2: Full Docker (Backend + PostgreSQL)
-- Consistent environment across team
-- Closer to production setup
-- Backend `.env`: `DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/super_impress`
+## Environment Setup
 
-```bash
-docker compose up -d
-docker compose exec backend uv run alembic upgrade head
+### Backend
+
+Create `backend/.env`:
+
+```
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/super_impress
+SECRET_KEY=your-secret-key
 ```
 
-**Key Difference:** Hostname in DATABASE_URL (`localhost` vs `postgres`)
+### Frontend
+
+Create `frontend/.env`:
+
+```
+PUBLIC_API_URL=http://localhost:8000
+```
 
 ## Testing Strategy
 
-**Backend:**
-- Framework: pytest
-- Location: Test files alongside implementation (`test_*.py`)
-- Run: `cd backend && uv run pytest`
+- **Backend unit tests:** Co-located with modules (`test_*.py`)
+- **Frontend unit tests:** Vitest in `*.spec.ts` files
+- **E2E tests:** Playwright in `frontend/e2e/` directory
 
-**Frontend:**
-- Unit tests: Vitest with browser mode for components
-- E2E tests: Playwright
-- Run: `cd frontend && pnpm test`
-- Single file: `pnpm vitest run src/path/to/test.spec.ts`
+Run tests before committing changes. CI pipelines check:
 
-## Common Gotchas
+- Backend formatting (Ruff)
+- Frontend formatting (Prettier + ESLint)
+- E2E tests (Playwright)
 
-1. **API client out of sync:** Always run `pnpm codegen` after backend changes
-2. **Migration conflicts:** Pull latest before creating new migrations
-3. **DATABASE_URL hostname:** Use `localhost` for local backend, `postgres` for Docker backend
-4. **Pre-commit failures:** Hooks auto-format code; review changes before re-committing
-5. **Protected routes:** Frontend route guards only work in `(protected)` group
-6. **Token expiry:** Default 30 minutes (configured in backend auth settings)
+## Detailed Documentation
 
-## Development Tips
+For comprehensive guidelines specific to each subsystem:
 
-- **Backend hot reload:** `uv run fastapi dev` auto-reloads on file changes
-- **Frontend hot reload:** `pnpm dev` has Vite HMR
-- **API exploration:** Use Swagger UI at http://localhost:8000/docs
-- **Database inspection:** Connect to `localhost:5432` with any PostgreSQL client
-- **Type safety:** Both frontend and backend use strict typing (TypeScript + mypy-style hints)
-
-## Feature Organization
-
-Both frontend and backend use feature-based organization:
-
-**Backend:**
-```
-app/
-└── {feature}/
-    ├── models.py     # SQLAlchemy models + Pydantic schemas
-    ├── router.py     # FastAPI endpoints
-    ├── service.py    # Business logic
-    └── config.py     # Feature-specific settings
-```
-
-**Frontend:**
-```
-src/lib/features/{feature}/
-├── component-name.svelte
-├── another-component.svelte
-└── utils.ts
-```
-
-When adding new features, follow this modular structure rather than organizing by file type.
+- **Backend:** See `backend/AGENTS.md` (Python/FastAPI patterns, SQLAlchemy, Pydantic)
+- **Frontend:** See `frontend/AGENTS.md` (Svelte 5, TanStack, component patterns)

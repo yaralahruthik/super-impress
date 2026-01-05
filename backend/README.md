@@ -12,7 +12,14 @@ Follow the [official installation instructions](https://docs.astral.sh/uv/gettin
 # Setup virtual environment for the project and install dependencies
 uv sync
 
+# MacOS/Linux (Bash/Zsh)
 source .venv/bin/activate
+
+# Windows (Git Bash)
+source .venv/Scripts/activate
+
+# RECOMMENDED: You can also just use 'uv run' without activating
+# uv run fastapi dev
 
 # Run application
 uv run fastapi dev

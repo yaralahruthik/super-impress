@@ -8,6 +8,7 @@ dependencies = [
     "alembic>=1.17.1",
     "cryptography>=46.0.3",
     "fastapi[standard]>=0.119.0",
+    "httpx>=0.28.1",
     "psycopg[binary]>=3.2.11",
     "pwdlib[argon2]>=0.3.0",
     "pydantic-settings>=2.11.0",

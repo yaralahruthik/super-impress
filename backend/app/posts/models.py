@@ -28,7 +28,9 @@ class Post(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
 
     # Foreign key to User (ownership)
-    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), index=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("user.id", ondelete="CASCADE"), index=True
+    )
 
     # Content fields
     title: Mapped[str | None] = mapped_column(

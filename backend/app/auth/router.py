@@ -11,6 +11,7 @@ from app.auth.service import (
     change_user_password,
     create_access_token,
     create_user,
+    delete_user,
     get_current_user,
     get_user_by_email,
 )
@@ -79,3 +80,13 @@ async def change_password(
         session=session,
     )
     return {"message": "Password changed successfully"}
+
+
+@auth_router.delete("/users/me", operation_id="delete_current_user")
+async def delete_current_user(
+    current_user: Annotated[User, Depends(get_current_user)],
+    session: SessionDep,
+):
+    """Delete the current user's account and all associated data."""
+    delete_user(session, current_user)
+    return {"message": "Account successfully deleted"}

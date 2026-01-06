@@ -18,9 +18,13 @@ axiosInstance.interceptors.response.use(
 	(response) => response,
 	(error: AxiosError) => {
 		if (error.response?.status === 401) {
-			auth.logout();
-			if (typeof window !== 'undefined') {
-				window.location.href = '/login';
+			const isLoginEndpoint = error.config?.url?.includes('/api/login');
+
+			if (!isLoginEndpoint) {
+				auth.logout();
+				if (typeof window !== 'undefined') {
+					window.location.href = '/login';
+				}
 			}
 		}
 		return Promise.reject(error);

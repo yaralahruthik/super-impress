@@ -1,4 +1,5 @@
 import { auth } from '$lib/stores/auth';
+import { isTokenExpired } from '$lib/utils/jwt';
 import type { AxiosError, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 
@@ -7,7 +8,10 @@ export const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
 	if (typeof window !== 'undefined') {
 		const token = localStorage.getItem('access_token');
-		if (token) {
+
+		if (isTokenExpired(token)) {
+			auth.logout();
+		} else {
 			config.headers.Authorization = `Bearer ${token}`;
 		}
 	}
@@ -18,14 +22,7 @@ axiosInstance.interceptors.response.use(
 	(response) => response,
 	(error: AxiosError) => {
 		if (error.response?.status === 401) {
-			const isLoginEndpoint = error.config?.url?.includes('/api/login');
-
-			if (!isLoginEndpoint) {
-				auth.logout();
-				if (typeof window !== 'undefined') {
-					window.location.href = '/login';
-				}
-			}
+			auth.logout();
 		}
 		return Promise.reject(error);
 	}

@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { invalidate } from '$app/navigation';
 import { writable } from 'svelte/store';
 
 type AuthState = {
@@ -28,6 +29,7 @@ function createAuthStore() {
 		logout: () => {
 			localStorage.removeItem('access_token');
 			set({ isAuthenticated: false, token: null });
+			invalidate('app:auth');
 		}
 	};
 }

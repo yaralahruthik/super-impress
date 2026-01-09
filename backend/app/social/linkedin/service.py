@@ -95,6 +95,8 @@ async def post_to_linkedin(session: Session, user: User, post: Post) -> str:
         )
 
         post.status = PostStatus.PUBLISHED
+        post.linkedin_post_id = linkedin_post_id
+        post.reason_failed = None
         session.commit()
         session.refresh(post)
 

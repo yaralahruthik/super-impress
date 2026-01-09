@@ -112,6 +112,8 @@ export interface PasswordChange {
  */
 export type PostCreateTitle = string | null;
 
+export type PostCreateScheduledFor = string | null;
+
 /**
  * Schema for creating a new post.
  */
@@ -126,6 +128,7 @@ export interface PostCreate {
 	/** Post tags */
 	tags?: string[];
 	status?: PostStatus;
+	scheduled_for?: PostCreateScheduledFor;
 }
 
 /**
@@ -140,6 +143,12 @@ export interface PostListResponse {
  * Post title
  */
 export type PostPublicTitle = string | null;
+
+export type PostPublicScheduledFor = string | null;
+
+export type PostPublicReasonFailed = string | null;
+
+export type PostPublicLinkedinPostId = string | null;
 
 /**
  * Schema for post public data.
@@ -159,6 +168,9 @@ export interface PostPublic {
 	status: PostStatus;
 	created_at: string;
 	updated_at: string;
+	scheduled_for: PostPublicScheduledFor;
+	reason_failed: PostPublicReasonFailed;
+	linkedin_post_id: PostPublicLinkedinPostId;
 }
 
 /**
@@ -169,7 +181,9 @@ export type PostStatus = (typeof PostStatus)[keyof typeof PostStatus];
 export const PostStatus = {
 	draft: 'draft',
 	published: 'published',
-	archived: 'archived'
+	archived: 'archived',
+	scheduled: 'scheduled',
+	failed: 'failed'
 } as const;
 
 export type PostUpdateTitle = string | null;
@@ -180,6 +194,8 @@ export type PostUpdateTags = string[] | null;
 
 export type PostUpdateStatus = PostStatus | null;
 
+export type PostUpdateScheduledFor = string | null;
+
 /**
  * Schema for updating a post (all fields optional).
  */
@@ -188,6 +204,15 @@ export interface PostUpdate {
 	content?: PostUpdateContent;
 	tags?: PostUpdateTags;
 	status?: PostUpdateStatus;
+	scheduled_for?: PostUpdateScheduledFor;
+}
+
+/**
+ * Request to schedule a post.
+ */
+export interface SchedulePostRequest {
+	/** When to publish (UTC) */
+	scheduled_for: string;
 }
 
 /**

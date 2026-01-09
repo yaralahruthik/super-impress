@@ -21,9 +21,10 @@ export const createPostBody = zod
 		content: zod.string().min(1).describe('Post content'),
 		tags: zod.array(zod.string()).optional().describe('Post tags'),
 		status: zod
-			.enum(['draft', 'published', 'archived'])
+			.enum(['draft', 'published', 'archived', 'scheduled', 'failed'])
 			.optional()
-			.describe('Post status enumeration.')
+			.describe('Post status enumeration.'),
+		scheduled_for: zod.union([zod.iso.datetime({}), zod.null()]).optional()
 	})
 	.describe('Schema for creating a new post.');
 
@@ -40,7 +41,9 @@ export const listPostsQueryOffsetMin = 0;
 export const listPostsQueryParams = zod.object({
 	status: zod
 		.union([
-			zod.enum(['draft', 'published', 'archived']).describe('Post status enumeration.'),
+			zod
+				.enum(['draft', 'published', 'archived', 'scheduled', 'failed'])
+				.describe('Post status enumeration.'),
 			zod.null()
 		])
 		.optional()
@@ -70,9 +73,14 @@ export const listPostsResponse = zod
 					tags: zod.array(zod.string()).optional().describe('Post tags'),
 					id: zod.number(),
 					user_id: zod.number(),
-					status: zod.enum(['draft', 'published', 'archived']).describe('Post status enumeration.'),
+					status: zod
+						.enum(['draft', 'published', 'archived', 'scheduled', 'failed'])
+						.describe('Post status enumeration.'),
 					created_at: zod.iso.datetime({}),
-					updated_at: zod.iso.datetime({})
+					updated_at: zod.iso.datetime({}),
+					scheduled_for: zod.union([zod.iso.datetime({}), zod.null()]),
+					reason_failed: zod.union([zod.string(), zod.null()]),
+					linkedin_post_id: zod.union([zod.string(), zod.null()])
 				})
 				.describe('Schema for post public data.')
 		),
@@ -100,9 +108,14 @@ export const getPostResponse = zod
 		tags: zod.array(zod.string()).optional().describe('Post tags'),
 		id: zod.number(),
 		user_id: zod.number(),
-		status: zod.enum(['draft', 'published', 'archived']).describe('Post status enumeration.'),
+		status: zod
+			.enum(['draft', 'published', 'archived', 'scheduled', 'failed'])
+			.describe('Post status enumeration.'),
 		created_at: zod.iso.datetime({}),
-		updated_at: zod.iso.datetime({})
+		updated_at: zod.iso.datetime({}),
+		scheduled_for: zod.union([zod.iso.datetime({}), zod.null()]),
+		reason_failed: zod.union([zod.string(), zod.null()]),
+		linkedin_post_id: zod.union([zod.string(), zod.null()])
 	})
 	.describe('Schema for post public data.');
 
@@ -123,10 +136,13 @@ export const updatePostBody = zod
 		tags: zod.union([zod.array(zod.string()), zod.null()]).optional(),
 		status: zod
 			.union([
-				zod.enum(['draft', 'published', 'archived']).describe('Post status enumeration.'),
+				zod
+					.enum(['draft', 'published', 'archived', 'scheduled', 'failed'])
+					.describe('Post status enumeration.'),
 				zod.null()
 			])
-			.optional()
+			.optional(),
+		scheduled_for: zod.union([zod.iso.datetime({}), zod.null()]).optional()
 	})
 	.describe('Schema for updating a post (all fields optional).');
 
@@ -142,9 +158,14 @@ export const updatePostResponse = zod
 		tags: zod.array(zod.string()).optional().describe('Post tags'),
 		id: zod.number(),
 		user_id: zod.number(),
-		status: zod.enum(['draft', 'published', 'archived']).describe('Post status enumeration.'),
+		status: zod
+			.enum(['draft', 'published', 'archived', 'scheduled', 'failed'])
+			.describe('Post status enumeration.'),
 		created_at: zod.iso.datetime({}),
-		updated_at: zod.iso.datetime({})
+		updated_at: zod.iso.datetime({}),
+		scheduled_for: zod.union([zod.iso.datetime({}), zod.null()]),
+		reason_failed: zod.union([zod.string(), zod.null()]),
+		linkedin_post_id: zod.union([zod.string(), zod.null()])
 	})
 	.describe('Schema for post public data.');
 
@@ -155,3 +176,108 @@ export const updatePostResponse = zod
 export const deletePostParams = zod.object({
 	post_id: zod.number()
 });
+
+/**
+ * Schedule a post for future publishing.
+ * @summary Schedule Post Endpoint
+ */
+export const schedulePostParams = zod.object({
+	post_id: zod.number()
+});
+
+export const schedulePostBody = zod
+	.object({
+		scheduled_for: zod.iso.datetime({}).describe('When to publish (UTC)')
+	})
+	.describe('Request to schedule a post.');
+
+export const schedulePostResponseTitleMaxOne = 255;
+
+export const schedulePostResponse = zod
+	.object({
+		title: zod
+			.union([zod.string().min(1).max(schedulePostResponseTitleMaxOne), zod.null()])
+			.optional()
+			.describe('Post title'),
+		content: zod.string().min(1).describe('Post content'),
+		tags: zod.array(zod.string()).optional().describe('Post tags'),
+		id: zod.number(),
+		user_id: zod.number(),
+		status: zod
+			.enum(['draft', 'published', 'archived', 'scheduled', 'failed'])
+			.describe('Post status enumeration.'),
+		created_at: zod.iso.datetime({}),
+		updated_at: zod.iso.datetime({}),
+		scheduled_for: zod.union([zod.iso.datetime({}), zod.null()]),
+		reason_failed: zod.union([zod.string(), zod.null()]),
+		linkedin_post_id: zod.union([zod.string(), zod.null()])
+	})
+	.describe('Schema for post public data.');
+
+/**
+ * Cancel a scheduled post.
+ * @summary Cancel Schedule Endpoint
+ */
+export const cancelScheduleParams = zod.object({
+	post_id: zod.number()
+});
+
+export const cancelScheduleResponseTitleMaxOne = 255;
+
+export const cancelScheduleResponse = zod
+	.object({
+		title: zod
+			.union([zod.string().min(1).max(cancelScheduleResponseTitleMaxOne), zod.null()])
+			.optional()
+			.describe('Post title'),
+		content: zod.string().min(1).describe('Post content'),
+		tags: zod.array(zod.string()).optional().describe('Post tags'),
+		id: zod.number(),
+		user_id: zod.number(),
+		status: zod
+			.enum(['draft', 'published', 'archived', 'scheduled', 'failed'])
+			.describe('Post status enumeration.'),
+		created_at: zod.iso.datetime({}),
+		updated_at: zod.iso.datetime({}),
+		scheduled_for: zod.union([zod.iso.datetime({}), zod.null()]),
+		reason_failed: zod.union([zod.string(), zod.null()]),
+		linkedin_post_id: zod.union([zod.string(), zod.null()])
+	})
+	.describe('Schema for post public data.');
+
+/**
+ * Reschedule a post.
+ * @summary Reschedule Post Endpoint
+ */
+export const reschedulePostParams = zod.object({
+	post_id: zod.number()
+});
+
+export const reschedulePostBody = zod
+	.object({
+		scheduled_for: zod.iso.datetime({}).describe('When to publish (UTC)')
+	})
+	.describe('Request to schedule a post.');
+
+export const reschedulePostResponseTitleMaxOne = 255;
+
+export const reschedulePostResponse = zod
+	.object({
+		title: zod
+			.union([zod.string().min(1).max(reschedulePostResponseTitleMaxOne), zod.null()])
+			.optional()
+			.describe('Post title'),
+		content: zod.string().min(1).describe('Post content'),
+		tags: zod.array(zod.string()).optional().describe('Post tags'),
+		id: zod.number(),
+		user_id: zod.number(),
+		status: zod
+			.enum(['draft', 'published', 'archived', 'scheduled', 'failed'])
+			.describe('Post status enumeration.'),
+		created_at: zod.iso.datetime({}),
+		updated_at: zod.iso.datetime({}),
+		scheduled_for: zod.union([zod.iso.datetime({}), zod.null()]),
+		reason_failed: zod.union([zod.string(), zod.null()]),
+		linkedin_post_id: zod.union([zod.string(), zod.null()])
+	})
+	.describe('Schema for post public data.');

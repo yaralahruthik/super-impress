@@ -23,7 +23,8 @@ import type {
 	PostCreate,
 	PostListResponse,
 	PostPublic,
-	PostUpdate
+	PostUpdate,
+	SchedulePostRequest
 } from '../superimpress.schemas';
 
 import { customInstance } from '.././axios';
@@ -374,6 +375,240 @@ export const createDeletePost = <TError = ErrorType<HTTPValidationError>, TConte
 	TContext
 > => {
 	const mutationOptions = getDeletePostMutationOptions(options);
+
+	return createMutation(() => ({ ...mutationOptions, queryClient }));
+};
+/**
+ * Schedule a post for future publishing.
+ * @summary Schedule Post Endpoint
+ */
+export const schedulePost = (
+	postId: number,
+	schedulePostRequest: SchedulePostRequest,
+	signal?: AbortSignal
+) => {
+	return customInstance<PostPublic>({
+		url: `/api/posts/${postId}/schedule`,
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		data: schedulePostRequest,
+		signal
+	});
+};
+
+export const getSchedulePostMutationOptions = <
+	TError = ErrorType<HTTPValidationError>,
+	TContext = unknown
+>(options?: {
+	mutation?: CreateMutationOptions<
+		Awaited<ReturnType<typeof schedulePost>>,
+		TError,
+		{ postId: number; data: SchedulePostRequest },
+		TContext
+	>;
+}): CreateMutationOptions<
+	Awaited<ReturnType<typeof schedulePost>>,
+	TError,
+	{ postId: number; data: SchedulePostRequest },
+	TContext
+> => {
+	const mutationKey = ['schedulePost'];
+	const { mutation: mutationOptions } = options
+		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+			? options
+			: { ...options, mutation: { ...options.mutation, mutationKey } }
+		: { mutation: { mutationKey } };
+
+	const mutationFn: MutationFunction<
+		Awaited<ReturnType<typeof schedulePost>>,
+		{ postId: number; data: SchedulePostRequest }
+	> = (props) => {
+		const { postId, data } = props ?? {};
+
+		return schedulePost(postId, data);
+	};
+
+	return { mutationFn, ...mutationOptions };
+};
+
+export type SchedulePostMutationResult = NonNullable<Awaited<ReturnType<typeof schedulePost>>>;
+export type SchedulePostMutationBody = SchedulePostRequest;
+export type SchedulePostMutationError = ErrorType<HTTPValidationError>;
+
+/**
+ * @summary Schedule Post Endpoint
+ */
+export const createSchedulePost = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: CreateMutationOptions<
+			Awaited<ReturnType<typeof schedulePost>>,
+			TError,
+			{ postId: number; data: SchedulePostRequest },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): CreateMutationResult<
+	Awaited<ReturnType<typeof schedulePost>>,
+	TError,
+	{ postId: number; data: SchedulePostRequest },
+	TContext
+> => {
+	const mutationOptions = getSchedulePostMutationOptions(options);
+
+	return createMutation(() => ({ ...mutationOptions, queryClient }));
+};
+/**
+ * Cancel a scheduled post.
+ * @summary Cancel Schedule Endpoint
+ */
+export const cancelSchedule = (postId: number, signal?: AbortSignal) => {
+	return customInstance<PostPublic>({
+		url: `/api/posts/${postId}/cancel-schedule`,
+		method: 'POST',
+		signal
+	});
+};
+
+export const getCancelScheduleMutationOptions = <
+	TError = ErrorType<HTTPValidationError>,
+	TContext = unknown
+>(options?: {
+	mutation?: CreateMutationOptions<
+		Awaited<ReturnType<typeof cancelSchedule>>,
+		TError,
+		{ postId: number },
+		TContext
+	>;
+}): CreateMutationOptions<
+	Awaited<ReturnType<typeof cancelSchedule>>,
+	TError,
+	{ postId: number },
+	TContext
+> => {
+	const mutationKey = ['cancelSchedule'];
+	const { mutation: mutationOptions } = options
+		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+			? options
+			: { ...options, mutation: { ...options.mutation, mutationKey } }
+		: { mutation: { mutationKey } };
+
+	const mutationFn: MutationFunction<
+		Awaited<ReturnType<typeof cancelSchedule>>,
+		{ postId: number }
+	> = (props) => {
+		const { postId } = props ?? {};
+
+		return cancelSchedule(postId);
+	};
+
+	return { mutationFn, ...mutationOptions };
+};
+
+export type CancelScheduleMutationResult = NonNullable<Awaited<ReturnType<typeof cancelSchedule>>>;
+
+export type CancelScheduleMutationError = ErrorType<HTTPValidationError>;
+
+/**
+ * @summary Cancel Schedule Endpoint
+ */
+export const createCancelSchedule = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: CreateMutationOptions<
+			Awaited<ReturnType<typeof cancelSchedule>>,
+			TError,
+			{ postId: number },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): CreateMutationResult<
+	Awaited<ReturnType<typeof cancelSchedule>>,
+	TError,
+	{ postId: number },
+	TContext
+> => {
+	const mutationOptions = getCancelScheduleMutationOptions(options);
+
+	return createMutation(() => ({ ...mutationOptions, queryClient }));
+};
+/**
+ * Reschedule a post.
+ * @summary Reschedule Post Endpoint
+ */
+export const reschedulePost = (
+	postId: number,
+	schedulePostRequest: SchedulePostRequest,
+	signal?: AbortSignal
+) => {
+	return customInstance<PostPublic>({
+		url: `/api/posts/${postId}/reschedule`,
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		data: schedulePostRequest,
+		signal
+	});
+};
+
+export const getReschedulePostMutationOptions = <
+	TError = ErrorType<HTTPValidationError>,
+	TContext = unknown
+>(options?: {
+	mutation?: CreateMutationOptions<
+		Awaited<ReturnType<typeof reschedulePost>>,
+		TError,
+		{ postId: number; data: SchedulePostRequest },
+		TContext
+	>;
+}): CreateMutationOptions<
+	Awaited<ReturnType<typeof reschedulePost>>,
+	TError,
+	{ postId: number; data: SchedulePostRequest },
+	TContext
+> => {
+	const mutationKey = ['reschedulePost'];
+	const { mutation: mutationOptions } = options
+		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+			? options
+			: { ...options, mutation: { ...options.mutation, mutationKey } }
+		: { mutation: { mutationKey } };
+
+	const mutationFn: MutationFunction<
+		Awaited<ReturnType<typeof reschedulePost>>,
+		{ postId: number; data: SchedulePostRequest }
+	> = (props) => {
+		const { postId, data } = props ?? {};
+
+		return reschedulePost(postId, data);
+	};
+
+	return { mutationFn, ...mutationOptions };
+};
+
+export type ReschedulePostMutationResult = NonNullable<Awaited<ReturnType<typeof reschedulePost>>>;
+export type ReschedulePostMutationBody = SchedulePostRequest;
+export type ReschedulePostMutationError = ErrorType<HTTPValidationError>;
+
+/**
+ * @summary Reschedule Post Endpoint
+ */
+export const createReschedulePost = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: CreateMutationOptions<
+			Awaited<ReturnType<typeof reschedulePost>>,
+			TError,
+			{ postId: number; data: SchedulePostRequest },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): CreateMutationResult<
+	Awaited<ReturnType<typeof reschedulePost>>,
+	TError,
+	{ postId: number; data: SchedulePostRequest },
+	TContext
+> => {
+	const mutationOptions = getReschedulePostMutationOptions(options);
 
 	return createMutation(() => ({ ...mutationOptions, queryClient }));
 };

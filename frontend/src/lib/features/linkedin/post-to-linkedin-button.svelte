@@ -2,6 +2,7 @@
 	import { createGetLinkedinStatus, createPostToLinkedin } from '$lib/api/linkedin/linkedin';
 	import { Linkedin } from '@lucide/svelte';
 	import { useQueryClient } from '@tanstack/svelte-query';
+	import Button from '$lib/components/ui/button.svelte';
 
 	type Props = {
 		postId: number;
@@ -11,6 +12,7 @@
 	let { postId, status }: Props = $props();
 
 	const isPublished = $derived(status === 'published');
+	const isScheduled = $derived(status === 'scheduled');
 	const queryClient = useQueryClient();
 
 	const statusQuery = createGetLinkedinStatus();
@@ -34,20 +36,22 @@
 </script>
 
 {#if statusQuery.data?.connected}
-	<button
+	<Button
 		onclick={handlePost}
-		disabled={postMutation.isPending || isPublished}
-		class="btn gap-2 btn-primary"
+		disabled={postMutation.isPending || isPublished || isScheduled}
+		class="gap-2"
 	>
 		<Linkedin size={16} />
 		{#if isPublished}
-			Just Published
+			Published
+		{:else if isScheduled}
+			Scheduled
 		{:else if postMutation.isPending}
 			Posting...
 		{:else}
-			Post to LinkedIn
+			Post Now
 		{/if}
-	</button>
+	</Button>
 
 	{#if postMutation.isError}
 		<p class="mt-2 text-sm text-error">
@@ -56,9 +60,9 @@
 	{/if}
 {:else}
 	<div class="tooltip" data-tip="Connect LinkedIn in Settings to post">
-		<button disabled class="btn gap-2 btn-outline">
+		<Button disabled variant="outline" class="gap-2">
 			<Linkedin size={16} />
 			Post to LinkedIn
-		</button>
+		</Button>
 	</div>
 {/if}

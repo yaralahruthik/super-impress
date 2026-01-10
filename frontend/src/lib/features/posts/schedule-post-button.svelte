@@ -7,6 +7,7 @@
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { addMinutes } from 'date-fns';
 	import { untrack } from 'svelte';
+	import { getErrorMessage } from '$lib/utils/get-error-message';
 
 	type Props = {
 		postId: number;
@@ -63,6 +64,8 @@
 	}
 
 	const isPending = $derived(scheduleMutation.isPending || rescheduleMutation.isPending);
+	const isError = $derived(scheduleMutation.isError || rescheduleMutation.isError);
+	const error = $derived(scheduleMutation.error || rescheduleMutation.error);
 
 	$effect(() => {
 		if (showModal && dialogRef && !dialogRef.open) {
@@ -147,6 +150,12 @@
 						{isScheduled ? 'Reschedule' : 'Schedule'}
 					</Button>
 				</div>
+
+				{#if isError}
+					<p class="text-center text-sm text-error">
+						{getErrorMessage(error)}
+					</p>
+				{/if}
 			</div>
 
 			<form method="dialog" class="modal-backdrop">

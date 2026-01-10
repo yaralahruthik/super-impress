@@ -47,11 +47,7 @@ async def publish_scheduled_posts():
                     continue
 
                 logger.info(f"Publishing post {post.id} to LinkedIn")
-                linkedin_post_id = await post_to_linkedin(db, user, post)
-
-                post.linkedin_post_id = linkedin_post_id
-                post.reason_failed = None
-                db.commit()
+                await post_to_linkedin(db, user, post)
 
                 logger.info(f"Successfully published post {post.id}")
 

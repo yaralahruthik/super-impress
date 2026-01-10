@@ -2,7 +2,6 @@
 	import { createSchedulePost, createReschedulePost } from '$lib/api/posts/posts';
 	import DatetimePicker from '$lib/components/ui/datetime-picker.svelte';
 	import Button from '$lib/components/ui/button.svelte';
-	import Label from '$lib/components/ui/label.svelte';
 	import { Clock, X } from '@lucide/svelte';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { addMinutes } from 'date-fns';
@@ -97,7 +96,8 @@
 			onclose={() => (showModal = false)}
 		>
 			<div
-				class="relative modal-box flex max-w-sm flex-col gap-4 rounded-xl border border-base-200 bg-base-100 p-6 shadow-2xl"
+				id="schedule-modal-portal"
+				class="relative modal-box flex max-w-sm flex-col gap-4 overflow-visible rounded-xl border border-base-200 bg-base-100 p-6 shadow-2xl"
 			>
 				<Button
 					onclick={closeModal}
@@ -120,14 +120,13 @@
 					<p class="text-sm text-base-content/60">Pick a date and time to publish this post.</p>
 				</div>
 
-				<div class="flex flex-col gap-2">
-					<Label class="font-medium text-base-content/80">Date & Time</Label>
-					<DatetimePicker
-						value={scheduledFor}
-						onchange={(v: string) => (scheduledFor = v)}
-						minDate={new Date().toISOString()}
-					/>
-				</div>
+				<DatetimePicker
+					label="Date"
+					value={scheduledFor}
+					onchange={(v: string) => (scheduledFor = v)}
+					minDate={new Date().toISOString()}
+					portalTarget="#schedule-modal-portal"
+				/>
 
 				<div class="flex gap-3">
 					<Button

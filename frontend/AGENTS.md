@@ -250,3 +250,8 @@ test.describe('Feature', () => {
 ## Protected Routes
 
 Routes under `src/routes/(protected)/` require authentication. The auth guard in `(protected)/+layout.ts` redirects unauthenticated users to `/login`.
+
+## Plan Mode
+
+- Make the plan extremely concise. Sacrifice grammar for the sake of concision.
+- At the end of each plan, give me a list of unresolved questions to answer, if any.

@@ -79,17 +79,20 @@ There are two ways to run the backend during development:
 Run the backend on your machine with PostgreSQL in Docker. Best for active development.
 
 **1. Create `backend/.env`:**
+
 ```env
 DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/super_impress
 ```
 
 **2. Start PostgreSQL:**
+
 ```bash
 # From project root
 docker compose up postgres -d
 ```
 
 **3. Run backend:**
+
 ```bash
 cd backend
 uv sync
@@ -103,11 +106,13 @@ uv run fastapi dev
 Run everything in Docker containers.
 
 **1. Create `backend/.env`:**
+
 ```env
 DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/super_impress
 ```
 
 **2. Start all services:**
+
 ```bash
 # From project root
 docker compose up -d
@@ -118,6 +123,7 @@ docker compose up -d
 ### Switching Between Modes
 
 To switch from one mode to another, simply update the hostname in `backend/.env`:
+
 - **Local Backend:** `localhost:5432`
 - **Docker Backend:** `postgres:5432`
 
@@ -143,3 +149,44 @@ The application uses SQLAlchemy ORM for database operations and Pydantic for dat
 - `User`: Authentication model with email and password
 
 Database models are defined in `app/*/models.py` using SQLAlchemy ORM. Schema migrations are managed via Alembic.
+
+## Redis Setup
+
+### Quick Start
+
+```bash
+# From project root
+docker compose up redis -d
+
+# Verify connection
+docker compose exec redis redis-cli ping
+# Expected output: PONG
+```
+
+### Environment Configuration
+
+Add to `backend/.env`:
+
+```env
+# Redis Configuration
+REDIS_HOST=localhost  # Use 'redis' when backend runs in Docker
+REDIS_PORT=6379
+REDIS_DB=0
+# REDIS_PASSWORD=  # Optional, uncomment if Redis requires authentication
+```
+
+**Hostname Configuration:**
+
+- **Local backend + Docker Redis:** `REDIS_HOST=localhost`
+- **Docker backend + Docker Redis:** `REDIS_HOST=redis`
+
+### Current Usage
+
+- **OAuth state tokens:** CSRF protection with 10-minute TTL
+- **Key pattern:** `oauth_state:{token}`
+- **Expiration:** Automatic via Redis TTL (600 seconds)
+
+### Implementation Documentation
+
+- **OAuth flow details:** See `../decisions/tech/14-oauth-flow-implementation.md`
+- **Code implementation:** See `app/redis.py`

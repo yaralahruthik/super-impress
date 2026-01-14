@@ -8,7 +8,10 @@ Guidelines for AI coding agents working in this monorepo.
 super-impress/
 ├── backend/                 # FastAPI/Python backend (see backend/AGENTS.md)
 ├── frontend/                # SvelteKit frontend (see frontend/AGENTS.md)
-├── docker-compose.yml       # Local development services
+├── docker-compose.yml       # Local services (PostgreSQL, Redis)
+├── decisions/               # Architecture Decision Records
+│   ├── product/            # Product decisions
+│   └── tech/               # Technical decisions
 └── .pre-commit-config.yaml  # Pre-commit hooks
 ```
 
@@ -18,6 +21,8 @@ super-impress/
 | --------- | ----------- | --------------- | ------------------------ |
 | Backend   | Python 3.13 | uv              | FastAPI + SQLAlchemy 2.0 |
 | Frontend  | TypeScript  | pnpm            | SvelteKit + Svelte 5     |
+| Database  | PostgreSQL  | -               | PostgreSQL 18            |
+| Cache     | Redis       | -               | Redis 8 (Alpine)         |
 
 ## Build/Lint/Test Commands
 
@@ -78,9 +83,11 @@ pnpm codegen                    # Regenerate API client (backend must be running
 ### Docker (run from project root)
 
 ```bash
-docker compose up -d            # Start all services
-docker compose up postgres -d   # Start only PostgreSQL
-docker compose down             # Stop services
+docker compose up -d                 # Start all services
+docker compose up postgres -d        # Start only PostgreSQL
+docker compose up redis -d           # Start only Redis
+docker compose up postgres redis -d  # Start data services only
+docker compose down                  # Stop all services
 ```
 
 ## Code Style Guidelines
@@ -154,7 +161,11 @@ Create `backend/.env`:
 
 ```
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/super_impress
+REDIS_HOST=localhost
+REDIS_PORT=6379
 SECRET_KEY=your-secret-key
+LINKEDIN_CLIENT_ID=your-linkedin-client-id
+LINKEDIN_CLIENT_SECRET=your-linkedin-client-secret
 ```
 
 ### Frontend
@@ -176,6 +187,11 @@ Run tests before committing changes. CI pipelines check:
 - Backend formatting (Ruff)
 - Frontend formatting (Prettier + ESLint)
 - E2E tests (Playwright)
+
+## Plan Mode
+
+- Make the plan extremely concise. Sacrifice grammar for the sake of concision.
+- At the end of each plan, give me a list of unresolved questions to answer, if any.
 
 ## Detailed Documentation
 

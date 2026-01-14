@@ -7,6 +7,7 @@ This document provides guidelines for AI coding agents working in this repositor
 - **Language:** Python 3.13
 - **Framework:** FastAPI with SQLAlchemy 2.0 ORM
 - **Database:** PostgreSQL with Alembic migrations
+- **Cache/State Store:** Redis 8.x (Alpine)
 - **Package Manager:** uv (Astral's fast Python package manager)
 
 ## Build/Lint/Test Commands
@@ -33,6 +34,25 @@ uv run fastapi run app/main.py --port 80     # Production mode
 uv run alembic upgrade head                              # Apply all migrations
 uv run alembic downgrade -1                              # Rollback one migration
 uv run alembic revision --autogenerate -m "description"  # Create new migration
+```
+
+### Redis
+
+```bash
+# Start Redis (local development)
+docker compose up redis -d
+
+# Test connection
+docker compose exec redis redis-cli ping
+
+# View all keys (debugging OAuth issues)
+docker compose exec redis redis-cli KEYS "oauth_state:*"
+
+# Check specific state token
+docker compose exec redis redis-cli GET "oauth_state:TOKEN_HERE"
+
+# Monitor real-time commands
+docker compose exec redis redis-cli MONITOR
 ```
 
 ### Linting and Formatting
@@ -245,3 +265,8 @@ def get_user_by_email(session: Session, email: str) -> User | None:
     statement = select(User).where(User.email == email)
     return session.scalars(statement).first()
 ```
+
+## Plan Mode
+
+- Make the plan extremely concise. Sacrifice grammar for the sake of concision.
+- At the end of each plan, give me a list of unresolved questions to answer, if any.

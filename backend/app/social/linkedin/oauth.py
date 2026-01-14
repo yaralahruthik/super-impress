@@ -1,33 +1,34 @@
 """LinkedIn OAuth 2.0 flow implementation."""
 
 import secrets
-from datetime import datetime, timedelta
 
 import httpx
 from fastapi import HTTPException, status
 
+from app.redis import get_redis
 from app.social.linkedin.config import linkedin_settings
 
-# TODO: In-memory store for OAuth state tokens (production: use Redis)
-oauth_states: dict[str, datetime] = {}
+# OAuth state expiration (10 minutes)
+OAUTH_STATE_TTL = 600
 
 
 def generate_oauth_state() -> str:
-    """Generate CSRF protection state token."""
+    """Generate CSRF protection state token and store in Redis."""
     state = secrets.token_urlsafe(32)
-    oauth_states[state] = datetime.now() + timedelta(minutes=10)
+    redis = get_redis()
+    redis.setex(f"oauth_state:{state}", OAUTH_STATE_TTL, "1")
     return state
 
 
 def verify_oauth_state(state: str) -> bool:
-    """Verify OAuth state token and expiry."""
-    if state not in oauth_states:
-        return False
-    if oauth_states[state] < datetime.now():
-        del oauth_states[state]
-        return False
-    del oauth_states[state]
-    return True
+    """Verify OAuth state token exists in Redis and delete it."""
+    redis = get_redis()
+    key = f"oauth_state:{state}"
+    exists = redis.exists(key)
+    if exists:
+        redis.delete(key)
+        return True
+    return False
 
 
 def get_authorization_url(state: str) -> str:

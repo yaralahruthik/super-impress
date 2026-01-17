@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import HTTPException, status
@@ -6,6 +6,12 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.posts.models import Post, PostCreate, PostStatus, PostUpdate
+from app.tasks.scheduler import (
+    MAX_SCHEDULE_DAYS,
+    cancel_post_task,
+    reschedule_post_task,
+    schedule_post_task,
+)
 
 
 def create_post(session: Session, user_id: int, post_data: PostCreate) -> Post:
@@ -125,6 +131,13 @@ def schedule_post(
             detail="Scheduled time must be in the future",
         )
 
+    max_schedule_time = datetime.now(timezone.utc) + timedelta(days=MAX_SCHEDULE_DAYS)
+    if scheduled_for > max_schedule_time:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Cannot schedule more than {MAX_SCHEDULE_DAYS} days in the future",
+        )
+
     if post.status != PostStatus.DRAFT:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -134,6 +147,9 @@ def schedule_post(
     post.scheduled_for = scheduled_for
     post.status = PostStatus.SCHEDULED
     post.reason_failed = None
+
+    task_id = schedule_post_task(post_id, scheduled_for)
+    post.celery_task_id = task_id
 
     session.commit()
     session.refresh(post)
@@ -150,8 +166,12 @@ def cancel_schedule(session: Session, post_id: int, user_id: int) -> Post:
             detail=f"Post is not scheduled. Current: {post.status}",
         )
 
+    if post.celery_task_id:
+        cancel_post_task(post.celery_task_id)
+
     post.status = PostStatus.DRAFT
     post.scheduled_for = None
+    post.celery_task_id = None
 
     session.commit()
     session.refresh(post)
@@ -170,15 +190,26 @@ def reschedule_post(
             detail="Scheduled time must be in the future",
         )
 
+    max_schedule_time = datetime.now(timezone.utc) + timedelta(days=MAX_SCHEDULE_DAYS)
+    if scheduled_for > max_schedule_time:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Cannot schedule more than {MAX_SCHEDULE_DAYS} days in the future",
+        )
+
     if post.status not in [PostStatus.SCHEDULED, PostStatus.FAILED, PostStatus.DRAFT]:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Cannot reschedule post with status: {post.status}",
         )
 
+    old_task_id = post.celery_task_id
+    new_task_id = reschedule_post_task(old_task_id, post_id, scheduled_for)
+
     post.scheduled_for = scheduled_for
     post.status = PostStatus.SCHEDULED
     post.reason_failed = None
+    post.celery_task_id = new_task_id
 
     session.commit()
     session.refresh(post)

@@ -35,8 +35,9 @@ def cancel_post_task(task_id: str) -> bool:
 
 
 def reschedule_post_task(
-    old_task_id: str, post_id: int, new_scheduled_for: datetime
+    old_task_id: str | None, post_id: int, new_scheduled_for: datetime
 ) -> str:
-    cancel_post_task(old_task_id)
+    if old_task_id:
+        cancel_post_task(old_task_id)
     new_task_id = schedule_post_task(post_id, new_scheduled_for)
     return new_task_id

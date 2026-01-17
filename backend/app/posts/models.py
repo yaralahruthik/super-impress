@@ -69,6 +69,11 @@ class Post(Base):
     # Platform post IDs (extensible for other platforms)
     linkedin_post_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
+    # Celery task ID for scheduled posts
+    celery_task_id: Mapped[str | None] = mapped_column(
+        String(255), nullable=True, index=True
+    )
+
 
 # Pydantic Schemas
 
@@ -113,6 +118,7 @@ class PostPublic(PostBase):
     scheduled_for: datetime | None
     reason_failed: str | None
     linkedin_post_id: str | None
+    celery_task_id: str | None
 
 
 class PostListResponse(BaseModel):

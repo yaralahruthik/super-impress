@@ -5,3 +5,6 @@ __pycache__/
 
 # Ruff cache
 .ruff_cache/
+
+.env
+.env.docker

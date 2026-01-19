@@ -42,6 +42,7 @@ services:
     image: super-impress-backend
     env_file:
       - backend/.env
+      - backend/.env.docker
     depends_on:
       - postgres
       - redis

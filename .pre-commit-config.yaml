@@ -16,22 +16,20 @@ repos:
         name: Frontend Format (Prettier)
         entry: bash -ic 'cd frontend && pnpm run format'
         language: system
-        files: ^frontend/.*\.(js|ts|svelte|css|json|html)$
+        files: ^frontend/.*\.(js|ts|css|json|html)$
 
       - id: frontend-lint
         name: Frontend Lint (ESLint)
         entry: bash -ic 'cd frontend && pnpm run lint'
         language: system
-        files: ^frontend/.*\.(js|ts|svelte)$
+        files: ^frontend/.*\.(js|ts)$
 
   # General hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-        exclude: ^frontend/(node_modules|\.svelte-kit|build)/
       - id: end-of-file-fixer
-        exclude: ^frontend/(node_modules|\.svelte-kit|build)/
       - id: check-yaml
       - id: check-added-large-files
         args: [--maxkb=1000]

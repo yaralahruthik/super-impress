@@ -16,13 +16,13 @@ repos:
         name: Frontend Format (Prettier)
         entry: bash -ic 'cd frontend && pnpm run format'
         language: system
-        files: ^frontend/.*\.(js|ts|css|json|html)$
+        files: ^frontend/.*\.(js|jsx|ts|tsx|css|json|html)$
 
       - id: frontend-lint
         name: Frontend Lint (ESLint)
         entry: bash -ic 'cd frontend && pnpm run lint'
         language: system
-        files: ^frontend/.*\.(js|ts)$
+        files: ^frontend/.*\.(js|jsx|ts|tsx)$
 
   # General hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks

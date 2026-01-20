@@ -4,16 +4,21 @@
  * Super Impress
  * OpenAPI spec version: 0.1.0
  */
-import { createMutation, createQuery } from '@tanstack/svelte-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
-	CreateMutationOptions,
-	CreateMutationResult,
-	CreateQueryOptions,
-	CreateQueryResult,
+	DataTag,
+	DefinedInitialDataOptions,
+	DefinedUseQueryResult,
 	MutationFunction,
+	QueryClient,
 	QueryFunction,
-	QueryKey
-} from '@tanstack/svelte-query';
+	QueryKey,
+	UndefinedInitialDataOptions,
+	UseMutationOptions,
+	UseMutationResult,
+	UseQueryOptions,
+	UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
 	HTTPValidationError,
@@ -43,13 +48,13 @@ export const getInitiateLinkedinConnectionMutationOptions = <
 	TError = ErrorType<unknown>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof initiateLinkedinConnection>>,
 		TError,
 		void,
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof initiateLinkedinConnection>>,
 	TError,
 	void,
@@ -81,23 +86,23 @@ export type InitiateLinkedinConnectionMutationError = ErrorType<unknown>;
 /**
  * @summary Initiate Linkedin Connection
  */
-export const createInitiateLinkedinConnection = <
-	TError = ErrorType<unknown>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof initiateLinkedinConnection>>,
-		TError,
-		void,
-		TContext
-	>;
-}): CreateMutationResult<
+export const useInitiateLinkedinConnection = <TError = ErrorType<unknown>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof initiateLinkedinConnection>>,
+			TError,
+			void,
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof initiateLinkedinConnection>>,
 	TError,
 	void,
 	TContext
 > => {
-	return createMutation(getInitiateLinkedinConnectionMutationOptions(options));
+	return useMutation(getInitiateLinkedinConnectionMutationOptions(options), queryClient);
 };
 /**
  * Complete LinkedIn OAuth flow and store connection.
@@ -120,13 +125,13 @@ export const getCompleteLinkedinConnectionMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof completeLinkedinConnection>>,
 		TError,
 		{ data: LinkedInConnectCallback },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof completeLinkedinConnection>>,
 	TError,
 	{ data: LinkedInConnectCallback },
@@ -160,23 +165,26 @@ export type CompleteLinkedinConnectionMutationError = ErrorType<HTTPValidationEr
 /**
  * @summary Complete Linkedin Connection
  */
-export const createCompleteLinkedinConnection = <
+export const useCompleteLinkedinConnection = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof completeLinkedinConnection>>,
-		TError,
-		{ data: LinkedInConnectCallback },
-		TContext
-	>;
-}): CreateMutationResult<
+>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof completeLinkedinConnection>>,
+			TError,
+			{ data: LinkedInConnectCallback },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof completeLinkedinConnection>>,
 	TError,
 	{ data: LinkedInConnectCallback },
 	TContext
 > => {
-	return createMutation(getCompleteLinkedinConnectionMutationOptions(options));
+	return useMutation(getCompleteLinkedinConnectionMutationOptions(options), queryClient);
 };
 /**
  * Disconnect LinkedIn account.
@@ -194,18 +202,13 @@ export const getDisconnectLinkedinMutationOptions = <
 	TError = ErrorType<unknown>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof disconnectLinkedin>>,
 		TError,
 		void,
 		TContext
 	>;
-}): CreateMutationOptions<
-	Awaited<ReturnType<typeof disconnectLinkedin>>,
-	TError,
-	void,
-	TContext
-> => {
+}): UseMutationOptions<Awaited<ReturnType<typeof disconnectLinkedin>>, TError, void, TContext> => {
 	const mutationKey = ['disconnectLinkedin'];
 	const { mutation: mutationOptions } = options
 		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
@@ -229,23 +232,18 @@ export type DisconnectLinkedinMutationError = ErrorType<unknown>;
 /**
  * @summary Disconnect Linkedin Account
  */
-export const createDisconnectLinkedin = <
-	TError = ErrorType<unknown>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof disconnectLinkedin>>,
-		TError,
-		void,
-		TContext
-	>;
-}): CreateMutationResult<
-	Awaited<ReturnType<typeof disconnectLinkedin>>,
-	TError,
-	void,
-	TContext
-> => {
-	return createMutation(getDisconnectLinkedinMutationOptions(options));
+export const useDisconnectLinkedin = <TError = ErrorType<unknown>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof disconnectLinkedin>>,
+			TError,
+			void,
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<Awaited<ReturnType<typeof disconnectLinkedin>>, TError, void, TContext> => {
+	return useMutation(getDisconnectLinkedinMutationOptions(options), queryClient);
 };
 /**
  * Get current LinkedIn connection status.
@@ -267,7 +265,7 @@ export const getGetLinkedinStatusQueryOptions = <
 	TData = Awaited<ReturnType<typeof getLinkedinStatus>>,
 	TError = ErrorType<unknown>
 >(options?: {
-	query?: CreateQueryOptions<Awaited<ReturnType<typeof getLinkedinStatus>>, TError, TData>;
+	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getLinkedinStatus>>, TError, TData>>;
 }) => {
 	const { query: queryOptions } = options ?? {};
 
@@ -276,11 +274,11 @@ export const getGetLinkedinStatusQueryOptions = <
 	const queryFn: QueryFunction<Awaited<ReturnType<typeof getLinkedinStatus>>> = ({ signal }) =>
 		getLinkedinStatus(signal);
 
-	return { queryKey, queryFn, ...queryOptions } as CreateQueryOptions<
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
 		Awaited<ReturnType<typeof getLinkedinStatus>>,
 		TError,
 		TData
-	> & { queryKey: QueryKey };
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
 export type GetLinkedinStatusQueryResult = NonNullable<
@@ -288,25 +286,69 @@ export type GetLinkedinStatusQueryResult = NonNullable<
 >;
 export type GetLinkedinStatusQueryError = ErrorType<unknown>;
 
+export function useGetLinkedinStatus<
+	TData = Awaited<ReturnType<typeof getLinkedinStatus>>,
+	TError = ErrorType<unknown>
+>(
+	options: {
+		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getLinkedinStatus>>, TError, TData>> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getLinkedinStatus>>,
+					TError,
+					Awaited<ReturnType<typeof getLinkedinStatus>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetLinkedinStatus<
+	TData = Awaited<ReturnType<typeof getLinkedinStatus>>,
+	TError = ErrorType<unknown>
+>(
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getLinkedinStatus>>, TError, TData>> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getLinkedinStatus>>,
+					TError,
+					Awaited<ReturnType<typeof getLinkedinStatus>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetLinkedinStatus<
+	TData = Awaited<ReturnType<typeof getLinkedinStatus>>,
+	TError = ErrorType<unknown>
+>(
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getLinkedinStatus>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 /**
  * @summary Get Linkedin Connection Status
  */
 
-export function createGetLinkedinStatus<
+export function useGetLinkedinStatus<
 	TData = Awaited<ReturnType<typeof getLinkedinStatus>>,
 	TError = ErrorType<unknown>
->(options?: {
-	query?: CreateQueryOptions<Awaited<ReturnType<typeof getLinkedinStatus>>, TError, TData>;
-}): CreateQueryResult<TData, TError> & { queryKey: QueryKey } {
+>(
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getLinkedinStatus>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 	const queryOptions = getGetLinkedinStatusQueryOptions(options);
 
-	const query = createQuery(queryOptions) as CreateQueryResult<TData, TError> & {
-		queryKey: QueryKey;
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
-	query.queryKey = queryOptions.queryKey;
-
-	return query;
+	return { ...query, queryKey: queryOptions.queryKey };
 }
 
 /**
@@ -327,13 +369,13 @@ export const getPostToLinkedinMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof postToLinkedin>>,
 		TError,
 		{ data: LinkedInPostRequest },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof postToLinkedin>>,
 	TError,
 	{ data: LinkedInPostRequest },
@@ -365,21 +407,21 @@ export type PostToLinkedinMutationError = ErrorType<HTTPValidationError>;
 /**
  * @summary Post To Linkedin Endpoint
  */
-export const createPostToLinkedin = <
-	TError = ErrorType<HTTPValidationError>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof postToLinkedin>>,
-		TError,
-		{ data: LinkedInPostRequest },
-		TContext
-	>;
-}): CreateMutationResult<
+export const usePostToLinkedin = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof postToLinkedin>>,
+			TError,
+			{ data: LinkedInPostRequest },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof postToLinkedin>>,
 	TError,
 	{ data: LinkedInPostRequest },
 	TContext
 > => {
-	return createMutation(getPostToLinkedinMutationOptions(options));
+	return useMutation(getPostToLinkedinMutationOptions(options), queryClient);
 };

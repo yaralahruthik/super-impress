@@ -4,16 +4,21 @@
  * Super Impress
  * OpenAPI spec version: 0.1.0
  */
-import { createMutation, createQuery } from '@tanstack/svelte-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
-	CreateMutationOptions,
-	CreateMutationResult,
-	CreateQueryOptions,
-	CreateQueryResult,
+	DataTag,
+	DefinedInitialDataOptions,
+	DefinedUseQueryResult,
 	MutationFunction,
+	QueryClient,
 	QueryFunction,
-	QueryKey
-} from '@tanstack/svelte-query';
+	QueryKey,
+	UndefinedInitialDataOptions,
+	UseMutationOptions,
+	UseMutationResult,
+	UseQueryOptions,
+	UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
 	BodyLoginUser,
@@ -44,13 +49,13 @@ export const getRegisterUserMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof registerUser>>,
 		TError,
 		{ data: UserCreate },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof registerUser>>,
 	TError,
 	{ data: UserCreate },
@@ -82,23 +87,23 @@ export type RegisterUserMutationError = ErrorType<HTTPValidationError>;
 /**
  * @summary Register User
  */
-export const createRegisterUser = <
-	TError = ErrorType<HTTPValidationError>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof registerUser>>,
-		TError,
-		{ data: UserCreate },
-		TContext
-	>;
-}): CreateMutationResult<
+export const useRegisterUser = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof registerUser>>,
+			TError,
+			{ data: UserCreate },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof registerUser>>,
 	TError,
 	{ data: UserCreate },
 	TContext
 > => {
-	return createMutation(getRegisterUserMutationOptions(options));
+	return useMutation(getRegisterUserMutationOptions(options), queryClient);
 };
 /**
  * @summary Login User
@@ -133,13 +138,13 @@ export const getLoginUserMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof loginUser>>,
 		TError,
 		{ data: BodyLoginUser },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof loginUser>>,
 	TError,
 	{ data: BodyLoginUser },
@@ -171,23 +176,23 @@ export type LoginUserMutationError = ErrorType<HTTPValidationError>;
 /**
  * @summary Login User
  */
-export const createLoginUser = <
-	TError = ErrorType<HTTPValidationError>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof loginUser>>,
-		TError,
-		{ data: BodyLoginUser },
-		TContext
-	>;
-}): CreateMutationResult<
+export const useLoginUser = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof loginUser>>,
+			TError,
+			{ data: BodyLoginUser },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof loginUser>>,
 	TError,
 	{ data: BodyLoginUser },
 	TContext
 > => {
-	return createMutation(getLoginUserMutationOptions(options));
+	return useMutation(getLoginUserMutationOptions(options), queryClient);
 };
 /**
  * @summary Read Current User
@@ -204,7 +209,7 @@ export const getReadCurrentUserQueryOptions = <
 	TData = Awaited<ReturnType<typeof readCurrentUser>>,
 	TError = ErrorType<unknown>
 >(options?: {
-	query?: CreateQueryOptions<Awaited<ReturnType<typeof readCurrentUser>>, TError, TData>;
+	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof readCurrentUser>>, TError, TData>>;
 }) => {
 	const { query: queryOptions } = options ?? {};
 
@@ -213,35 +218,79 @@ export const getReadCurrentUserQueryOptions = <
 	const queryFn: QueryFunction<Awaited<ReturnType<typeof readCurrentUser>>> = ({ signal }) =>
 		readCurrentUser(signal);
 
-	return { queryKey, queryFn, ...queryOptions } as CreateQueryOptions<
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
 		Awaited<ReturnType<typeof readCurrentUser>>,
 		TError,
 		TData
-	> & { queryKey: QueryKey };
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
 export type ReadCurrentUserQueryResult = NonNullable<Awaited<ReturnType<typeof readCurrentUser>>>;
 export type ReadCurrentUserQueryError = ErrorType<unknown>;
 
+export function useReadCurrentUser<
+	TData = Awaited<ReturnType<typeof readCurrentUser>>,
+	TError = ErrorType<unknown>
+>(
+	options: {
+		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof readCurrentUser>>, TError, TData>> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof readCurrentUser>>,
+					TError,
+					Awaited<ReturnType<typeof readCurrentUser>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useReadCurrentUser<
+	TData = Awaited<ReturnType<typeof readCurrentUser>>,
+	TError = ErrorType<unknown>
+>(
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof readCurrentUser>>, TError, TData>> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof readCurrentUser>>,
+					TError,
+					Awaited<ReturnType<typeof readCurrentUser>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useReadCurrentUser<
+	TData = Awaited<ReturnType<typeof readCurrentUser>>,
+	TError = ErrorType<unknown>
+>(
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof readCurrentUser>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 /**
  * @summary Read Current User
  */
 
-export function createReadCurrentUser<
+export function useReadCurrentUser<
 	TData = Awaited<ReturnType<typeof readCurrentUser>>,
 	TError = ErrorType<unknown>
->(options?: {
-	query?: CreateQueryOptions<Awaited<ReturnType<typeof readCurrentUser>>, TError, TData>;
-}): CreateQueryResult<TData, TError> & { queryKey: QueryKey } {
+>(
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof readCurrentUser>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 	const queryOptions = getReadCurrentUserQueryOptions(options);
 
-	const query = createQuery(queryOptions) as CreateQueryResult<TData, TError> & {
-		queryKey: QueryKey;
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
-	query.queryKey = queryOptions.queryKey;
-
-	return query;
+	return { ...query, queryKey: queryOptions.queryKey };
 }
 
 /**
@@ -261,13 +310,13 @@ export const getChangePasswordMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof changePassword>>,
 		TError,
 		{ data: PasswordChange },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof changePassword>>,
 	TError,
 	{ data: PasswordChange },
@@ -299,23 +348,23 @@ export type ChangePasswordMutationError = ErrorType<HTTPValidationError>;
 /**
  * @summary Change Password
  */
-export const createChangePassword = <
-	TError = ErrorType<HTTPValidationError>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof changePassword>>,
-		TError,
-		{ data: PasswordChange },
-		TContext
-	>;
-}): CreateMutationResult<
+export const useChangePassword = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof changePassword>>,
+			TError,
+			{ data: PasswordChange },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof changePassword>>,
 	TError,
 	{ data: PasswordChange },
 	TContext
 > => {
-	return createMutation(getChangePasswordMutationOptions(options));
+	return useMutation(getChangePasswordMutationOptions(options), queryClient);
 };
 /**
  * Delete the current user's account and all associated data.
@@ -329,18 +378,13 @@ export const getDeleteCurrentUserMutationOptions = <
 	TError = ErrorType<unknown>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof deleteCurrentUser>>,
 		TError,
 		void,
 		TContext
 	>;
-}): CreateMutationOptions<
-	Awaited<ReturnType<typeof deleteCurrentUser>>,
-	TError,
-	void,
-	TContext
-> => {
+}): UseMutationOptions<Awaited<ReturnType<typeof deleteCurrentUser>>, TError, void, TContext> => {
 	const mutationKey = ['deleteCurrentUser'];
 	const { mutation: mutationOptions } = options
 		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
@@ -364,13 +408,16 @@ export type DeleteCurrentUserMutationError = ErrorType<unknown>;
 /**
  * @summary Delete Current User
  */
-export const createDeleteCurrentUser = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof deleteCurrentUser>>,
-		TError,
-		void,
-		TContext
-	>;
-}): CreateMutationResult<Awaited<ReturnType<typeof deleteCurrentUser>>, TError, void, TContext> => {
-	return createMutation(getDeleteCurrentUserMutationOptions(options));
+export const useDeleteCurrentUser = <TError = ErrorType<unknown>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof deleteCurrentUser>>,
+			TError,
+			void,
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<Awaited<ReturnType<typeof deleteCurrentUser>>, TError, void, TContext> => {
+	return useMutation(getDeleteCurrentUserMutationOptions(options), queryClient);
 };

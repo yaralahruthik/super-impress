@@ -7,7 +7,7 @@ export default defineConfig({
 			httpClient: 'axios',
 			target: './src/api/superimpress.ts',
 			mode: 'tags-split',
-			client: 'svelte-query',
+			client: 'react-query',
 			override: {
 				mutator: {
 					path: 'src/api/axios.ts',

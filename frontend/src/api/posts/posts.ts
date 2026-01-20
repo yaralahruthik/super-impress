@@ -4,16 +4,21 @@
  * Super Impress
  * OpenAPI spec version: 0.1.0
  */
-import { createMutation, createQuery } from '@tanstack/svelte-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
-	CreateMutationOptions,
-	CreateMutationResult,
-	CreateQueryOptions,
-	CreateQueryResult,
+	DataTag,
+	DefinedInitialDataOptions,
+	DefinedUseQueryResult,
 	MutationFunction,
+	QueryClient,
 	QueryFunction,
-	QueryKey
-} from '@tanstack/svelte-query';
+	QueryKey,
+	UndefinedInitialDataOptions,
+	UseMutationOptions,
+	UseMutationResult,
+	UseQueryOptions,
+	UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
 	HTTPValidationError,
@@ -45,13 +50,13 @@ export const getCreatePostMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof createPost>>,
 		TError,
 		{ data: PostCreate },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof createPost>>,
 	TError,
 	{ data: PostCreate },
@@ -83,23 +88,23 @@ export type CreatePostMutationError = ErrorType<HTTPValidationError>;
 /**
  * @summary Create Post Endpoint
  */
-export const createCreatePost = <
-	TError = ErrorType<HTTPValidationError>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof createPost>>,
-		TError,
-		{ data: PostCreate },
-		TContext
-	>;
-}): CreateMutationResult<
+export const useCreatePost = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof createPost>>,
+			TError,
+			{ data: PostCreate },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof createPost>>,
 	TError,
 	{ data: PostCreate },
 	TContext
 > => {
-	return createMutation(getCreatePostMutationOptions(options));
+	return useMutation(getCreatePostMutationOptions(options), queryClient);
 };
 /**
  * List posts for the authenticated user with optional filters.
@@ -118,7 +123,9 @@ export const getListPostsQueryOptions = <
 	TError = ErrorType<HTTPValidationError>
 >(
 	params?: ListPostsParams,
-	options?: { query?: CreateQueryOptions<Awaited<ReturnType<typeof listPosts>>, TError, TData> }
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listPosts>>, TError, TData>>;
+	}
 ) => {
 	const { query: queryOptions } = options ?? {};
 
@@ -127,36 +134,83 @@ export const getListPostsQueryOptions = <
 	const queryFn: QueryFunction<Awaited<ReturnType<typeof listPosts>>> = ({ signal }) =>
 		listPosts(params, signal);
 
-	return { queryKey, queryFn, ...queryOptions } as CreateQueryOptions<
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
 		Awaited<ReturnType<typeof listPosts>>,
 		TError,
 		TData
-	> & { queryKey: QueryKey };
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
 export type ListPostsQueryResult = NonNullable<Awaited<ReturnType<typeof listPosts>>>;
 export type ListPostsQueryError = ErrorType<HTTPValidationError>;
 
-/**
- * @summary List Posts Endpoint
- */
-
-export function createListPosts<
+export function useListPosts<
+	TData = Awaited<ReturnType<typeof listPosts>>,
+	TError = ErrorType<HTTPValidationError>
+>(
+	params: undefined | ListPostsParams,
+	options: {
+		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof listPosts>>, TError, TData>> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof listPosts>>,
+					TError,
+					Awaited<ReturnType<typeof listPosts>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useListPosts<
 	TData = Awaited<ReturnType<typeof listPosts>>,
 	TError = ErrorType<HTTPValidationError>
 >(
 	params?: ListPostsParams,
-	options?: { query?: CreateQueryOptions<Awaited<ReturnType<typeof listPosts>>, TError, TData> }
-): CreateQueryResult<TData, TError> & { queryKey: QueryKey } {
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listPosts>>, TError, TData>> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof listPosts>>,
+					TError,
+					Awaited<ReturnType<typeof listPosts>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useListPosts<
+	TData = Awaited<ReturnType<typeof listPosts>>,
+	TError = ErrorType<HTTPValidationError>
+>(
+	params?: ListPostsParams,
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listPosts>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+/**
+ * @summary List Posts Endpoint
+ */
+
+export function useListPosts<
+	TData = Awaited<ReturnType<typeof listPosts>>,
+	TError = ErrorType<HTTPValidationError>
+>(
+	params?: ListPostsParams,
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listPosts>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 	const queryOptions = getListPostsQueryOptions(params, options);
 
-	const query = createQuery(queryOptions) as CreateQueryResult<TData, TError> & {
-		queryKey: QueryKey;
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
-	query.queryKey = queryOptions.queryKey;
-
-	return query;
+	return { ...query, queryKey: queryOptions.queryKey };
 }
 
 /**
@@ -176,7 +230,7 @@ export const getGetPostQueryOptions = <
 	TError = ErrorType<HTTPValidationError>
 >(
 	postId: number,
-	options?: { query?: CreateQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData> }
+	options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>> }
 ) => {
 	const { query: queryOptions } = options ?? {};
 
@@ -185,36 +239,83 @@ export const getGetPostQueryOptions = <
 	const queryFn: QueryFunction<Awaited<ReturnType<typeof getPost>>> = ({ signal }) =>
 		getPost(postId, signal);
 
-	return { queryKey, queryFn, enabled: !!postId, ...queryOptions } as CreateQueryOptions<
+	return { queryKey, queryFn, enabled: !!postId, ...queryOptions } as UseQueryOptions<
 		Awaited<ReturnType<typeof getPost>>,
 		TError,
 		TData
-	> & { queryKey: QueryKey };
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
 export type GetPostQueryResult = NonNullable<Awaited<ReturnType<typeof getPost>>>;
 export type GetPostQueryError = ErrorType<HTTPValidationError>;
 
-/**
- * @summary Get Post Endpoint
- */
-
-export function createGetPost<
+export function useGetPost<
 	TData = Awaited<ReturnType<typeof getPost>>,
 	TError = ErrorType<HTTPValidationError>
 >(
 	postId: number,
-	options?: { query?: CreateQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData> }
-): CreateQueryResult<TData, TError> & { queryKey: QueryKey } {
+	options: {
+		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getPost>>,
+					TError,
+					Awaited<ReturnType<typeof getPost>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetPost<
+	TData = Awaited<ReturnType<typeof getPost>>,
+	TError = ErrorType<HTTPValidationError>
+>(
+	postId: number,
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof getPost>>,
+					TError,
+					Awaited<ReturnType<typeof getPost>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetPost<
+	TData = Awaited<ReturnType<typeof getPost>>,
+	TError = ErrorType<HTTPValidationError>
+>(
+	postId: number,
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+/**
+ * @summary Get Post Endpoint
+ */
+
+export function useGetPost<
+	TData = Awaited<ReturnType<typeof getPost>>,
+	TError = ErrorType<HTTPValidationError>
+>(
+	postId: number,
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPost>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 	const queryOptions = getGetPostQueryOptions(postId, options);
 
-	const query = createQuery(queryOptions) as CreateQueryResult<TData, TError> & {
-		queryKey: QueryKey;
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
-	query.queryKey = queryOptions.queryKey;
-
-	return query;
+	return { ...query, queryKey: queryOptions.queryKey };
 }
 
 /**
@@ -235,13 +336,13 @@ export const getUpdatePostMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof updatePost>>,
 		TError,
 		{ postId: number; data: PostUpdate },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof updatePost>>,
 	TError,
 	{ postId: number; data: PostUpdate },
@@ -273,23 +374,23 @@ export type UpdatePostMutationError = ErrorType<HTTPValidationError>;
 /**
  * @summary Update Post Endpoint
  */
-export const createUpdatePost = <
-	TError = ErrorType<HTTPValidationError>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof updatePost>>,
-		TError,
-		{ postId: number; data: PostUpdate },
-		TContext
-	>;
-}): CreateMutationResult<
+export const useUpdatePost = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof updatePost>>,
+			TError,
+			{ postId: number; data: PostUpdate },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof updatePost>>,
 	TError,
 	{ postId: number; data: PostUpdate },
 	TContext
 > => {
-	return createMutation(getUpdatePostMutationOptions(options));
+	return useMutation(getUpdatePostMutationOptions(options), queryClient);
 };
 /**
  * Delete a specific post.
@@ -303,13 +404,13 @@ export const getDeletePostMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof deletePost>>,
 		TError,
 		{ postId: number },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof deletePost>>,
 	TError,
 	{ postId: number },
@@ -340,21 +441,21 @@ export type DeletePostMutationError = ErrorType<HTTPValidationError>;
 /**
  * @summary Delete Post Endpoint
  */
-export const createDeletePost = <
-	TError = ErrorType<HTTPValidationError>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof deletePost>>,
-		TError,
-		{ postId: number },
-		TContext
-	>;
-}): CreateMutationResult<
+export const useDeletePost = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof deletePost>>,
+			TError,
+			{ postId: number },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof deletePost>>,
 	TError,
 	{ postId: number },
 	TContext
 > => {
-	return createMutation(getDeletePostMutationOptions(options));
+	return useMutation(getDeletePostMutationOptions(options), queryClient);
 };

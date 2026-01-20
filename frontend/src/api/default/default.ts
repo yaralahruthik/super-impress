@@ -4,13 +4,18 @@
  * Super Impress
  * OpenAPI spec version: 0.1.0
  */
-import { createQuery } from '@tanstack/svelte-query';
+import { useQuery } from '@tanstack/react-query';
 import type {
-	CreateQueryOptions,
-	CreateQueryResult,
+	DataTag,
+	DefinedInitialDataOptions,
+	DefinedUseQueryResult,
+	QueryClient,
 	QueryFunction,
-	QueryKey
-} from '@tanstack/svelte-query';
+	QueryKey,
+	UndefinedInitialDataOptions,
+	UseQueryOptions,
+	UseQueryResult
+} from '@tanstack/react-query';
 
 import { customInstance } from '.././axios';
 import type { ErrorType } from '.././axios';
@@ -30,7 +35,7 @@ export const getRootApiTestGetQueryOptions = <
 	TData = Awaited<ReturnType<typeof rootApiTestGet>>,
 	TError = ErrorType<unknown>
 >(options?: {
-	query?: CreateQueryOptions<Awaited<ReturnType<typeof rootApiTestGet>>, TError, TData>;
+	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof rootApiTestGet>>, TError, TData>>;
 }) => {
 	const { query: queryOptions } = options ?? {};
 
@@ -39,33 +44,77 @@ export const getRootApiTestGetQueryOptions = <
 	const queryFn: QueryFunction<Awaited<ReturnType<typeof rootApiTestGet>>> = ({ signal }) =>
 		rootApiTestGet(signal);
 
-	return { queryKey, queryFn, ...queryOptions } as CreateQueryOptions<
+	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
 		Awaited<ReturnType<typeof rootApiTestGet>>,
 		TError,
 		TData
-	> & { queryKey: QueryKey };
+	> & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
 export type RootApiTestGetQueryResult = NonNullable<Awaited<ReturnType<typeof rootApiTestGet>>>;
 export type RootApiTestGetQueryError = ErrorType<unknown>;
 
+export function useRootApiTestGet<
+	TData = Awaited<ReturnType<typeof rootApiTestGet>>,
+	TError = ErrorType<unknown>
+>(
+	options: {
+		query: Partial<UseQueryOptions<Awaited<ReturnType<typeof rootApiTestGet>>, TError, TData>> &
+			Pick<
+				DefinedInitialDataOptions<
+					Awaited<ReturnType<typeof rootApiTestGet>>,
+					TError,
+					Awaited<ReturnType<typeof rootApiTestGet>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useRootApiTestGet<
+	TData = Awaited<ReturnType<typeof rootApiTestGet>>,
+	TError = ErrorType<unknown>
+>(
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof rootApiTestGet>>, TError, TData>> &
+			Pick<
+				UndefinedInitialDataOptions<
+					Awaited<ReturnType<typeof rootApiTestGet>>,
+					TError,
+					Awaited<ReturnType<typeof rootApiTestGet>>
+				>,
+				'initialData'
+			>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useRootApiTestGet<
+	TData = Awaited<ReturnType<typeof rootApiTestGet>>,
+	TError = ErrorType<unknown>
+>(
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof rootApiTestGet>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 /**
  * @summary Root
  */
 
-export function createRootApiTestGet<
+export function useRootApiTestGet<
 	TData = Awaited<ReturnType<typeof rootApiTestGet>>,
 	TError = ErrorType<unknown>
->(options?: {
-	query?: CreateQueryOptions<Awaited<ReturnType<typeof rootApiTestGet>>, TError, TData>;
-}): CreateQueryResult<TData, TError> & { queryKey: QueryKey } {
+>(
+	options?: {
+		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof rootApiTestGet>>, TError, TData>>;
+	},
+	queryClient?: QueryClient
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 	const queryOptions = getRootApiTestGetQueryOptions(options);
 
-	const query = createQuery(queryOptions) as CreateQueryResult<TData, TError> & {
-		queryKey: QueryKey;
+	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+		queryKey: DataTag<QueryKey, TData, TError>;
 	};
 
-	query.queryKey = queryOptions.queryKey;
-
-	return query;
+	return { ...query, queryKey: queryOptions.queryKey };
 }

@@ -4,12 +4,13 @@
  * Super Impress
  * OpenAPI spec version: 0.1.0
  */
-import { createMutation } from '@tanstack/svelte-query';
+import { useMutation } from '@tanstack/react-query';
 import type {
-	CreateMutationOptions,
-	CreateMutationResult,
-	MutationFunction
-} from '@tanstack/svelte-query';
+	MutationFunction,
+	QueryClient,
+	UseMutationOptions,
+	UseMutationResult
+} from '@tanstack/react-query';
 
 import type {
 	EmailVerificationConfirm,
@@ -42,13 +43,13 @@ export const getVerifyEmailMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof verifyEmail>>,
 		TError,
 		{ data: EmailVerificationConfirm },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof verifyEmail>>,
 	TError,
 	{ data: EmailVerificationConfirm },
@@ -80,23 +81,23 @@ export type VerifyEmailMutationError = ErrorType<HTTPValidationError>;
 /**
  * @summary Verify Email
  */
-export const createVerifyEmail = <
-	TError = ErrorType<HTTPValidationError>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof verifyEmail>>,
-		TError,
-		{ data: EmailVerificationConfirm },
-		TContext
-	>;
-}): CreateMutationResult<
+export const useVerifyEmail = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof verifyEmail>>,
+			TError,
+			{ data: EmailVerificationConfirm },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof verifyEmail>>,
 	TError,
 	{ data: EmailVerificationConfirm },
 	TContext
 > => {
-	return createMutation(getVerifyEmailMutationOptions(options));
+	return useMutation(getVerifyEmailMutationOptions(options), queryClient);
 };
 /**
  * Request email verification for authenticated user.
@@ -114,18 +115,13 @@ export const getRequestVerificationMutationOptions = <
 	TError = ErrorType<unknown>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof requestVerification>>,
 		TError,
 		void,
 		TContext
 	>;
-}): CreateMutationOptions<
-	Awaited<ReturnType<typeof requestVerification>>,
-	TError,
-	void,
-	TContext
-> => {
+}): UseMutationOptions<Awaited<ReturnType<typeof requestVerification>>, TError, void, TContext> => {
 	const mutationKey = ['requestVerification'];
 	const { mutation: mutationOptions } = options
 		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
@@ -152,23 +148,18 @@ export type RequestVerificationMutationError = ErrorType<unknown>;
 /**
  * @summary Request Verification
  */
-export const createRequestVerification = <
-	TError = ErrorType<unknown>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof requestVerification>>,
-		TError,
-		void,
-		TContext
-	>;
-}): CreateMutationResult<
-	Awaited<ReturnType<typeof requestVerification>>,
-	TError,
-	void,
-	TContext
-> => {
-	return createMutation(getRequestVerificationMutationOptions(options));
+export const useRequestVerification = <TError = ErrorType<unknown>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof requestVerification>>,
+			TError,
+			void,
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<Awaited<ReturnType<typeof requestVerification>>, TError, void, TContext> => {
+	return useMutation(getRequestVerificationMutationOptions(options), queryClient);
 };
 /**
  * Resend verification email.
@@ -191,13 +182,13 @@ export const getResendVerificationMutationOptions = <
 	TError = ErrorType<HTTPValidationError>,
 	TContext = unknown
 >(options?: {
-	mutation?: CreateMutationOptions<
+	mutation?: UseMutationOptions<
 		Awaited<ReturnType<typeof resendVerification>>,
 		TError,
 		{ data: EmailVerificationRequest },
 		TContext
 	>;
-}): CreateMutationOptions<
+}): UseMutationOptions<
 	Awaited<ReturnType<typeof resendVerification>>,
 	TError,
 	{ data: EmailVerificationRequest },
@@ -231,21 +222,21 @@ export type ResendVerificationMutationError = ErrorType<HTTPValidationError>;
 /**
  * @summary Resend Verification
  */
-export const createResendVerification = <
-	TError = ErrorType<HTTPValidationError>,
-	TContext = unknown
->(options?: {
-	mutation?: CreateMutationOptions<
-		Awaited<ReturnType<typeof resendVerification>>,
-		TError,
-		{ data: EmailVerificationRequest },
-		TContext
-	>;
-}): CreateMutationResult<
+export const useResendVerification = <TError = ErrorType<HTTPValidationError>, TContext = unknown>(
+	options?: {
+		mutation?: UseMutationOptions<
+			Awaited<ReturnType<typeof resendVerification>>,
+			TError,
+			{ data: EmailVerificationRequest },
+			TContext
+		>;
+	},
+	queryClient?: QueryClient
+): UseMutationResult<
 	Awaited<ReturnType<typeof resendVerification>>,
 	TError,
 	{ data: EmailVerificationRequest },
 	TContext
 > => {
-	return createMutation(getResendVerificationMutationOptions(options));
+	return useMutation(getResendVerificationMutationOptions(options), queryClient);
 };

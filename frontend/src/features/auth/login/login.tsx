@@ -1,5 +1,13 @@
 import { useLoginUser } from '@/api/authentication/authentication';
 import { Button } from '@/components/ui/button';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle
+} from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/use-auth';
@@ -54,94 +62,95 @@ export default function Login() {
 
 	return (
 		<AuthLayout>
-			<div className="space-y-6">
-				<div className="space-y-2 text-center">
-					<h1 className="text-2xl font-bold">Sign In</h1>
-					<p className="text-sm text-muted-foreground">
-						Enter your email and password to access your account
-					</p>
-				</div>
+			<Card>
+				<CardHeader>
+					<CardTitle>Sign In</CardTitle>
+					<CardDescription>Enter your email and password to access your account</CardDescription>
+				</CardHeader>
 
-				<form
-					id="login-form"
-					onSubmit={(e) => {
-						e.preventDefault();
-						form.handleSubmit();
-					}}
-					className="space-y-4"
-				>
-					<fieldset disabled={isPending} className="space-y-4">
-						<FieldGroup>
-							<form.Field
-								name="email"
-								children={(field) => {
-									const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-									return (
-										<Field data-invalid={isInvalid}>
-											<FieldLabel htmlFor="email">Email</FieldLabel>
-											<Input
-												id="email"
-												name="email"
-												type="email"
-												autoComplete="email"
-												required
-												value={field.state.value}
-												onChange={(e) => field.handleChange(e.target.value)}
-												onBlur={field.handleBlur}
-												aria-invalid={isInvalid}
-											/>
-											{isInvalid && <FieldError errors={field.state.meta.errors} />}
-										</Field>
-									);
-								}}
-							/>
-							<form.Field
-								name="password"
-								children={(field) => {
-									const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-									return (
-										<Field data-invalid={isInvalid}>
-											<FieldLabel htmlFor="password">Password</FieldLabel>
-											<Input
-												id="password"
-												name="password"
-												type="password"
-												autoComplete="current-password"
-												required
-												value={field.state.value}
-												onChange={(e) => field.handleChange(e.target.value)}
-												onBlur={field.handleBlur}
-												aria-invalid={isInvalid}
-											/>
-											{isInvalid && <FieldError errors={field.state.meta.errors} />}
-										</Field>
-									);
-								}}
-							/>
-						</FieldGroup>
+				<CardContent>
+					<form
+						id="login-form"
+						onSubmit={(e) => {
+							e.preventDefault();
+							form.handleSubmit();
+						}}
+					>
+						<fieldset disabled={isPending} className="space-y-4">
+							<FieldGroup>
+								<form.Field
+									name="email"
+									children={(field) => {
+										const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+										return (
+											<Field data-invalid={isInvalid}>
+												<FieldLabel htmlFor="email">Email</FieldLabel>
+												<Input
+													id="email"
+													name="email"
+													type="email"
+													autoComplete="email"
+													required
+													value={field.state.value}
+													onChange={(e) => field.handleChange(e.target.value)}
+													onBlur={field.handleBlur}
+													aria-invalid={isInvalid}
+												/>
+												{isInvalid && <FieldError errors={field.state.meta.errors} />}
+											</Field>
+										);
+									}}
+								/>
+								<form.Field
+									name="password"
+									children={(field) => {
+										const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+										return (
+											<Field data-invalid={isInvalid}>
+												<FieldLabel htmlFor="password">Password</FieldLabel>
+												<Input
+													id="password"
+													name="password"
+													type="password"
+													autoComplete="current-password"
+													required
+													value={field.state.value}
+													onChange={(e) => field.handleChange(e.target.value)}
+													onBlur={field.handleBlur}
+													aria-invalid={isInvalid}
+												/>
+												{isInvalid && <FieldError errors={field.state.meta.errors} />}
+											</Field>
+										);
+									}}
+								/>
+							</FieldGroup>
 
-						{error && (
-							<div
-								role="alert"
-								className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive"
-							>
-								{error}
-							</div>
-						)}
+							{error && (
+								<div
+									role="alert"
+									className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive"
+								>
+									{error}
+								</div>
+							)}
 
-						<Button type="submit" className="w-full" aria-busy={isPending}>
-							{isPending ? 'Signing in...' : 'Sign In'}
-						</Button>
-					</fieldset>
-				</form>
+							<Button type="submit" className="w-full" aria-busy={isPending}>
+								{isPending ? 'Signing in...' : 'Sign In'}
+							</Button>
+						</fieldset>
+					</form>
+				</CardContent>
 
-				<div className="text-center text-sm">
-					<span className="text-muted-foreground">Don't have an account? </span>
-					<Link to="/register" className="font-medium text-primary hover:underline">
-						Sign up
-					</Link>
-				</div>
-			</div>
+				<CardFooter className="justify-center">
+					<div className="text-center text-sm">
+						<span className="text-muted-foreground">Don't have an account? </span>
+						<Link to="/register" className="font-medium text-primary hover:underline">
+							Sign up
+						</Link>
+					</div>
+				</CardFooter>
+			</Card>
 		</AuthLayout>
 	);
 }

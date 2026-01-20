@@ -2,8 +2,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { RouterProvider } from '@tanstack/react-router';
 import { Provider as JotaiProvider } from 'jotai';
-import { router } from './router';
 import { useAuth } from './hooks/use-auth';
+import { router } from './router';
 
 const queryClient = new QueryClient();
 

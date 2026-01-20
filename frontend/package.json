@@ -9,7 +9,7 @@
 		"format:check": "prettier --check .",
 		"format": "prettier --write .",
 		"lint:check": "eslint .",
-		"lint": "eslint . --fix",
+		"lint": "eslint . --fix --quiet",
 		"preview": "vite preview",
 		"orval": "orval"
 	},

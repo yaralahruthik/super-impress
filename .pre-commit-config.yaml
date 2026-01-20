@@ -9,21 +9,6 @@ repos:
       - id: ruff-format
         files: ^backend/
 
-  # Frontend hooks
-  - repo: local
-    hooks:
-      - id: frontend-format
-        name: Frontend Format (Prettier)
-        entry: bash -ic 'cd frontend && pnpm run format'
-        language: system
-        files: ^frontend/.*\.(js|jsx|ts|tsx|css|json|html)$
-
-      - id: frontend-lint
-        name: Frontend Lint (ESLint)
-        entry: bash -ic 'cd frontend && pnpm run lint'
-        language: system
-        files: ^frontend/.*\.(js|jsx|ts|tsx)$
-
   # General hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0

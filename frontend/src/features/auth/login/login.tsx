@@ -1,45 +1,56 @@
 import { useLoginUser } from '@/api/authentication/authentication';
 import { Button } from '@/components/ui/button';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useAuth } from '@/hooks/use-auth';
 import { AuthLayout } from '@/layouts/auth-layout';
 import { getErrorMessage } from '@/utils/get-error-message';
+import { useForm } from '@tanstack/react-form';
 import { Link, useNavigate } from '@tanstack/react-router';
-import type { AxiosError } from 'axios';
 import { useState } from 'react';
+import * as z from 'zod';
+
+const formSchema = z.object({
+	email: z.email('Invalid email address'),
+	password: z.string().min(1, 'Password is required')
+});
 
 export default function Login() {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
 	const [error, setError] = useState<string | null>(null);
 
 	const navigate = useNavigate();
 	const { login } = useAuth();
 	const { mutate, isPending } = useLoginUser();
 
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		setError(null);
-
-		mutate(
-			{
-				data: {
-					username: email,
-					password
-				}
-			},
-			{
-				onSuccess: (response) => {
-					login(response.access_token);
-					navigate({ to: '/' });
+	const form = useForm({
+		defaultValues: {
+			email: '',
+			password: ''
+		},
+		validators: {
+			onSubmit: formSchema
+		},
+		onSubmit: async ({ value }) => {
+			setError(null);
+			mutate(
+				{
+					data: {
+						username: value.email,
+						password: value.password
+					}
 				},
-				onError: (error) => {
-					setError(getErrorMessage(error as AxiosError));
+				{
+					onSuccess: (response) => {
+						login(response.access_token);
+						navigate({ to: '/' });
+					},
+					onError: (error) => {
+						setError(getErrorMessage(error));
+					}
 				}
-			}
-		);
-	};
+			);
+		}
+	});
 
 	return (
 		<AuthLayout>
@@ -51,35 +62,63 @@ export default function Login() {
 					</p>
 				</div>
 
-				<form onSubmit={handleSubmit} className="space-y-4">
+				<form
+					id="login-form"
+					onSubmit={(e) => {
+						e.preventDefault();
+						form.handleSubmit();
+					}}
+					className="space-y-4"
+				>
 					<fieldset disabled={isPending} className="space-y-4">
-						<div className="space-y-2">
-							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
+						<FieldGroup>
+							<form.Field
 								name="email"
-								type="email"
-								autoComplete="email"
-								required
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								aria-invalid={!!error}
+								children={(field) => {
+									const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+									return (
+										<Field data-invalid={isInvalid}>
+											<FieldLabel htmlFor="email">Email</FieldLabel>
+											<Input
+												id="email"
+												name="email"
+												type="email"
+												autoComplete="email"
+												required
+												value={field.state.value}
+												onChange={(e) => field.handleChange(e.target.value)}
+												onBlur={field.handleBlur}
+												aria-invalid={isInvalid}
+											/>
+											{isInvalid && <FieldError errors={field.state.meta.errors} />}
+										</Field>
+									);
+								}}
 							/>
-						</div>
-
-						<div className="space-y-2">
-							<Label htmlFor="password">Password</Label>
-							<Input
-								id="password"
+							<form.Field
 								name="password"
-								type="password"
-								autoComplete="current-password"
-								required
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-								aria-invalid={!!error}
+								children={(field) => {
+									const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+									return (
+										<Field data-invalid={isInvalid}>
+											<FieldLabel htmlFor="password">Password</FieldLabel>
+											<Input
+												id="password"
+												name="password"
+												type="password"
+												autoComplete="current-password"
+												required
+												value={field.state.value}
+												onChange={(e) => field.handleChange(e.target.value)}
+												onBlur={field.handleBlur}
+												aria-invalid={isInvalid}
+											/>
+											{isInvalid && <FieldError errors={field.state.meta.errors} />}
+										</Field>
+									);
+								}}
 							/>
-						</div>
+						</FieldGroup>
 
 						{error && (
 							<div

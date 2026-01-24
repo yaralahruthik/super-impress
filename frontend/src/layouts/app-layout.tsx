@@ -5,9 +5,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<SidebarProvider>
 			<AppSidebar />
-			<main>
+			<main className="w-full space-y-4 p-4">
 				<SidebarTrigger />
-				{children}
+				<div>{children}</div>
 			</main>
 		</SidebarProvider>
 	);

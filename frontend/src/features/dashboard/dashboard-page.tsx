@@ -1,10 +1,32 @@
+import { useReadCurrentUser } from '@/api/authentication/authentication';
+import UserInfoCard, { UserInfoCardError, UserInfoCardLoading } from './user-info-card';
+
 export default function DashboardPage() {
-	return (
-		<div className="flex h-screen items-center justify-center">
-			<div className="text-center">
-				<h1 className="text-4xl font-bold">Welcome to Super Impress</h1>
-				<p className="mt-4 text-muted-foreground">You are logged in!</p>
+	const { data, isPending, isError } = useReadCurrentUser();
+
+	if (isPending) {
+		return (
+			<div className="space-y-6">
+				<h1 className="text-2xl font-bold">Dashboard</h1>
+				<UserInfoCardLoading />
 			</div>
+		);
+	}
+
+	if (isError) {
+		return (
+			<div className="space-y-6">
+				<h1 className="text-2xl font-bold">Dashboard</h1>
+				<UserInfoCardError />
+			</div>
+		);
+	}
+
+	return (
+		<div className="space-y-6">
+			<h1 className="text-2xl font-bold">Dashboard</h1>
+
+			<UserInfoCard user={data} />
 		</div>
 	);
 }

@@ -4,9 +4,9 @@ export const Route = createFileRoute('/_protected')({
 	beforeLoad: ({ context }) => {
 		if (!context.auth.isAuthenticated) {
 			throw redirect({
-				to: '/login',
+				to: '/login'
 			});
 		}
 	},
-	component: () => <Outlet />,
+	component: () => <Outlet />
 });

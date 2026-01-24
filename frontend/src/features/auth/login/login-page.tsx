@@ -23,7 +23,7 @@ const formSchema = z.object({
 	password: z.string().min(1, 'Password is required')
 });
 
-export default function Login() {
+export default function LoginPage() {
 	const [error, setError] = useState<string | null>(null);
 
 	const navigate = useNavigate();

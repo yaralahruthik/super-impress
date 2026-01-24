@@ -31,7 +31,7 @@ const formSchema = z
 		path: ['confirmPassword']
 	});
 
-export default function Register() {
+export default function RegisterPage() {
 	const [error, setError] = useState<string | null>(null);
 
 	const navigate = useNavigate();

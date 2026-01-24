@@ -19,16 +19,13 @@ Users can accidentally (or intentionally) submit forms multiple times by repeate
 
 ### The Solution
 
-Disable the entire form during submission by binding the fieldset's `disabled` attribute to the mutation's pending state.
+Disable form controls during submission by tracking the mutation's pending state.
 
-**Implementation** (from `frontend/src/lib/features/auth/register/register.svelte:60`):
+**Implementation** (from `frontend/src/features/auth/register/register.tsx`):
 
-```svelte
-<fieldset
-  class="fieldset w-xs rounded-box border border-base-300 bg-base-200 p-4"
-  disabled={registerMutation.isPending}
->
-  <!-- All form inputs and submit button here -->
+```tsx
+<fieldset disabled={registerMutation.isPending}>
+  {/* All form inputs and submit button here */}
 </fieldset>
 ```
 
@@ -36,7 +33,7 @@ Disable the entire form during submission by binding the fieldset's `disabled` a
 
 1. **User submits form**: `registerMutation.mutate(value)` is called
 2. **Mutation starts**: `registerMutation.isPending` becomes `true`
-3. **Fieldset disables**: The `disabled` binding disables all form controls
+3. **Fieldset disables**: The `disabled` attribute disables all form controls
 4. **User blocked**: Cannot type, click submit, or interact with any field
 5. **Mutation completes**: `isPending` becomes `false`, form re-enables
 
@@ -55,10 +52,10 @@ Disabling the entire `<fieldset>` provides:
 
 ### Visual Feedback
 
-The submit button shows loading state (from `register.svelte:127-129`):
+The submit button shows loading state:
 
-```svelte
-<Button type="submit" class="mt-4" aria-busy={registerMutation.isPending}>
+```tsx
+<Button type="submit" aria-busy={registerMutation.isPending}>
   {registerMutation.isPending ? 'Registering...' : 'Register'}
 </Button>
 ```
@@ -74,14 +71,14 @@ This provides:
 
 Used for client-side validation and form state:
 
-```svelte
-const form = createForm(() => ({
+```tsx
+const form = useForm({
   defaultValues: { email: '', password: '', confirmPassword: '' },
   validators: { onSubmit: registerFormSchema },
   onSubmit: async ({ value }) => {
     registerMutation.mutate(value);
   }
-}));
+});
 ```
 
 **Responsibilities:**
@@ -94,13 +91,13 @@ const form = createForm(() => ({
 
 Used for server communication and async state:
 
-```svelte
-const registerMutation = createMutation(() => ({
+```tsx
+const registerMutation = useMutation({
   mutationFn: registerApi,
   onSuccess: () => {
-    goto(resolve('/login'));
+    navigate('/login');
   }
-}));
+});
 ```
 
 **Responsibilities:**
@@ -146,10 +143,10 @@ Using both provides:
 
 The pattern includes proper ARIA attributes:
 
-- `aria-invalid` on inputs with validation errors (register.svelte:73, 94, 115)
-- `aria-busy` on submit button during submission (register.svelte:127)
-- `role="alert"` for error messages (register.svelte:132)
-- `aria-live="polite"` for dynamic error announcements (register.svelte:132)
+- `aria-invalid` on inputs with validation errors
+- `aria-busy` on submit button during submission
+- `role="alert"` for error messages
+- `aria-live="polite"` for dynamic error announcements
 
 Screen readers announce:
 - Field validation errors as users type
@@ -159,14 +156,14 @@ Screen readers announce:
 ## Related Patterns
 
 This decision is related to:
-- `/decisions/tech/7-ui-component-architecture.md` - Button and Input primitives used in forms
+- `/decisions/tech/7-ui-component-architecture.md` - UI components used in forms
 - `/decisions/tech/6-authentication.md` - Auth forms implement this pattern
 
 ## References
 
 ### Code Examples
-- `/frontend/src/lib/features/auth/register/register.svelte` - Registration form implementation
-- `/frontend/src/lib/features/auth/login/login.svelte` - Login form (same pattern)
+- `/frontend/src/features/auth/register/register.tsx` - Registration form implementation
+- `/frontend/src/features/auth/login/login.tsx` - Login form (same pattern)
 
 ### Documentation
 - [TanStack Form](https://tanstack.com/form/latest) - Form validation and state management

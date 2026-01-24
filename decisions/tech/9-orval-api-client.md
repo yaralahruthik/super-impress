@@ -10,57 +10,60 @@ We use [Orval](https://orval.dev/) to generate TypeScript API clients from our O
 2. **Reduced Boilerplate**: No need to manually write fetch calls, request/response types, or API URLs.
 3. **Single Source of Truth**: The OpenAPI spec (generated from FastAPI) drives both backend validation and frontend types.
 
-## Current Approach: Svelte Query with Axios
+## Current Approach: React Query with Axios
 
-We use Orval's **svelte-query** client output mode, which generates Svelte Query hooks (`createQuery` and `createMutation`) that use Axios under the hood.
+We use Orval's **react-query** client output mode, which generates React Query hooks (`useQuery` and `useMutation`) that use Axios under the hood.
 
 Example generated code:
 
 ```ts
-export const createRegisterUserApiRegisterPost = <
+export const useRegisterUserApiRegisterPost = <
   TError = AxiosError<HTTPValidationError>,
   TContext = unknown
 >(
   options?: {
-    mutation?: CreateMutationOptions<...>;
+    mutation?: UseMutationOptions<...>;
     axios?: AxiosRequestConfig;
   },
   queryClient?: QueryClient
-): CreateMutationResult<...> => {
+): UseMutationResult<...> => {
   const mutationOptions = getRegisterUserApiRegisterPostMutationOptions(options);
-  return createMutation(() => ({ ...mutationOptions, queryClient }));
+  return useMutation({ ...mutationOptions, queryClient });
 };
 ```
 
 ### Usage in Components
 
-The generated hooks can be used directly in Svelte components:
+The generated hooks can be used directly in React components:
 
-```svelte
-<script lang="ts">
-  import { createRegisterUserApiRegisterPost } from '$lib/api/authentication/authentication';
+```tsx
+import { useRegisterUserApiRegisterPost } from '@/api/authentication/authentication';
 
-  const registerMutation = createRegisterUserApiRegisterPost({
+function RegisterForm() {
+  const registerMutation = useRegisterUserApiRegisterPost({
     mutation: {
       onSuccess: () => {
-        goto('/login');
+        navigate('/login');
       }
     }
   });
 
   // In form submit handler:
-  registerMutation.mutate({
-    data: { email: value.email, password: value.password }
-  });
-</script>
+  const handleSubmit = (value) => {
+    registerMutation.mutate({
+      data: { email: value.email, password: value.password }
+    });
+  };
 
-{#if registerMutation.isPending}
-  <span>Loading...</span>
-{/if}
-
-{#if registerMutation.isError}
-  <span>{getErrorMessage(registerMutation.error)}</span>
-{/if}
+  return (
+    <>
+      {registerMutation.isPending && <span>Loading...</span>}
+      {registerMutation.isError && (
+        <span>{getErrorMessage(registerMutation.error)}</span>
+      )}
+    </>
+  );
+}
 ```
 
 ### Error Handling
@@ -121,7 +124,7 @@ export default defineConfig({
     output: {
       target: "./src/lib/api/superimpress.ts",
       mode: "tags-split",
-      client: "svelte-query",
+      client: "react-query",
     },
     hooks: {
       afterAllFilesWrite: "prettier --write",

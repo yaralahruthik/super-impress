@@ -287,7 +287,7 @@ auth/
 
 5. **CORS configuration**
    - Currently not configured
-   - Required for frontend (SvelteKit) to call backend
+   - Required for frontend (React) to call backend
    - Add CORS middleware with allowed origins
 
 ### Medium-term Enhancements

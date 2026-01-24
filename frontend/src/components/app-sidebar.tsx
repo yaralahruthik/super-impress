@@ -20,8 +20,8 @@ const items: { title: string; url: LinkProps['to']; icon: React.ElementType }[] 
 		icon: Home
 	},
 	{
-		title: 'Create Post',
-		url: '/posts/new',
+		title: 'Posts',
+		url: '/posts',
 		icon: FileText
 	}
 ];

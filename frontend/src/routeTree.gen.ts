@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ProtectedAppRouteImport } from './routes/_protected/_app'
 import { Route as ProtectedAppIndexRouteImport } from './routes/_protected/_app/index'
+import { Route as ProtectedAppPostsIndexRouteImport } from './routes/_protected/_app/posts/index'
 import { Route as ProtectedAppPostsNewRouteImport } from './routes/_protected/_app/posts/new'
 
 const RegisterRoute = RegisterRouteImport.update({
@@ -39,6 +40,11 @@ const ProtectedAppIndexRoute = ProtectedAppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProtectedAppRoute,
 } as any)
+const ProtectedAppPostsIndexRoute = ProtectedAppPostsIndexRouteImport.update({
+  id: '/posts/',
+  path: '/posts/',
+  getParentRoute: () => ProtectedAppRoute,
+} as any)
 const ProtectedAppPostsNewRoute = ProtectedAppPostsNewRouteImport.update({
   id: '/posts/new',
   path: '/posts/new',
@@ -50,12 +56,14 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/posts/new': typeof ProtectedAppPostsNewRoute
+  '/posts/': typeof ProtectedAppPostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof ProtectedAppIndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/posts/new': typeof ProtectedAppPostsNewRoute
+  '/posts': typeof ProtectedAppPostsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -65,12 +73,13 @@ export interface FileRoutesById {
   '/_protected/_app': typeof ProtectedAppRouteWithChildren
   '/_protected/_app/': typeof ProtectedAppIndexRoute
   '/_protected/_app/posts/new': typeof ProtectedAppPostsNewRoute
+  '/_protected/_app/posts/': typeof ProtectedAppPostsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/register' | '/posts/new'
+  fullPaths: '/' | '/login' | '/register' | '/posts/new' | '/posts/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/posts/new'
+  to: '/' | '/login' | '/register' | '/posts/new' | '/posts'
   id:
     | '__root__'
     | '/_protected'
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/_protected/_app'
     | '/_protected/_app/'
     | '/_protected/_app/posts/new'
+    | '/_protected/_app/posts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -124,6 +134,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAppIndexRouteImport
       parentRoute: typeof ProtectedAppRoute
     }
+    '/_protected/_app/posts/': {
+      id: '/_protected/_app/posts/'
+      path: '/posts'
+      fullPath: '/posts/'
+      preLoaderRoute: typeof ProtectedAppPostsIndexRouteImport
+      parentRoute: typeof ProtectedAppRoute
+    }
     '/_protected/_app/posts/new': {
       id: '/_protected/_app/posts/new'
       path: '/posts/new'
@@ -137,11 +154,13 @@ declare module '@tanstack/react-router' {
 interface ProtectedAppRouteChildren {
   ProtectedAppIndexRoute: typeof ProtectedAppIndexRoute
   ProtectedAppPostsNewRoute: typeof ProtectedAppPostsNewRoute
+  ProtectedAppPostsIndexRoute: typeof ProtectedAppPostsIndexRoute
 }
 
 const ProtectedAppRouteChildren: ProtectedAppRouteChildren = {
   ProtectedAppIndexRoute: ProtectedAppIndexRoute,
   ProtectedAppPostsNewRoute: ProtectedAppPostsNewRoute,
+  ProtectedAppPostsIndexRoute: ProtectedAppPostsIndexRoute,
 }
 
 const ProtectedAppRouteWithChildren = ProtectedAppRoute._addFileChildren(

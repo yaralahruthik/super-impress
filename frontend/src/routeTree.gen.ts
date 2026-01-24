@@ -15,8 +15,8 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as ProtectedAppRouteImport } from './routes/_protected/_app'
 import { Route as ProtectedAppIndexRouteImport } from './routes/_protected/_app/index'
 import { Route as ProtectedAppSettingsRouteImport } from './routes/_protected/_app/settings'
-import { Route as ProtectedAppChangePasswordRouteImport } from './routes/_protected/_app/change-password'
 import { Route as ProtectedAppPostsIndexRouteImport } from './routes/_protected/_app/posts/index'
+import { Route as ProtectedAppSettingsChangePasswordRouteImport } from './routes/_protected/_app/settings/change-password'
 import { Route as ProtectedAppPostsNewRouteImport } from './routes/_protected/_app/posts/new'
 
 const RegisterRoute = RegisterRouteImport.update({
@@ -47,17 +47,17 @@ const ProtectedAppSettingsRoute = ProtectedAppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => ProtectedAppRoute,
 } as any)
-const ProtectedAppChangePasswordRoute =
-  ProtectedAppChangePasswordRouteImport.update({
-    id: '/change-password',
-    path: '/change-password',
-    getParentRoute: () => ProtectedAppRoute,
-  } as any)
 const ProtectedAppPostsIndexRoute = ProtectedAppPostsIndexRouteImport.update({
   id: '/posts/',
   path: '/posts/',
   getParentRoute: () => ProtectedAppRoute,
 } as any)
+const ProtectedAppSettingsChangePasswordRoute =
+  ProtectedAppSettingsChangePasswordRouteImport.update({
+    id: '/change-password',
+    path: '/change-password',
+    getParentRoute: () => ProtectedAppSettingsRoute,
+  } as any)
 const ProtectedAppPostsNewRoute = ProtectedAppPostsNewRouteImport.update({
   id: '/posts/new',
   path: '/posts/new',
@@ -68,18 +68,18 @@ export interface FileRoutesByFullPath {
   '/': typeof ProtectedAppIndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/change-password': typeof ProtectedAppChangePasswordRoute
-  '/settings': typeof ProtectedAppSettingsRoute
+  '/settings': typeof ProtectedAppSettingsRouteWithChildren
   '/posts/new': typeof ProtectedAppPostsNewRoute
+  '/settings/change-password': typeof ProtectedAppSettingsChangePasswordRoute
   '/posts/': typeof ProtectedAppPostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof ProtectedAppIndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/change-password': typeof ProtectedAppChangePasswordRoute
-  '/settings': typeof ProtectedAppSettingsRoute
+  '/settings': typeof ProtectedAppSettingsRouteWithChildren
   '/posts/new': typeof ProtectedAppPostsNewRoute
+  '/settings/change-password': typeof ProtectedAppSettingsChangePasswordRoute
   '/posts': typeof ProtectedAppPostsIndexRoute
 }
 export interface FileRoutesById {
@@ -88,10 +88,10 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/_protected/_app': typeof ProtectedAppRouteWithChildren
-  '/_protected/_app/change-password': typeof ProtectedAppChangePasswordRoute
-  '/_protected/_app/settings': typeof ProtectedAppSettingsRoute
+  '/_protected/_app/settings': typeof ProtectedAppSettingsRouteWithChildren
   '/_protected/_app/': typeof ProtectedAppIndexRoute
   '/_protected/_app/posts/new': typeof ProtectedAppPostsNewRoute
+  '/_protected/_app/settings/change-password': typeof ProtectedAppSettingsChangePasswordRoute
   '/_protected/_app/posts/': typeof ProtectedAppPostsIndexRoute
 }
 export interface FileRouteTypes {
@@ -100,18 +100,18 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/register'
-    | '/change-password'
     | '/settings'
     | '/posts/new'
+    | '/settings/change-password'
     | '/posts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/register'
-    | '/change-password'
     | '/settings'
     | '/posts/new'
+    | '/settings/change-password'
     | '/posts'
   id:
     | '__root__'
@@ -119,10 +119,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/_protected/_app'
-    | '/_protected/_app/change-password'
     | '/_protected/_app/settings'
     | '/_protected/_app/'
     | '/_protected/_app/posts/new'
+    | '/_protected/_app/settings/change-password'
     | '/_protected/_app/posts/'
   fileRoutesById: FileRoutesById
 }
@@ -176,19 +176,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedAppSettingsRouteImport
       parentRoute: typeof ProtectedAppRoute
     }
-    '/_protected/_app/change-password': {
-      id: '/_protected/_app/change-password'
-      path: '/change-password'
-      fullPath: '/change-password'
-      preLoaderRoute: typeof ProtectedAppChangePasswordRouteImport
-      parentRoute: typeof ProtectedAppRoute
-    }
     '/_protected/_app/posts/': {
       id: '/_protected/_app/posts/'
       path: '/posts'
       fullPath: '/posts/'
       preLoaderRoute: typeof ProtectedAppPostsIndexRouteImport
       parentRoute: typeof ProtectedAppRoute
+    }
+    '/_protected/_app/settings/change-password': {
+      id: '/_protected/_app/settings/change-password'
+      path: '/change-password'
+      fullPath: '/settings/change-password'
+      preLoaderRoute: typeof ProtectedAppSettingsChangePasswordRouteImport
+      parentRoute: typeof ProtectedAppSettingsRoute
     }
     '/_protected/_app/posts/new': {
       id: '/_protected/_app/posts/new'
@@ -200,17 +200,27 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface ProtectedAppSettingsRouteChildren {
+  ProtectedAppSettingsChangePasswordRoute: typeof ProtectedAppSettingsChangePasswordRoute
+}
+
+const ProtectedAppSettingsRouteChildren: ProtectedAppSettingsRouteChildren = {
+  ProtectedAppSettingsChangePasswordRoute:
+    ProtectedAppSettingsChangePasswordRoute,
+}
+
+const ProtectedAppSettingsRouteWithChildren =
+  ProtectedAppSettingsRoute._addFileChildren(ProtectedAppSettingsRouteChildren)
+
 interface ProtectedAppRouteChildren {
-  ProtectedAppChangePasswordRoute: typeof ProtectedAppChangePasswordRoute
-  ProtectedAppSettingsRoute: typeof ProtectedAppSettingsRoute
+  ProtectedAppSettingsRoute: typeof ProtectedAppSettingsRouteWithChildren
   ProtectedAppIndexRoute: typeof ProtectedAppIndexRoute
   ProtectedAppPostsNewRoute: typeof ProtectedAppPostsNewRoute
   ProtectedAppPostsIndexRoute: typeof ProtectedAppPostsIndexRoute
 }
 
 const ProtectedAppRouteChildren: ProtectedAppRouteChildren = {
-  ProtectedAppChangePasswordRoute: ProtectedAppChangePasswordRoute,
-  ProtectedAppSettingsRoute: ProtectedAppSettingsRoute,
+  ProtectedAppSettingsRoute: ProtectedAppSettingsRouteWithChildren,
   ProtectedAppIndexRoute: ProtectedAppIndexRoute,
   ProtectedAppPostsNewRoute: ProtectedAppPostsNewRoute,
   ProtectedAppPostsIndexRoute: ProtectedAppPostsIndexRoute,

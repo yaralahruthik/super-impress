@@ -13,8 +13,8 @@ export default function SettingsPage() {
 
 			<section className="space-y-4">
 				<h2 className="text-lg font-semibold">Security</h2>
-				<Link to="/change-password">
-					<Card className="max-w-md transition-colors hover:bg-muted/50">
+				<Link to="/settings/change-password">
+					<Card className="transition-colors hover:bg-muted/50">
 						<CardHeader>
 							<CardTitle>Change Password</CardTitle>
 							<CardDescription>Update your account password</CardDescription>

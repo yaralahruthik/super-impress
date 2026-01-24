@@ -12,7 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProtectedRouteImport } from './routes/_protected'
-import { Route as ProtectedIndexRouteImport } from './routes/_protected/index'
+import { Route as ProtectedAppRouteImport } from './routes/_protected/_app'
+import { Route as ProtectedAppIndexRouteImport } from './routes/_protected/_app/index'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -28,35 +29,46 @@ const ProtectedRoute = ProtectedRouteImport.update({
   id: '/_protected',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedIndexRoute = ProtectedIndexRouteImport.update({
+const ProtectedAppRoute = ProtectedAppRouteImport.update({
+  id: '/_app',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedAppIndexRoute = ProtectedAppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => ProtectedRoute,
+  getParentRoute: () => ProtectedAppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof ProtectedIndexRoute
+  '/': typeof ProtectedAppIndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof ProtectedAppIndexRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/': typeof ProtectedIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_protected': typeof ProtectedRouteWithChildren
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
-  '/_protected/': typeof ProtectedIndexRoute
+  '/_protected/_app': typeof ProtectedAppRouteWithChildren
+  '/_protected/_app/': typeof ProtectedAppIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/login' | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/register' | '/'
-  id: '__root__' | '/_protected' | '/login' | '/register' | '/_protected/'
+  to: '/' | '/login' | '/register'
+  id:
+    | '__root__'
+    | '/_protected'
+    | '/login'
+    | '/register'
+    | '/_protected/_app'
+    | '/_protected/_app/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -88,22 +100,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected/': {
-      id: '/_protected/'
+    '/_protected/_app': {
+      id: '/_protected/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedAppRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/_app/': {
+      id: '/_protected/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof ProtectedIndexRouteImport
-      parentRoute: typeof ProtectedRoute
+      preLoaderRoute: typeof ProtectedAppIndexRouteImport
+      parentRoute: typeof ProtectedAppRoute
     }
   }
 }
 
+interface ProtectedAppRouteChildren {
+  ProtectedAppIndexRoute: typeof ProtectedAppIndexRoute
+}
+
+const ProtectedAppRouteChildren: ProtectedAppRouteChildren = {
+  ProtectedAppIndexRoute: ProtectedAppIndexRoute,
+}
+
+const ProtectedAppRouteWithChildren = ProtectedAppRoute._addFileChildren(
+  ProtectedAppRouteChildren,
+)
+
 interface ProtectedRouteChildren {
-  ProtectedIndexRoute: typeof ProtectedIndexRoute
+  ProtectedAppRoute: typeof ProtectedAppRouteWithChildren
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
-  ProtectedIndexRoute: ProtectedIndexRoute,
+  ProtectedAppRoute: ProtectedAppRouteWithChildren,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(

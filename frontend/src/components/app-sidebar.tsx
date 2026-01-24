@@ -10,7 +10,7 @@ import {
 	SidebarMenuItem
 } from '@/components/ui/sidebar';
 import { Link, type LinkProps } from '@tanstack/react-router';
-import { Home } from 'lucide-react';
+import { FileText, Home } from 'lucide-react';
 import { Logo } from './logo';
 
 const items: { title: string; url: LinkProps['to']; icon: React.ElementType }[] = [
@@ -18,6 +18,11 @@ const items: { title: string; url: LinkProps['to']; icon: React.ElementType }[] 
 		title: 'Dashboard',
 		url: '/',
 		icon: Home
+	},
+	{
+		title: 'Create Post',
+		url: '/posts/new',
+		icon: FileText
 	}
 ];
 

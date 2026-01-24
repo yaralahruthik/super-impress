@@ -4,19 +4,20 @@ export default defineConfig({
 	'super-impress': {
 		input: 'http://localhost:8000/openapi.json',
 		output: {
-			target: './src/lib/api/superimpress.ts',
+			httpClient: 'axios',
+			target: './src/api/superimpress.ts',
 			mode: 'tags-split',
-			client: 'svelte-query',
+			client: 'react-query',
 			override: {
 				mutator: {
-					path: 'src/lib/api/axios.ts',
+					path: 'src/api/axios.ts',
 					name: 'customInstance'
 				}
 			}
 		},
 		hooks: {
 			afterAllFilesWrite: {
-				command: 'prettier --write ./src/lib/api/**',
+				command: 'prettier --write ./src/api/**',
 				injectGeneratedDirsAndFiles: false
 			}
 		}
@@ -24,14 +25,14 @@ export default defineConfig({
 	'super-impress-zod': {
 		input: 'http://localhost:8000/openapi.json',
 		output: {
-			target: './src/lib/api',
+			target: './src/api',
 			mode: 'tags-split',
 			client: 'zod',
 			fileExtension: '.zod.ts'
 		},
 		hooks: {
 			afterAllFilesWrite: {
-				command: 'prettier --write ./src/lib/api/**',
+				command: 'prettier --write ./src/api/**',
 				injectGeneratedDirsAndFiles: false
 			}
 		}

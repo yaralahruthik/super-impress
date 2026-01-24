@@ -1,257 +1,236 @@
-# AGENTS.md
+# AGENTS.md - Super Impress Frontend
 
-This document provides guidance for AI coding agents working in this SvelteKit frontend codebase.
+This document provides guidelines for AI coding agents working in this repository.
 
-## Project Overview
+## Overview
 
-- **Framework**: SvelteKit with Svelte 5 (runes syntax)
-- **Package Manager**: pnpm
-- **Styling**: Tailwind CSS v4 + DaisyUI
-- **API Client**: Auto-generated via Orval from OpenAPI spec
-- **State Management**: Svelte stores + TanStack Query
-- **Forms**: TanStack Form + Zod validation
+React 19 Single Page Application (SPA) with TypeScript. A LinkedIn post management tool
+with authentication, post creation, and scheduling features.
 
-## Build / Lint / Test Commands
+## Tech Stack
 
-```bash
-# Development
-pnpm dev                    # Start dev server
-pnpm build                  # Production build
-pnpm preview                # Preview production build
+- **Framework**: React 19.2 with React Compiler (babel-plugin-react-compiler)
+- **Language**: TypeScript 5.9 (strict mode)
+- **Build Tool**: Vite 7.2
+- **Package Manager**: pnpm 10.25 (required)
+- **Node Version**: 24.11.1
+- **Styling**: Tailwind CSS 4.1 (CSS-based config in `src/index.css`)
+- **UI Components**: shadcn/ui (new-york style) with Radix UI primitives
+- **Routing**: TanStack Router (file-based routing)
+- **Data Fetching**: TanStack React Query
+- **Forms**: TanStack React Form with Zod validation
+- **State Management**: Jotai (auth state only)
+- **API Client**: Axios with auto-generated hooks via Orval
 
-# Type Checking
-pnpm check                  # Run svelte-check (type checking)
-pnpm check:watch            # Type checking in watch mode
+## Commands
 
-# Linting & Formatting
-pnpm lint:check             # Check ESLint issues
-pnpm lint                   # Fix ESLint issues
-pnpm format:check           # Check Prettier formatting
-pnpm format                 # Fix formatting
+| Command             | Description                              |
+| ------------------- | ---------------------------------------- |
+| `pnpm dev`          | Start development server                 |
+| `pnpm build`        | TypeScript check + Vite production build |
+| `pnpm lint:check`   | Check for ESLint issues                  |
+| `pnpm lint`         | Fix ESLint issues (quiet mode)           |
+| `pnpm format:check` | Check Prettier formatting                |
+| `pnpm format`       | Format code with Prettier                |
+| `pnpm preview`      | Preview production build                 |
+| `pnpm orval`        | Regenerate API client from OpenAPI spec  |
 
-# Testing
-pnpm test:unit              # Run unit tests in watch mode
-pnpm test:unit -- --run     # Run unit tests once (CI mode)
-pnpm test:unit -- --run src/demo.spec.ts              # Run single test file
-pnpm test:unit -- --run -t "test name pattern"        # Run tests matching pattern
-pnpm test:e2e               # Run Playwright E2E tests
-pnpm test:e2e e2e/login.test.ts                       # Run single E2E test file
-pnpm test:e2e --grep "test name"                      # Run E2E tests matching pattern
-pnpm test                   # Run all tests (unit + e2e)
-
-# Code Generation
-pnpm codegen                # Generate API client from OpenAPI spec (requires backend running)
-```
+**Note**: No test framework is configured. There are no test commands.
 
 ## Project Structure
 
 ```
 src/
-├── lib/
-│   ├── api/                 # Auto-generated API clients (DO NOT EDIT MANUALLY)
-│   │   └── axios.ts         # Custom Axios instance (edit this for interceptors)
-│   ├── components/
-│   │   └── ui/              # Primitive UI components (button, input, label, textarea)
-│   ├── features/            # Feature modules (domain-specific components)
-│   │   ├── auth/            # Authentication (login, register, verify-email, etc.)
-│   │   ├── dashboard/
-│   │   ├── linkedin/
-│   │   └── posts/
-│   ├── layouts/             # Layout components (app-layout, auth-layout)
-│   ├── stores/              # Svelte stores (auth.ts)
-│   └── utils/               # Utility functions
-├── routes/                  # SvelteKit file-based routes
-│   └── (protected)/         # Auth-protected routes (guard in +layout.ts)
-e2e/                         # Playwright E2E tests
+├── api/              # Auto-generated API clients (DO NOT EDIT)
+├── components/
+│   └── ui/           # shadcn/ui components
+├── features/         # Feature modules (auth, dashboard, posts, settings)
+├── hooks/            # Custom React hooks
+├── layouts/          # Layout components (AuthLayout, AppLayout)
+├── routes/           # TanStack Router file-based routes
+├── stores/           # Jotai atom stores
+└── utils/            # Utility functions
 ```
 
 ## Code Style Guidelines
 
 ### Formatting (Prettier)
 
-- Use **tabs** for indentation
-- **Single quotes** for strings
-- **No trailing commas**
-- **100 character** print width
-- Plugins: prettier-plugin-svelte, prettier-plugin-tailwindcss
+- **Indentation**: Tabs (not spaces)
+- **Quotes**: Single quotes
+- **Trailing commas**: None
+- **Print width**: 100 characters
+- **Semicolons**: Yes
 
 ### Imports
 
-Order imports logically (framework, libraries, local):
+Use the `@/` path alias for all internal imports. Order: external packages first, then internal.
 
 ```typescript
-// 1. SvelteKit imports
-import { goto } from '$app/navigation';
-import { browser } from '$app/environment';
+// External imports
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import type { AxiosError } from 'axios';
 
-// 2. Library imports (API clients, external packages)
-import { createLoginUser } from '$lib/api/authentication/authentication';
-import { createForm } from '@tanstack/svelte-form';
-import z from 'zod';
-
-// 3. Local components and utilities
-import Button from '$lib/components/ui/button.svelte';
-import { cn } from '$lib/utils/cn';
-import { getErrorMessage } from '$lib/utils/get-error-message';
-
-// 4. Relative imports (same feature)
-import FieldInfo from '../field-info.svelte';
+// Internal imports
+import { Button } from '@/components/ui/button';
+import { useAuth } from '@/hooks/use-auth';
+import type { PostPublic } from '@/api/superimpress.schemas';
 ```
 
-### Svelte 5 Patterns
+Use `import type` for type-only imports (enforced by `verbatimModuleSyntax`).
 
-Use Svelte 5 runes syntax throughout:
+### Naming Conventions
 
-```svelte
-<script lang="ts" module>
-  // Module-level exports (types, constants)
-  export type ButtonProps = { ... };
-</script>
+| Type             | Convention                   | Example                         |
+| ---------------- | ---------------------------- | ------------------------------- |
+| Files            | kebab-case                   | `login-page.tsx`, `use-auth.ts` |
+| Components       | PascalCase                   | `function LoginPage()`          |
+| Hooks            | camelCase with `use` prefix  | `useAuth`, `useMobile`          |
+| Utilities        | camelCase                    | `getErrorMessage`, `formatDate` |
+| Jotai atoms      | camelCase with `Atom` suffix | `tokenAtom`, `authStateAtom`    |
+| Types/Interfaces | PascalCase                   | `PostPublic`, `AuthState`       |
 
-<script lang="ts">
-	// Use $props() for component props
-	let { variant = 'default', class: className, ...restProps }: ButtonProps = $props();
+### TypeScript
 
-	// Use $bindable() for two-way bindings
-	let { ref = $bindable(null) } = $props();
-</script>
+- Strict mode enabled - no `any` types
+- Use `React.ComponentProps<'element'>` for component prop types
+- All unused variables and parameters are errors
+- Use explicit return types for exported functions
 
-<!-- Use {@render} for children/slots -->
-{@render children?.()}
-```
+### Components
 
-### Component Variants
-
-Use class-variance-authority (CVA) for component variants:
+- **Function components only** - no class components
+- **Default exports** for page components
+- **Named exports** for UI components and utilities
+- Use `data-slot` attributes on UI components for styling hooks
+- Use CVA (class-variance-authority) for component variants
+- Use `cn()` utility for conditional class merging
 
 ```typescript
-import { cva, type VariantProps } from 'class-variance-authority';
+function Button({
+	className,
+	variant = 'default',
+	...props
+}: React.ComponentProps<'button'> & VariantProps<typeof buttonVariants>) {
+	return (
+		<button
+			data-slot="button"
+			className={cn(buttonVariants({ variant, className }))}
+			{...props}
+		/>
+	);
+}
 
-export const buttonVariants = cva('btn', {
-	variants: {
-		variant: { default: 'btn-primary', ghost: 'btn-ghost' },
-		size: { default: '', sm: 'btn-sm', lg: 'btn-lg' }
-	},
-	defaultVariants: { variant: 'default', size: 'default' }
+export { Button, buttonVariants };
+```
+
+### Forms
+
+Use TanStack Form with Zod validation. Pattern:
+
+```typescript
+const formSchema = z.object({
+	email: z.email('Invalid email address'),
+	password: z.string().min(1, 'Password is required')
 });
-```
 
-### CSS Classes
-
-Use the `cn()` utility for conditional class merging:
-
-```typescript
-import { cn } from '$lib/utils/cn';
-cn('base-class', condition && 'conditional-class', className);
-```
-
-### Form Handling
-
-Standard pattern for forms with TanStack Form + Zod:
-
-```svelte
-<script lang="ts">
-	// 1. Define schema
-	const formSchema = z.object({
-		email: z.email('Invalid email').trim(),
-		password: z.string().min(1, 'Required')
-	});
-
-	// 2. Create mutation
-	const mutation = createApiEndpoint({
-		mutation: {
-			onSuccess: (data) => {
-				/* handle success */
+const form = useForm({
+	defaultValues: { email: '', password: '' },
+	validators: { onSubmit: formSchema },
+	onSubmit: async ({ value }) => {
+		mutate(
+			{ data: value },
+			{
+				onSuccess: () => {
+					/* handle success */
+				},
+				onError: (error) => setError(getErrorMessage(error))
 			}
-		}
-	});
-
-	// 3. Create form
-	const form = createForm(() => ({
-		defaultValues: { email: '', password: '' },
-		validators: { onSubmit: formSchema },
-		onSubmit: async ({ value }) => {
-			mutation.mutate({ data: value });
-		}
-	}));
-</script>
+		);
+	}
+});
 ```
 
 ### Error Handling
 
-Use `getErrorMessage()` utility for API errors:
-
-```svelte
-{#if mutation.isError}
-	<em role="alert" class="text-error">{getErrorMessage(mutation.error)}</em>
-{/if}
-```
-
-### Naming Conventions
-
-- **Files**: kebab-case (`login.svelte`, `get-error-message.ts`)
-- **Components**: PascalCase in imports (`Button`, `AuthLayout`)
-- **Functions/variables**: camelCase (`createAuthStore`, `loginMutation`)
-- **Types**: PascalCase (`ButtonProps`, `AuthState`)
-- **Constants**: camelCase or SCREAMING_SNAKE_CASE for true constants
-
-### TypeScript
-
-- Strict mode enabled
-- Use explicit types for function parameters and return types
-- Prefer `type` over `interface` for object types
-- Use Zod schemas for runtime validation
-
-### Testing
-
-**Unit tests** (Vitest):
+- Use `getErrorMessage()` from `@/utils/get-error-message` for API errors
+- Component-level error state with `useState<string | null>(null)`
+- Query errors: check `isError` and render dedicated error components
+- Display errors in styled alert divs with `role="alert"`
 
 ```typescript
-import { describe, it, expect } from 'vitest';
+const [error, setError] = useState<string | null>(null);
 
-describe('feature', () => {
-	it('does something', () => {
-		expect(result).toBe(expected);
-	});
-});
+// In mutation callbacks:
+onError: (error) => setError(getErrorMessage(error))
+
+// In JSX:
+{error && (
+	<div role="alert" className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+		{error}
+	</div>
+)}
 ```
 
-**E2E tests** (Playwright):
+### API Layer
 
-- Use accessible selectors: `getByRole`, `getByLabel`, `getByText`
-- Page object pattern for complex flows
+**IMPORTANT**: Files in `src/api/` are auto-generated by Orval. Never edit them manually.
+
+To regenerate after backend API changes:
+
+```bash
+pnpm orval
+```
+
+Use the generated React Query hooks directly:
 
 ```typescript
-import { expect, test } from '@playwright/test';
-
-test.describe('Feature', () => {
-	test('scenario', async ({ page }) => {
-		await page.goto('/path');
-		await expect(page.getByRole('button', { name: 'Submit' })).toBeVisible();
-	});
-});
+import { useLoginUser } from '@/api/authentication/authentication';
+import { useGetUserPosts } from '@/api/posts/posts';
 ```
 
-### Accessibility
+### Routing
 
-- Use semantic HTML and ARIA attributes
-- Add `aria-invalid` for form validation states
-- Add `aria-busy` for loading states
-- Use `role="alert"` with `aria-live="polite"` for error messages
-- Ensure form fields have associated labels
+TanStack Router with file-based routing. Route files in `src/routes/`.
 
-## API Layer
+- Protected routes go under `/_protected/` directory
+- Route guard in `_protected.tsx` redirects unauthenticated users
+- Use `Link` component from `@tanstack/react-router` for navigation
+- Use `useNavigate()` for programmatic navigation
 
-- API clients are auto-generated in `src/lib/api/` - **DO NOT EDIT** these files
-- Edit `src/lib/api/axios.ts` for custom interceptors
-- Run `pnpm codegen` to regenerate after backend API changes (backend must be running)
-- Use TanStack Query mutations/queries from generated clients
+### State Patterns
 
-## Protected Routes
+- **Server state**: TanStack React Query (queries and mutations)
+- **Global client state**: Jotai atoms (auth only)
+- **Local UI state**: React useState
+- **Form state**: TanStack Form
 
-Routes under `src/routes/(protected)/` require authentication. The auth guard in `(protected)/+layout.ts` redirects unauthenticated users to `/login`.
+### Query State Handling
 
-## Plan Mode
+Always handle loading, error, and empty states:
 
-- Make the plan extremely concise. Sacrifice grammar for the sake of concision.
-- At the end of each plan, give me a list of unresolved questions to answer, if any.
+```typescript
+export function PostListLoading() {
+	return <Skeleton className="h-48 w-full" />;
+}
+
+export function PostListError() {
+	return <p className="text-destructive">Error loading posts.</p>;
+}
+
+export function PostListEmpty() {
+	return <Empty><EmptyTitle>No posts found</EmptyTitle></Empty>;
+}
+```
+
+## UI Components
+
+shadcn/ui components are in `@/components/ui/`. Add new components via:
+
+```bash
+npx shadcn@latest add <component-name>
+```
+
+Use compound component patterns (Card, CardHeader, CardTitle, CardContent, etc.).
+Icons from `lucide-react`.

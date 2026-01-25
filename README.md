@@ -35,33 +35,33 @@ Join [the discord community](https://discord.gg/DWAVqksVtx) for the latest updat
 
 ## Getting Started
 
-### Pre-commit Setup
+### Git Hooks Setup (prek)
 
-This project uses pre-commit hooks to ensure code quality and consistency.
+This project uses [prek](https://prek.j178.dev/) to run git hooks that ensure code quality and consistency.
 
-**Steps to setup pre-commit:**
+**Steps to setup prek:**
 
 ```bash
-# Install pre-commit
-pip install pre-commit
+# Install prek
+brew install prek
 
 # or if you have uv installed
-uv tool install pre-commit
+uv tool install prek
 
 # Install the git hooks
-pre-commit install
+prek install
 ```
 
-Now pre-commit hooks will automatically run on staged files before each commit. If a hook fails, the commit will be blocked until issues are resolved.
+Now prek hooks will automatically run on staged files before each commit. If a hook fails, the commit will be blocked until issues are resolved.
 
 **Manual execution (optional):**
 
 ```bash
 # Run on staged files
-pre-commit run
+prek run
 
 # Run on all files
-pre-commit run --all-files
+prek run --all-files
 ```
 
 ## Database Setup

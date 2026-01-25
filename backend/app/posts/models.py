@@ -16,6 +16,8 @@ class PostStatus(str, Enum):
     DRAFT = "draft"
     PUBLISHED = "published"
     ARCHIVED = "archived"
+    SCHEDULED = "scheduled"
+    FAILED = "failed"
 
 
 # SQLAlchemy ORM Model
@@ -56,6 +58,22 @@ class Post(Base):
         onupdate=lambda: datetime.now(timezone.utc),
     )
 
+    # Scheduling fields
+    scheduled_for: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True), nullable=True, index=True
+    )
+
+    # Error tracking for failed posts
+    reason_failed: Mapped[str | None] = mapped_column(Text, nullable=True)
+
+    # Platform post IDs (extensible for other platforms)
+    linkedin_post_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
+
+    # Celery task ID for scheduled posts
+    celery_task_id: Mapped[str | None] = mapped_column(
+        String(255), nullable=True, index=True
+    )
+
 
 # Pydantic Schemas
 
@@ -74,6 +92,7 @@ class PostCreate(PostBase):
     """Schema for creating a new post."""
 
     status: PostStatus = PostStatus.DRAFT  # Optional, defaults to draft
+    scheduled_for: datetime | None = None
 
 
 class PostUpdate(BaseModel):
@@ -83,6 +102,7 @@ class PostUpdate(BaseModel):
     content: Optional[str] = Field(None, min_length=1)
     tags: Optional[list[str]] = None
     status: Optional[PostStatus] = None
+    scheduled_for: Optional[datetime] = None
 
 
 class PostPublic(PostBase):
@@ -95,6 +115,10 @@ class PostPublic(PostBase):
     status: PostStatus
     created_at: datetime
     updated_at: datetime
+    scheduled_for: datetime | None
+    reason_failed: str | None
+    linkedin_post_id: str | None
+    celery_task_id: str | None
 
 
 class PostListResponse(BaseModel):

@@ -36,6 +36,20 @@ services:
     networks:
       - app
 
+  celery-worker:
+    build:
+      context: ./backend
+    image: super-impress-backend
+    env_file:
+      - backend/.env
+      - backend/.env.docker
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - app
+    command: uv run celery -A app.celery_app worker --loglevel=info
+
   frontend:
     build:
       context: ./frontend

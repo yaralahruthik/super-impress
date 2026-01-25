@@ -1,6 +1,8 @@
+from datetime import datetime
 from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, Query, status
+from pydantic import BaseModel, Field
 
 from app.auth.models import User
 from app.auth.service import get_current_user
@@ -13,14 +15,23 @@ from app.posts.models import (
     PostUpdate,
 )
 from app.posts.service import (
+    cancel_schedule,
     create_post,
     delete_post,
     get_post_by_id,
     list_user_posts,
+    reschedule_post,
+    schedule_post,
     update_post,
 )
 
 posts_router = APIRouter(prefix="/posts", tags=["Posts"])
+
+
+class SchedulePostRequest(BaseModel):
+    """Request to schedule a post."""
+
+    scheduled_for: datetime = Field(description="When to publish (UTC)")
 
 
 @posts_router.post(
@@ -109,3 +120,50 @@ async def delete_post_endpoint(
 ) -> None:
     """Delete a specific post."""
     delete_post(session, post_id, current_user.id)
+
+
+@posts_router.post(
+    "/{post_id}/schedule",
+    response_model=PostPublic,
+    operation_id="schedule_post",
+)
+async def schedule_post_endpoint(
+    post_id: int,
+    request: SchedulePostRequest,
+    current_user: Annotated[User, Depends(get_current_user)],
+    session: SessionDep,
+) -> PostPublic:
+    """Schedule a post for future publishing."""
+    db_post = schedule_post(session, post_id, current_user.id, request.scheduled_for)
+    return PostPublic.model_validate(db_post)
+
+
+@posts_router.post(
+    "/{post_id}/cancel-schedule",
+    response_model=PostPublic,
+    operation_id="cancel_schedule",
+)
+async def cancel_schedule_endpoint(
+    post_id: int,
+    current_user: Annotated[User, Depends(get_current_user)],
+    session: SessionDep,
+) -> PostPublic:
+    """Cancel a scheduled post."""
+    db_post = cancel_schedule(session, post_id, current_user.id)
+    return PostPublic.model_validate(db_post)
+
+
+@posts_router.post(
+    "/{post_id}/reschedule",
+    response_model=PostPublic,
+    operation_id="reschedule_post",
+)
+async def reschedule_post_endpoint(
+    post_id: int,
+    request: SchedulePostRequest,
+    current_user: Annotated[User, Depends(get_current_user)],
+    session: SessionDep,
+) -> PostPublic:
+    """Reschedule a post."""
+    db_post = reschedule_post(session, post_id, current_user.id, request.scheduled_for)
+    return PostPublic.model_validate(db_post)

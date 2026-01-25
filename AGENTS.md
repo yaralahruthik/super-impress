@@ -111,7 +111,7 @@ Note: No test framework configured for frontend.
 - **Imports**: 3 groups (stdlib, third-party, local) separated by blank lines
 - **Patterns**: Pydantic for schemas, SQLAlchemy 2.0 for models, `HTTPException` for errors
 
-## Pre-commit Hooks
+## Git Hooks (prek)
 
 Hooks run automatically on commit:
 
@@ -121,8 +121,8 @@ Hooks run automatically on commit:
 Manual execution:
 
 ```bash
-pre-commit run              # Staged files only
-pre-commit run --all-files  # All files
+prek run              # Staged files only
+prek run --all-files  # All files
 ```
 
 ## Critical Notes

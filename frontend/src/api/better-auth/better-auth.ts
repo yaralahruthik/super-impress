@@ -342,7 +342,11 @@ export const useSocialSignIn = <
  * Get the current session
  */
 export const getSession = (signal?: AbortSignal) => {
-	return customInstance<GetSession200>({ url: `/auth/api/get-session`, method: 'GET', signal });
+	return customInstance<GetSession200>({
+		url: `/auth/api/get-session`,
+		method: 'GET',
+		signal
+	});
 };
 
 export const getGetSessionQueryKey = () => {
@@ -394,7 +398,9 @@ export function useGetSession<
 			>;
 	},
 	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetSession<
 	TData = Awaited<ReturnType<typeof getSession>>,
 	TError = ErrorType<
@@ -413,7 +419,9 @@ export function useGetSession<
 			>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetSession<
 	TData = Awaited<ReturnType<typeof getSession>>,
 	TError = ErrorType<
@@ -424,7 +432,9 @@ export function useGetSession<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSession>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 
 export function useGetSession<
 	TData = Awaited<ReturnType<typeof getSession>>,
@@ -436,7 +446,9 @@ export function useGetSession<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSession>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getGetSessionQueryOptions(options);
 
 	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
@@ -997,7 +1009,9 @@ export function useGetAuthApiVerifyEmail<
 			>;
 	},
 	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiVerifyEmail<
 	TData = Awaited<ReturnType<typeof getAuthApiVerifyEmail>>,
 	TError = ErrorType<
@@ -1024,7 +1038,9 @@ export function useGetAuthApiVerifyEmail<
 			>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiVerifyEmail<
 	TData = Awaited<ReturnType<typeof getAuthApiVerifyEmail>>,
 	TError = ErrorType<
@@ -1043,7 +1059,9 @@ export function useGetAuthApiVerifyEmail<
 		>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 
 export function useGetAuthApiVerifyEmail<
 	TData = Awaited<ReturnType<typeof getAuthApiVerifyEmail>>,
@@ -1063,7 +1081,9 @@ export function useGetAuthApiVerifyEmail<
 		>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getGetAuthApiVerifyEmailQueryOptions(params, options);
 
 	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
@@ -1669,11 +1689,14 @@ export const getResetPasswordCallbackQueryOptions = <
 	const queryFn: QueryFunction<Awaited<ReturnType<typeof resetPasswordCallback>>> = ({ signal }) =>
 		resetPasswordCallback(token, params, signal);
 
-	return { queryKey, queryFn, enabled: !!token, ...queryOptions } as UseQueryOptions<
-		Awaited<ReturnType<typeof resetPasswordCallback>>,
-		TError,
-		TData
-	> & { queryKey: DataTag<QueryKey, TData, TError> };
+	return {
+		queryKey,
+		queryFn,
+		enabled: !!token,
+		...queryOptions
+	} as UseQueryOptions<Awaited<ReturnType<typeof resetPasswordCallback>>, TError, TData> & {
+		queryKey: DataTag<QueryKey, TData, TError>;
+	};
 };
 
 export type ResetPasswordCallbackQueryResult = NonNullable<
@@ -1715,7 +1738,9 @@ export function useResetPasswordCallback<
 			>;
 	},
 	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useResetPasswordCallback<
 	TData = Awaited<ReturnType<typeof resetPasswordCallback>>,
 	TError = ErrorType<
@@ -1743,7 +1768,9 @@ export function useResetPasswordCallback<
 			>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useResetPasswordCallback<
 	TData = Awaited<ReturnType<typeof resetPasswordCallback>>,
 	TError = ErrorType<
@@ -1763,7 +1790,9 @@ export function useResetPasswordCallback<
 		>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 
 export function useResetPasswordCallback<
 	TData = Awaited<ReturnType<typeof resetPasswordCallback>>,
@@ -1784,7 +1813,9 @@ export function useResetPasswordCallback<
 		>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getResetPasswordCallbackQueryOptions(token, params, options);
 
 	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
@@ -1798,7 +1829,11 @@ export function useResetPasswordCallback<
  * List all active sessions for the user
  */
 export const listUserSessions = (signal?: AbortSignal) => {
-	return customInstance<Session[]>({ url: `/auth/api/list-sessions`, method: 'GET', signal });
+	return customInstance<Session[]>({
+		url: `/auth/api/list-sessions`,
+		method: 'GET',
+		signal
+	});
 };
 
 export const getListUserSessionsQueryKey = () => {
@@ -1865,7 +1900,9 @@ export function useListUserSessions<
 			>;
 	},
 	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useListUserSessions<
 	TData = Awaited<ReturnType<typeof listUserSessions>>,
 	TError = ErrorType<
@@ -1889,7 +1926,9 @@ export function useListUserSessions<
 			>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useListUserSessions<
 	TData = Awaited<ReturnType<typeof listUserSessions>>,
 	TError = ErrorType<
@@ -1905,7 +1944,9 @@ export function useListUserSessions<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserSessions>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 
 export function useListUserSessions<
 	TData = Awaited<ReturnType<typeof listUserSessions>>,
@@ -1922,7 +1963,9 @@ export function useListUserSessions<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserSessions>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getListUserSessionsQueryOptions(options);
 
 	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
@@ -2403,7 +2446,9 @@ export function useListUserAccounts<
 			>;
 	},
 	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useListUserAccounts<
 	TData = Awaited<ReturnType<typeof listUserAccounts>>,
 	TError = ErrorType<
@@ -2427,7 +2472,9 @@ export function useListUserAccounts<
 			>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useListUserAccounts<
 	TData = Awaited<ReturnType<typeof listUserAccounts>>,
 	TError = ErrorType<
@@ -2443,7 +2490,9 @@ export function useListUserAccounts<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserAccounts>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 
 export function useListUserAccounts<
 	TData = Awaited<ReturnType<typeof listUserAccounts>>,
@@ -2460,7 +2509,9 @@ export function useListUserAccounts<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserAccounts>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getListUserAccountsQueryOptions(options);
 
 	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
@@ -2562,7 +2613,9 @@ export function useGetAuthApiDeleteUserCallback<
 			>;
 	},
 	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiDeleteUserCallback<
 	TData = Awaited<ReturnType<typeof getAuthApiDeleteUserCallback>>,
 	TError = ErrorType<
@@ -2589,7 +2642,9 @@ export function useGetAuthApiDeleteUserCallback<
 			>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiDeleteUserCallback<
 	TData = Awaited<ReturnType<typeof getAuthApiDeleteUserCallback>>,
 	TError = ErrorType<
@@ -2608,7 +2663,9 @@ export function useGetAuthApiDeleteUserCallback<
 		>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 
 export function useGetAuthApiDeleteUserCallback<
 	TData = Awaited<ReturnType<typeof getAuthApiDeleteUserCallback>>,
@@ -2628,7 +2685,9 @@ export function useGetAuthApiDeleteUserCallback<
 		>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getGetAuthApiDeleteUserCallbackQueryOptions(params, options);
 
 	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
@@ -3016,7 +3075,9 @@ export function useGetAuthApiAccountInfo<
 			>;
 	},
 	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiAccountInfo<
 	TData = Awaited<ReturnType<typeof getAuthApiAccountInfo>>,
 	TError = ErrorType<
@@ -3042,7 +3103,9 @@ export function useGetAuthApiAccountInfo<
 			>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiAccountInfo<
 	TData = Awaited<ReturnType<typeof getAuthApiAccountInfo>>,
 	TError = ErrorType<
@@ -3060,7 +3123,9 @@ export function useGetAuthApiAccountInfo<
 		>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 
 export function useGetAuthApiAccountInfo<
 	TData = Awaited<ReturnType<typeof getAuthApiAccountInfo>>,
@@ -3079,7 +3144,9 @@ export function useGetAuthApiAccountInfo<
 		>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getGetAuthApiAccountInfoQueryOptions(options);
 
 	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
@@ -3093,7 +3160,11 @@ export function useGetAuthApiAccountInfo<
  * Check if the API is working
  */
 export const getAuthApiOk = (signal?: AbortSignal) => {
-	return customInstance<GetAuthApiOk200>({ url: `/auth/api/ok`, method: 'GET', signal });
+	return customInstance<GetAuthApiOk200>({
+		url: `/auth/api/ok`,
+		method: 'GET',
+		signal
+	});
 };
 
 export const getGetAuthApiOkQueryKey = () => {
@@ -3160,7 +3231,9 @@ export function useGetAuthApiOk<
 			>;
 	},
 	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiOk<
 	TData = Awaited<ReturnType<typeof getAuthApiOk>>,
 	TError = ErrorType<
@@ -3184,7 +3257,9 @@ export function useGetAuthApiOk<
 			>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiOk<
 	TData = Awaited<ReturnType<typeof getAuthApiOk>>,
 	TError = ErrorType<
@@ -3200,7 +3275,9 @@ export function useGetAuthApiOk<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthApiOk>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 
 export function useGetAuthApiOk<
 	TData = Awaited<ReturnType<typeof getAuthApiOk>>,
@@ -3217,7 +3294,9 @@ export function useGetAuthApiOk<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthApiOk>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getGetAuthApiOkQueryOptions(options);
 
 	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
@@ -3231,7 +3310,11 @@ export function useGetAuthApiOk<
  * Displays an error page
  */
 export const getAuthApiError = (signal?: AbortSignal) => {
-	return customInstance<string>({ url: `/auth/api/error`, method: 'GET', signal });
+	return customInstance<string>({
+		url: `/auth/api/error`,
+		method: 'GET',
+		signal
+	});
 };
 
 export const getGetAuthApiErrorQueryKey = () => {
@@ -3298,7 +3381,9 @@ export function useGetAuthApiError<
 			>;
 	},
 	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): DefinedUseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiError<
 	TData = Awaited<ReturnType<typeof getAuthApiError>>,
 	TError = ErrorType<
@@ -3322,7 +3407,9 @@ export function useGetAuthApiError<
 			>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetAuthApiError<
 	TData = Awaited<ReturnType<typeof getAuthApiError>>,
 	TError = ErrorType<
@@ -3338,7 +3425,9 @@ export function useGetAuthApiError<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthApiError>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+};
 
 export function useGetAuthApiError<
 	TData = Awaited<ReturnType<typeof getAuthApiError>>,
@@ -3355,7 +3444,9 @@ export function useGetAuthApiError<
 		query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAuthApiError>>, TError, TData>>;
 	},
 	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+): UseQueryResult<TData, TError> & {
+	queryKey: DataTag<QueryKey, TData, TError>;
+} {
 	const queryOptions = getGetAuthApiErrorQueryOptions(options);
 
 	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {

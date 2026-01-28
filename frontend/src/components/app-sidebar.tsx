@@ -15,7 +15,11 @@ import { Link, useRouter, type LinkProps } from '@tanstack/react-router';
 import { FileText, Home, LogOut, Settings } from 'lucide-react';
 import { Logo } from './logo';
 
-const items: { title: string; url: LinkProps['to']; icon: React.ElementType }[] = [
+const items: {
+	title: string;
+	url: LinkProps['to'];
+	icon: React.ElementType;
+}[] = [
 	{
 		title: 'Dashboard',
 		url: '/',

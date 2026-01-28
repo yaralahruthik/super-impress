@@ -1,11 +1,11 @@
 import { cors } from "@elysiajs/cors";
 import { openapi } from "@elysiajs/openapi";
 import { Elysia } from "elysia";
-import { auth } from "./auth";
+import { auth, OpenAPI } from "./auth";
 
 // Better-auth plugin with session/user macro for protected routes
 const betterAuthPlugin = new Elysia({ name: "better-auth" })
-  .mount(auth.handler)
+  .mount("/auth", auth.handler)
   .macro({
     auth: {
       async resolve({ status, request: { headers } }) {
@@ -28,6 +28,8 @@ const app = new Elysia()
           version: "1.0.0",
           description: "LinkedIn post management tool API",
         },
+        components: await OpenAPI.components,
+        paths: await OpenAPI.getPaths(),
       },
     }),
   )
@@ -38,8 +40,6 @@ const app = new Elysia()
     }),
   )
   .use(betterAuthPlugin)
-  // Example protected route
-  .get("/user", ({ user }) => user, { auth: true })
   .listen(3000);
 
 console.log(

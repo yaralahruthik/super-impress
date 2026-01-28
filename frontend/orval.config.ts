@@ -2,7 +2,7 @@ import { defineConfig } from 'orval';
 
 export default defineConfig({
 	'super-impress': {
-		input: 'http://localhost:8000/openapi.json',
+		input: './openapi.json',
 		output: {
 			httpClient: 'axios',
 			target: './src/api/superimpress.ts',
@@ -23,7 +23,7 @@ export default defineConfig({
 		}
 	},
 	'super-impress-zod': {
-		input: 'http://localhost:8000/openapi.json',
+		input: './openapi.json',
 		output: {
 			target: './src/api',
 			mode: 'tags-split',

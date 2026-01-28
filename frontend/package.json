@@ -11,7 +11,7 @@
 		"lint:check": "eslint .",
 		"lint": "eslint . --fix --quiet",
 		"preview": "vite preview",
-		"orval": "orval"
+		"orval": "tsx scripts/transform-openapi.ts && orval"
 	},
 	"dependencies": {
 		"@radix-ui/react-alert-dialog": "^1.1.15",

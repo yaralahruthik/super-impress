@@ -1,11 +1,11 @@
-import { cors } from "@elysiajs/cors";
-import { openapi } from "@elysiajs/openapi";
-import { Elysia } from "elysia";
-import { OpenAPI, auth } from "./auth";
+import { cors } from '@elysiajs/cors';
+import { openapi } from '@elysiajs/openapi';
+import { Elysia } from 'elysia';
+import { auth, OpenAPI } from './auth';
 
 // Better-auth plugin with session/user macro for protected routes
-const betterAuthPlugin = new Elysia({ name: "better-auth" })
-	.mount("/auth", auth.handler)
+const betterAuthPlugin = new Elysia({ name: 'better-auth' })
+	.mount('/auth', auth.handler)
 	.macro({
 		auth: {
 			async resolve({ status, request: { headers } }) {
@@ -24,9 +24,9 @@ const app = new Elysia()
 		openapi({
 			documentation: {
 				info: {
-					title: "Super Impress API",
-					version: "1.0.0",
-					description: "LinkedIn post management tool API",
+					title: 'Super Impress API',
+					version: '1.0.0',
+					description: 'LinkedIn post management tool API',
 				},
 				components: await OpenAPI.components,
 				paths: await OpenAPI.getPaths(),
@@ -35,10 +35,10 @@ const app = new Elysia()
 	)
 	.use(
 		cors({
-			origin: "http://localhost:5173",
-			methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+			origin: 'http://localhost:5173',
+			methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 			credentials: true,
-			allowedHeaders: ["Content-Type", "Authorization"],
+			allowedHeaders: ['Content-Type', 'Authorization'],
 		}),
 	)
 	.use(betterAuthPlugin)

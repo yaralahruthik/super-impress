@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'backend/**'
+      - "backend/**"
 
 jobs:
   backend-format-check:
@@ -13,11 +13,15 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
 
-      - name: Run Ruff
-        uses: astral-sh/ruff-action@v3
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          version: "0.14.1"
-          args: "format --check"
-          src: "./backend"
+          bun-version: latest
+
+      - name: Install dependencies
+        run: cd backend && bun install
+
+      - name: Run Biome CI
+        run: cd backend && bunx @biomejs/biome ci .

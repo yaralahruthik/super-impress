@@ -1,4 +1,4 @@
-import { useLoginUser } from '@/api/authentication/authentication';
+import { useSignInEmail } from '@/api/better-auth/better-auth';
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -28,7 +28,7 @@ export default function LoginPage() {
 
 	const navigate = useNavigate();
 	const { login } = useAuth();
-	const { mutate, isPending } = useLoginUser();
+	const { mutate, isPending } = useSignInEmail();
 
 	const form = useForm({
 		defaultValues: {
@@ -43,13 +43,13 @@ export default function LoginPage() {
 			mutate(
 				{
 					data: {
-						username: value.email,
+						email: value.email,
 						password: value.password
 					}
 				},
 				{
 					onSuccess: (response) => {
-						login(response.access_token);
+						login(response.token);
 						navigate({ to: '/' });
 					},
 					onError: (error) => {

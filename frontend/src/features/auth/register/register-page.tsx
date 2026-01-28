@@ -1,4 +1,4 @@
-import { useRegisterUser } from '@/api/authentication/authentication';
+import { useSignUpWithEmailAndPassword } from '@/api/better-auth/better-auth';
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -35,7 +35,7 @@ export default function RegisterPage() {
 	const [error, setError] = useState<string | null>(null);
 
 	const navigate = useNavigate();
-	const { mutate, isPending } = useRegisterUser();
+	const { mutate, isPending } = useSignUpWithEmailAndPassword();
 
 	const form = useForm({
 		defaultValues: {
@@ -51,6 +51,7 @@ export default function RegisterPage() {
 			mutate(
 				{
 					data: {
+						name: '',
 						email: value.email,
 						password: value.password
 					}

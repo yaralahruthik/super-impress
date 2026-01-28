@@ -1,9 +1,9 @@
-import type { UserPublic } from '@/api/superimpress.schemas';
+import type { User } from '@/api/superimpress.schemas';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle } from 'lucide-react';
 
-export default function UserInfoCard({ user }: { user: UserPublic }) {
+export default function UserInfoCard({ user }: { user: User }) {
 	return (
 		<Card className="max-w-md">
 			<CardHeader>
@@ -20,7 +20,7 @@ export default function UserInfoCard({ user }: { user: UserPublic }) {
 
 					<span className="font-medium text-muted-foreground">Verified:</span>
 					<span>
-						{user.email_verified ? (
+						{user.emailVerified ? (
 							<span className="font-medium text-green-600">Yes</span>
 						) : (
 							<span className="font-medium text-yellow-600">No</span>

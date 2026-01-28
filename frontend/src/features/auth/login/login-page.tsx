@@ -27,7 +27,7 @@ export default function LoginPage() {
 	const [error, setError] = useState<string | null>(null);
 
 	const navigate = useNavigate();
-	const { login } = useAuth();
+	const { invalidateSession } = useAuth();
 	const { mutate, isPending } = useSignInEmail();
 
 	const form = useForm({
@@ -48,8 +48,9 @@ export default function LoginPage() {
 					}
 				},
 				{
-					onSuccess: (response) => {
-						login(response.token);
+					onSuccess: async () => {
+						// Cookie is set by the API. Invalidate session query to refetch.
+						await invalidateSession();
 						navigate({ to: '/' });
 					},
 					onError: (error) => {

@@ -1,18 +1,18 @@
-import { useReadCurrentUser } from '@/api/authentication/authentication';
+import { useAuth } from '@/hooks/use-auth';
 import UserInfoCard, { UserInfoCardError, UserInfoCardLoading } from './user-info-card';
 
 function DashboardDataContainer() {
-	const { data, isPending, isError } = useReadCurrentUser();
+	const { user, isLoading } = useAuth();
 
-	if (isPending) {
+	if (isLoading) {
 		return <UserInfoCardLoading />;
 	}
 
-	if (isError) {
+	if (!user) {
 		return <UserInfoCardError />;
 	}
 
-	return <UserInfoCard user={data} />;
+	return <UserInfoCard user={user} />;
 }
 
 export default function DashboardPage() {

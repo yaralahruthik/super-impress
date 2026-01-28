@@ -10,11 +10,10 @@ import {
 } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { useAuth } from '@/hooks/use-auth';
 import { AuthLayout } from '@/layouts/auth-layout';
 import { getErrorMessage } from '@/utils/get-error-message';
 import { useForm } from '@tanstack/react-form';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import * as z from 'zod';
 
@@ -26,8 +25,6 @@ const formSchema = z.object({
 export default function LoginPage() {
 	const [error, setError] = useState<string | null>(null);
 
-	const navigate = useNavigate();
-	const { invalidateSession } = useAuth();
 	const { mutate, isPending } = useSignInEmail();
 
 	const form = useForm({
@@ -38,7 +35,7 @@ export default function LoginPage() {
 		validators: {
 			onSubmit: formSchema
 		},
-		onSubmit: async ({ value }) => {
+		onSubmit: ({ value }) => {
 			setError(null);
 			mutate(
 				{
@@ -48,11 +45,7 @@ export default function LoginPage() {
 					}
 				},
 				{
-					onSuccess: async () => {
-						// Cookie is set by the API. Invalidate session query to refetch.
-						await invalidateSession();
-						navigate({ to: '/' });
-					},
+					onSuccess: () => {},
 					onError: (error) => {
 						setError(getErrorMessage(error));
 					}

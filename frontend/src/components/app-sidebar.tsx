@@ -11,7 +11,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem
 } from '@/components/ui/sidebar';
-import { Link, type LinkProps } from '@tanstack/react-router';
+import { Link, useRouter, type LinkProps } from '@tanstack/react-router';
 import { FileText, Home, LogOut, Settings } from 'lucide-react';
 import { Logo } from './logo';
 
@@ -34,10 +34,18 @@ const items: { title: string; url: LinkProps['to']; icon: React.ElementType }[] 
 ];
 
 function LogOutButton() {
+	const router = useRouter();
 	const { mutate } = useSignOut();
 
 	const handleLogout = () => {
-		mutate({ data: {} });
+		mutate(
+			{ data: {} },
+			{
+				onSuccess: () => {
+					router.invalidate();
+				}
+			}
+		);
 	};
 	return (
 		<SidebarMenuButton onClick={handleLogout}>

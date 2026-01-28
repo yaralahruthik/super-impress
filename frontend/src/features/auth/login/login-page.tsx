@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { AuthLayout } from '@/layouts/auth-layout';
 import { getErrorMessage } from '@/utils/get-error-message';
 import { useForm } from '@tanstack/react-form';
-import { Link } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
 import * as z from 'zod';
 
@@ -23,6 +23,7 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
+	const router = useRouter();
 	const [error, setError] = useState<string | null>(null);
 
 	const { mutate, isPending } = useSignInEmail();
@@ -45,7 +46,9 @@ export default function LoginPage() {
 					}
 				},
 				{
-					onSuccess: () => {},
+					onSuccess: () => {
+						router.invalidate();
+					},
 					onError: (error) => {
 						setError(getErrorMessage(error));
 					}

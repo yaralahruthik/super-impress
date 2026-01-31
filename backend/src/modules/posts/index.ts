@@ -15,6 +15,8 @@ import {
   updatePost,
 } from "./service";
 
+// Transforms database Post records (with Date objects) to API responses (with ISO string dates).
+// All endpoints MUST use this function to ensure response validation passes.
 function toPostResponse(post: {
   id: string;
   userId: string;
@@ -56,7 +58,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     async ({ body, user, set }) => {
       const post = await createPost(user.id, body);
       set.status = 201;
-      return post;
+      return toPostResponse(post);
     },
     {
       auth: true,

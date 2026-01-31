@@ -1,4 +1,4 @@
-import type { PostPublic } from '@/api/superimpress.schemas';
+import type { PostListResponsePostsItem } from '@/api/superimpress.schemas';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -50,7 +50,7 @@ export function PostListEmpty() {
 	);
 }
 
-export default function PostList({ posts }: { posts: PostPublic[] }) {
+export default function PostList({ posts }: { posts: PostListResponsePostsItem[] }) {
 	return (
 		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 			{posts.map((post) => (
@@ -62,7 +62,7 @@ export default function PostList({ posts }: { posts: PostPublic[] }) {
 									{post.title || <span className="text-muted-foreground italic">Untitled</span>}
 								</CardTitle>
 								<CardDescription className="text-xs">
-									{new Date(post.created_at).toLocaleDateString(undefined, {
+									{new Date(post.createdAt).toLocaleDateString(undefined, {
 										year: 'numeric',
 										month: 'short',
 										day: 'numeric'

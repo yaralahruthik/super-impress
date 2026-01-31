@@ -5,6 +5,110 @@
  * LinkedIn post management tool API
  * OpenAPI spec version: 1.0.0
  */
+export type PostCreateStatus = (typeof PostCreateStatus)[keyof typeof PostCreateStatus];
+
+export const PostCreateStatus = {
+	draft: 'draft',
+	published: 'published',
+	archived: 'archived'
+} as const;
+
+export interface PostCreate {
+	/** @nullable */
+	title?: string | null;
+	/** @minLength 1 */
+	content: string;
+	tags?: string[];
+	status?: PostCreateStatus;
+}
+
+export type PostUpdateStatus = (typeof PostUpdateStatus)[keyof typeof PostUpdateStatus];
+
+export const PostUpdateStatus = {
+	draft: 'draft',
+	published: 'published',
+	archived: 'archived'
+} as const;
+
+export interface PostUpdate {
+	/** @nullable */
+	title?: string | null;
+	/** @minLength 1 */
+	content?: string;
+	tags?: string[];
+	status?: PostUpdateStatus;
+}
+
+export type PostResponseStatus = (typeof PostResponseStatus)[keyof typeof PostResponseStatus];
+
+export const PostResponseStatus = {
+	draft: 'draft',
+	published: 'published',
+	archived: 'archived'
+} as const;
+
+export interface PostResponse {
+	id: string;
+	userId: string;
+	/** @nullable */
+	title: string | null;
+	content: string;
+	tags: string[];
+	status: PostResponseStatus;
+	createdAt: string;
+	updatedAt: string;
+}
+
+export type PostListQueryStatus = (typeof PostListQueryStatus)[keyof typeof PostListQueryStatus];
+
+export const PostListQueryStatus = {
+	draft: 'draft',
+	published: 'published',
+	archived: 'archived'
+} as const;
+
+export interface PostListQuery {
+	status?: PostListQueryStatus;
+	tag?: string;
+	/**
+	 * @minimum 1
+	 * @maximum 100
+	 */
+	limit?: number;
+	/** @minimum 0 */
+	offset?: number;
+}
+
+export type PostListResponsePostsItemStatus =
+	(typeof PostListResponsePostsItemStatus)[keyof typeof PostListResponsePostsItemStatus];
+
+export const PostListResponsePostsItemStatus = {
+	draft: 'draft',
+	published: 'published',
+	archived: 'archived'
+} as const;
+
+export type PostListResponsePostsItem = {
+	id: string;
+	userId: string;
+	/** @nullable */
+	title: string | null;
+	content: string;
+	tags: string[];
+	status: PostListResponsePostsItemStatus;
+	createdAt: string;
+	updatedAt: string;
+};
+
+export interface PostListResponse {
+	posts: PostListResponsePostsItem[];
+	total: number;
+}
+
+export interface PostError {
+	error: string;
+}
+
 export interface User {
 	id?: string;
 	name: string;
@@ -231,16 +335,16 @@ export interface RequestPasswordResetRequest {
 	redirectTo?: string | null;
 }
 
-export interface AuthApiRevokeSessionPostRequest {
+export interface ApiAuthRevokeSessionPostRequest {
 	/** The token to revoke */
 	token: string;
 }
 
-export interface AuthApiRevokeSessionsPostRequest {
+export interface ApiAuthRevokeSessionsPostRequest {
 	[key: string]: unknown;
 }
 
-export interface AuthApiRevokeOtherSessionsPostRequest {
+export interface ApiAuthRevokeOtherSessionsPostRequest {
 	[key: string]: unknown;
 }
 
@@ -289,13 +393,13 @@ export interface LinkSocialAccountRequest {
 	additionalData?: string | null;
 }
 
-export interface AuthApiUnlinkAccountPostRequest {
+export interface ApiAuthUnlinkAccountPostRequest {
 	providerId: string;
 	/** @nullable */
 	accountId?: string | null;
 }
 
-export interface AuthApiRefreshTokenPostRequest {
+export interface ApiAuthRefreshTokenPostRequest {
 	/** The provider ID for the OAuth provider */
 	providerId: string;
 	/**
@@ -310,7 +414,7 @@ export interface AuthApiRefreshTokenPostRequest {
 	userId?: string | null;
 }
 
-export interface AuthApiGetAccessTokenPostRequest {
+export interface ApiAuthGetAccessTokenPostRequest {
 	/** The provider ID for the OAuth provider */
 	providerId: string;
 	/**
@@ -324,6 +428,28 @@ export interface AuthApiGetAccessTokenPostRequest {
 	 */
 	userId?: string | null;
 }
+
+export type GetApiPostsParams = {
+	status?: GetApiPostsStatus;
+	tag?: string;
+	/**
+	 * @minimum 1
+	 * @maximum 100
+	 */
+	limit?: number;
+	/**
+	 * @minimum 0
+	 */
+	offset?: number;
+};
+
+export type GetApiPostsStatus = (typeof GetApiPostsStatus)[keyof typeof GetApiPostsStatus];
+
+export const GetApiPostsStatus = {
+	draft: 'draft',
+	published: 'published',
+	archived: 'archived'
+} as const;
 
 /**
  * Session response when idToken is provided
@@ -568,7 +694,7 @@ export type VerifyPassword500 = {
 	message?: string;
 };
 
-export type GetAuthApiVerifyEmailParams = {
+export type GetApiAuthVerifyEmailParams = {
 	/**
 	 * The token to verify the email
 	 */
@@ -579,33 +705,33 @@ export type GetAuthApiVerifyEmailParams = {
 	callbackURL?: string;
 };
 
-export type GetAuthApiVerifyEmail200 = {
+export type GetApiAuthVerifyEmail200 = {
 	user: User;
 	/** Indicates if the email was verified successfully */
 	status: boolean;
 };
 
-export type GetAuthApiVerifyEmail400 = {
+export type GetApiAuthVerifyEmail400 = {
 	message: string;
 };
 
-export type GetAuthApiVerifyEmail401 = {
+export type GetApiAuthVerifyEmail401 = {
 	message: string;
 };
 
-export type GetAuthApiVerifyEmail403 = {
+export type GetApiAuthVerifyEmail403 = {
 	message?: string;
 };
 
-export type GetAuthApiVerifyEmail404 = {
+export type GetApiAuthVerifyEmail404 = {
 	message?: string;
 };
 
-export type GetAuthApiVerifyEmail429 = {
+export type GetApiAuthVerifyEmail429 = {
 	message?: string;
 };
 
-export type GetAuthApiVerifyEmail500 = {
+export type GetApiAuthVerifyEmail500 = {
 	message?: string;
 };
 
@@ -901,90 +1027,90 @@ export type ListUserSessions500 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeSession200 = {
+export type PostApiAuthRevokeSession200 = {
 	/** Indicates if the session was revoked successfully */
 	status: boolean;
 };
 
-export type PostAuthApiRevokeSession400 = {
+export type PostApiAuthRevokeSession400 = {
 	message: string;
 };
 
-export type PostAuthApiRevokeSession401 = {
+export type PostApiAuthRevokeSession401 = {
 	message: string;
 };
 
-export type PostAuthApiRevokeSession403 = {
+export type PostApiAuthRevokeSession403 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeSession404 = {
+export type PostApiAuthRevokeSession404 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeSession429 = {
+export type PostApiAuthRevokeSession429 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeSession500 = {
+export type PostApiAuthRevokeSession500 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeSessions200 = {
+export type PostApiAuthRevokeSessions200 = {
 	/** Indicates if all sessions were revoked successfully */
 	status: boolean;
 };
 
-export type PostAuthApiRevokeSessions400 = {
+export type PostApiAuthRevokeSessions400 = {
 	message: string;
 };
 
-export type PostAuthApiRevokeSessions401 = {
+export type PostApiAuthRevokeSessions401 = {
 	message: string;
 };
 
-export type PostAuthApiRevokeSessions403 = {
+export type PostApiAuthRevokeSessions403 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeSessions404 = {
+export type PostApiAuthRevokeSessions404 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeSessions429 = {
+export type PostApiAuthRevokeSessions429 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeSessions500 = {
+export type PostApiAuthRevokeSessions500 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeOtherSessions200 = {
+export type PostApiAuthRevokeOtherSessions200 = {
 	/** Indicates if all other sessions were revoked successfully */
 	status: boolean;
 };
 
-export type PostAuthApiRevokeOtherSessions400 = {
+export type PostApiAuthRevokeOtherSessions400 = {
 	message: string;
 };
 
-export type PostAuthApiRevokeOtherSessions401 = {
+export type PostApiAuthRevokeOtherSessions401 = {
 	message: string;
 };
 
-export type PostAuthApiRevokeOtherSessions403 = {
+export type PostApiAuthRevokeOtherSessions403 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeOtherSessions404 = {
+export type PostApiAuthRevokeOtherSessions404 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeOtherSessions429 = {
+export type PostApiAuthRevokeOtherSessions429 = {
 	message?: string;
 };
 
-export type PostAuthApiRevokeOtherSessions500 = {
+export type PostApiAuthRevokeOtherSessions500 = {
 	message?: string;
 };
 
@@ -1054,7 +1180,7 @@ export type ListUserAccounts500 = {
 	message?: string;
 };
 
-export type GetAuthApiDeleteUserCallbackParams = {
+export type GetApiAuthDeleteUserCallbackParams = {
 	/**
 	 * The token to verify the deletion request
 	 */
@@ -1069,73 +1195,73 @@ export type GetAuthApiDeleteUserCallbackParams = {
 /**
  * Confirmation message
  */
-export type GetAuthApiDeleteUserCallback200Message =
-	(typeof GetAuthApiDeleteUserCallback200Message)[keyof typeof GetAuthApiDeleteUserCallback200Message];
+export type GetApiAuthDeleteUserCallback200Message =
+	(typeof GetApiAuthDeleteUserCallback200Message)[keyof typeof GetApiAuthDeleteUserCallback200Message];
 
-export const GetAuthApiDeleteUserCallback200Message = {
+export const GetApiAuthDeleteUserCallback200Message = {
 	User_deleted: 'User deleted'
 } as const;
 
-export type GetAuthApiDeleteUserCallback200 = {
+export type GetApiAuthDeleteUserCallback200 = {
 	/** Indicates if the deletion was successful */
 	success: boolean;
 	/** Confirmation message */
-	message: GetAuthApiDeleteUserCallback200Message;
+	message: GetApiAuthDeleteUserCallback200Message;
 };
 
-export type GetAuthApiDeleteUserCallback400 = {
+export type GetApiAuthDeleteUserCallback400 = {
 	message: string;
 };
 
-export type GetAuthApiDeleteUserCallback401 = {
+export type GetApiAuthDeleteUserCallback401 = {
 	message: string;
 };
 
-export type GetAuthApiDeleteUserCallback403 = {
+export type GetApiAuthDeleteUserCallback403 = {
 	message?: string;
 };
 
-export type GetAuthApiDeleteUserCallback404 = {
+export type GetApiAuthDeleteUserCallback404 = {
 	message?: string;
 };
 
-export type GetAuthApiDeleteUserCallback429 = {
+export type GetApiAuthDeleteUserCallback429 = {
 	message?: string;
 };
 
-export type GetAuthApiDeleteUserCallback500 = {
+export type GetApiAuthDeleteUserCallback500 = {
 	message?: string;
 };
 
-export type PostAuthApiUnlinkAccount200 = {
+export type PostApiAuthUnlinkAccount200 = {
 	status?: boolean;
 };
 
-export type PostAuthApiUnlinkAccount400 = {
+export type PostApiAuthUnlinkAccount400 = {
 	message: string;
 };
 
-export type PostAuthApiUnlinkAccount401 = {
+export type PostApiAuthUnlinkAccount401 = {
 	message: string;
 };
 
-export type PostAuthApiUnlinkAccount403 = {
+export type PostApiAuthUnlinkAccount403 = {
 	message?: string;
 };
 
-export type PostAuthApiUnlinkAccount404 = {
+export type PostApiAuthUnlinkAccount404 = {
 	message?: string;
 };
 
-export type PostAuthApiUnlinkAccount429 = {
+export type PostApiAuthUnlinkAccount429 = {
 	message?: string;
 };
 
-export type PostAuthApiUnlinkAccount500 = {
+export type PostApiAuthUnlinkAccount500 = {
 	message?: string;
 };
 
-export type PostAuthApiRefreshToken200 = {
+export type PostApiAuthRefreshToken200 = {
 	tokenType?: string;
 	idToken?: string;
 	accessToken?: string;
@@ -1144,54 +1270,54 @@ export type PostAuthApiRefreshToken200 = {
 	refreshTokenExpiresAt?: string;
 };
 
-export type PostAuthApiRefreshToken401 = {
+export type PostApiAuthRefreshToken401 = {
 	message: string;
 };
 
-export type PostAuthApiRefreshToken403 = {
+export type PostApiAuthRefreshToken403 = {
 	message?: string;
 };
 
-export type PostAuthApiRefreshToken404 = {
+export type PostApiAuthRefreshToken404 = {
 	message?: string;
 };
 
-export type PostAuthApiRefreshToken429 = {
+export type PostApiAuthRefreshToken429 = {
 	message?: string;
 };
 
-export type PostAuthApiRefreshToken500 = {
+export type PostApiAuthRefreshToken500 = {
 	message?: string;
 };
 
-export type PostAuthApiGetAccessToken200 = {
+export type PostApiAuthGetAccessToken200 = {
 	tokenType?: string;
 	idToken?: string;
 	accessToken?: string;
 	accessTokenExpiresAt?: string;
 };
 
-export type PostAuthApiGetAccessToken401 = {
+export type PostApiAuthGetAccessToken401 = {
 	message: string;
 };
 
-export type PostAuthApiGetAccessToken403 = {
+export type PostApiAuthGetAccessToken403 = {
 	message?: string;
 };
 
-export type PostAuthApiGetAccessToken404 = {
+export type PostApiAuthGetAccessToken404 = {
 	message?: string;
 };
 
-export type PostAuthApiGetAccessToken429 = {
+export type PostApiAuthGetAccessToken429 = {
 	message?: string;
 };
 
-export type PostAuthApiGetAccessToken500 = {
+export type PostApiAuthGetAccessToken500 = {
 	message?: string;
 };
 
-export type GetAuthApiAccountInfo200User = {
+export type GetApiAuthAccountInfo200User = {
 	id: string;
 	name?: string;
 	email?: string;
@@ -1199,86 +1325,86 @@ export type GetAuthApiAccountInfo200User = {
 	emailVerified: boolean;
 };
 
-export type GetAuthApiAccountInfo200Data = { [key: string]: unknown };
+export type GetApiAuthAccountInfo200Data = { [key: string]: unknown };
 
-export type GetAuthApiAccountInfo200 = {
-	user: GetAuthApiAccountInfo200User;
-	data: GetAuthApiAccountInfo200Data;
+export type GetApiAuthAccountInfo200 = {
+	user: GetApiAuthAccountInfo200User;
+	data: GetApiAuthAccountInfo200Data;
 };
 
-export type GetAuthApiAccountInfo400 = {
+export type GetApiAuthAccountInfo400 = {
 	message: string;
 };
 
-export type GetAuthApiAccountInfo401 = {
+export type GetApiAuthAccountInfo401 = {
 	message: string;
 };
 
-export type GetAuthApiAccountInfo403 = {
+export type GetApiAuthAccountInfo403 = {
 	message?: string;
 };
 
-export type GetAuthApiAccountInfo404 = {
+export type GetApiAuthAccountInfo404 = {
 	message?: string;
 };
 
-export type GetAuthApiAccountInfo429 = {
+export type GetApiAuthAccountInfo429 = {
 	message?: string;
 };
 
-export type GetAuthApiAccountInfo500 = {
+export type GetApiAuthAccountInfo500 = {
 	message?: string;
 };
 
-export type GetAuthApiOk200 = {
+export type GetApiAuthOk200 = {
 	/** Indicates if the API is working */
 	ok: boolean;
 };
 
-export type GetAuthApiOk400 = {
+export type GetApiAuthOk400 = {
 	message: string;
 };
 
-export type GetAuthApiOk401 = {
+export type GetApiAuthOk401 = {
 	message: string;
 };
 
-export type GetAuthApiOk403 = {
+export type GetApiAuthOk403 = {
 	message?: string;
 };
 
-export type GetAuthApiOk404 = {
+export type GetApiAuthOk404 = {
 	message?: string;
 };
 
-export type GetAuthApiOk429 = {
+export type GetApiAuthOk429 = {
 	message?: string;
 };
 
-export type GetAuthApiOk500 = {
+export type GetApiAuthOk500 = {
 	message?: string;
 };
 
-export type GetAuthApiError400 = {
+export type GetApiAuthError400 = {
 	message: string;
 };
 
-export type GetAuthApiError401 = {
+export type GetApiAuthError401 = {
 	message: string;
 };
 
-export type GetAuthApiError403 = {
+export type GetApiAuthError403 = {
 	message?: string;
 };
 
-export type GetAuthApiError404 = {
+export type GetApiAuthError404 = {
 	message?: string;
 };
 
-export type GetAuthApiError429 = {
+export type GetApiAuthError429 = {
 	message?: string;
 };
 
-export type GetAuthApiError500 = {
+export type GetApiAuthError500 = {
 	message?: string;
 };

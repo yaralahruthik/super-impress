@@ -7,6 +7,191 @@
 	},
 	"components": {
 		"schemas": {
+			"PostCreate": {
+				"type": "object",
+				"required": ["content"],
+				"properties": {
+					"title": {
+						"type": "string",
+						"nullable": true
+					},
+					"content": {
+						"minLength": 1,
+						"type": "string"
+					},
+					"tags": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"status": {
+						"type": "string",
+						"enum": ["draft", "published", "archived"]
+					}
+				}
+			},
+			"PostUpdate": {
+				"type": "object",
+				"properties": {
+					"title": {
+						"type": "string",
+						"nullable": true
+					},
+					"content": {
+						"minLength": 1,
+						"type": "string"
+					},
+					"tags": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"status": {
+						"type": "string",
+						"enum": ["draft", "published", "archived"]
+					}
+				}
+			},
+			"PostResponse": {
+				"type": "object",
+				"required": [
+					"id",
+					"userId",
+					"title",
+					"content",
+					"tags",
+					"status",
+					"createdAt",
+					"updatedAt"
+				],
+				"properties": {
+					"id": {
+						"format": "uuid",
+						"type": "string"
+					},
+					"userId": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string",
+						"nullable": true
+					},
+					"content": {
+						"type": "string"
+					},
+					"tags": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"status": {
+						"type": "string",
+						"enum": ["draft", "published", "archived"]
+					},
+					"createdAt": {
+						"format": "date-time",
+						"type": "string"
+					},
+					"updatedAt": {
+						"format": "date-time",
+						"type": "string"
+					}
+				}
+			},
+			"PostListQuery": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "string",
+						"enum": ["draft", "published", "archived"]
+					},
+					"tag": {
+						"type": "string"
+					},
+					"limit": {
+						"minimum": 1,
+						"maximum": 100,
+						"default": 100,
+						"type": "number"
+					},
+					"offset": {
+						"minimum": 0,
+						"default": 0,
+						"type": "number"
+					}
+				}
+			},
+			"PostListResponse": {
+				"type": "object",
+				"required": ["posts", "total"],
+				"properties": {
+					"posts": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"required": [
+								"id",
+								"userId",
+								"title",
+								"content",
+								"tags",
+								"status",
+								"createdAt",
+								"updatedAt"
+							],
+							"properties": {
+								"id": {
+									"format": "uuid",
+									"type": "string"
+								},
+								"userId": {
+									"type": "string"
+								},
+								"title": {
+									"type": "string",
+									"nullable": true
+								},
+								"content": {
+									"type": "string"
+								},
+								"tags": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								},
+								"status": {
+									"type": "string",
+									"enum": ["draft", "published", "archived"]
+								},
+								"createdAt": {
+									"format": "date-time",
+									"type": "string"
+								},
+								"updatedAt": {
+									"format": "date-time",
+									"type": "string"
+								}
+							}
+						}
+					},
+					"total": {
+						"type": "number"
+					}
+				}
+			},
+			"PostError": {
+				"type": "object",
+				"required": ["error"],
+				"properties": {
+					"error": {
+						"type": "string"
+					}
+				}
+			},
 			"User": {
 				"type": "object",
 				"properties": {
@@ -412,7 +597,7 @@
 				},
 				"required": ["email"]
 			},
-			"AuthApiRevoke-sessionPostRequest": {
+			"ApiAuthRevoke-sessionPostRequest": {
 				"type": "object",
 				"properties": {
 					"token": {
@@ -422,11 +607,11 @@
 				},
 				"required": ["token"]
 			},
-			"AuthApiRevoke-sessionsPostRequest": {
+			"ApiAuthRevoke-sessionsPostRequest": {
 				"type": "object",
 				"properties": {}
 			},
-			"AuthApiRevoke-other-sessionsPostRequest": {
+			"ApiAuthRevoke-other-sessionsPostRequest": {
 				"type": "object",
 				"properties": {}
 			},
@@ -493,7 +678,7 @@
 				},
 				"required": ["provider"]
 			},
-			"AuthApiUnlink-accountPostRequest": {
+			"ApiAuthUnlink-accountPostRequest": {
 				"type": "object",
 				"properties": {
 					"providerId": {
@@ -506,7 +691,7 @@
 				},
 				"required": ["providerId"]
 			},
-			"AuthApiRefresh-tokenPostRequest": {
+			"ApiAuthRefresh-tokenPostRequest": {
 				"type": "object",
 				"properties": {
 					"providerId": {
@@ -526,7 +711,7 @@
 				},
 				"required": ["providerId"]
 			},
-			"AuthApiGet-access-tokenPostRequest": {
+			"ApiAuthGet-access-tokenPostRequest": {
 				"type": "object",
 				"properties": {
 					"providerId": {
@@ -562,7 +747,234 @@
 		}
 	},
 	"paths": {
-		"/auth/api/sign-in/social": {
+		"/api/posts": {
+			"post": {
+				"tags": ["Posts"],
+				"summary": "Create a new post",
+				"description": "Create a new post for the authenticated user",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PostCreate"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"$ref": "#/components/schemas/PostCreate"
+							}
+						},
+						"multipart/form-data": {
+							"schema": {
+								"$ref": "#/components/schemas/PostCreate"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Response for status 201",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostResponse"
+								}
+							}
+						}
+					}
+				},
+				"operationId": "postApiPosts"
+			},
+			"get": {
+				"tags": ["Posts"],
+				"summary": "List posts",
+				"description": "List posts for the authenticated user with optional filtering by status and tag",
+				"parameters": [
+					{
+						"name": "status",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string",
+							"enum": ["draft", "published", "archived"]
+						}
+					},
+					{
+						"name": "tag",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "limit",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"minimum": 1,
+							"maximum": 100,
+							"default": 100,
+							"type": "number"
+						}
+					},
+					{
+						"name": "offset",
+						"in": "query",
+						"required": false,
+						"schema": {
+							"minimum": 0,
+							"default": 0,
+							"type": "number"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for status 200",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostListResponse"
+								}
+							}
+						}
+					}
+				},
+				"operationId": "getApiPosts"
+			}
+		},
+		"/api/posts/{id}": {
+			"get": {
+				"tags": ["Posts"],
+				"summary": "Get a post",
+				"description": "Get a specific post by ID",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"format": "uuid",
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Response for status 200",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Response for status 404",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostError"
+								}
+							}
+						}
+					}
+				},
+				"operationId": "getApiPostsById"
+			},
+			"patch": {
+				"tags": ["Posts"],
+				"summary": "Update a post",
+				"description": "Update a specific post by ID",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"format": "uuid",
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PostUpdate"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"$ref": "#/components/schemas/PostUpdate"
+							}
+						},
+						"multipart/form-data": {
+							"schema": {
+								"$ref": "#/components/schemas/PostUpdate"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Response for status 200",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Response for status 404",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostError"
+								}
+							}
+						}
+					}
+				},
+				"operationId": "patchApiPostsById"
+			},
+			"delete": {
+				"tags": ["Posts"],
+				"summary": "Delete a post",
+				"description": "Delete a specific post by ID",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"format": "uuid",
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"404": {
+						"description": "Response for status 404",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostError"
+								}
+							}
+						}
+					}
+				},
+				"operationId": "deleteApiPostsById"
+			}
+		},
+		"/api/auth/sign-in/social": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Sign in with a social provider",
@@ -707,7 +1119,7 @@
 				}
 			}
 		},
-		"/auth/api/get-session": {
+		"/api/auth/get-session": {
 			"get": {
 				"tags": ["Better Auth"],
 				"description": "Get the current session",
@@ -834,7 +1246,7 @@
 				}
 			}
 		},
-		"/auth/api/sign-out": {
+		"/api/auth/sign-out": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Sign out the current user",
@@ -965,7 +1377,7 @@
 				}
 			}
 		},
-		"/auth/api/sign-up/email": {
+		"/api/auth/sign-up/email": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Sign up a user using email and password",
@@ -1153,7 +1565,7 @@
 				}
 			}
 		},
-		"/auth/api/sign-in/email": {
+		"/api/auth/sign-in/email": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Sign in with email and password",
@@ -1300,7 +1712,7 @@
 				}
 			}
 		},
-		"/auth/api/reset-password": {
+		"/api/auth/reset-password": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Reset the password for a user",
@@ -1432,7 +1844,7 @@
 				}
 			}
 		},
-		"/auth/api/verify-password": {
+		"/api/auth/verify-password": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Verify the current user's password",
@@ -1564,7 +1976,7 @@
 				}
 			}
 		},
-		"/auth/api/verify-email": {
+		"/api/auth/verify-email": {
 			"get": {
 				"tags": ["Better Auth"],
 				"description": "Verify the email of the user",
@@ -1710,7 +2122,7 @@
 				}
 			}
 		},
-		"/auth/api/send-verification-email": {
+		"/api/auth/send-verification-email": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Send a verification email to the user",
@@ -1844,7 +2256,7 @@
 				}
 			}
 		},
-		"/auth/api/change-email": {
+		"/api/auth/change-email": {
 			"post": {
 				"tags": ["Better Auth"],
 				"operationId": "changeEmail",
@@ -2002,7 +2414,7 @@
 				}
 			}
 		},
-		"/auth/api/change-password": {
+		"/api/auth/change-password": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Change the password of the user",
@@ -2176,7 +2588,7 @@
 				}
 			}
 		},
-		"/auth/api/update-user": {
+		"/api/auth/update-user": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Update the current user",
@@ -2308,7 +2720,7 @@
 				}
 			}
 		},
-		"/auth/api/delete-user": {
+		"/api/auth/delete-user": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Delete the user",
@@ -2446,7 +2858,7 @@
 				}
 			}
 		},
-		"/auth/api/request-password-reset": {
+		"/api/auth/request-password-reset": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Send a password reset email to the user",
@@ -2581,7 +2993,7 @@
 				}
 			}
 		},
-		"/auth/api/reset-password/{token}": {
+		"/api/auth/reset-password/{token}": {
 			"get": {
 				"tags": ["Better Auth"],
 				"description": "Redirects the user to the callback URL with the token",
@@ -2722,7 +3134,7 @@
 				}
 			}
 		},
-		"/auth/api/list-sessions": {
+		"/api/auth/list-sessions": {
 			"get": {
 				"tags": ["Better Auth"],
 				"description": "List all active sessions for the user",
@@ -2842,7 +3254,7 @@
 				}
 			}
 		},
-		"/auth/api/revoke-session": {
+		"/api/auth/revoke-session": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Revoke a single session",
@@ -2856,7 +3268,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AuthApiRevoke-sessionPostRequest"
+								"$ref": "#/components/schemas/ApiAuthRevoke-sessionPostRequest"
 							}
 						}
 					}
@@ -2974,7 +3386,7 @@
 				}
 			}
 		},
-		"/auth/api/revoke-sessions": {
+		"/api/auth/revoke-sessions": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Revoke all sessions for the user",
@@ -2988,7 +3400,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AuthApiRevoke-sessionsPostRequest"
+								"$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostRequest"
 							}
 						}
 					}
@@ -3106,7 +3518,7 @@
 				}
 			}
 		},
-		"/auth/api/revoke-other-sessions": {
+		"/api/auth/revoke-other-sessions": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Revoke all other sessions for the user except the current one",
@@ -3120,7 +3532,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AuthApiRevoke-other-sessionsPostRequest"
+								"$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostRequest"
 							}
 						}
 					}
@@ -3238,7 +3650,7 @@
 				}
 			}
 		},
-		"/auth/api/link-social": {
+		"/api/auth/link-social": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Link a social account to the user",
@@ -3379,7 +3791,7 @@
 				}
 			}
 		},
-		"/auth/api/list-accounts": {
+		"/api/auth/list-accounts": {
 			"get": {
 				"tags": ["Better Auth"],
 				"description": "List all accounts linked to the user",
@@ -3536,7 +3948,7 @@
 				}
 			}
 		},
-		"/auth/api/delete-user/callback": {
+		"/api/auth/delete-user/callback": {
 			"get": {
 				"tags": ["Better Auth"],
 				"description": "Callback to complete user deletion with verification token",
@@ -3682,7 +4094,7 @@
 				}
 			}
 		},
-		"/auth/api/unlink-account": {
+		"/api/auth/unlink-account": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Unlink an account",
@@ -3697,7 +4109,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AuthApiUnlink-accountPostRequest"
+								"$ref": "#/components/schemas/ApiAuthUnlink-accountPostRequest"
 							}
 						}
 					}
@@ -3813,7 +4225,7 @@
 				}
 			}
 		},
-		"/auth/api/refresh-token": {
+		"/api/auth/refresh-token": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Refresh the access token using a refresh token",
@@ -3828,7 +4240,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AuthApiRefresh-tokenPostRequest"
+								"$ref": "#/components/schemas/ApiAuthRefresh-tokenPostRequest"
 							}
 						}
 					}
@@ -3948,7 +4360,7 @@
 				}
 			}
 		},
-		"/auth/api/get-access-token": {
+		"/api/auth/get-access-token": {
 			"post": {
 				"tags": ["Better Auth"],
 				"description": "Get a valid access token, doing a refresh if needed",
@@ -3963,7 +4375,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/AuthApiGet-access-tokenPostRequest"
+								"$ref": "#/components/schemas/ApiAuthGet-access-tokenPostRequest"
 							}
 						}
 					}
@@ -4076,7 +4488,7 @@
 				}
 			}
 		},
-		"/auth/api/account-info": {
+		"/api/auth/account-info": {
 			"get": {
 				"tags": ["Better Auth"],
 				"description": "Get the account info provided by the provider",
@@ -4222,7 +4634,7 @@
 				}
 			}
 		},
-		"/auth/api/ok": {
+		"/api/auth/ok": {
 			"get": {
 				"tags": ["Better Auth"],
 				"description": "Check if the API is working",
@@ -4345,7 +4757,7 @@
 				}
 			}
 		},
-		"/auth/api/error": {
+		"/api/auth/error": {
 			"get": {
 				"tags": ["Better Auth"],
 				"description": "Displays an error page",

@@ -210,21 +210,21 @@ export const VerifyPasswordResponse = zod.object({
 /**
  * Verify the email of the user
  */
-export const GetAuthApiVerifyEmailQueryParams = zod.object({
+export const GetApiAuthVerifyEmailQueryParams = zod.object({
 	token: zod.string().describe('The token to verify the email'),
 	callbackURL: zod.string().optional().describe('The URL to redirect to after email verification')
 });
 
-export const getAuthApiVerifyEmailResponseUserEmailVerifiedDefault = false;
-export const getAuthApiVerifyEmailResponseUserCreatedAtDefault = `Generated at runtime`;
-export const getAuthApiVerifyEmailResponseUserUpdatedAtDefault = `Generated at runtime`;
+export const getApiAuthVerifyEmailResponseUserEmailVerifiedDefault = false;
+export const getApiAuthVerifyEmailResponseUserCreatedAtDefault = `Generated at runtime`;
+export const getApiAuthVerifyEmailResponseUserUpdatedAtDefault = `Generated at runtime`;
 
-export const GetAuthApiVerifyEmailResponse = zod.object({
+export const GetApiAuthVerifyEmailResponse = zod.object({
 	user: zod.object({
 		id: zod.string().optional(),
 		name: zod.string(),
 		email: zod.string(),
-		emailVerified: zod.boolean().default(getAuthApiVerifyEmailResponseUserEmailVerifiedDefault),
+		emailVerified: zod.boolean().default(getApiAuthVerifyEmailResponseUserEmailVerifiedDefault),
 		image: zod.string().optional(),
 		createdAt: zod.iso.datetime({}),
 		updatedAt: zod.iso.datetime({})
@@ -395,29 +395,29 @@ export const ListUserSessionsResponse = zod.array(ListUserSessionsResponseItem);
 /**
  * Revoke a single session
  */
-export const PostAuthApiRevokeSessionBody = zod.object({
+export const PostApiAuthRevokeSessionBody = zod.object({
 	token: zod.string().describe('The token to revoke')
 });
 
-export const PostAuthApiRevokeSessionResponse = zod.object({
+export const PostApiAuthRevokeSessionResponse = zod.object({
 	status: zod.boolean().describe('Indicates if the session was revoked successfully')
 });
 
 /**
  * Revoke all sessions for the user
  */
-export const PostAuthApiRevokeSessionsBody = zod.object({});
+export const PostApiAuthRevokeSessionsBody = zod.object({});
 
-export const PostAuthApiRevokeSessionsResponse = zod.object({
+export const PostApiAuthRevokeSessionsResponse = zod.object({
 	status: zod.boolean().describe('Indicates if all sessions were revoked successfully')
 });
 
 /**
  * Revoke all other sessions for the user except the current one
  */
-export const PostAuthApiRevokeOtherSessionsBody = zod.object({});
+export const PostApiAuthRevokeOtherSessionsBody = zod.object({});
 
-export const PostAuthApiRevokeOtherSessionsResponse = zod.object({
+export const PostApiAuthRevokeOtherSessionsResponse = zod.object({
 	status: zod.boolean().describe('Indicates if all other sessions were revoked successfully')
 });
 
@@ -479,12 +479,12 @@ export const ListUserAccountsResponse = zod.array(ListUserAccountsResponseItem);
 /**
  * Callback to complete user deletion with verification token
  */
-export const GetAuthApiDeleteUserCallbackQueryParams = zod.object({
+export const GetApiAuthDeleteUserCallbackQueryParams = zod.object({
 	token: zod.string().optional(),
 	callbackURL: zod.string().nullish()
 });
 
-export const GetAuthApiDeleteUserCallbackResponse = zod.object({
+export const GetApiAuthDeleteUserCallbackResponse = zod.object({
 	success: zod.boolean().describe('Indicates if the deletion was successful'),
 	message: zod.enum(['User deleted']).describe('Confirmation message')
 });
@@ -492,25 +492,25 @@ export const GetAuthApiDeleteUserCallbackResponse = zod.object({
 /**
  * Unlink an account
  */
-export const PostAuthApiUnlinkAccountBody = zod.object({
+export const PostApiAuthUnlinkAccountBody = zod.object({
 	providerId: zod.string(),
 	accountId: zod.string().nullish()
 });
 
-export const PostAuthApiUnlinkAccountResponse = zod.object({
+export const PostApiAuthUnlinkAccountResponse = zod.object({
 	status: zod.boolean().optional()
 });
 
 /**
  * Refresh the access token using a refresh token
  */
-export const PostAuthApiRefreshTokenBody = zod.object({
+export const PostApiAuthRefreshTokenBody = zod.object({
 	providerId: zod.string().describe('The provider ID for the OAuth provider'),
 	accountId: zod.string().nullish().describe('The account ID associated with the refresh token'),
 	userId: zod.string().nullish().describe('The user ID associated with the account')
 });
 
-export const PostAuthApiRefreshTokenResponse = zod.object({
+export const PostApiAuthRefreshTokenResponse = zod.object({
 	tokenType: zod.string().optional(),
 	idToken: zod.string().optional(),
 	accessToken: zod.string().optional(),
@@ -522,13 +522,13 @@ export const PostAuthApiRefreshTokenResponse = zod.object({
 /**
  * Get a valid access token, doing a refresh if needed
  */
-export const PostAuthApiGetAccessTokenBody = zod.object({
+export const PostApiAuthGetAccessTokenBody = zod.object({
 	providerId: zod.string().describe('The provider ID for the OAuth provider'),
 	accountId: zod.string().nullish().describe('The account ID associated with the refresh token'),
 	userId: zod.string().nullish().describe('The user ID associated with the account')
 });
 
-export const PostAuthApiGetAccessTokenResponse = zod.object({
+export const PostApiAuthGetAccessTokenResponse = zod.object({
 	tokenType: zod.string().optional(),
 	idToken: zod.string().optional(),
 	accessToken: zod.string().optional(),
@@ -538,7 +538,7 @@ export const PostAuthApiGetAccessTokenResponse = zod.object({
 /**
  * Get the account info provided by the provider
  */
-export const GetAuthApiAccountInfoResponse = zod.object({
+export const GetApiAuthAccountInfoResponse = zod.object({
 	user: zod.object({
 		id: zod.string(),
 		name: zod.string().optional(),
@@ -552,6 +552,6 @@ export const GetAuthApiAccountInfoResponse = zod.object({
 /**
  * Check if the API is working
  */
-export const GetAuthApiOkResponse = zod.object({
+export const GetApiAuthOkResponse = zod.object({
 	ok: zod.boolean().describe('Indicates if the API is working')
 });

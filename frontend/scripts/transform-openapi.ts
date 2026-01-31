@@ -4,7 +4,9 @@
  * Issues fixed:
  * 1. Converts inline requestBody schemas to $ref references
  * 2. Fixes type arrays like ["string", "null"] to use nullable: true (OpenAPI 3.0 style)
- * 3. Fixes parameter schemas with type arrays
+ * 3. Fixes anyOf with {type: "null"} to use nullable: true (OpenAPI 3.0 style)
+ * 4. Fixes parameter schemas with type arrays
+ * 5. Removes $id fields from schemas (not valid in OpenAPI 3.x)
  */
 
 import { writeFileSync } from 'node:fs';
@@ -62,6 +64,11 @@ function fixNullableTypes(schema: Record<string, unknown>): Record<string, unkno
 	const result: Record<string, unknown> = {};
 
 	for (const [key, value] of Object.entries(schema)) {
+		// Remove $id fields - not valid in OpenAPI 3.x and causes Orval validation errors
+		if (key === '$id') {
+			continue;
+		}
+
 		if (key === 'type' && Array.isArray(value)) {
 			// Convert ["string", "null"] to type: "string", nullable: true
 			const types = value.filter((t) => t !== 'null');
@@ -74,6 +81,37 @@ function fixNullableTypes(schema: Record<string, unknown>): Record<string, unkno
 				// Multiple non-null types - just use the first one
 				result['type'] = types[0];
 				if (value.includes('null')) {
+					result['nullable'] = true;
+				}
+			} else {
+				result[key] = value;
+			}
+		} else if (key === 'anyOf' && Array.isArray(value)) {
+			// Convert anyOf: [{type: "string"}, {type: "null"}] to type: "string", nullable: true
+			const nonNullItems = value.filter(
+				(item) =>
+					!(item && typeof item === 'object' && (item as Record<string, unknown>).type === 'null')
+			);
+			const hasNull = value.some(
+				(item) =>
+					item && typeof item === 'object' && (item as Record<string, unknown>).type === 'null'
+			);
+
+			if (nonNullItems.length === 1 && hasNull) {
+				// Single non-null type with null - convert to nullable
+				const nonNullSchema = fixNullableTypes(nonNullItems[0] as Record<string, unknown>);
+				for (const [k, v] of Object.entries(nonNullSchema)) {
+					result[k] = v;
+				}
+				result['nullable'] = true;
+			} else if (nonNullItems.length > 0) {
+				// Multiple non-null types - keep anyOf but remove null items and process recursively
+				result[key] = nonNullItems.map((item) =>
+					item && typeof item === 'object'
+						? fixNullableTypes(item as Record<string, unknown>)
+						: item
+				);
+				if (hasNull) {
 					result['nullable'] = true;
 				}
 			} else {
@@ -95,7 +133,7 @@ function fixNullableTypes(schema: Record<string, unknown>): Record<string, unkno
 
 async function transformOpenAPI(): Promise<void> {
 	const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3000';
-	const response = await fetch(`${BACKEND_URL}/openapi/json`);
+	const response = await fetch(`${BACKEND_URL}/api/openapi/json`);
 
 	if (!response.ok) {
 		throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);

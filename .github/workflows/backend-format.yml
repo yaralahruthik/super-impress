@@ -23,5 +23,8 @@ jobs:
       - name: Install dependencies
         run: cd backend && bun install
 
-      - name: Run Biome CI
-        run: cd backend && bunx @biomejs/biome ci .
+      - name: Run Biome Format
+        run: cd backend && bun format
+
+      - name: Run Biome Lint
+        run: cd backend && bun lint

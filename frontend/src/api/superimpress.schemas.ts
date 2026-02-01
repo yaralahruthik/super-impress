@@ -223,8 +223,102 @@ export interface SocialSignInRequest {
 	additionalData?: string | null;
 }
 
+/**
+ * Session response when idToken is provided
+ */
+export interface SocialSignInResponse200 {
+	token: string;
+	user: User;
+	url?: string;
+	redirect: boolean;
+}
+
+export interface SocialSignInResponse400 {
+	message: string;
+}
+
+export interface SocialSignInResponse401 {
+	message: string;
+}
+
+export interface SocialSignInResponse403 {
+	message?: string;
+}
+
+export interface SocialSignInResponse404 {
+	message?: string;
+}
+
+export interface SocialSignInResponse429 {
+	message?: string;
+}
+
+export interface SocialSignInResponse500 {
+	message?: string;
+}
+
+/**
+ * @nullable
+ */
+export type GetSessionResponse200 = {
+	session: Session;
+	user: User;
+} | null | null;
+
+export interface GetSessionResponse400 {
+	message: string;
+}
+
+export interface GetSessionResponse401 {
+	message: string;
+}
+
+export interface GetSessionResponse403 {
+	message?: string;
+}
+
+export interface GetSessionResponse404 {
+	message?: string;
+}
+
+export interface GetSessionResponse429 {
+	message?: string;
+}
+
+export interface GetSessionResponse500 {
+	message?: string;
+}
+
 export interface SignOutRequest {
 	[key: string]: unknown;
+}
+
+export interface SignOutResponse200 {
+	success?: boolean;
+}
+
+export interface SignOutResponse400 {
+	message: string;
+}
+
+export interface SignOutResponse401 {
+	message: string;
+}
+
+export interface SignOutResponse403 {
+	message?: string;
+}
+
+export interface SignOutResponse404 {
+	message?: string;
+}
+
+export interface SignOutResponse429 {
+	message?: string;
+}
+
+export interface SignOutResponse500 {
+	message?: string;
 }
 
 export interface SignUpWithEmailAndPasswordRequest {
@@ -240,6 +334,63 @@ export interface SignUpWithEmailAndPasswordRequest {
 	callbackURL?: string;
 	/** If this is false, the session will not be remembered. Default is `true`. */
 	rememberMe?: boolean;
+}
+
+export type SignUpWithEmailAndPasswordResponse200User = {
+	/** The unique identifier of the user */
+	id: string;
+	/** The email address of the user */
+	email: string;
+	/** The name of the user */
+	name: string;
+	/**
+	 * The profile image URL of the user
+	 * @nullable
+	 */
+	image?: string | null;
+	/** Whether the email has been verified */
+	emailVerified: boolean;
+	/** When the user was created */
+	createdAt: string;
+	/** When the user was last updated */
+	updatedAt: string;
+};
+
+export interface SignUpWithEmailAndPasswordResponse200 {
+	/**
+	 * Authentication token for the session
+	 * @nullable
+	 */
+	token?: string | null;
+	user: SignUpWithEmailAndPasswordResponse200User;
+}
+
+export interface SignUpWithEmailAndPasswordResponse400 {
+	message: string;
+}
+
+export interface SignUpWithEmailAndPasswordResponse401 {
+	message: string;
+}
+
+export interface SignUpWithEmailAndPasswordResponse403 {
+	message?: string;
+}
+
+export interface SignUpWithEmailAndPasswordResponse404 {
+	message?: string;
+}
+
+export interface SignUpWithEmailAndPasswordResponse422 {
+	message?: string;
+}
+
+export interface SignUpWithEmailAndPasswordResponse429 {
+	message?: string;
+}
+
+export interface SignUpWithEmailAndPasswordResponse500 {
+	message?: string;
 }
 
 export interface SignInEmailRequest {
@@ -259,6 +410,42 @@ export interface SignInEmailRequest {
 	rememberMe?: boolean | null;
 }
 
+/**
+ * Session response when idToken is provided
+ */
+export interface SignInEmailResponse200 {
+	redirect: boolean;
+	/** Session token */
+	token: string;
+	/** @nullable */
+	url?: string | null;
+	user: User;
+}
+
+export interface SignInEmailResponse400 {
+	message: string;
+}
+
+export interface SignInEmailResponse401 {
+	message: string;
+}
+
+export interface SignInEmailResponse403 {
+	message?: string;
+}
+
+export interface SignInEmailResponse404 {
+	message?: string;
+}
+
+export interface SignInEmailResponse429 {
+	message?: string;
+}
+
+export interface SignInEmailResponse500 {
+	message?: string;
+}
+
 export interface ResetPasswordRequest {
 	/** The new password to set */
 	newPassword: string;
@@ -269,9 +456,95 @@ export interface ResetPasswordRequest {
 	token?: string | null;
 }
 
+export interface ResetPasswordResponse200 {
+	status?: boolean;
+}
+
+export interface ResetPasswordResponse400 {
+	message: string;
+}
+
+export interface ResetPasswordResponse401 {
+	message: string;
+}
+
+export interface ResetPasswordResponse403 {
+	message?: string;
+}
+
+export interface ResetPasswordResponse404 {
+	message?: string;
+}
+
+export interface ResetPasswordResponse429 {
+	message?: string;
+}
+
+export interface ResetPasswordResponse500 {
+	message?: string;
+}
+
 export interface VerifyPasswordRequest {
 	/** The password to verify */
 	password: string;
+}
+
+export interface VerifyPasswordResponse200 {
+	status?: boolean;
+}
+
+export interface VerifyPasswordResponse400 {
+	message: string;
+}
+
+export interface VerifyPasswordResponse401 {
+	message: string;
+}
+
+export interface VerifyPasswordResponse403 {
+	message?: string;
+}
+
+export interface VerifyPasswordResponse404 {
+	message?: string;
+}
+
+export interface VerifyPasswordResponse429 {
+	message?: string;
+}
+
+export interface VerifyPasswordResponse500 {
+	message?: string;
+}
+
+export interface ApiAuthVerifyEmailGetResponse200 {
+	user: User;
+	/** Indicates if the email was verified successfully */
+	status: boolean;
+}
+
+export interface ApiAuthVerifyEmailGetResponse400 {
+	message: string;
+}
+
+export interface ApiAuthVerifyEmailGetResponse401 {
+	message: string;
+}
+
+export interface ApiAuthVerifyEmailGetResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthVerifyEmailGetResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthVerifyEmailGetResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthVerifyEmailGetResponse500 {
+	message?: string;
 }
 
 export interface SendVerificationEmailRequest {
@@ -284,6 +557,36 @@ export interface SendVerificationEmailRequest {
 	callbackURL?: string | null;
 }
 
+export interface SendVerificationEmailResponse200 {
+	/** Indicates if the email was sent successfully */
+	status?: boolean;
+}
+
+export interface SendVerificationEmailResponse400 {
+	/** Error message */
+	message?: string;
+}
+
+export interface SendVerificationEmailResponse401 {
+	message: string;
+}
+
+export interface SendVerificationEmailResponse403 {
+	message?: string;
+}
+
+export interface SendVerificationEmailResponse404 {
+	message?: string;
+}
+
+export interface SendVerificationEmailResponse429 {
+	message?: string;
+}
+
+export interface SendVerificationEmailResponse500 {
+	message?: string;
+}
+
 export interface ChangeEmailRequest {
 	/** The new email address to set must be a valid email address */
 	newEmail: string;
@@ -292,6 +595,58 @@ export interface ChangeEmailRequest {
 	 * @nullable
 	 */
 	callbackURL?: string | null;
+}
+
+/**
+ * Status message of the email change process
+ * @nullable
+ */
+export type ChangeEmailResponse200Message =
+	| (typeof ChangeEmailResponse200Message)[keyof typeof ChangeEmailResponse200Message]
+	| null;
+
+export const ChangeEmailResponse200Message = {
+	Email_updated: 'Email updated',
+	Verification_email_sent: 'Verification email sent'
+} as const;
+
+export interface ChangeEmailResponse200 {
+	user?: User;
+	/** Indicates if the request was successful */
+	status: boolean;
+	/**
+	 * Status message of the email change process
+	 * @nullable
+	 */
+	message?: ChangeEmailResponse200Message;
+}
+
+export interface ChangeEmailResponse400 {
+	message: string;
+}
+
+export interface ChangeEmailResponse401 {
+	message: string;
+}
+
+export interface ChangeEmailResponse403 {
+	message?: string;
+}
+
+export interface ChangeEmailResponse404 {
+	message?: string;
+}
+
+export interface ChangeEmailResponse422 {
+	message?: string;
+}
+
+export interface ChangeEmailResponse429 {
+	message?: string;
+}
+
+export interface ChangeEmailResponse500 {
+	message?: string;
 }
 
 export interface ChangePasswordRequest {
@@ -306,6 +661,59 @@ export interface ChangePasswordRequest {
 	revokeOtherSessions?: boolean | null;
 }
 
+export type ChangePasswordResponse200User = {
+	/** The unique identifier of the user */
+	id: string;
+	/** The email address of the user */
+	email: string;
+	/** The name of the user */
+	name: string;
+	/**
+	 * The profile image URL of the user
+	 * @nullable
+	 */
+	image?: string | null;
+	/** Whether the email has been verified */
+	emailVerified: boolean;
+	/** When the user was created */
+	createdAt: string;
+	/** When the user was last updated */
+	updatedAt: string;
+};
+
+export interface ChangePasswordResponse200 {
+	/**
+	 * New session token if other sessions were revoked
+	 * @nullable
+	 */
+	token?: string | null;
+	user: ChangePasswordResponse200User;
+}
+
+export interface ChangePasswordResponse400 {
+	message: string;
+}
+
+export interface ChangePasswordResponse401 {
+	message: string;
+}
+
+export interface ChangePasswordResponse403 {
+	message?: string;
+}
+
+export interface ChangePasswordResponse404 {
+	message?: string;
+}
+
+export interface ChangePasswordResponse429 {
+	message?: string;
+}
+
+export interface ChangePasswordResponse500 {
+	message?: string;
+}
+
 export interface UpdateUserRequest {
 	/** The name of the user */
 	name?: string;
@@ -316,6 +724,34 @@ export interface UpdateUserRequest {
 	image?: string | null;
 }
 
+export interface UpdateUserResponse200 {
+	user?: User;
+}
+
+export interface UpdateUserResponse400 {
+	message: string;
+}
+
+export interface UpdateUserResponse401 {
+	message: string;
+}
+
+export interface UpdateUserResponse403 {
+	message?: string;
+}
+
+export interface UpdateUserResponse404 {
+	message?: string;
+}
+
+export interface UpdateUserResponse429 {
+	message?: string;
+}
+
+export interface UpdateUserResponse500 {
+	message?: string;
+}
+
 export interface DeleteUserRequest {
 	/** The callback URL to redirect to after the user is deleted */
 	callbackURL?: string;
@@ -323,6 +759,48 @@ export interface DeleteUserRequest {
 	password?: string;
 	/** The deletion verification token */
 	token?: string;
+}
+
+/**
+ * Status message of the deletion process
+ */
+export type DeleteUserResponse200Message =
+	(typeof DeleteUserResponse200Message)[keyof typeof DeleteUserResponse200Message];
+
+export const DeleteUserResponse200Message = {
+	User_deleted: 'User deleted',
+	Verification_email_sent: 'Verification email sent'
+} as const;
+
+export interface DeleteUserResponse200 {
+	/** Indicates if the operation was successful */
+	success: boolean;
+	/** Status message of the deletion process */
+	message: DeleteUserResponse200Message;
+}
+
+export interface DeleteUserResponse400 {
+	message: string;
+}
+
+export interface DeleteUserResponse401 {
+	message: string;
+}
+
+export interface DeleteUserResponse403 {
+	message?: string;
+}
+
+export interface DeleteUserResponse404 {
+	message?: string;
+}
+
+export interface DeleteUserResponse429 {
+	message?: string;
+}
+
+export interface DeleteUserResponse500 {
+	message?: string;
 }
 
 export interface RequestPasswordResetRequest {
@@ -335,17 +813,187 @@ export interface RequestPasswordResetRequest {
 	redirectTo?: string | null;
 }
 
+export interface RequestPasswordResetResponse200 {
+	status?: boolean;
+	message?: string;
+}
+
+export interface RequestPasswordResetResponse400 {
+	message: string;
+}
+
+export interface RequestPasswordResetResponse401 {
+	message: string;
+}
+
+export interface RequestPasswordResetResponse403 {
+	message?: string;
+}
+
+export interface RequestPasswordResetResponse404 {
+	message?: string;
+}
+
+export interface RequestPasswordResetResponse429 {
+	message?: string;
+}
+
+export interface RequestPasswordResetResponse500 {
+	message?: string;
+}
+
+export interface ResetPasswordCallbackResponse200 {
+	token?: string;
+}
+
+export interface ResetPasswordCallbackResponse400 {
+	message: string;
+}
+
+export interface ResetPasswordCallbackResponse401 {
+	message: string;
+}
+
+export interface ResetPasswordCallbackResponse403 {
+	message?: string;
+}
+
+export interface ResetPasswordCallbackResponse404 {
+	message?: string;
+}
+
+export interface ResetPasswordCallbackResponse429 {
+	message?: string;
+}
+
+export interface ResetPasswordCallbackResponse500 {
+	message?: string;
+}
+
+export type ListUserSessionsResponse200 = Session[];
+
+export interface ListUserSessionsResponse400 {
+	message: string;
+}
+
+export interface ListUserSessionsResponse401 {
+	message: string;
+}
+
+export interface ListUserSessionsResponse403 {
+	message?: string;
+}
+
+export interface ListUserSessionsResponse404 {
+	message?: string;
+}
+
+export interface ListUserSessionsResponse429 {
+	message?: string;
+}
+
+export interface ListUserSessionsResponse500 {
+	message?: string;
+}
+
 export interface ApiAuthRevokeSessionPostRequest {
 	/** The token to revoke */
 	token: string;
+}
+
+export interface ApiAuthRevokeSessionPostResponse200 {
+	/** Indicates if the session was revoked successfully */
+	status: boolean;
+}
+
+export interface ApiAuthRevokeSessionPostResponse400 {
+	message: string;
+}
+
+export interface ApiAuthRevokeSessionPostResponse401 {
+	message: string;
+}
+
+export interface ApiAuthRevokeSessionPostResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthRevokeSessionPostResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthRevokeSessionPostResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthRevokeSessionPostResponse500 {
+	message?: string;
 }
 
 export interface ApiAuthRevokeSessionsPostRequest {
 	[key: string]: unknown;
 }
 
+export interface ApiAuthRevokeSessionsPostResponse200 {
+	/** Indicates if all sessions were revoked successfully */
+	status: boolean;
+}
+
+export interface ApiAuthRevokeSessionsPostResponse400 {
+	message: string;
+}
+
+export interface ApiAuthRevokeSessionsPostResponse401 {
+	message: string;
+}
+
+export interface ApiAuthRevokeSessionsPostResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthRevokeSessionsPostResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthRevokeSessionsPostResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthRevokeSessionsPostResponse500 {
+	message?: string;
+}
+
 export interface ApiAuthRevokeOtherSessionsPostRequest {
 	[key: string]: unknown;
+}
+
+export interface ApiAuthRevokeOtherSessionsPostResponse200 {
+	/** Indicates if all other sessions were revoked successfully */
+	status: boolean;
+}
+
+export interface ApiAuthRevokeOtherSessionsPostResponse400 {
+	message: string;
+}
+
+export interface ApiAuthRevokeOtherSessionsPostResponse401 {
+	message: string;
+}
+
+export interface ApiAuthRevokeOtherSessionsPostResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthRevokeOtherSessionsPostResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthRevokeOtherSessionsPostResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthRevokeOtherSessionsPostResponse500 {
+	message?: string;
 }
 
 /**
@@ -393,10 +1041,147 @@ export interface LinkSocialAccountRequest {
 	additionalData?: string | null;
 }
 
+export interface LinkSocialAccountResponse200 {
+	/** The authorization URL to redirect the user to */
+	url?: string;
+	/** Indicates if the user should be redirected to the authorization URL */
+	redirect: boolean;
+	status?: boolean;
+}
+
+export interface LinkSocialAccountResponse400 {
+	message: string;
+}
+
+export interface LinkSocialAccountResponse401 {
+	message: string;
+}
+
+export interface LinkSocialAccountResponse403 {
+	message?: string;
+}
+
+export interface LinkSocialAccountResponse404 {
+	message?: string;
+}
+
+export interface LinkSocialAccountResponse429 {
+	message?: string;
+}
+
+export interface LinkSocialAccountResponse500 {
+	message?: string;
+}
+
+export type ListUserAccountsResponse200Item = {
+	id: string;
+	providerId: string;
+	createdAt: string;
+	updatedAt: string;
+	accountId: string;
+	userId: string;
+	scopes: string[];
+};
+
+export type ListUserAccountsResponse200 = ListUserAccountsResponse200Item[];
+
+export interface ListUserAccountsResponse400 {
+	message: string;
+}
+
+export interface ListUserAccountsResponse401 {
+	message: string;
+}
+
+export interface ListUserAccountsResponse403 {
+	message?: string;
+}
+
+export interface ListUserAccountsResponse404 {
+	message?: string;
+}
+
+export interface ListUserAccountsResponse429 {
+	message?: string;
+}
+
+export interface ListUserAccountsResponse500 {
+	message?: string;
+}
+
+/**
+ * Confirmation message
+ */
+export type ApiAuthDeleteUserCallbackGetResponse200Message =
+	(typeof ApiAuthDeleteUserCallbackGetResponse200Message)[keyof typeof ApiAuthDeleteUserCallbackGetResponse200Message];
+
+export const ApiAuthDeleteUserCallbackGetResponse200Message = {
+	User_deleted: 'User deleted'
+} as const;
+
+export interface ApiAuthDeleteUserCallbackGetResponse200 {
+	/** Indicates if the deletion was successful */
+	success: boolean;
+	/** Confirmation message */
+	message: ApiAuthDeleteUserCallbackGetResponse200Message;
+}
+
+export interface ApiAuthDeleteUserCallbackGetResponse400 {
+	message: string;
+}
+
+export interface ApiAuthDeleteUserCallbackGetResponse401 {
+	message: string;
+}
+
+export interface ApiAuthDeleteUserCallbackGetResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthDeleteUserCallbackGetResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthDeleteUserCallbackGetResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthDeleteUserCallbackGetResponse500 {
+	message?: string;
+}
+
 export interface ApiAuthUnlinkAccountPostRequest {
 	providerId: string;
 	/** @nullable */
 	accountId?: string | null;
+}
+
+export interface ApiAuthUnlinkAccountPostResponse200 {
+	status?: boolean;
+}
+
+export interface ApiAuthUnlinkAccountPostResponse400 {
+	message: string;
+}
+
+export interface ApiAuthUnlinkAccountPostResponse401 {
+	message: string;
+}
+
+export interface ApiAuthUnlinkAccountPostResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthUnlinkAccountPostResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthUnlinkAccountPostResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthUnlinkAccountPostResponse500 {
+	message?: string;
 }
 
 export interface ApiAuthRefreshTokenPostRequest {
@@ -414,6 +1199,35 @@ export interface ApiAuthRefreshTokenPostRequest {
 	userId?: string | null;
 }
 
+export interface ApiAuthRefreshTokenPostResponse200 {
+	tokenType?: string;
+	idToken?: string;
+	accessToken?: string;
+	refreshToken?: string;
+	accessTokenExpiresAt?: string;
+	refreshTokenExpiresAt?: string;
+}
+
+export interface ApiAuthRefreshTokenPostResponse401 {
+	message: string;
+}
+
+export interface ApiAuthRefreshTokenPostResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthRefreshTokenPostResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthRefreshTokenPostResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthRefreshTokenPostResponse500 {
+	message?: string;
+}
+
 export interface ApiAuthGetAccessTokenPostRequest {
 	/** The provider ID for the OAuth provider */
 	providerId: string;
@@ -427,6 +1241,125 @@ export interface ApiAuthGetAccessTokenPostRequest {
 	 * @nullable
 	 */
 	userId?: string | null;
+}
+
+export interface ApiAuthGetAccessTokenPostResponse200 {
+	tokenType?: string;
+	idToken?: string;
+	accessToken?: string;
+	accessTokenExpiresAt?: string;
+}
+
+export interface ApiAuthGetAccessTokenPostResponse401 {
+	message: string;
+}
+
+export interface ApiAuthGetAccessTokenPostResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthGetAccessTokenPostResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthGetAccessTokenPostResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthGetAccessTokenPostResponse500 {
+	message?: string;
+}
+
+export type ApiAuthAccountInfoGetResponse200User = {
+	id: string;
+	name?: string;
+	email?: string;
+	image?: string;
+	emailVerified: boolean;
+};
+
+export type ApiAuthAccountInfoGetResponse200Data = { [key: string]: unknown };
+
+export interface ApiAuthAccountInfoGetResponse200 {
+	user: ApiAuthAccountInfoGetResponse200User;
+	data: ApiAuthAccountInfoGetResponse200Data;
+}
+
+export interface ApiAuthAccountInfoGetResponse400 {
+	message: string;
+}
+
+export interface ApiAuthAccountInfoGetResponse401 {
+	message: string;
+}
+
+export interface ApiAuthAccountInfoGetResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthAccountInfoGetResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthAccountInfoGetResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthAccountInfoGetResponse500 {
+	message?: string;
+}
+
+export interface ApiAuthOkGetResponse200 {
+	/** Indicates if the API is working */
+	ok: boolean;
+}
+
+export interface ApiAuthOkGetResponse400 {
+	message: string;
+}
+
+export interface ApiAuthOkGetResponse401 {
+	message: string;
+}
+
+export interface ApiAuthOkGetResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthOkGetResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthOkGetResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthOkGetResponse500 {
+	message?: string;
+}
+
+export interface ApiAuthErrorGetResponse400 {
+	message: string;
+}
+
+export interface ApiAuthErrorGetResponse401 {
+	message: string;
+}
+
+export interface ApiAuthErrorGetResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthErrorGetResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthErrorGetResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthErrorGetResponse500 {
+	message?: string;
 }
 
 export type GetApiPostsParams = {
@@ -451,249 +1384,6 @@ export const GetApiPostsStatus = {
 	archived: 'archived'
 } as const;
 
-/**
- * Session response when idToken is provided
- */
-export type SocialSignIn200 = {
-	token: string;
-	user: User;
-	url?: string;
-	redirect: boolean;
-};
-
-export type SocialSignIn400 = {
-	message: string;
-};
-
-export type SocialSignIn401 = {
-	message: string;
-};
-
-export type SocialSignIn403 = {
-	message?: string;
-};
-
-export type SocialSignIn404 = {
-	message?: string;
-};
-
-export type SocialSignIn429 = {
-	message?: string;
-};
-
-export type SocialSignIn500 = {
-	message?: string;
-};
-
-/**
- * @nullable
- */
-export type GetSession200 = {
-	session: Session;
-	user: User;
-} | null | null;
-
-export type GetSession400 = {
-	message: string;
-};
-
-export type GetSession401 = {
-	message: string;
-};
-
-export type GetSession403 = {
-	message?: string;
-};
-
-export type GetSession404 = {
-	message?: string;
-};
-
-export type GetSession429 = {
-	message?: string;
-};
-
-export type GetSession500 = {
-	message?: string;
-};
-
-export type SignOut200 = {
-	success?: boolean;
-};
-
-export type SignOut400 = {
-	message: string;
-};
-
-export type SignOut401 = {
-	message: string;
-};
-
-export type SignOut403 = {
-	message?: string;
-};
-
-export type SignOut404 = {
-	message?: string;
-};
-
-export type SignOut429 = {
-	message?: string;
-};
-
-export type SignOut500 = {
-	message?: string;
-};
-
-export type SignUpWithEmailAndPassword200User = {
-	/** The unique identifier of the user */
-	id: string;
-	/** The email address of the user */
-	email: string;
-	/** The name of the user */
-	name: string;
-	/**
-	 * The profile image URL of the user
-	 * @nullable
-	 */
-	image?: string | null;
-	/** Whether the email has been verified */
-	emailVerified: boolean;
-	/** When the user was created */
-	createdAt: string;
-	/** When the user was last updated */
-	updatedAt: string;
-};
-
-export type SignUpWithEmailAndPassword200 = {
-	/**
-	 * Authentication token for the session
-	 * @nullable
-	 */
-	token?: string | null;
-	user: SignUpWithEmailAndPassword200User;
-};
-
-export type SignUpWithEmailAndPassword400 = {
-	message: string;
-};
-
-export type SignUpWithEmailAndPassword401 = {
-	message: string;
-};
-
-export type SignUpWithEmailAndPassword403 = {
-	message?: string;
-};
-
-export type SignUpWithEmailAndPassword404 = {
-	message?: string;
-};
-
-export type SignUpWithEmailAndPassword422 = {
-	message?: string;
-};
-
-export type SignUpWithEmailAndPassword429 = {
-	message?: string;
-};
-
-export type SignUpWithEmailAndPassword500 = {
-	message?: string;
-};
-
-/**
- * Session response when idToken is provided
- */
-export type SignInEmail200 = {
-	redirect: boolean;
-	/** Session token */
-	token: string;
-	/** @nullable */
-	url?: string | null;
-	user: User;
-};
-
-export type SignInEmail400 = {
-	message: string;
-};
-
-export type SignInEmail401 = {
-	message: string;
-};
-
-export type SignInEmail403 = {
-	message?: string;
-};
-
-export type SignInEmail404 = {
-	message?: string;
-};
-
-export type SignInEmail429 = {
-	message?: string;
-};
-
-export type SignInEmail500 = {
-	message?: string;
-};
-
-export type ResetPassword200 = {
-	status?: boolean;
-};
-
-export type ResetPassword400 = {
-	message: string;
-};
-
-export type ResetPassword401 = {
-	message: string;
-};
-
-export type ResetPassword403 = {
-	message?: string;
-};
-
-export type ResetPassword404 = {
-	message?: string;
-};
-
-export type ResetPassword429 = {
-	message?: string;
-};
-
-export type ResetPassword500 = {
-	message?: string;
-};
-
-export type VerifyPassword200 = {
-	status?: boolean;
-};
-
-export type VerifyPassword400 = {
-	message: string;
-};
-
-export type VerifyPassword401 = {
-	message: string;
-};
-
-export type VerifyPassword403 = {
-	message?: string;
-};
-
-export type VerifyPassword404 = {
-	message?: string;
-};
-
-export type VerifyPassword429 = {
-	message?: string;
-};
-
-export type VerifyPassword500 = {
-	message?: string;
-};
-
 export type GetApiAuthVerifyEmailParams = {
 	/**
 	 * The token to verify the email
@@ -705,479 +1395,11 @@ export type GetApiAuthVerifyEmailParams = {
 	callbackURL?: string;
 };
 
-export type GetApiAuthVerifyEmail200 = {
-	user: User;
-	/** Indicates if the email was verified successfully */
-	status: boolean;
-};
-
-export type GetApiAuthVerifyEmail400 = {
-	message: string;
-};
-
-export type GetApiAuthVerifyEmail401 = {
-	message: string;
-};
-
-export type GetApiAuthVerifyEmail403 = {
-	message?: string;
-};
-
-export type GetApiAuthVerifyEmail404 = {
-	message?: string;
-};
-
-export type GetApiAuthVerifyEmail429 = {
-	message?: string;
-};
-
-export type GetApiAuthVerifyEmail500 = {
-	message?: string;
-};
-
-export type SendVerificationEmail200 = {
-	/** Indicates if the email was sent successfully */
-	status?: boolean;
-};
-
-export type SendVerificationEmail400 = {
-	/** Error message */
-	message?: string;
-};
-
-export type SendVerificationEmail401 = {
-	message: string;
-};
-
-export type SendVerificationEmail403 = {
-	message?: string;
-};
-
-export type SendVerificationEmail404 = {
-	message?: string;
-};
-
-export type SendVerificationEmail429 = {
-	message?: string;
-};
-
-export type SendVerificationEmail500 = {
-	message?: string;
-};
-
-/**
- * Status message of the email change process
- * @nullable
- */
-export type ChangeEmail200Message =
-	| (typeof ChangeEmail200Message)[keyof typeof ChangeEmail200Message]
-	| null;
-
-export const ChangeEmail200Message = {
-	Email_updated: 'Email updated',
-	Verification_email_sent: 'Verification email sent'
-} as const;
-
-export type ChangeEmail200 = {
-	user?: User;
-	/** Indicates if the request was successful */
-	status: boolean;
-	/**
-	 * Status message of the email change process
-	 * @nullable
-	 */
-	message?: ChangeEmail200Message;
-};
-
-export type ChangeEmail400 = {
-	message: string;
-};
-
-export type ChangeEmail401 = {
-	message: string;
-};
-
-export type ChangeEmail403 = {
-	message?: string;
-};
-
-export type ChangeEmail404 = {
-	message?: string;
-};
-
-export type ChangeEmail422 = {
-	message?: string;
-};
-
-export type ChangeEmail429 = {
-	message?: string;
-};
-
-export type ChangeEmail500 = {
-	message?: string;
-};
-
-export type ChangePassword200User = {
-	/** The unique identifier of the user */
-	id: string;
-	/** The email address of the user */
-	email: string;
-	/** The name of the user */
-	name: string;
-	/**
-	 * The profile image URL of the user
-	 * @nullable
-	 */
-	image?: string | null;
-	/** Whether the email has been verified */
-	emailVerified: boolean;
-	/** When the user was created */
-	createdAt: string;
-	/** When the user was last updated */
-	updatedAt: string;
-};
-
-export type ChangePassword200 = {
-	/**
-	 * New session token if other sessions were revoked
-	 * @nullable
-	 */
-	token?: string | null;
-	user: ChangePassword200User;
-};
-
-export type ChangePassword400 = {
-	message: string;
-};
-
-export type ChangePassword401 = {
-	message: string;
-};
-
-export type ChangePassword403 = {
-	message?: string;
-};
-
-export type ChangePassword404 = {
-	message?: string;
-};
-
-export type ChangePassword429 = {
-	message?: string;
-};
-
-export type ChangePassword500 = {
-	message?: string;
-};
-
-export type UpdateUser200 = {
-	user?: User;
-};
-
-export type UpdateUser400 = {
-	message: string;
-};
-
-export type UpdateUser401 = {
-	message: string;
-};
-
-export type UpdateUser403 = {
-	message?: string;
-};
-
-export type UpdateUser404 = {
-	message?: string;
-};
-
-export type UpdateUser429 = {
-	message?: string;
-};
-
-export type UpdateUser500 = {
-	message?: string;
-};
-
-/**
- * Status message of the deletion process
- */
-export type DeleteUser200Message = (typeof DeleteUser200Message)[keyof typeof DeleteUser200Message];
-
-export const DeleteUser200Message = {
-	User_deleted: 'User deleted',
-	Verification_email_sent: 'Verification email sent'
-} as const;
-
-export type DeleteUser200 = {
-	/** Indicates if the operation was successful */
-	success: boolean;
-	/** Status message of the deletion process */
-	message: DeleteUser200Message;
-};
-
-export type DeleteUser400 = {
-	message: string;
-};
-
-export type DeleteUser401 = {
-	message: string;
-};
-
-export type DeleteUser403 = {
-	message?: string;
-};
-
-export type DeleteUser404 = {
-	message?: string;
-};
-
-export type DeleteUser429 = {
-	message?: string;
-};
-
-export type DeleteUser500 = {
-	message?: string;
-};
-
-export type RequestPasswordReset200 = {
-	status?: boolean;
-	message?: string;
-};
-
-export type RequestPasswordReset400 = {
-	message: string;
-};
-
-export type RequestPasswordReset401 = {
-	message: string;
-};
-
-export type RequestPasswordReset403 = {
-	message?: string;
-};
-
-export type RequestPasswordReset404 = {
-	message?: string;
-};
-
-export type RequestPasswordReset429 = {
-	message?: string;
-};
-
-export type RequestPasswordReset500 = {
-	message?: string;
-};
-
 export type ResetPasswordCallbackParams = {
 	/**
 	 * The URL to redirect the user to reset their password
 	 */
 	callbackURL: string;
-};
-
-export type ResetPasswordCallback200 = {
-	token?: string;
-};
-
-export type ResetPasswordCallback400 = {
-	message: string;
-};
-
-export type ResetPasswordCallback401 = {
-	message: string;
-};
-
-export type ResetPasswordCallback403 = {
-	message?: string;
-};
-
-export type ResetPasswordCallback404 = {
-	message?: string;
-};
-
-export type ResetPasswordCallback429 = {
-	message?: string;
-};
-
-export type ResetPasswordCallback500 = {
-	message?: string;
-};
-
-export type ListUserSessions400 = {
-	message: string;
-};
-
-export type ListUserSessions401 = {
-	message: string;
-};
-
-export type ListUserSessions403 = {
-	message?: string;
-};
-
-export type ListUserSessions404 = {
-	message?: string;
-};
-
-export type ListUserSessions429 = {
-	message?: string;
-};
-
-export type ListUserSessions500 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeSession200 = {
-	/** Indicates if the session was revoked successfully */
-	status: boolean;
-};
-
-export type PostApiAuthRevokeSession400 = {
-	message: string;
-};
-
-export type PostApiAuthRevokeSession401 = {
-	message: string;
-};
-
-export type PostApiAuthRevokeSession403 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeSession404 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeSession429 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeSession500 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeSessions200 = {
-	/** Indicates if all sessions were revoked successfully */
-	status: boolean;
-};
-
-export type PostApiAuthRevokeSessions400 = {
-	message: string;
-};
-
-export type PostApiAuthRevokeSessions401 = {
-	message: string;
-};
-
-export type PostApiAuthRevokeSessions403 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeSessions404 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeSessions429 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeSessions500 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeOtherSessions200 = {
-	/** Indicates if all other sessions were revoked successfully */
-	status: boolean;
-};
-
-export type PostApiAuthRevokeOtherSessions400 = {
-	message: string;
-};
-
-export type PostApiAuthRevokeOtherSessions401 = {
-	message: string;
-};
-
-export type PostApiAuthRevokeOtherSessions403 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeOtherSessions404 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeOtherSessions429 = {
-	message?: string;
-};
-
-export type PostApiAuthRevokeOtherSessions500 = {
-	message?: string;
-};
-
-export type LinkSocialAccount200 = {
-	/** The authorization URL to redirect the user to */
-	url?: string;
-	/** Indicates if the user should be redirected to the authorization URL */
-	redirect: boolean;
-	status?: boolean;
-};
-
-export type LinkSocialAccount400 = {
-	message: string;
-};
-
-export type LinkSocialAccount401 = {
-	message: string;
-};
-
-export type LinkSocialAccount403 = {
-	message?: string;
-};
-
-export type LinkSocialAccount404 = {
-	message?: string;
-};
-
-export type LinkSocialAccount429 = {
-	message?: string;
-};
-
-export type LinkSocialAccount500 = {
-	message?: string;
-};
-
-export type ListUserAccounts200Item = {
-	id: string;
-	providerId: string;
-	createdAt: string;
-	updatedAt: string;
-	accountId: string;
-	userId: string;
-	scopes: string[];
-};
-
-export type ListUserAccounts400 = {
-	message: string;
-};
-
-export type ListUserAccounts401 = {
-	message: string;
-};
-
-export type ListUserAccounts403 = {
-	message?: string;
-};
-
-export type ListUserAccounts404 = {
-	message?: string;
-};
-
-export type ListUserAccounts429 = {
-	message?: string;
-};
-
-export type ListUserAccounts500 = {
-	message?: string;
 };
 
 export type GetApiAuthDeleteUserCallbackParams = {
@@ -1190,221 +1412,4 @@ export type GetApiAuthDeleteUserCallbackParams = {
 	 * @nullable
 	 */
 	callbackURL?: string | null;
-};
-
-/**
- * Confirmation message
- */
-export type GetApiAuthDeleteUserCallback200Message =
-	(typeof GetApiAuthDeleteUserCallback200Message)[keyof typeof GetApiAuthDeleteUserCallback200Message];
-
-export const GetApiAuthDeleteUserCallback200Message = {
-	User_deleted: 'User deleted'
-} as const;
-
-export type GetApiAuthDeleteUserCallback200 = {
-	/** Indicates if the deletion was successful */
-	success: boolean;
-	/** Confirmation message */
-	message: GetApiAuthDeleteUserCallback200Message;
-};
-
-export type GetApiAuthDeleteUserCallback400 = {
-	message: string;
-};
-
-export type GetApiAuthDeleteUserCallback401 = {
-	message: string;
-};
-
-export type GetApiAuthDeleteUserCallback403 = {
-	message?: string;
-};
-
-export type GetApiAuthDeleteUserCallback404 = {
-	message?: string;
-};
-
-export type GetApiAuthDeleteUserCallback429 = {
-	message?: string;
-};
-
-export type GetApiAuthDeleteUserCallback500 = {
-	message?: string;
-};
-
-export type PostApiAuthUnlinkAccount200 = {
-	status?: boolean;
-};
-
-export type PostApiAuthUnlinkAccount400 = {
-	message: string;
-};
-
-export type PostApiAuthUnlinkAccount401 = {
-	message: string;
-};
-
-export type PostApiAuthUnlinkAccount403 = {
-	message?: string;
-};
-
-export type PostApiAuthUnlinkAccount404 = {
-	message?: string;
-};
-
-export type PostApiAuthUnlinkAccount429 = {
-	message?: string;
-};
-
-export type PostApiAuthUnlinkAccount500 = {
-	message?: string;
-};
-
-export type PostApiAuthRefreshToken200 = {
-	tokenType?: string;
-	idToken?: string;
-	accessToken?: string;
-	refreshToken?: string;
-	accessTokenExpiresAt?: string;
-	refreshTokenExpiresAt?: string;
-};
-
-export type PostApiAuthRefreshToken401 = {
-	message: string;
-};
-
-export type PostApiAuthRefreshToken403 = {
-	message?: string;
-};
-
-export type PostApiAuthRefreshToken404 = {
-	message?: string;
-};
-
-export type PostApiAuthRefreshToken429 = {
-	message?: string;
-};
-
-export type PostApiAuthRefreshToken500 = {
-	message?: string;
-};
-
-export type PostApiAuthGetAccessToken200 = {
-	tokenType?: string;
-	idToken?: string;
-	accessToken?: string;
-	accessTokenExpiresAt?: string;
-};
-
-export type PostApiAuthGetAccessToken401 = {
-	message: string;
-};
-
-export type PostApiAuthGetAccessToken403 = {
-	message?: string;
-};
-
-export type PostApiAuthGetAccessToken404 = {
-	message?: string;
-};
-
-export type PostApiAuthGetAccessToken429 = {
-	message?: string;
-};
-
-export type PostApiAuthGetAccessToken500 = {
-	message?: string;
-};
-
-export type GetApiAuthAccountInfo200User = {
-	id: string;
-	name?: string;
-	email?: string;
-	image?: string;
-	emailVerified: boolean;
-};
-
-export type GetApiAuthAccountInfo200Data = { [key: string]: unknown };
-
-export type GetApiAuthAccountInfo200 = {
-	user: GetApiAuthAccountInfo200User;
-	data: GetApiAuthAccountInfo200Data;
-};
-
-export type GetApiAuthAccountInfo400 = {
-	message: string;
-};
-
-export type GetApiAuthAccountInfo401 = {
-	message: string;
-};
-
-export type GetApiAuthAccountInfo403 = {
-	message?: string;
-};
-
-export type GetApiAuthAccountInfo404 = {
-	message?: string;
-};
-
-export type GetApiAuthAccountInfo429 = {
-	message?: string;
-};
-
-export type GetApiAuthAccountInfo500 = {
-	message?: string;
-};
-
-export type GetApiAuthOk200 = {
-	/** Indicates if the API is working */
-	ok: boolean;
-};
-
-export type GetApiAuthOk400 = {
-	message: string;
-};
-
-export type GetApiAuthOk401 = {
-	message: string;
-};
-
-export type GetApiAuthOk403 = {
-	message?: string;
-};
-
-export type GetApiAuthOk404 = {
-	message?: string;
-};
-
-export type GetApiAuthOk429 = {
-	message?: string;
-};
-
-export type GetApiAuthOk500 = {
-	message?: string;
-};
-
-export type GetApiAuthError400 = {
-	message: string;
-};
-
-export type GetApiAuthError401 = {
-	message: string;
-};
-
-export type GetApiAuthError403 = {
-	message?: string;
-};
-
-export type GetApiAuthError404 = {
-	message?: string;
-};
-
-export type GetApiAuthError429 = {
-	message?: string;
-};
-
-export type GetApiAuthError500 = {
-	message?: string;
 };

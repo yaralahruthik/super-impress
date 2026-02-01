@@ -416,9 +416,201 @@
 				},
 				"required": ["provider"]
 			},
+			"SocialSignInResponse200": {
+				"type": "object",
+				"description": "Session response when idToken is provided",
+				"properties": {
+					"token": {
+						"type": "string"
+					},
+					"user": {
+						"type": "object",
+						"$ref": "#/components/schemas/User"
+					},
+					"url": {
+						"type": "string"
+					},
+					"redirect": {
+						"type": "boolean",
+						"enum": [false]
+					}
+				},
+				"required": ["redirect", "token", "user"]
+			},
+			"SocialSignInResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"SocialSignInResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"SocialSignInResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SocialSignInResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SocialSignInResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SocialSignInResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"GetSessionResponse200": {
+				"type": "object",
+				"nullable": true,
+				"properties": {
+					"session": {
+						"$ref": "#/components/schemas/Session"
+					},
+					"user": {
+						"$ref": "#/components/schemas/User"
+					}
+				},
+				"required": ["session", "user"]
+			},
+			"GetSessionResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"GetSessionResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"GetSessionResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"GetSessionResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"GetSessionResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"GetSessionResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"SignOutRequest": {
 				"type": "object",
 				"properties": {}
+			},
+			"SignOutResponse200": {
+				"type": "object",
+				"properties": {
+					"success": {
+						"type": "boolean"
+					}
+				}
+			},
+			"SignOutResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"SignOutResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"SignOutResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignOutResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignOutResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignOutResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
 			},
 			"SignUpWithEmailAndPasswordRequest": {
 				"type": "object",
@@ -450,6 +642,114 @@
 				},
 				"required": ["name", "email", "password"]
 			},
+			"SignUpWithEmailAndPasswordResponse200": {
+				"type": "object",
+				"properties": {
+					"token": {
+						"type": "string",
+						"nullable": true,
+						"description": "Authentication token for the session"
+					},
+					"user": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string",
+								"description": "The unique identifier of the user"
+							},
+							"email": {
+								"type": "string",
+								"format": "email",
+								"description": "The email address of the user"
+							},
+							"name": {
+								"type": "string",
+								"description": "The name of the user"
+							},
+							"image": {
+								"type": "string",
+								"format": "uri",
+								"nullable": true,
+								"description": "The profile image URL of the user"
+							},
+							"emailVerified": {
+								"type": "boolean",
+								"description": "Whether the email has been verified"
+							},
+							"createdAt": {
+								"type": "string",
+								"format": "date-time",
+								"description": "When the user was created"
+							},
+							"updatedAt": {
+								"type": "string",
+								"format": "date-time",
+								"description": "When the user was last updated"
+							}
+						},
+						"required": ["id", "email", "name", "emailVerified", "createdAt", "updatedAt"]
+					}
+				},
+				"required": ["user"]
+			},
+			"SignUpWithEmailAndPasswordResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"SignUpWithEmailAndPasswordResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"SignUpWithEmailAndPasswordResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignUpWithEmailAndPasswordResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignUpWithEmailAndPasswordResponse422": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignUpWithEmailAndPasswordResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignUpWithEmailAndPasswordResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"SignInEmailRequest": {
 				"type": "object",
 				"properties": {
@@ -475,6 +775,79 @@
 				},
 				"required": ["email", "password"]
 			},
+			"SignInEmailResponse200": {
+				"type": "object",
+				"description": "Session response when idToken is provided",
+				"properties": {
+					"redirect": {
+						"type": "boolean",
+						"enum": [false]
+					},
+					"token": {
+						"type": "string",
+						"description": "Session token"
+					},
+					"url": {
+						"type": "string",
+						"nullable": true
+					},
+					"user": {
+						"type": "object",
+						"$ref": "#/components/schemas/User"
+					}
+				},
+				"required": ["redirect", "token", "user"]
+			},
+			"SignInEmailResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"SignInEmailResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"SignInEmailResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignInEmailResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignInEmailResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SignInEmailResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"ResetPasswordRequest": {
 				"type": "object",
 				"properties": {
@@ -490,6 +863,64 @@
 				},
 				"required": ["newPassword"]
 			},
+			"ResetPasswordResponse200": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "boolean"
+					}
+				}
+			},
+			"ResetPasswordResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ResetPasswordResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ResetPasswordResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ResetPasswordResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ResetPasswordResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ResetPasswordResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"VerifyPasswordRequest": {
 				"type": "object",
 				"properties": {
@@ -499,6 +930,128 @@
 					}
 				},
 				"required": ["password"]
+			},
+			"VerifyPasswordResponse200": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "boolean"
+					}
+				}
+			},
+			"VerifyPasswordResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"VerifyPasswordResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"VerifyPasswordResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"VerifyPasswordResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"VerifyPasswordResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"VerifyPasswordResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthVerify-emailGetResponse200": {
+				"type": "object",
+				"properties": {
+					"user": {
+						"type": "object",
+						"$ref": "#/components/schemas/User"
+					},
+					"status": {
+						"type": "boolean",
+						"description": "Indicates if the email was verified successfully"
+					}
+				},
+				"required": ["user", "status"]
+			},
+			"ApiAuthVerify-emailGetResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthVerify-emailGetResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthVerify-emailGetResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthVerify-emailGetResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthVerify-emailGetResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthVerify-emailGetResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
 			},
 			"SendVerificationEmailRequest": {
 				"type": "object",
@@ -517,6 +1070,67 @@
 				},
 				"required": ["email"]
 			},
+			"SendVerificationEmailResponse200": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "boolean",
+						"description": "Indicates if the email was sent successfully",
+						"example": true
+					}
+				}
+			},
+			"SendVerificationEmailResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string",
+						"description": "Error message",
+						"example": "Verification email isn't enabled"
+					}
+				}
+			},
+			"SendVerificationEmailResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"SendVerificationEmailResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SendVerificationEmailResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SendVerificationEmailResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"SendVerificationEmailResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"ChangeEmailRequest": {
 				"type": "object",
 				"properties": {
@@ -531,6 +1145,84 @@
 					}
 				},
 				"required": ["newEmail"]
+			},
+			"ChangeEmailResponse200": {
+				"type": "object",
+				"properties": {
+					"user": {
+						"type": "object",
+						"$ref": "#/components/schemas/User"
+					},
+					"status": {
+						"type": "boolean",
+						"description": "Indicates if the request was successful"
+					},
+					"message": {
+						"type": "string",
+						"enum": ["Email updated", "Verification email sent"],
+						"description": "Status message of the email change process",
+						"nullable": true
+					}
+				},
+				"required": ["status"]
+			},
+			"ChangeEmailResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ChangeEmailResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ChangeEmailResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ChangeEmailResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ChangeEmailResponse422": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ChangeEmailResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ChangeEmailResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
 			},
 			"ChangePasswordRequest": {
 				"type": "object",
@@ -551,6 +1243,106 @@
 				},
 				"required": ["newPassword", "currentPassword"]
 			},
+			"ChangePasswordResponse200": {
+				"type": "object",
+				"properties": {
+					"token": {
+						"type": "string",
+						"nullable": true,
+						"description": "New session token if other sessions were revoked"
+					},
+					"user": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string",
+								"description": "The unique identifier of the user"
+							},
+							"email": {
+								"type": "string",
+								"format": "email",
+								"description": "The email address of the user"
+							},
+							"name": {
+								"type": "string",
+								"description": "The name of the user"
+							},
+							"image": {
+								"type": "string",
+								"format": "uri",
+								"nullable": true,
+								"description": "The profile image URL of the user"
+							},
+							"emailVerified": {
+								"type": "boolean",
+								"description": "Whether the email has been verified"
+							},
+							"createdAt": {
+								"type": "string",
+								"format": "date-time",
+								"description": "When the user was created"
+							},
+							"updatedAt": {
+								"type": "string",
+								"format": "date-time",
+								"description": "When the user was last updated"
+							}
+						},
+						"required": ["id", "email", "name", "emailVerified", "createdAt", "updatedAt"]
+					}
+				},
+				"required": ["user"]
+			},
+			"ChangePasswordResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ChangePasswordResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ChangePasswordResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ChangePasswordResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ChangePasswordResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ChangePasswordResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"UpdateUserRequest": {
 				"type": "object",
 				"properties": {
@@ -562,6 +1354,65 @@
 						"type": "string",
 						"description": "The image of the user",
 						"nullable": true
+					}
+				}
+			},
+			"UpdateUserResponse200": {
+				"type": "object",
+				"properties": {
+					"user": {
+						"type": "object",
+						"$ref": "#/components/schemas/User"
+					}
+				}
+			},
+			"UpdateUserResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"UpdateUserResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"UpdateUserResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"UpdateUserResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"UpdateUserResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"UpdateUserResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
 					}
 				}
 			},
@@ -582,6 +1433,71 @@
 					}
 				}
 			},
+			"DeleteUserResponse200": {
+				"type": "object",
+				"properties": {
+					"success": {
+						"type": "boolean",
+						"description": "Indicates if the operation was successful"
+					},
+					"message": {
+						"type": "string",
+						"enum": ["User deleted", "Verification email sent"],
+						"description": "Status message of the deletion process"
+					}
+				},
+				"required": ["success", "message"]
+			},
+			"DeleteUserResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"DeleteUserResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"DeleteUserResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"DeleteUserResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"DeleteUserResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"DeleteUserResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"RequestPasswordResetRequest": {
 				"type": "object",
 				"properties": {
@@ -597,6 +1513,181 @@
 				},
 				"required": ["email"]
 			},
+			"RequestPasswordResetResponse200": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "boolean"
+					},
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"RequestPasswordResetResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"RequestPasswordResetResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"RequestPasswordResetResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"RequestPasswordResetResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"RequestPasswordResetResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"RequestPasswordResetResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ResetPasswordCallbackResponse200": {
+				"type": "object",
+				"properties": {
+					"token": {
+						"type": "string"
+					}
+				}
+			},
+			"ResetPasswordCallbackResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ResetPasswordCallbackResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ResetPasswordCallbackResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ResetPasswordCallbackResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ResetPasswordCallbackResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ResetPasswordCallbackResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ListUserSessionsResponse200": {
+				"type": "array",
+				"items": {
+					"$ref": "#/components/schemas/Session"
+				}
+			},
+			"ListUserSessionsResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ListUserSessionsResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ListUserSessionsResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ListUserSessionsResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ListUserSessionsResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ListUserSessionsResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"ApiAuthRevoke-sessionPostRequest": {
 				"type": "object",
 				"properties": {
@@ -607,13 +1698,193 @@
 				},
 				"required": ["token"]
 			},
+			"ApiAuthRevoke-sessionPostResponse200": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "boolean",
+						"description": "Indicates if the session was revoked successfully"
+					}
+				},
+				"required": ["status"]
+			},
+			"ApiAuthRevoke-sessionPostResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthRevoke-sessionPostResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthRevoke-sessionPostResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRevoke-sessionPostResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRevoke-sessionPostResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRevoke-sessionPostResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"ApiAuthRevoke-sessionsPostRequest": {
 				"type": "object",
 				"properties": {}
 			},
+			"ApiAuthRevoke-sessionsPostResponse200": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "boolean",
+						"description": "Indicates if all sessions were revoked successfully"
+					}
+				},
+				"required": ["status"]
+			},
+			"ApiAuthRevoke-sessionsPostResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthRevoke-sessionsPostResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthRevoke-sessionsPostResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRevoke-sessionsPostResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRevoke-sessionsPostResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRevoke-sessionsPostResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"ApiAuthRevoke-other-sessionsPostRequest": {
 				"type": "object",
 				"properties": {}
+			},
+			"ApiAuthRevoke-other-sessionsPostResponse200": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "boolean",
+						"description": "Indicates if all other sessions were revoked successfully"
+					}
+				},
+				"required": ["status"]
+			},
+			"ApiAuthRevoke-other-sessionsPostResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthRevoke-other-sessionsPostResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthRevoke-other-sessionsPostResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRevoke-other-sessionsPostResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRevoke-other-sessionsPostResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRevoke-other-sessionsPostResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
 			},
 			"LinkSocialAccountRequest": {
 				"type": "object",
@@ -678,6 +1949,231 @@
 				},
 				"required": ["provider"]
 			},
+			"LinkSocialAccountResponse200": {
+				"type": "object",
+				"properties": {
+					"url": {
+						"type": "string",
+						"description": "The authorization URL to redirect the user to"
+					},
+					"redirect": {
+						"type": "boolean",
+						"description": "Indicates if the user should be redirected to the authorization URL"
+					},
+					"status": {
+						"type": "boolean"
+					}
+				},
+				"required": ["redirect"]
+			},
+			"LinkSocialAccountResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"LinkSocialAccountResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"LinkSocialAccountResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"LinkSocialAccountResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"LinkSocialAccountResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"LinkSocialAccountResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ListUserAccountsResponse200": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"id": {
+							"type": "string"
+						},
+						"providerId": {
+							"type": "string"
+						},
+						"createdAt": {
+							"type": "string",
+							"format": "date-time"
+						},
+						"updatedAt": {
+							"type": "string",
+							"format": "date-time"
+						},
+						"accountId": {
+							"type": "string"
+						},
+						"userId": {
+							"type": "string"
+						},
+						"scopes": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						}
+					},
+					"required": [
+						"id",
+						"providerId",
+						"createdAt",
+						"updatedAt",
+						"accountId",
+						"userId",
+						"scopes"
+					]
+				}
+			},
+			"ListUserAccountsResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ListUserAccountsResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ListUserAccountsResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ListUserAccountsResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ListUserAccountsResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ListUserAccountsResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthDelete-userCallbackGetResponse200": {
+				"type": "object",
+				"properties": {
+					"success": {
+						"type": "boolean",
+						"description": "Indicates if the deletion was successful"
+					},
+					"message": {
+						"type": "string",
+						"enum": ["User deleted"],
+						"description": "Confirmation message"
+					}
+				},
+				"required": ["success", "message"]
+			},
+			"ApiAuthDelete-userCallbackGetResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthDelete-userCallbackGetResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthDelete-userCallbackGetResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthDelete-userCallbackGetResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthDelete-userCallbackGetResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthDelete-userCallbackGetResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"ApiAuthUnlink-accountPostRequest": {
 				"type": "object",
 				"properties": {
@@ -690,6 +2186,64 @@
 					}
 				},
 				"required": ["providerId"]
+			},
+			"ApiAuthUnlink-accountPostResponse200": {
+				"type": "object",
+				"properties": {
+					"status": {
+						"type": "boolean"
+					}
+				}
+			},
+			"ApiAuthUnlink-accountPostResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthUnlink-accountPostResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthUnlink-accountPostResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthUnlink-accountPostResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthUnlink-accountPostResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthUnlink-accountPostResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
 			},
 			"ApiAuthRefresh-tokenPostRequest": {
 				"type": "object",
@@ -711,6 +2265,72 @@
 				},
 				"required": ["providerId"]
 			},
+			"ApiAuthRefresh-tokenPostResponse200": {
+				"type": "object",
+				"properties": {
+					"tokenType": {
+						"type": "string"
+					},
+					"idToken": {
+						"type": "string"
+					},
+					"accessToken": {
+						"type": "string"
+					},
+					"refreshToken": {
+						"type": "string"
+					},
+					"accessTokenExpiresAt": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"refreshTokenExpiresAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"ApiAuthRefresh-tokenPostResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthRefresh-tokenPostResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRefresh-tokenPostResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRefresh-tokenPostResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthRefresh-tokenPostResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
 			"ApiAuthGet-access-tokenPostRequest": {
 				"type": "object",
 				"properties": {
@@ -730,6 +2350,258 @@
 					}
 				},
 				"required": ["providerId"]
+			},
+			"ApiAuthGet-access-tokenPostResponse200": {
+				"type": "object",
+				"properties": {
+					"tokenType": {
+						"type": "string"
+					},
+					"idToken": {
+						"type": "string"
+					},
+					"accessToken": {
+						"type": "string"
+					},
+					"accessTokenExpiresAt": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			},
+			"ApiAuthGet-access-tokenPostResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthGet-access-tokenPostResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthGet-access-tokenPostResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthGet-access-tokenPostResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthGet-access-tokenPostResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthAccount-infoGetResponse200": {
+				"type": "object",
+				"properties": {
+					"user": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"email": {
+								"type": "string"
+							},
+							"image": {
+								"type": "string"
+							},
+							"emailVerified": {
+								"type": "boolean"
+							}
+						},
+						"required": ["id", "emailVerified"]
+					},
+					"data": {
+						"type": "object",
+						"properties": {},
+						"additionalProperties": true
+					}
+				},
+				"required": ["user", "data"],
+				"additionalProperties": false
+			},
+			"ApiAuthAccount-infoGetResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthAccount-infoGetResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthAccount-infoGetResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthAccount-infoGetResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthAccount-infoGetResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthAccount-infoGetResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOkGetResponse200": {
+				"type": "object",
+				"properties": {
+					"ok": {
+						"type": "boolean",
+						"description": "Indicates if the API is working"
+					}
+				},
+				"required": ["ok"]
+			},
+			"ApiAuthOkGetResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthOkGetResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthOkGetResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOkGetResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOkGetResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOkGetResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthErrorGetResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthErrorGetResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthErrorGetResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthErrorGetResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthErrorGetResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthErrorGetResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
 			}
 		},
 		"securitySchemes": {
@@ -1001,25 +2873,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"description": "Session response when idToken is provided",
-									"properties": {
-										"token": {
-											"type": "string"
-										},
-										"user": {
-											"type": "object",
-											"$ref": "#/components/schemas/User"
-										},
-										"url": {
-											"type": "string"
-										},
-										"redirect": {
-											"type": "boolean",
-											"enum": [false]
-										}
-									},
-									"required": ["redirect", "token", "user"]
+									"$ref": "#/components/schemas/SocialSignInResponse200"
 								}
 							}
 						}
@@ -1028,13 +2882,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/SocialSignInResponse400"
 								}
 							}
 						},
@@ -1044,13 +2892,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/SocialSignInResponse401"
 								}
 							}
 						},
@@ -1060,12 +2902,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SocialSignInResponse403"
 								}
 							}
 						},
@@ -1075,12 +2912,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SocialSignInResponse404"
 								}
 							}
 						},
@@ -1090,12 +2922,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SocialSignInResponse429"
 								}
 							}
 						},
@@ -1105,12 +2932,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SocialSignInResponse500"
 								}
 							}
 						},
@@ -1136,17 +2958,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"nullable": true,
-									"properties": {
-										"session": {
-											"$ref": "#/components/schemas/Session"
-										},
-										"user": {
-											"$ref": "#/components/schemas/User"
-										}
-									},
-									"required": ["session", "user"]
+									"$ref": "#/components/schemas/GetSessionResponse200"
 								}
 							}
 						}
@@ -1155,13 +2967,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/GetSessionResponse400"
 								}
 							}
 						},
@@ -1171,13 +2977,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/GetSessionResponse401"
 								}
 							}
 						},
@@ -1187,12 +2987,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/GetSessionResponse403"
 								}
 							}
 						},
@@ -1202,12 +2997,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/GetSessionResponse404"
 								}
 							}
 						},
@@ -1217,12 +3007,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/GetSessionResponse429"
 								}
 							}
 						},
@@ -1232,12 +3017,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/GetSessionResponse500"
 								}
 							}
 						},
@@ -1272,12 +3052,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"success": {
-											"type": "boolean"
-										}
-									}
+									"$ref": "#/components/schemas/SignOutResponse200"
 								}
 							}
 						}
@@ -1286,13 +3061,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/SignOutResponse400"
 								}
 							}
 						},
@@ -1302,13 +3071,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/SignOutResponse401"
 								}
 							}
 						},
@@ -1318,12 +3081,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignOutResponse403"
 								}
 							}
 						},
@@ -1333,12 +3091,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignOutResponse404"
 								}
 							}
 						},
@@ -1348,12 +3101,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignOutResponse429"
 								}
 							}
 						},
@@ -1363,12 +3111,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignOutResponse500"
 								}
 							}
 						},
@@ -1403,54 +3146,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"token": {
-											"type": "string",
-											"nullable": true,
-											"description": "Authentication token for the session"
-										},
-										"user": {
-											"type": "object",
-											"properties": {
-												"id": {
-													"type": "string",
-													"description": "The unique identifier of the user"
-												},
-												"email": {
-													"type": "string",
-													"format": "email",
-													"description": "The email address of the user"
-												},
-												"name": {
-													"type": "string",
-													"description": "The name of the user"
-												},
-												"image": {
-													"type": "string",
-													"format": "uri",
-													"nullable": true,
-													"description": "The profile image URL of the user"
-												},
-												"emailVerified": {
-													"type": "boolean",
-													"description": "Whether the email has been verified"
-												},
-												"createdAt": {
-													"type": "string",
-													"format": "date-time",
-													"description": "When the user was created"
-												},
-												"updatedAt": {
-													"type": "string",
-													"format": "date-time",
-													"description": "When the user was last updated"
-												}
-											},
-											"required": ["id", "email", "name", "emailVerified", "createdAt", "updatedAt"]
-										}
-									},
-									"required": ["user"]
+									"$ref": "#/components/schemas/SignUpWithEmailAndPasswordResponse200"
 								}
 							}
 						}
@@ -1459,13 +3155,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/SignUpWithEmailAndPasswordResponse400"
 								}
 							}
 						},
@@ -1475,13 +3165,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/SignUpWithEmailAndPasswordResponse401"
 								}
 							}
 						},
@@ -1491,12 +3175,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignUpWithEmailAndPasswordResponse403"
 								}
 							}
 						},
@@ -1506,12 +3185,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignUpWithEmailAndPasswordResponse404"
 								}
 							}
 						},
@@ -1522,12 +3196,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignUpWithEmailAndPasswordResponse422"
 								}
 							}
 						}
@@ -1536,12 +3205,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignUpWithEmailAndPasswordResponse429"
 								}
 							}
 						},
@@ -1551,12 +3215,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignUpWithEmailAndPasswordResponse500"
 								}
 							}
 						},
@@ -1592,27 +3251,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"description": "Session response when idToken is provided",
-									"properties": {
-										"redirect": {
-											"type": "boolean",
-											"enum": [false]
-										},
-										"token": {
-											"type": "string",
-											"description": "Session token"
-										},
-										"url": {
-											"type": "string",
-											"nullable": true
-										},
-										"user": {
-											"type": "object",
-											"$ref": "#/components/schemas/User"
-										}
-									},
-									"required": ["redirect", "token", "user"]
+									"$ref": "#/components/schemas/SignInEmailResponse200"
 								}
 							}
 						}
@@ -1621,13 +3260,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/SignInEmailResponse400"
 								}
 							}
 						},
@@ -1637,13 +3270,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/SignInEmailResponse401"
 								}
 							}
 						},
@@ -1653,12 +3280,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignInEmailResponse403"
 								}
 							}
 						},
@@ -1668,12 +3290,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignInEmailResponse404"
 								}
 							}
 						},
@@ -1683,12 +3300,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignInEmailResponse429"
 								}
 							}
 						},
@@ -1698,12 +3310,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SignInEmailResponse500"
 								}
 							}
 						},
@@ -1739,12 +3346,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"status": {
-											"type": "boolean"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordResponse200"
 								}
 							}
 						}
@@ -1753,13 +3355,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ResetPasswordResponse400"
 								}
 							}
 						},
@@ -1769,13 +3365,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ResetPasswordResponse401"
 								}
 							}
 						},
@@ -1785,12 +3375,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordResponse403"
 								}
 							}
 						},
@@ -1800,12 +3385,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordResponse404"
 								}
 							}
 						},
@@ -1815,12 +3395,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordResponse429"
 								}
 							}
 						},
@@ -1830,12 +3405,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordResponse500"
 								}
 							}
 						},
@@ -1871,12 +3441,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"status": {
-											"type": "boolean"
-										}
-									}
+									"$ref": "#/components/schemas/VerifyPasswordResponse200"
 								}
 							}
 						}
@@ -1885,13 +3450,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/VerifyPasswordResponse400"
 								}
 							}
 						},
@@ -1901,13 +3460,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/VerifyPasswordResponse401"
 								}
 							}
 						},
@@ -1917,12 +3470,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/VerifyPasswordResponse403"
 								}
 							}
 						},
@@ -1932,12 +3480,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/VerifyPasswordResponse404"
 								}
 							}
 						},
@@ -1947,12 +3490,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/VerifyPasswordResponse429"
 								}
 							}
 						},
@@ -1962,12 +3500,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/VerifyPasswordResponse500"
 								}
 							}
 						},
@@ -2011,18 +3544,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"user": {
-											"type": "object",
-											"$ref": "#/components/schemas/User"
-										},
-										"status": {
-											"type": "boolean",
-											"description": "Indicates if the email was verified successfully"
-										}
-									},
-									"required": ["user", "status"]
+									"$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse200"
 								}
 							}
 						}
@@ -2031,13 +3553,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse400"
 								}
 							}
 						},
@@ -2047,13 +3563,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse401"
 								}
 							}
 						},
@@ -2063,12 +3573,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse403"
 								}
 							}
 						},
@@ -2078,12 +3583,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse404"
 								}
 							}
 						},
@@ -2093,12 +3593,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse429"
 								}
 							}
 						},
@@ -2108,12 +3603,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse500"
 								}
 							}
 						},
@@ -2148,14 +3638,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"status": {
-											"type": "boolean",
-											"description": "Indicates if the email was sent successfully",
-											"example": true
-										}
-									}
+									"$ref": "#/components/schemas/SendVerificationEmailResponse200"
 								}
 							}
 						}
@@ -2165,14 +3648,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string",
-											"description": "Error message",
-											"example": "Verification email isn't enabled"
-										}
-									}
+									"$ref": "#/components/schemas/SendVerificationEmailResponse400"
 								}
 							}
 						}
@@ -2181,13 +3657,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/SendVerificationEmailResponse401"
 								}
 							}
 						},
@@ -2197,12 +3667,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SendVerificationEmailResponse403"
 								}
 							}
 						},
@@ -2212,12 +3677,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SendVerificationEmailResponse404"
 								}
 							}
 						},
@@ -2227,12 +3687,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SendVerificationEmailResponse429"
 								}
 							}
 						},
@@ -2242,12 +3697,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/SendVerificationEmailResponse500"
 								}
 							}
 						},
@@ -2282,24 +3732,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"user": {
-											"type": "object",
-											"$ref": "#/components/schemas/User"
-										},
-										"status": {
-											"type": "boolean",
-											"description": "Indicates if the request was successful"
-										},
-										"message": {
-											"type": "string",
-											"enum": ["Email updated", "Verification email sent"],
-											"description": "Status message of the email change process",
-											"nullable": true
-										}
-									},
-									"required": ["status"]
+									"$ref": "#/components/schemas/ChangeEmailResponse200"
 								}
 							}
 						}
@@ -2308,13 +3741,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ChangeEmailResponse400"
 								}
 							}
 						},
@@ -2324,13 +3751,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ChangeEmailResponse401"
 								}
 							}
 						},
@@ -2340,12 +3761,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ChangeEmailResponse403"
 								}
 							}
 						},
@@ -2355,12 +3771,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ChangeEmailResponse404"
 								}
 							}
 						},
@@ -2371,12 +3782,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ChangeEmailResponse422"
 								}
 							}
 						}
@@ -2385,12 +3791,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ChangeEmailResponse429"
 								}
 							}
 						},
@@ -2400,12 +3801,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ChangeEmailResponse500"
 								}
 							}
 						},
@@ -2441,54 +3837,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"token": {
-											"type": "string",
-											"nullable": true,
-											"description": "New session token if other sessions were revoked"
-										},
-										"user": {
-											"type": "object",
-											"properties": {
-												"id": {
-													"type": "string",
-													"description": "The unique identifier of the user"
-												},
-												"email": {
-													"type": "string",
-													"format": "email",
-													"description": "The email address of the user"
-												},
-												"name": {
-													"type": "string",
-													"description": "The name of the user"
-												},
-												"image": {
-													"type": "string",
-													"format": "uri",
-													"nullable": true,
-													"description": "The profile image URL of the user"
-												},
-												"emailVerified": {
-													"type": "boolean",
-													"description": "Whether the email has been verified"
-												},
-												"createdAt": {
-													"type": "string",
-													"format": "date-time",
-													"description": "When the user was created"
-												},
-												"updatedAt": {
-													"type": "string",
-													"format": "date-time",
-													"description": "When the user was last updated"
-												}
-											},
-											"required": ["id", "email", "name", "emailVerified", "createdAt", "updatedAt"]
-										}
-									},
-									"required": ["user"]
+									"$ref": "#/components/schemas/ChangePasswordResponse200"
 								}
 							}
 						}
@@ -2497,13 +3846,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ChangePasswordResponse400"
 								}
 							}
 						},
@@ -2513,13 +3856,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ChangePasswordResponse401"
 								}
 							}
 						},
@@ -2529,12 +3866,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ChangePasswordResponse403"
 								}
 							}
 						},
@@ -2544,12 +3876,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ChangePasswordResponse404"
 								}
 							}
 						},
@@ -2559,12 +3886,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ChangePasswordResponse429"
 								}
 							}
 						},
@@ -2574,12 +3896,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ChangePasswordResponse500"
 								}
 							}
 						},
@@ -2614,13 +3931,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"user": {
-											"type": "object",
-											"$ref": "#/components/schemas/User"
-										}
-									}
+									"$ref": "#/components/schemas/UpdateUserResponse200"
 								}
 							}
 						}
@@ -2629,13 +3940,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/UpdateUserResponse400"
 								}
 							}
 						},
@@ -2645,13 +3950,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/UpdateUserResponse401"
 								}
 							}
 						},
@@ -2661,12 +3960,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/UpdateUserResponse403"
 								}
 							}
 						},
@@ -2676,12 +3970,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/UpdateUserResponse404"
 								}
 							}
 						},
@@ -2691,12 +3980,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/UpdateUserResponse429"
 								}
 							}
 						},
@@ -2706,12 +3990,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/UpdateUserResponse500"
 								}
 							}
 						},
@@ -2746,19 +4025,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"success": {
-											"type": "boolean",
-											"description": "Indicates if the operation was successful"
-										},
-										"message": {
-											"type": "string",
-											"enum": ["User deleted", "Verification email sent"],
-											"description": "Status message of the deletion process"
-										}
-									},
-									"required": ["success", "message"]
+									"$ref": "#/components/schemas/DeleteUserResponse200"
 								}
 							}
 						}
@@ -2767,13 +4034,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/DeleteUserResponse400"
 								}
 							}
 						},
@@ -2783,13 +4044,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/DeleteUserResponse401"
 								}
 							}
 						},
@@ -2799,12 +4054,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/DeleteUserResponse403"
 								}
 							}
 						},
@@ -2814,12 +4064,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/DeleteUserResponse404"
 								}
 							}
 						},
@@ -2829,12 +4074,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/DeleteUserResponse429"
 								}
 							}
 						},
@@ -2844,12 +4084,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/DeleteUserResponse500"
 								}
 							}
 						},
@@ -2885,15 +4120,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"status": {
-											"type": "boolean"
-										},
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/RequestPasswordResetResponse200"
 								}
 							}
 						}
@@ -2902,13 +4129,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/RequestPasswordResetResponse400"
 								}
 							}
 						},
@@ -2918,13 +4139,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/RequestPasswordResetResponse401"
 								}
 							}
 						},
@@ -2934,12 +4149,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/RequestPasswordResetResponse403"
 								}
 							}
 						},
@@ -2949,12 +4159,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/RequestPasswordResetResponse404"
 								}
 							}
 						},
@@ -2964,12 +4169,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/RequestPasswordResetResponse429"
 								}
 							}
 						},
@@ -2979,12 +4179,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/RequestPasswordResetResponse500"
 								}
 							}
 						},
@@ -3029,12 +4224,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"token": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordCallbackResponse200"
 								}
 							}
 						}
@@ -3043,13 +4233,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ResetPasswordCallbackResponse400"
 								}
 							}
 						},
@@ -3059,13 +4243,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ResetPasswordCallbackResponse401"
 								}
 							}
 						},
@@ -3075,12 +4253,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordCallbackResponse403"
 								}
 							}
 						},
@@ -3090,12 +4263,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordCallbackResponse404"
 								}
 							}
 						},
@@ -3105,12 +4273,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordCallbackResponse429"
 								}
 							}
 						},
@@ -3120,12 +4283,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ResetPasswordCallbackResponse500"
 								}
 							}
 						},
@@ -3151,10 +4309,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "array",
-									"items": {
-										"$ref": "#/components/schemas/Session"
-									}
+									"$ref": "#/components/schemas/ListUserSessionsResponse200"
 								}
 							}
 						}
@@ -3163,13 +4318,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ListUserSessionsResponse400"
 								}
 							}
 						},
@@ -3179,13 +4328,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ListUserSessionsResponse401"
 								}
 							}
 						},
@@ -3195,12 +4338,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ListUserSessionsResponse403"
 								}
 							}
 						},
@@ -3210,12 +4348,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ListUserSessionsResponse404"
 								}
 							}
 						},
@@ -3225,12 +4358,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ListUserSessionsResponse429"
 								}
 							}
 						},
@@ -3240,12 +4368,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ListUserSessionsResponse500"
 								}
 							}
 						},
@@ -3279,14 +4402,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"status": {
-											"type": "boolean",
-											"description": "Indicates if the session was revoked successfully"
-										}
-									},
-									"required": ["status"]
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse200"
 								}
 							}
 						}
@@ -3295,13 +4411,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse400"
 								}
 							}
 						},
@@ -3311,13 +4421,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse401"
 								}
 							}
 						},
@@ -3327,12 +4431,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse403"
 								}
 							}
 						},
@@ -3342,12 +4441,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse404"
 								}
 							}
 						},
@@ -3357,12 +4451,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse429"
 								}
 							}
 						},
@@ -3372,12 +4461,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse500"
 								}
 							}
 						},
@@ -3411,14 +4495,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"status": {
-											"type": "boolean",
-											"description": "Indicates if all sessions were revoked successfully"
-										}
-									},
-									"required": ["status"]
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse200"
 								}
 							}
 						}
@@ -3427,13 +4504,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse400"
 								}
 							}
 						},
@@ -3443,13 +4514,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse401"
 								}
 							}
 						},
@@ -3459,12 +4524,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse403"
 								}
 							}
 						},
@@ -3474,12 +4534,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse404"
 								}
 							}
 						},
@@ -3489,12 +4544,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse429"
 								}
 							}
 						},
@@ -3504,12 +4554,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse500"
 								}
 							}
 						},
@@ -3543,14 +4588,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"status": {
-											"type": "boolean",
-											"description": "Indicates if all other sessions were revoked successfully"
-										}
-									},
-									"required": ["status"]
+									"$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse200"
 								}
 							}
 						}
@@ -3559,13 +4597,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse400"
 								}
 							}
 						},
@@ -3575,13 +4607,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse401"
 								}
 							}
 						},
@@ -3591,12 +4617,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse403"
 								}
 							}
 						},
@@ -3606,12 +4627,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse404"
 								}
 							}
 						},
@@ -3621,12 +4637,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse429"
 								}
 							}
 						},
@@ -3636,12 +4647,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse500"
 								}
 							}
 						},
@@ -3677,21 +4683,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"url": {
-											"type": "string",
-											"description": "The authorization URL to redirect the user to"
-										},
-										"redirect": {
-											"type": "boolean",
-											"description": "Indicates if the user should be redirected to the authorization URL"
-										},
-										"status": {
-											"type": "boolean"
-										}
-									},
-									"required": ["redirect"]
+									"$ref": "#/components/schemas/LinkSocialAccountResponse200"
 								}
 							}
 						}
@@ -3700,13 +4692,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/LinkSocialAccountResponse400"
 								}
 							}
 						},
@@ -3716,13 +4702,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/LinkSocialAccountResponse401"
 								}
 							}
 						},
@@ -3732,12 +4712,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/LinkSocialAccountResponse403"
 								}
 							}
 						},
@@ -3747,12 +4722,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/LinkSocialAccountResponse404"
 								}
 							}
 						},
@@ -3762,12 +4732,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/LinkSocialAccountResponse429"
 								}
 							}
 						},
@@ -3777,12 +4742,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/LinkSocialAccountResponse500"
 								}
 							}
 						},
@@ -3808,47 +4768,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "array",
-									"items": {
-										"type": "object",
-										"properties": {
-											"id": {
-												"type": "string"
-											},
-											"providerId": {
-												"type": "string"
-											},
-											"createdAt": {
-												"type": "string",
-												"format": "date-time"
-											},
-											"updatedAt": {
-												"type": "string",
-												"format": "date-time"
-											},
-											"accountId": {
-												"type": "string"
-											},
-											"userId": {
-												"type": "string"
-											},
-											"scopes": {
-												"type": "array",
-												"items": {
-													"type": "string"
-												}
-											}
-										},
-										"required": [
-											"id",
-											"providerId",
-											"createdAt",
-											"updatedAt",
-											"accountId",
-											"userId",
-											"scopes"
-										]
-									}
+									"$ref": "#/components/schemas/ListUserAccountsResponse200"
 								}
 							}
 						}
@@ -3857,13 +4777,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ListUserAccountsResponse400"
 								}
 							}
 						},
@@ -3873,13 +4787,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ListUserAccountsResponse401"
 								}
 							}
 						},
@@ -3889,12 +4797,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ListUserAccountsResponse403"
 								}
 							}
 						},
@@ -3904,12 +4807,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ListUserAccountsResponse404"
 								}
 							}
 						},
@@ -3919,12 +4817,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ListUserAccountsResponse429"
 								}
 							}
 						},
@@ -3934,12 +4827,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ListUserAccountsResponse500"
 								}
 							}
 						},
@@ -3982,19 +4870,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"success": {
-											"type": "boolean",
-											"description": "Indicates if the deletion was successful"
-										},
-										"message": {
-											"type": "string",
-											"enum": ["User deleted"],
-											"description": "Confirmation message"
-										}
-									},
-									"required": ["success", "message"]
+									"$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse200"
 								}
 							}
 						}
@@ -4003,13 +4879,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse400"
 								}
 							}
 						},
@@ -4019,13 +4889,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse401"
 								}
 							}
 						},
@@ -4035,12 +4899,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse403"
 								}
 							}
 						},
@@ -4050,12 +4909,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse404"
 								}
 							}
 						},
@@ -4065,12 +4919,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse429"
 								}
 							}
 						},
@@ -4080,12 +4929,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse500"
 								}
 							}
 						},
@@ -4120,12 +4964,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"status": {
-											"type": "boolean"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse200"
 								}
 							}
 						}
@@ -4134,13 +4973,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse400"
 								}
 							}
 						},
@@ -4150,13 +4983,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse401"
 								}
 							}
 						},
@@ -4166,12 +4993,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse403"
 								}
 							}
 						},
@@ -4181,12 +5003,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse404"
 								}
 							}
 						},
@@ -4196,12 +5013,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse429"
 								}
 							}
 						},
@@ -4211,12 +5023,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse500"
 								}
 							}
 						},
@@ -4251,29 +5058,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"tokenType": {
-											"type": "string"
-										},
-										"idToken": {
-											"type": "string"
-										},
-										"accessToken": {
-											"type": "string"
-										},
-										"refreshToken": {
-											"type": "string"
-										},
-										"accessTokenExpiresAt": {
-											"type": "string",
-											"format": "date-time"
-										},
-										"refreshTokenExpiresAt": {
-											"type": "string",
-											"format": "date-time"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse200"
 								}
 							}
 						}
@@ -4285,13 +5070,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse401"
 								}
 							}
 						},
@@ -4301,12 +5080,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse403"
 								}
 							}
 						},
@@ -4316,12 +5090,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse404"
 								}
 							}
 						},
@@ -4331,12 +5100,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse429"
 								}
 							}
 						},
@@ -4346,12 +5110,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse500"
 								}
 							}
 						},
@@ -4386,22 +5145,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"tokenType": {
-											"type": "string"
-										},
-										"idToken": {
-											"type": "string"
-										},
-										"accessToken": {
-											"type": "string"
-										},
-										"accessTokenExpiresAt": {
-											"type": "string",
-											"format": "date-time"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse200"
 								}
 							}
 						}
@@ -4413,13 +5157,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse401"
 								}
 							}
 						},
@@ -4429,12 +5167,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse403"
 								}
 							}
 						},
@@ -4444,12 +5177,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse404"
 								}
 							}
 						},
@@ -4459,12 +5187,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse429"
 								}
 							}
 						},
@@ -4474,12 +5197,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse500"
 								}
 							}
 						},
@@ -4504,37 +5222,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"user": {
-											"type": "object",
-											"properties": {
-												"id": {
-													"type": "string"
-												},
-												"name": {
-													"type": "string"
-												},
-												"email": {
-													"type": "string"
-												},
-												"image": {
-													"type": "string"
-												},
-												"emailVerified": {
-													"type": "boolean"
-												}
-											},
-											"required": ["id", "emailVerified"]
-										},
-										"data": {
-											"type": "object",
-											"properties": {},
-											"additionalProperties": true
-										}
-									},
-									"required": ["user", "data"],
-									"additionalProperties": false
+									"$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse200"
 								}
 							}
 						}
@@ -4543,13 +5231,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse400"
 								}
 							}
 						},
@@ -4559,13 +5241,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse401"
 								}
 							}
 						},
@@ -4575,12 +5251,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse403"
 								}
 							}
 						},
@@ -4590,12 +5261,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse404"
 								}
 							}
 						},
@@ -4605,12 +5271,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse429"
 								}
 							}
 						},
@@ -4620,12 +5281,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse500"
 								}
 							}
 						},
@@ -4650,14 +5306,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"ok": {
-											"type": "boolean",
-											"description": "Indicates if the API is working"
-										}
-									},
-									"required": ["ok"]
+									"$ref": "#/components/schemas/ApiAuthOkGetResponse200"
 								}
 							}
 						}
@@ -4666,13 +5315,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthOkGetResponse400"
 								}
 							}
 						},
@@ -4682,13 +5325,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthOkGetResponse401"
 								}
 							}
 						},
@@ -4698,12 +5335,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthOkGetResponse403"
 								}
 							}
 						},
@@ -4713,12 +5345,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthOkGetResponse404"
 								}
 							}
 						},
@@ -4728,12 +5355,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthOkGetResponse429"
 								}
 							}
 						},
@@ -4743,12 +5365,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthOkGetResponse500"
 								}
 							}
 						},
@@ -4783,13 +5400,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthErrorGetResponse400"
 								}
 							}
 						},
@@ -4799,13 +5410,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									},
-									"required": ["message"]
+									"$ref": "#/components/schemas/ApiAuthErrorGetResponse401"
 								}
 							}
 						},
@@ -4815,12 +5420,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthErrorGetResponse403"
 								}
 							}
 						},
@@ -4830,12 +5430,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthErrorGetResponse404"
 								}
 							}
 						},
@@ -4845,12 +5440,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthErrorGetResponse429"
 								}
 							}
 						},
@@ -4860,12 +5450,7 @@
 						"content": {
 							"application/json": {
 								"schema": {
-									"type": "object",
-									"properties": {
-										"message": {
-											"type": "string"
-										}
-									}
+									"$ref": "#/components/schemas/ApiAuthErrorGetResponse500"
 								}
 							}
 						},

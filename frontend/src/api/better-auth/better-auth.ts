@@ -22,223 +22,223 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+	ApiAuthAccountInfoGetResponse200,
+	ApiAuthAccountInfoGetResponse400,
+	ApiAuthAccountInfoGetResponse401,
+	ApiAuthAccountInfoGetResponse403,
+	ApiAuthAccountInfoGetResponse404,
+	ApiAuthAccountInfoGetResponse429,
+	ApiAuthAccountInfoGetResponse500,
+	ApiAuthDeleteUserCallbackGetResponse200,
+	ApiAuthDeleteUserCallbackGetResponse400,
+	ApiAuthDeleteUserCallbackGetResponse401,
+	ApiAuthDeleteUserCallbackGetResponse403,
+	ApiAuthDeleteUserCallbackGetResponse404,
+	ApiAuthDeleteUserCallbackGetResponse429,
+	ApiAuthDeleteUserCallbackGetResponse500,
+	ApiAuthErrorGetResponse400,
+	ApiAuthErrorGetResponse401,
+	ApiAuthErrorGetResponse403,
+	ApiAuthErrorGetResponse404,
+	ApiAuthErrorGetResponse429,
+	ApiAuthErrorGetResponse500,
 	ApiAuthGetAccessTokenPostRequest,
+	ApiAuthGetAccessTokenPostResponse200,
+	ApiAuthGetAccessTokenPostResponse401,
+	ApiAuthGetAccessTokenPostResponse403,
+	ApiAuthGetAccessTokenPostResponse404,
+	ApiAuthGetAccessTokenPostResponse429,
+	ApiAuthGetAccessTokenPostResponse500,
+	ApiAuthOkGetResponse200,
+	ApiAuthOkGetResponse400,
+	ApiAuthOkGetResponse401,
+	ApiAuthOkGetResponse403,
+	ApiAuthOkGetResponse404,
+	ApiAuthOkGetResponse429,
+	ApiAuthOkGetResponse500,
 	ApiAuthRefreshTokenPostRequest,
+	ApiAuthRefreshTokenPostResponse200,
+	ApiAuthRefreshTokenPostResponse401,
+	ApiAuthRefreshTokenPostResponse403,
+	ApiAuthRefreshTokenPostResponse404,
+	ApiAuthRefreshTokenPostResponse429,
+	ApiAuthRefreshTokenPostResponse500,
 	ApiAuthRevokeOtherSessionsPostRequest,
+	ApiAuthRevokeOtherSessionsPostResponse200,
+	ApiAuthRevokeOtherSessionsPostResponse400,
+	ApiAuthRevokeOtherSessionsPostResponse401,
+	ApiAuthRevokeOtherSessionsPostResponse403,
+	ApiAuthRevokeOtherSessionsPostResponse404,
+	ApiAuthRevokeOtherSessionsPostResponse429,
+	ApiAuthRevokeOtherSessionsPostResponse500,
 	ApiAuthRevokeSessionPostRequest,
+	ApiAuthRevokeSessionPostResponse200,
+	ApiAuthRevokeSessionPostResponse400,
+	ApiAuthRevokeSessionPostResponse401,
+	ApiAuthRevokeSessionPostResponse403,
+	ApiAuthRevokeSessionPostResponse404,
+	ApiAuthRevokeSessionPostResponse429,
+	ApiAuthRevokeSessionPostResponse500,
 	ApiAuthRevokeSessionsPostRequest,
+	ApiAuthRevokeSessionsPostResponse200,
+	ApiAuthRevokeSessionsPostResponse400,
+	ApiAuthRevokeSessionsPostResponse401,
+	ApiAuthRevokeSessionsPostResponse403,
+	ApiAuthRevokeSessionsPostResponse404,
+	ApiAuthRevokeSessionsPostResponse429,
+	ApiAuthRevokeSessionsPostResponse500,
 	ApiAuthUnlinkAccountPostRequest,
-	ChangeEmail200,
-	ChangeEmail400,
-	ChangeEmail401,
-	ChangeEmail403,
-	ChangeEmail404,
-	ChangeEmail422,
-	ChangeEmail429,
-	ChangeEmail500,
+	ApiAuthUnlinkAccountPostResponse200,
+	ApiAuthUnlinkAccountPostResponse400,
+	ApiAuthUnlinkAccountPostResponse401,
+	ApiAuthUnlinkAccountPostResponse403,
+	ApiAuthUnlinkAccountPostResponse404,
+	ApiAuthUnlinkAccountPostResponse429,
+	ApiAuthUnlinkAccountPostResponse500,
+	ApiAuthVerifyEmailGetResponse200,
+	ApiAuthVerifyEmailGetResponse400,
+	ApiAuthVerifyEmailGetResponse401,
+	ApiAuthVerifyEmailGetResponse403,
+	ApiAuthVerifyEmailGetResponse404,
+	ApiAuthVerifyEmailGetResponse429,
+	ApiAuthVerifyEmailGetResponse500,
 	ChangeEmailRequest,
-	ChangePassword200,
-	ChangePassword400,
-	ChangePassword401,
-	ChangePassword403,
-	ChangePassword404,
-	ChangePassword429,
-	ChangePassword500,
+	ChangeEmailResponse200,
+	ChangeEmailResponse400,
+	ChangeEmailResponse401,
+	ChangeEmailResponse403,
+	ChangeEmailResponse404,
+	ChangeEmailResponse422,
+	ChangeEmailResponse429,
+	ChangeEmailResponse500,
 	ChangePasswordRequest,
-	DeleteUser200,
-	DeleteUser400,
-	DeleteUser401,
-	DeleteUser403,
-	DeleteUser404,
-	DeleteUser429,
-	DeleteUser500,
+	ChangePasswordResponse200,
+	ChangePasswordResponse400,
+	ChangePasswordResponse401,
+	ChangePasswordResponse403,
+	ChangePasswordResponse404,
+	ChangePasswordResponse429,
+	ChangePasswordResponse500,
 	DeleteUserRequest,
-	GetApiAuthAccountInfo200,
-	GetApiAuthAccountInfo400,
-	GetApiAuthAccountInfo401,
-	GetApiAuthAccountInfo403,
-	GetApiAuthAccountInfo404,
-	GetApiAuthAccountInfo429,
-	GetApiAuthAccountInfo500,
-	GetApiAuthDeleteUserCallback200,
-	GetApiAuthDeleteUserCallback400,
-	GetApiAuthDeleteUserCallback401,
-	GetApiAuthDeleteUserCallback403,
-	GetApiAuthDeleteUserCallback404,
-	GetApiAuthDeleteUserCallback429,
-	GetApiAuthDeleteUserCallback500,
+	DeleteUserResponse200,
+	DeleteUserResponse400,
+	DeleteUserResponse401,
+	DeleteUserResponse403,
+	DeleteUserResponse404,
+	DeleteUserResponse429,
+	DeleteUserResponse500,
 	GetApiAuthDeleteUserCallbackParams,
-	GetApiAuthError400,
-	GetApiAuthError401,
-	GetApiAuthError403,
-	GetApiAuthError404,
-	GetApiAuthError429,
-	GetApiAuthError500,
-	GetApiAuthOk200,
-	GetApiAuthOk400,
-	GetApiAuthOk401,
-	GetApiAuthOk403,
-	GetApiAuthOk404,
-	GetApiAuthOk429,
-	GetApiAuthOk500,
-	GetApiAuthVerifyEmail200,
-	GetApiAuthVerifyEmail400,
-	GetApiAuthVerifyEmail401,
-	GetApiAuthVerifyEmail403,
-	GetApiAuthVerifyEmail404,
-	GetApiAuthVerifyEmail429,
-	GetApiAuthVerifyEmail500,
 	GetApiAuthVerifyEmailParams,
-	GetSession200,
-	GetSession400,
-	GetSession401,
-	GetSession403,
-	GetSession404,
-	GetSession429,
-	GetSession500,
-	LinkSocialAccount200,
-	LinkSocialAccount400,
-	LinkSocialAccount401,
-	LinkSocialAccount403,
-	LinkSocialAccount404,
-	LinkSocialAccount429,
-	LinkSocialAccount500,
+	GetSessionResponse200,
+	GetSessionResponse400,
+	GetSessionResponse401,
+	GetSessionResponse403,
+	GetSessionResponse404,
+	GetSessionResponse429,
+	GetSessionResponse500,
 	LinkSocialAccountRequest,
-	ListUserAccounts200Item,
-	ListUserAccounts400,
-	ListUserAccounts401,
-	ListUserAccounts403,
-	ListUserAccounts404,
-	ListUserAccounts429,
-	ListUserAccounts500,
-	ListUserSessions400,
-	ListUserSessions401,
-	ListUserSessions403,
-	ListUserSessions404,
-	ListUserSessions429,
-	ListUserSessions500,
-	PostApiAuthGetAccessToken200,
-	PostApiAuthGetAccessToken401,
-	PostApiAuthGetAccessToken403,
-	PostApiAuthGetAccessToken404,
-	PostApiAuthGetAccessToken429,
-	PostApiAuthGetAccessToken500,
-	PostApiAuthRefreshToken200,
-	PostApiAuthRefreshToken401,
-	PostApiAuthRefreshToken403,
-	PostApiAuthRefreshToken404,
-	PostApiAuthRefreshToken429,
-	PostApiAuthRefreshToken500,
-	PostApiAuthRevokeOtherSessions200,
-	PostApiAuthRevokeOtherSessions400,
-	PostApiAuthRevokeOtherSessions401,
-	PostApiAuthRevokeOtherSessions403,
-	PostApiAuthRevokeOtherSessions404,
-	PostApiAuthRevokeOtherSessions429,
-	PostApiAuthRevokeOtherSessions500,
-	PostApiAuthRevokeSession200,
-	PostApiAuthRevokeSession400,
-	PostApiAuthRevokeSession401,
-	PostApiAuthRevokeSession403,
-	PostApiAuthRevokeSession404,
-	PostApiAuthRevokeSession429,
-	PostApiAuthRevokeSession500,
-	PostApiAuthRevokeSessions200,
-	PostApiAuthRevokeSessions400,
-	PostApiAuthRevokeSessions401,
-	PostApiAuthRevokeSessions403,
-	PostApiAuthRevokeSessions404,
-	PostApiAuthRevokeSessions429,
-	PostApiAuthRevokeSessions500,
-	PostApiAuthUnlinkAccount200,
-	PostApiAuthUnlinkAccount400,
-	PostApiAuthUnlinkAccount401,
-	PostApiAuthUnlinkAccount403,
-	PostApiAuthUnlinkAccount404,
-	PostApiAuthUnlinkAccount429,
-	PostApiAuthUnlinkAccount500,
-	RequestPasswordReset200,
-	RequestPasswordReset400,
-	RequestPasswordReset401,
-	RequestPasswordReset403,
-	RequestPasswordReset404,
-	RequestPasswordReset429,
-	RequestPasswordReset500,
+	LinkSocialAccountResponse200,
+	LinkSocialAccountResponse400,
+	LinkSocialAccountResponse401,
+	LinkSocialAccountResponse403,
+	LinkSocialAccountResponse404,
+	LinkSocialAccountResponse429,
+	LinkSocialAccountResponse500,
+	ListUserAccountsResponse200,
+	ListUserAccountsResponse400,
+	ListUserAccountsResponse401,
+	ListUserAccountsResponse403,
+	ListUserAccountsResponse404,
+	ListUserAccountsResponse429,
+	ListUserAccountsResponse500,
+	ListUserSessionsResponse200,
+	ListUserSessionsResponse400,
+	ListUserSessionsResponse401,
+	ListUserSessionsResponse403,
+	ListUserSessionsResponse404,
+	ListUserSessionsResponse429,
+	ListUserSessionsResponse500,
 	RequestPasswordResetRequest,
-	ResetPassword200,
-	ResetPassword400,
-	ResetPassword401,
-	ResetPassword403,
-	ResetPassword404,
-	ResetPassword429,
-	ResetPassword500,
-	ResetPasswordCallback200,
-	ResetPasswordCallback400,
-	ResetPasswordCallback401,
-	ResetPasswordCallback403,
-	ResetPasswordCallback404,
-	ResetPasswordCallback429,
-	ResetPasswordCallback500,
+	RequestPasswordResetResponse200,
+	RequestPasswordResetResponse400,
+	RequestPasswordResetResponse401,
+	RequestPasswordResetResponse403,
+	RequestPasswordResetResponse404,
+	RequestPasswordResetResponse429,
+	RequestPasswordResetResponse500,
 	ResetPasswordCallbackParams,
+	ResetPasswordCallbackResponse200,
+	ResetPasswordCallbackResponse400,
+	ResetPasswordCallbackResponse401,
+	ResetPasswordCallbackResponse403,
+	ResetPasswordCallbackResponse404,
+	ResetPasswordCallbackResponse429,
+	ResetPasswordCallbackResponse500,
 	ResetPasswordRequest,
-	SendVerificationEmail200,
-	SendVerificationEmail400,
-	SendVerificationEmail401,
-	SendVerificationEmail403,
-	SendVerificationEmail404,
-	SendVerificationEmail429,
-	SendVerificationEmail500,
+	ResetPasswordResponse200,
+	ResetPasswordResponse400,
+	ResetPasswordResponse401,
+	ResetPasswordResponse403,
+	ResetPasswordResponse404,
+	ResetPasswordResponse429,
+	ResetPasswordResponse500,
 	SendVerificationEmailRequest,
-	Session,
-	SignInEmail200,
-	SignInEmail400,
-	SignInEmail401,
-	SignInEmail403,
-	SignInEmail404,
-	SignInEmail429,
-	SignInEmail500,
+	SendVerificationEmailResponse200,
+	SendVerificationEmailResponse400,
+	SendVerificationEmailResponse401,
+	SendVerificationEmailResponse403,
+	SendVerificationEmailResponse404,
+	SendVerificationEmailResponse429,
+	SendVerificationEmailResponse500,
 	SignInEmailRequest,
-	SignOut200,
-	SignOut400,
-	SignOut401,
-	SignOut403,
-	SignOut404,
-	SignOut429,
-	SignOut500,
+	SignInEmailResponse200,
+	SignInEmailResponse400,
+	SignInEmailResponse401,
+	SignInEmailResponse403,
+	SignInEmailResponse404,
+	SignInEmailResponse429,
+	SignInEmailResponse500,
 	SignOutRequest,
-	SignUpWithEmailAndPassword200,
-	SignUpWithEmailAndPassword400,
-	SignUpWithEmailAndPassword401,
-	SignUpWithEmailAndPassword403,
-	SignUpWithEmailAndPassword404,
-	SignUpWithEmailAndPassword422,
-	SignUpWithEmailAndPassword429,
-	SignUpWithEmailAndPassword500,
+	SignOutResponse200,
+	SignOutResponse400,
+	SignOutResponse401,
+	SignOutResponse403,
+	SignOutResponse404,
+	SignOutResponse429,
+	SignOutResponse500,
 	SignUpWithEmailAndPasswordRequest,
-	SocialSignIn200,
-	SocialSignIn400,
-	SocialSignIn401,
-	SocialSignIn403,
-	SocialSignIn404,
-	SocialSignIn429,
-	SocialSignIn500,
+	SignUpWithEmailAndPasswordResponse200,
+	SignUpWithEmailAndPasswordResponse400,
+	SignUpWithEmailAndPasswordResponse401,
+	SignUpWithEmailAndPasswordResponse403,
+	SignUpWithEmailAndPasswordResponse404,
+	SignUpWithEmailAndPasswordResponse422,
+	SignUpWithEmailAndPasswordResponse429,
+	SignUpWithEmailAndPasswordResponse500,
 	SocialSignInRequest,
-	UpdateUser200,
-	UpdateUser400,
-	UpdateUser401,
-	UpdateUser403,
-	UpdateUser404,
-	UpdateUser429,
-	UpdateUser500,
+	SocialSignInResponse200,
+	SocialSignInResponse400,
+	SocialSignInResponse401,
+	SocialSignInResponse403,
+	SocialSignInResponse404,
+	SocialSignInResponse429,
+	SocialSignInResponse500,
 	UpdateUserRequest,
-	VerifyPassword200,
-	VerifyPassword400,
-	VerifyPassword401,
-	VerifyPassword403,
-	VerifyPassword404,
-	VerifyPassword429,
-	VerifyPassword500,
-	VerifyPasswordRequest
+	UpdateUserResponse200,
+	UpdateUserResponse400,
+	UpdateUserResponse401,
+	UpdateUserResponse403,
+	UpdateUserResponse404,
+	UpdateUserResponse429,
+	UpdateUserResponse500,
+	VerifyPasswordRequest,
+	VerifyPasswordResponse200,
+	VerifyPasswordResponse400,
+	VerifyPasswordResponse401,
+	VerifyPasswordResponse403,
+	VerifyPasswordResponse404,
+	VerifyPasswordResponse429,
+	VerifyPasswordResponse500
 } from '../superimpress.schemas';
 
 import { customInstance } from '.././axios';
@@ -248,7 +248,7 @@ import type { ErrorType } from '.././axios';
  * Sign in with a social provider
  */
 export const socialSignIn = (socialSignInRequest: SocialSignInRequest, signal?: AbortSignal) => {
-	return customInstance<SocialSignIn200>({
+	return customInstance<SocialSignInResponse200>({
 		url: `/api/auth/sign-in/social`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -259,12 +259,12 @@ export const socialSignIn = (socialSignInRequest: SocialSignInRequest, signal?: 
 
 export const getSocialSignInMutationOptions = <
 	TError = ErrorType<
-		| SocialSignIn400
-		| SocialSignIn401
-		| SocialSignIn403
-		| SocialSignIn404
-		| SocialSignIn429
-		| SocialSignIn500
+		| SocialSignInResponse400
+		| SocialSignInResponse401
+		| SocialSignInResponse403
+		| SocialSignInResponse404
+		| SocialSignInResponse429
+		| SocialSignInResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -302,22 +302,22 @@ export const getSocialSignInMutationOptions = <
 export type SocialSignInMutationResult = NonNullable<Awaited<ReturnType<typeof socialSignIn>>>;
 export type SocialSignInMutationBody = SocialSignInRequest;
 export type SocialSignInMutationError = ErrorType<
-	| SocialSignIn400
-	| SocialSignIn401
-	| SocialSignIn403
-	| SocialSignIn404
-	| SocialSignIn429
-	| SocialSignIn500
+	| SocialSignInResponse400
+	| SocialSignInResponse401
+	| SocialSignInResponse403
+	| SocialSignInResponse404
+	| SocialSignInResponse429
+	| SocialSignInResponse500
 >;
 
 export const useSocialSignIn = <
 	TError = ErrorType<
-		| SocialSignIn400
-		| SocialSignIn401
-		| SocialSignIn403
-		| SocialSignIn404
-		| SocialSignIn429
-		| SocialSignIn500
+		| SocialSignInResponse400
+		| SocialSignInResponse401
+		| SocialSignInResponse403
+		| SocialSignInResponse404
+		| SocialSignInResponse429
+		| SocialSignInResponse500
 	>,
 	TContext = unknown
 >(
@@ -342,7 +342,11 @@ export const useSocialSignIn = <
  * Get the current session
  */
 export const getSession = (signal?: AbortSignal) => {
-	return customInstance<GetSession200>({ url: `/api/auth/get-session`, method: 'GET', signal });
+	return customInstance<GetSessionResponse200 | null>({
+		url: `/api/auth/get-session`,
+		method: 'GET',
+		signal
+	});
 };
 
 export const getGetSessionQueryKey = () => {
@@ -352,7 +356,12 @@ export const getGetSessionQueryKey = () => {
 export const getGetSessionQueryOptions = <
 	TData = Awaited<ReturnType<typeof getSession>>,
 	TError = ErrorType<
-		GetSession400 | GetSession401 | GetSession403 | GetSession404 | GetSession429 | GetSession500
+		| GetSessionResponse400
+		| GetSessionResponse401
+		| GetSessionResponse403
+		| GetSessionResponse404
+		| GetSessionResponse429
+		| GetSessionResponse500
 	>
 >(options?: {
 	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSession>>, TError, TData>>;
@@ -373,13 +382,23 @@ export const getGetSessionQueryOptions = <
 
 export type GetSessionQueryResult = NonNullable<Awaited<ReturnType<typeof getSession>>>;
 export type GetSessionQueryError = ErrorType<
-	GetSession400 | GetSession401 | GetSession403 | GetSession404 | GetSession429 | GetSession500
+	| GetSessionResponse400
+	| GetSessionResponse401
+	| GetSessionResponse403
+	| GetSessionResponse404
+	| GetSessionResponse429
+	| GetSessionResponse500
 >;
 
 export function useGetSession<
 	TData = Awaited<ReturnType<typeof getSession>>,
 	TError = ErrorType<
-		GetSession400 | GetSession401 | GetSession403 | GetSession404 | GetSession429 | GetSession500
+		| GetSessionResponse400
+		| GetSessionResponse401
+		| GetSessionResponse403
+		| GetSessionResponse404
+		| GetSessionResponse429
+		| GetSessionResponse500
 	>
 >(
 	options: {
@@ -398,7 +417,12 @@ export function useGetSession<
 export function useGetSession<
 	TData = Awaited<ReturnType<typeof getSession>>,
 	TError = ErrorType<
-		GetSession400 | GetSession401 | GetSession403 | GetSession404 | GetSession429 | GetSession500
+		| GetSessionResponse400
+		| GetSessionResponse401
+		| GetSessionResponse403
+		| GetSessionResponse404
+		| GetSessionResponse429
+		| GetSessionResponse500
 	>
 >(
 	options?: {
@@ -417,7 +441,12 @@ export function useGetSession<
 export function useGetSession<
 	TData = Awaited<ReturnType<typeof getSession>>,
 	TError = ErrorType<
-		GetSession400 | GetSession401 | GetSession403 | GetSession404 | GetSession429 | GetSession500
+		| GetSessionResponse400
+		| GetSessionResponse401
+		| GetSessionResponse403
+		| GetSessionResponse404
+		| GetSessionResponse429
+		| GetSessionResponse500
 	>
 >(
 	options?: {
@@ -429,7 +458,12 @@ export function useGetSession<
 export function useGetSession<
 	TData = Awaited<ReturnType<typeof getSession>>,
 	TError = ErrorType<
-		GetSession400 | GetSession401 | GetSession403 | GetSession404 | GetSession429 | GetSession500
+		| GetSessionResponse400
+		| GetSessionResponse401
+		| GetSessionResponse403
+		| GetSessionResponse404
+		| GetSessionResponse429
+		| GetSessionResponse500
 	>
 >(
 	options?: {
@@ -450,7 +484,7 @@ export function useGetSession<
  * Sign out the current user
  */
 export const signOut = (signOutRequest: SignOutRequest, signal?: AbortSignal) => {
-	return customInstance<SignOut200>({
+	return customInstance<SignOutResponse200>({
 		url: `/api/auth/sign-out`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -460,7 +494,14 @@ export const signOut = (signOutRequest: SignOutRequest, signal?: AbortSignal) =>
 };
 
 export const getSignOutMutationOptions = <
-	TError = ErrorType<SignOut400 | SignOut401 | SignOut403 | SignOut404 | SignOut429 | SignOut500>,
+	TError = ErrorType<
+		| SignOutResponse400
+		| SignOutResponse401
+		| SignOutResponse403
+		| SignOutResponse404
+		| SignOutResponse429
+		| SignOutResponse500
+	>,
 	TContext = unknown
 >(options?: {
 	mutation?: UseMutationOptions<
@@ -497,11 +538,23 @@ export const getSignOutMutationOptions = <
 export type SignOutMutationResult = NonNullable<Awaited<ReturnType<typeof signOut>>>;
 export type SignOutMutationBody = SignOutRequest;
 export type SignOutMutationError = ErrorType<
-	SignOut400 | SignOut401 | SignOut403 | SignOut404 | SignOut429 | SignOut500
+	| SignOutResponse400
+	| SignOutResponse401
+	| SignOutResponse403
+	| SignOutResponse404
+	| SignOutResponse429
+	| SignOutResponse500
 >;
 
 export const useSignOut = <
-	TError = ErrorType<SignOut400 | SignOut401 | SignOut403 | SignOut404 | SignOut429 | SignOut500>,
+	TError = ErrorType<
+		| SignOutResponse400
+		| SignOutResponse401
+		| SignOutResponse403
+		| SignOutResponse404
+		| SignOutResponse429
+		| SignOutResponse500
+	>,
 	TContext = unknown
 >(
 	options?: {
@@ -528,7 +581,7 @@ export const signUpWithEmailAndPassword = (
 	signUpWithEmailAndPasswordRequest: SignUpWithEmailAndPasswordRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<SignUpWithEmailAndPassword200>({
+	return customInstance<SignUpWithEmailAndPasswordResponse200>({
 		url: `/api/auth/sign-up/email`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -539,13 +592,13 @@ export const signUpWithEmailAndPassword = (
 
 export const getSignUpWithEmailAndPasswordMutationOptions = <
 	TError = ErrorType<
-		| SignUpWithEmailAndPassword400
-		| SignUpWithEmailAndPassword401
-		| SignUpWithEmailAndPassword403
-		| SignUpWithEmailAndPassword404
-		| SignUpWithEmailAndPassword422
-		| SignUpWithEmailAndPassword429
-		| SignUpWithEmailAndPassword500
+		| SignUpWithEmailAndPasswordResponse400
+		| SignUpWithEmailAndPasswordResponse401
+		| SignUpWithEmailAndPasswordResponse403
+		| SignUpWithEmailAndPasswordResponse404
+		| SignUpWithEmailAndPasswordResponse422
+		| SignUpWithEmailAndPasswordResponse429
+		| SignUpWithEmailAndPasswordResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -585,24 +638,24 @@ export type SignUpWithEmailAndPasswordMutationResult = NonNullable<
 >;
 export type SignUpWithEmailAndPasswordMutationBody = SignUpWithEmailAndPasswordRequest;
 export type SignUpWithEmailAndPasswordMutationError = ErrorType<
-	| SignUpWithEmailAndPassword400
-	| SignUpWithEmailAndPassword401
-	| SignUpWithEmailAndPassword403
-	| SignUpWithEmailAndPassword404
-	| SignUpWithEmailAndPassword422
-	| SignUpWithEmailAndPassword429
-	| SignUpWithEmailAndPassword500
+	| SignUpWithEmailAndPasswordResponse400
+	| SignUpWithEmailAndPasswordResponse401
+	| SignUpWithEmailAndPasswordResponse403
+	| SignUpWithEmailAndPasswordResponse404
+	| SignUpWithEmailAndPasswordResponse422
+	| SignUpWithEmailAndPasswordResponse429
+	| SignUpWithEmailAndPasswordResponse500
 >;
 
 export const useSignUpWithEmailAndPassword = <
 	TError = ErrorType<
-		| SignUpWithEmailAndPassword400
-		| SignUpWithEmailAndPassword401
-		| SignUpWithEmailAndPassword403
-		| SignUpWithEmailAndPassword404
-		| SignUpWithEmailAndPassword422
-		| SignUpWithEmailAndPassword429
-		| SignUpWithEmailAndPassword500
+		| SignUpWithEmailAndPasswordResponse400
+		| SignUpWithEmailAndPasswordResponse401
+		| SignUpWithEmailAndPasswordResponse403
+		| SignUpWithEmailAndPasswordResponse404
+		| SignUpWithEmailAndPasswordResponse422
+		| SignUpWithEmailAndPasswordResponse429
+		| SignUpWithEmailAndPasswordResponse500
 	>,
 	TContext = unknown
 >(
@@ -627,7 +680,7 @@ export const useSignUpWithEmailAndPassword = <
  * Sign in with email and password
  */
 export const signInEmail = (signInEmailRequest: SignInEmailRequest, signal?: AbortSignal) => {
-	return customInstance<SignInEmail200>({
+	return customInstance<SignInEmailResponse200>({
 		url: `/api/auth/sign-in/email`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -638,12 +691,12 @@ export const signInEmail = (signInEmailRequest: SignInEmailRequest, signal?: Abo
 
 export const getSignInEmailMutationOptions = <
 	TError = ErrorType<
-		| SignInEmail400
-		| SignInEmail401
-		| SignInEmail403
-		| SignInEmail404
-		| SignInEmail429
-		| SignInEmail500
+		| SignInEmailResponse400
+		| SignInEmailResponse401
+		| SignInEmailResponse403
+		| SignInEmailResponse404
+		| SignInEmailResponse429
+		| SignInEmailResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -681,22 +734,22 @@ export const getSignInEmailMutationOptions = <
 export type SignInEmailMutationResult = NonNullable<Awaited<ReturnType<typeof signInEmail>>>;
 export type SignInEmailMutationBody = SignInEmailRequest;
 export type SignInEmailMutationError = ErrorType<
-	| SignInEmail400
-	| SignInEmail401
-	| SignInEmail403
-	| SignInEmail404
-	| SignInEmail429
-	| SignInEmail500
+	| SignInEmailResponse400
+	| SignInEmailResponse401
+	| SignInEmailResponse403
+	| SignInEmailResponse404
+	| SignInEmailResponse429
+	| SignInEmailResponse500
 >;
 
 export const useSignInEmail = <
 	TError = ErrorType<
-		| SignInEmail400
-		| SignInEmail401
-		| SignInEmail403
-		| SignInEmail404
-		| SignInEmail429
-		| SignInEmail500
+		| SignInEmailResponse400
+		| SignInEmailResponse401
+		| SignInEmailResponse403
+		| SignInEmailResponse404
+		| SignInEmailResponse429
+		| SignInEmailResponse500
 	>,
 	TContext = unknown
 >(
@@ -721,7 +774,7 @@ export const useSignInEmail = <
  * Reset the password for a user
  */
 export const resetPassword = (resetPasswordRequest: ResetPasswordRequest, signal?: AbortSignal) => {
-	return customInstance<ResetPassword200>({
+	return customInstance<ResetPasswordResponse200>({
 		url: `/api/auth/reset-password`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -732,12 +785,12 @@ export const resetPassword = (resetPasswordRequest: ResetPasswordRequest, signal
 
 export const getResetPasswordMutationOptions = <
 	TError = ErrorType<
-		| ResetPassword400
-		| ResetPassword401
-		| ResetPassword403
-		| ResetPassword404
-		| ResetPassword429
-		| ResetPassword500
+		| ResetPasswordResponse400
+		| ResetPasswordResponse401
+		| ResetPasswordResponse403
+		| ResetPasswordResponse404
+		| ResetPasswordResponse429
+		| ResetPasswordResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -775,22 +828,22 @@ export const getResetPasswordMutationOptions = <
 export type ResetPasswordMutationResult = NonNullable<Awaited<ReturnType<typeof resetPassword>>>;
 export type ResetPasswordMutationBody = ResetPasswordRequest;
 export type ResetPasswordMutationError = ErrorType<
-	| ResetPassword400
-	| ResetPassword401
-	| ResetPassword403
-	| ResetPassword404
-	| ResetPassword429
-	| ResetPassword500
+	| ResetPasswordResponse400
+	| ResetPasswordResponse401
+	| ResetPasswordResponse403
+	| ResetPasswordResponse404
+	| ResetPasswordResponse429
+	| ResetPasswordResponse500
 >;
 
 export const useResetPassword = <
 	TError = ErrorType<
-		| ResetPassword400
-		| ResetPassword401
-		| ResetPassword403
-		| ResetPassword404
-		| ResetPassword429
-		| ResetPassword500
+		| ResetPasswordResponse400
+		| ResetPasswordResponse401
+		| ResetPasswordResponse403
+		| ResetPasswordResponse404
+		| ResetPasswordResponse429
+		| ResetPasswordResponse500
 	>,
 	TContext = unknown
 >(
@@ -818,7 +871,7 @@ export const verifyPassword = (
 	verifyPasswordRequest: VerifyPasswordRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<VerifyPassword200>({
+	return customInstance<VerifyPasswordResponse200>({
 		url: `/api/auth/verify-password`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -829,12 +882,12 @@ export const verifyPassword = (
 
 export const getVerifyPasswordMutationOptions = <
 	TError = ErrorType<
-		| VerifyPassword400
-		| VerifyPassword401
-		| VerifyPassword403
-		| VerifyPassword404
-		| VerifyPassword429
-		| VerifyPassword500
+		| VerifyPasswordResponse400
+		| VerifyPasswordResponse401
+		| VerifyPasswordResponse403
+		| VerifyPasswordResponse404
+		| VerifyPasswordResponse429
+		| VerifyPasswordResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -872,22 +925,22 @@ export const getVerifyPasswordMutationOptions = <
 export type VerifyPasswordMutationResult = NonNullable<Awaited<ReturnType<typeof verifyPassword>>>;
 export type VerifyPasswordMutationBody = VerifyPasswordRequest;
 export type VerifyPasswordMutationError = ErrorType<
-	| VerifyPassword400
-	| VerifyPassword401
-	| VerifyPassword403
-	| VerifyPassword404
-	| VerifyPassword429
-	| VerifyPassword500
+	| VerifyPasswordResponse400
+	| VerifyPasswordResponse401
+	| VerifyPasswordResponse403
+	| VerifyPasswordResponse404
+	| VerifyPasswordResponse429
+	| VerifyPasswordResponse500
 >;
 
 export const useVerifyPassword = <
 	TError = ErrorType<
-		| VerifyPassword400
-		| VerifyPassword401
-		| VerifyPassword403
-		| VerifyPassword404
-		| VerifyPassword429
-		| VerifyPassword500
+		| VerifyPasswordResponse400
+		| VerifyPasswordResponse401
+		| VerifyPasswordResponse403
+		| VerifyPasswordResponse404
+		| VerifyPasswordResponse429
+		| VerifyPasswordResponse500
 	>,
 	TContext = unknown
 >(
@@ -915,7 +968,7 @@ export const getApiAuthVerifyEmail = (
 	params: GetApiAuthVerifyEmailParams,
 	signal?: AbortSignal
 ) => {
-	return customInstance<GetApiAuthVerifyEmail200>({
+	return customInstance<ApiAuthVerifyEmailGetResponse200>({
 		url: `/api/auth/verify-email`,
 		method: 'GET',
 		params,
@@ -930,12 +983,12 @@ export const getGetApiAuthVerifyEmailQueryKey = (params?: GetApiAuthVerifyEmailP
 export const getGetApiAuthVerifyEmailQueryOptions = <
 	TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
 	TError = ErrorType<
-		| GetApiAuthVerifyEmail400
-		| GetApiAuthVerifyEmail401
-		| GetApiAuthVerifyEmail403
-		| GetApiAuthVerifyEmail404
-		| GetApiAuthVerifyEmail429
-		| GetApiAuthVerifyEmail500
+		| ApiAuthVerifyEmailGetResponse400
+		| ApiAuthVerifyEmailGetResponse401
+		| ApiAuthVerifyEmailGetResponse403
+		| ApiAuthVerifyEmailGetResponse404
+		| ApiAuthVerifyEmailGetResponse429
+		| ApiAuthVerifyEmailGetResponse500
 	>
 >(
 	params: GetApiAuthVerifyEmailParams,
@@ -963,23 +1016,23 @@ export type GetApiAuthVerifyEmailQueryResult = NonNullable<
 	Awaited<ReturnType<typeof getApiAuthVerifyEmail>>
 >;
 export type GetApiAuthVerifyEmailQueryError = ErrorType<
-	| GetApiAuthVerifyEmail400
-	| GetApiAuthVerifyEmail401
-	| GetApiAuthVerifyEmail403
-	| GetApiAuthVerifyEmail404
-	| GetApiAuthVerifyEmail429
-	| GetApiAuthVerifyEmail500
+	| ApiAuthVerifyEmailGetResponse400
+	| ApiAuthVerifyEmailGetResponse401
+	| ApiAuthVerifyEmailGetResponse403
+	| ApiAuthVerifyEmailGetResponse404
+	| ApiAuthVerifyEmailGetResponse429
+	| ApiAuthVerifyEmailGetResponse500
 >;
 
 export function useGetApiAuthVerifyEmail<
 	TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
 	TError = ErrorType<
-		| GetApiAuthVerifyEmail400
-		| GetApiAuthVerifyEmail401
-		| GetApiAuthVerifyEmail403
-		| GetApiAuthVerifyEmail404
-		| GetApiAuthVerifyEmail429
-		| GetApiAuthVerifyEmail500
+		| ApiAuthVerifyEmailGetResponse400
+		| ApiAuthVerifyEmailGetResponse401
+		| ApiAuthVerifyEmailGetResponse403
+		| ApiAuthVerifyEmailGetResponse404
+		| ApiAuthVerifyEmailGetResponse429
+		| ApiAuthVerifyEmailGetResponse500
 	>
 >(
 	params: GetApiAuthVerifyEmailParams,
@@ -1001,12 +1054,12 @@ export function useGetApiAuthVerifyEmail<
 export function useGetApiAuthVerifyEmail<
 	TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
 	TError = ErrorType<
-		| GetApiAuthVerifyEmail400
-		| GetApiAuthVerifyEmail401
-		| GetApiAuthVerifyEmail403
-		| GetApiAuthVerifyEmail404
-		| GetApiAuthVerifyEmail429
-		| GetApiAuthVerifyEmail500
+		| ApiAuthVerifyEmailGetResponse400
+		| ApiAuthVerifyEmailGetResponse401
+		| ApiAuthVerifyEmailGetResponse403
+		| ApiAuthVerifyEmailGetResponse404
+		| ApiAuthVerifyEmailGetResponse429
+		| ApiAuthVerifyEmailGetResponse500
 	>
 >(
 	params: GetApiAuthVerifyEmailParams,
@@ -1028,12 +1081,12 @@ export function useGetApiAuthVerifyEmail<
 export function useGetApiAuthVerifyEmail<
 	TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
 	TError = ErrorType<
-		| GetApiAuthVerifyEmail400
-		| GetApiAuthVerifyEmail401
-		| GetApiAuthVerifyEmail403
-		| GetApiAuthVerifyEmail404
-		| GetApiAuthVerifyEmail429
-		| GetApiAuthVerifyEmail500
+		| ApiAuthVerifyEmailGetResponse400
+		| ApiAuthVerifyEmailGetResponse401
+		| ApiAuthVerifyEmailGetResponse403
+		| ApiAuthVerifyEmailGetResponse404
+		| ApiAuthVerifyEmailGetResponse429
+		| ApiAuthVerifyEmailGetResponse500
 	>
 >(
 	params: GetApiAuthVerifyEmailParams,
@@ -1048,12 +1101,12 @@ export function useGetApiAuthVerifyEmail<
 export function useGetApiAuthVerifyEmail<
 	TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
 	TError = ErrorType<
-		| GetApiAuthVerifyEmail400
-		| GetApiAuthVerifyEmail401
-		| GetApiAuthVerifyEmail403
-		| GetApiAuthVerifyEmail404
-		| GetApiAuthVerifyEmail429
-		| GetApiAuthVerifyEmail500
+		| ApiAuthVerifyEmailGetResponse400
+		| ApiAuthVerifyEmailGetResponse401
+		| ApiAuthVerifyEmailGetResponse403
+		| ApiAuthVerifyEmailGetResponse404
+		| ApiAuthVerifyEmailGetResponse429
+		| ApiAuthVerifyEmailGetResponse500
 	>
 >(
 	params: GetApiAuthVerifyEmailParams,
@@ -1080,7 +1133,7 @@ export const sendVerificationEmail = (
 	sendVerificationEmailRequest: SendVerificationEmailRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<SendVerificationEmail200>({
+	return customInstance<SendVerificationEmailResponse200>({
 		url: `/api/auth/send-verification-email`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -1091,12 +1144,12 @@ export const sendVerificationEmail = (
 
 export const getSendVerificationEmailMutationOptions = <
 	TError = ErrorType<
-		| SendVerificationEmail400
-		| SendVerificationEmail401
-		| SendVerificationEmail403
-		| SendVerificationEmail404
-		| SendVerificationEmail429
-		| SendVerificationEmail500
+		| SendVerificationEmailResponse400
+		| SendVerificationEmailResponse401
+		| SendVerificationEmailResponse403
+		| SendVerificationEmailResponse404
+		| SendVerificationEmailResponse429
+		| SendVerificationEmailResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -1136,22 +1189,22 @@ export type SendVerificationEmailMutationResult = NonNullable<
 >;
 export type SendVerificationEmailMutationBody = SendVerificationEmailRequest;
 export type SendVerificationEmailMutationError = ErrorType<
-	| SendVerificationEmail400
-	| SendVerificationEmail401
-	| SendVerificationEmail403
-	| SendVerificationEmail404
-	| SendVerificationEmail429
-	| SendVerificationEmail500
+	| SendVerificationEmailResponse400
+	| SendVerificationEmailResponse401
+	| SendVerificationEmailResponse403
+	| SendVerificationEmailResponse404
+	| SendVerificationEmailResponse429
+	| SendVerificationEmailResponse500
 >;
 
 export const useSendVerificationEmail = <
 	TError = ErrorType<
-		| SendVerificationEmail400
-		| SendVerificationEmail401
-		| SendVerificationEmail403
-		| SendVerificationEmail404
-		| SendVerificationEmail429
-		| SendVerificationEmail500
+		| SendVerificationEmailResponse400
+		| SendVerificationEmailResponse401
+		| SendVerificationEmailResponse403
+		| SendVerificationEmailResponse404
+		| SendVerificationEmailResponse429
+		| SendVerificationEmailResponse500
 	>,
 	TContext = unknown
 >(
@@ -1173,7 +1226,7 @@ export const useSendVerificationEmail = <
 	return useMutation(getSendVerificationEmailMutationOptions(options), queryClient);
 };
 export const changeEmail = (changeEmailRequest: ChangeEmailRequest, signal?: AbortSignal) => {
-	return customInstance<ChangeEmail200>({
+	return customInstance<ChangeEmailResponse200>({
 		url: `/api/auth/change-email`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -1184,13 +1237,13 @@ export const changeEmail = (changeEmailRequest: ChangeEmailRequest, signal?: Abo
 
 export const getChangeEmailMutationOptions = <
 	TError = ErrorType<
-		| ChangeEmail400
-		| ChangeEmail401
-		| ChangeEmail403
-		| ChangeEmail404
-		| ChangeEmail422
-		| ChangeEmail429
-		| ChangeEmail500
+		| ChangeEmailResponse400
+		| ChangeEmailResponse401
+		| ChangeEmailResponse403
+		| ChangeEmailResponse404
+		| ChangeEmailResponse422
+		| ChangeEmailResponse429
+		| ChangeEmailResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -1228,24 +1281,24 @@ export const getChangeEmailMutationOptions = <
 export type ChangeEmailMutationResult = NonNullable<Awaited<ReturnType<typeof changeEmail>>>;
 export type ChangeEmailMutationBody = ChangeEmailRequest;
 export type ChangeEmailMutationError = ErrorType<
-	| ChangeEmail400
-	| ChangeEmail401
-	| ChangeEmail403
-	| ChangeEmail404
-	| ChangeEmail422
-	| ChangeEmail429
-	| ChangeEmail500
+	| ChangeEmailResponse400
+	| ChangeEmailResponse401
+	| ChangeEmailResponse403
+	| ChangeEmailResponse404
+	| ChangeEmailResponse422
+	| ChangeEmailResponse429
+	| ChangeEmailResponse500
 >;
 
 export const useChangeEmail = <
 	TError = ErrorType<
-		| ChangeEmail400
-		| ChangeEmail401
-		| ChangeEmail403
-		| ChangeEmail404
-		| ChangeEmail422
-		| ChangeEmail429
-		| ChangeEmail500
+		| ChangeEmailResponse400
+		| ChangeEmailResponse401
+		| ChangeEmailResponse403
+		| ChangeEmailResponse404
+		| ChangeEmailResponse422
+		| ChangeEmailResponse429
+		| ChangeEmailResponse500
 	>,
 	TContext = unknown
 >(
@@ -1273,7 +1326,7 @@ export const changePassword = (
 	changePasswordRequest: ChangePasswordRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<ChangePassword200>({
+	return customInstance<ChangePasswordResponse200>({
 		url: `/api/auth/change-password`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -1284,12 +1337,12 @@ export const changePassword = (
 
 export const getChangePasswordMutationOptions = <
 	TError = ErrorType<
-		| ChangePassword400
-		| ChangePassword401
-		| ChangePassword403
-		| ChangePassword404
-		| ChangePassword429
-		| ChangePassword500
+		| ChangePasswordResponse400
+		| ChangePasswordResponse401
+		| ChangePasswordResponse403
+		| ChangePasswordResponse404
+		| ChangePasswordResponse429
+		| ChangePasswordResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -1327,22 +1380,22 @@ export const getChangePasswordMutationOptions = <
 export type ChangePasswordMutationResult = NonNullable<Awaited<ReturnType<typeof changePassword>>>;
 export type ChangePasswordMutationBody = ChangePasswordRequest;
 export type ChangePasswordMutationError = ErrorType<
-	| ChangePassword400
-	| ChangePassword401
-	| ChangePassword403
-	| ChangePassword404
-	| ChangePassword429
-	| ChangePassword500
+	| ChangePasswordResponse400
+	| ChangePasswordResponse401
+	| ChangePasswordResponse403
+	| ChangePasswordResponse404
+	| ChangePasswordResponse429
+	| ChangePasswordResponse500
 >;
 
 export const useChangePassword = <
 	TError = ErrorType<
-		| ChangePassword400
-		| ChangePassword401
-		| ChangePassword403
-		| ChangePassword404
-		| ChangePassword429
-		| ChangePassword500
+		| ChangePasswordResponse400
+		| ChangePasswordResponse401
+		| ChangePasswordResponse403
+		| ChangePasswordResponse404
+		| ChangePasswordResponse429
+		| ChangePasswordResponse500
 	>,
 	TContext = unknown
 >(
@@ -1367,7 +1420,7 @@ export const useChangePassword = <
  * Update the current user
  */
 export const updateUser = (updateUserRequest: UpdateUserRequest, signal?: AbortSignal) => {
-	return customInstance<UpdateUser200>({
+	return customInstance<UpdateUserResponse200>({
 		url: `/api/auth/update-user`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -1378,7 +1431,12 @@ export const updateUser = (updateUserRequest: UpdateUserRequest, signal?: AbortS
 
 export const getUpdateUserMutationOptions = <
 	TError = ErrorType<
-		UpdateUser400 | UpdateUser401 | UpdateUser403 | UpdateUser404 | UpdateUser429 | UpdateUser500
+		| UpdateUserResponse400
+		| UpdateUserResponse401
+		| UpdateUserResponse403
+		| UpdateUserResponse404
+		| UpdateUserResponse429
+		| UpdateUserResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -1416,12 +1474,22 @@ export const getUpdateUserMutationOptions = <
 export type UpdateUserMutationResult = NonNullable<Awaited<ReturnType<typeof updateUser>>>;
 export type UpdateUserMutationBody = UpdateUserRequest;
 export type UpdateUserMutationError = ErrorType<
-	UpdateUser400 | UpdateUser401 | UpdateUser403 | UpdateUser404 | UpdateUser429 | UpdateUser500
+	| UpdateUserResponse400
+	| UpdateUserResponse401
+	| UpdateUserResponse403
+	| UpdateUserResponse404
+	| UpdateUserResponse429
+	| UpdateUserResponse500
 >;
 
 export const useUpdateUser = <
 	TError = ErrorType<
-		UpdateUser400 | UpdateUser401 | UpdateUser403 | UpdateUser404 | UpdateUser429 | UpdateUser500
+		| UpdateUserResponse400
+		| UpdateUserResponse401
+		| UpdateUserResponse403
+		| UpdateUserResponse404
+		| UpdateUserResponse429
+		| UpdateUserResponse500
 	>,
 	TContext = unknown
 >(
@@ -1446,7 +1514,7 @@ export const useUpdateUser = <
  * Delete the user
  */
 export const deleteUser = (deleteUserRequest: DeleteUserRequest, signal?: AbortSignal) => {
-	return customInstance<DeleteUser200>({
+	return customInstance<DeleteUserResponse200>({
 		url: `/api/auth/delete-user`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -1457,7 +1525,12 @@ export const deleteUser = (deleteUserRequest: DeleteUserRequest, signal?: AbortS
 
 export const getDeleteUserMutationOptions = <
 	TError = ErrorType<
-		DeleteUser400 | DeleteUser401 | DeleteUser403 | DeleteUser404 | DeleteUser429 | DeleteUser500
+		| DeleteUserResponse400
+		| DeleteUserResponse401
+		| DeleteUserResponse403
+		| DeleteUserResponse404
+		| DeleteUserResponse429
+		| DeleteUserResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -1495,12 +1568,22 @@ export const getDeleteUserMutationOptions = <
 export type DeleteUserMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUser>>>;
 export type DeleteUserMutationBody = DeleteUserRequest;
 export type DeleteUserMutationError = ErrorType<
-	DeleteUser400 | DeleteUser401 | DeleteUser403 | DeleteUser404 | DeleteUser429 | DeleteUser500
+	| DeleteUserResponse400
+	| DeleteUserResponse401
+	| DeleteUserResponse403
+	| DeleteUserResponse404
+	| DeleteUserResponse429
+	| DeleteUserResponse500
 >;
 
 export const useDeleteUser = <
 	TError = ErrorType<
-		DeleteUser400 | DeleteUser401 | DeleteUser403 | DeleteUser404 | DeleteUser429 | DeleteUser500
+		| DeleteUserResponse400
+		| DeleteUserResponse401
+		| DeleteUserResponse403
+		| DeleteUserResponse404
+		| DeleteUserResponse429
+		| DeleteUserResponse500
 	>,
 	TContext = unknown
 >(
@@ -1528,7 +1611,7 @@ export const requestPasswordReset = (
 	requestPasswordResetRequest: RequestPasswordResetRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<RequestPasswordReset200>({
+	return customInstance<RequestPasswordResetResponse200>({
 		url: `/api/auth/request-password-reset`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -1539,12 +1622,12 @@ export const requestPasswordReset = (
 
 export const getRequestPasswordResetMutationOptions = <
 	TError = ErrorType<
-		| RequestPasswordReset400
-		| RequestPasswordReset401
-		| RequestPasswordReset403
-		| RequestPasswordReset404
-		| RequestPasswordReset429
-		| RequestPasswordReset500
+		| RequestPasswordResetResponse400
+		| RequestPasswordResetResponse401
+		| RequestPasswordResetResponse403
+		| RequestPasswordResetResponse404
+		| RequestPasswordResetResponse429
+		| RequestPasswordResetResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -1584,22 +1667,22 @@ export type RequestPasswordResetMutationResult = NonNullable<
 >;
 export type RequestPasswordResetMutationBody = RequestPasswordResetRequest;
 export type RequestPasswordResetMutationError = ErrorType<
-	| RequestPasswordReset400
-	| RequestPasswordReset401
-	| RequestPasswordReset403
-	| RequestPasswordReset404
-	| RequestPasswordReset429
-	| RequestPasswordReset500
+	| RequestPasswordResetResponse400
+	| RequestPasswordResetResponse401
+	| RequestPasswordResetResponse403
+	| RequestPasswordResetResponse404
+	| RequestPasswordResetResponse429
+	| RequestPasswordResetResponse500
 >;
 
 export const useRequestPasswordReset = <
 	TError = ErrorType<
-		| RequestPasswordReset400
-		| RequestPasswordReset401
-		| RequestPasswordReset403
-		| RequestPasswordReset404
-		| RequestPasswordReset429
-		| RequestPasswordReset500
+		| RequestPasswordResetResponse400
+		| RequestPasswordResetResponse401
+		| RequestPasswordResetResponse403
+		| RequestPasswordResetResponse404
+		| RequestPasswordResetResponse429
+		| RequestPasswordResetResponse500
 	>,
 	TContext = unknown
 >(
@@ -1628,7 +1711,7 @@ export const resetPasswordCallback = (
 	params: ResetPasswordCallbackParams,
 	signal?: AbortSignal
 ) => {
-	return customInstance<ResetPasswordCallback200>({
+	return customInstance<ResetPasswordCallbackResponse200>({
 		url: `/api/auth/reset-password/${token}`,
 		method: 'GET',
 		params,
@@ -1646,12 +1729,12 @@ export const getResetPasswordCallbackQueryKey = (
 export const getResetPasswordCallbackQueryOptions = <
 	TData = Awaited<ReturnType<typeof resetPasswordCallback>>,
 	TError = ErrorType<
-		| ResetPasswordCallback400
-		| ResetPasswordCallback401
-		| ResetPasswordCallback403
-		| ResetPasswordCallback404
-		| ResetPasswordCallback429
-		| ResetPasswordCallback500
+		| ResetPasswordCallbackResponse400
+		| ResetPasswordCallbackResponse401
+		| ResetPasswordCallbackResponse403
+		| ResetPasswordCallbackResponse404
+		| ResetPasswordCallbackResponse429
+		| ResetPasswordCallbackResponse500
 	>
 >(
 	token: string,
@@ -1680,23 +1763,23 @@ export type ResetPasswordCallbackQueryResult = NonNullable<
 	Awaited<ReturnType<typeof resetPasswordCallback>>
 >;
 export type ResetPasswordCallbackQueryError = ErrorType<
-	| ResetPasswordCallback400
-	| ResetPasswordCallback401
-	| ResetPasswordCallback403
-	| ResetPasswordCallback404
-	| ResetPasswordCallback429
-	| ResetPasswordCallback500
+	| ResetPasswordCallbackResponse400
+	| ResetPasswordCallbackResponse401
+	| ResetPasswordCallbackResponse403
+	| ResetPasswordCallbackResponse404
+	| ResetPasswordCallbackResponse429
+	| ResetPasswordCallbackResponse500
 >;
 
 export function useResetPasswordCallback<
 	TData = Awaited<ReturnType<typeof resetPasswordCallback>>,
 	TError = ErrorType<
-		| ResetPasswordCallback400
-		| ResetPasswordCallback401
-		| ResetPasswordCallback403
-		| ResetPasswordCallback404
-		| ResetPasswordCallback429
-		| ResetPasswordCallback500
+		| ResetPasswordCallbackResponse400
+		| ResetPasswordCallbackResponse401
+		| ResetPasswordCallbackResponse403
+		| ResetPasswordCallbackResponse404
+		| ResetPasswordCallbackResponse429
+		| ResetPasswordCallbackResponse500
 	>
 >(
 	token: string,
@@ -1719,12 +1802,12 @@ export function useResetPasswordCallback<
 export function useResetPasswordCallback<
 	TData = Awaited<ReturnType<typeof resetPasswordCallback>>,
 	TError = ErrorType<
-		| ResetPasswordCallback400
-		| ResetPasswordCallback401
-		| ResetPasswordCallback403
-		| ResetPasswordCallback404
-		| ResetPasswordCallback429
-		| ResetPasswordCallback500
+		| ResetPasswordCallbackResponse400
+		| ResetPasswordCallbackResponse401
+		| ResetPasswordCallbackResponse403
+		| ResetPasswordCallbackResponse404
+		| ResetPasswordCallbackResponse429
+		| ResetPasswordCallbackResponse500
 	>
 >(
 	token: string,
@@ -1747,12 +1830,12 @@ export function useResetPasswordCallback<
 export function useResetPasswordCallback<
 	TData = Awaited<ReturnType<typeof resetPasswordCallback>>,
 	TError = ErrorType<
-		| ResetPasswordCallback400
-		| ResetPasswordCallback401
-		| ResetPasswordCallback403
-		| ResetPasswordCallback404
-		| ResetPasswordCallback429
-		| ResetPasswordCallback500
+		| ResetPasswordCallbackResponse400
+		| ResetPasswordCallbackResponse401
+		| ResetPasswordCallbackResponse403
+		| ResetPasswordCallbackResponse404
+		| ResetPasswordCallbackResponse429
+		| ResetPasswordCallbackResponse500
 	>
 >(
 	token: string,
@@ -1768,12 +1851,12 @@ export function useResetPasswordCallback<
 export function useResetPasswordCallback<
 	TData = Awaited<ReturnType<typeof resetPasswordCallback>>,
 	TError = ErrorType<
-		| ResetPasswordCallback400
-		| ResetPasswordCallback401
-		| ResetPasswordCallback403
-		| ResetPasswordCallback404
-		| ResetPasswordCallback429
-		| ResetPasswordCallback500
+		| ResetPasswordCallbackResponse400
+		| ResetPasswordCallbackResponse401
+		| ResetPasswordCallbackResponse403
+		| ResetPasswordCallbackResponse404
+		| ResetPasswordCallbackResponse429
+		| ResetPasswordCallbackResponse500
 	>
 >(
 	token: string,
@@ -1798,7 +1881,11 @@ export function useResetPasswordCallback<
  * List all active sessions for the user
  */
 export const listUserSessions = (signal?: AbortSignal) => {
-	return customInstance<Session[]>({ url: `/api/auth/list-sessions`, method: 'GET', signal });
+	return customInstance<ListUserSessionsResponse200>({
+		url: `/api/auth/list-sessions`,
+		method: 'GET',
+		signal
+	});
 };
 
 export const getListUserSessionsQueryKey = () => {
@@ -1808,12 +1895,12 @@ export const getListUserSessionsQueryKey = () => {
 export const getListUserSessionsQueryOptions = <
 	TData = Awaited<ReturnType<typeof listUserSessions>>,
 	TError = ErrorType<
-		| ListUserSessions400
-		| ListUserSessions401
-		| ListUserSessions403
-		| ListUserSessions404
-		| ListUserSessions429
-		| ListUserSessions500
+		| ListUserSessionsResponse400
+		| ListUserSessionsResponse401
+		| ListUserSessionsResponse403
+		| ListUserSessionsResponse404
+		| ListUserSessionsResponse429
+		| ListUserSessionsResponse500
 	>
 >(options?: {
 	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserSessions>>, TError, TData>>;
@@ -1834,23 +1921,23 @@ export const getListUserSessionsQueryOptions = <
 
 export type ListUserSessionsQueryResult = NonNullable<Awaited<ReturnType<typeof listUserSessions>>>;
 export type ListUserSessionsQueryError = ErrorType<
-	| ListUserSessions400
-	| ListUserSessions401
-	| ListUserSessions403
-	| ListUserSessions404
-	| ListUserSessions429
-	| ListUserSessions500
+	| ListUserSessionsResponse400
+	| ListUserSessionsResponse401
+	| ListUserSessionsResponse403
+	| ListUserSessionsResponse404
+	| ListUserSessionsResponse429
+	| ListUserSessionsResponse500
 >;
 
 export function useListUserSessions<
 	TData = Awaited<ReturnType<typeof listUserSessions>>,
 	TError = ErrorType<
-		| ListUserSessions400
-		| ListUserSessions401
-		| ListUserSessions403
-		| ListUserSessions404
-		| ListUserSessions429
-		| ListUserSessions500
+		| ListUserSessionsResponse400
+		| ListUserSessionsResponse401
+		| ListUserSessionsResponse403
+		| ListUserSessionsResponse404
+		| ListUserSessionsResponse429
+		| ListUserSessionsResponse500
 	>
 >(
 	options: {
@@ -1869,12 +1956,12 @@ export function useListUserSessions<
 export function useListUserSessions<
 	TData = Awaited<ReturnType<typeof listUserSessions>>,
 	TError = ErrorType<
-		| ListUserSessions400
-		| ListUserSessions401
-		| ListUserSessions403
-		| ListUserSessions404
-		| ListUserSessions429
-		| ListUserSessions500
+		| ListUserSessionsResponse400
+		| ListUserSessionsResponse401
+		| ListUserSessionsResponse403
+		| ListUserSessionsResponse404
+		| ListUserSessionsResponse429
+		| ListUserSessionsResponse500
 	>
 >(
 	options?: {
@@ -1893,12 +1980,12 @@ export function useListUserSessions<
 export function useListUserSessions<
 	TData = Awaited<ReturnType<typeof listUserSessions>>,
 	TError = ErrorType<
-		| ListUserSessions400
-		| ListUserSessions401
-		| ListUserSessions403
-		| ListUserSessions404
-		| ListUserSessions429
-		| ListUserSessions500
+		| ListUserSessionsResponse400
+		| ListUserSessionsResponse401
+		| ListUserSessionsResponse403
+		| ListUserSessionsResponse404
+		| ListUserSessionsResponse429
+		| ListUserSessionsResponse500
 	>
 >(
 	options?: {
@@ -1910,12 +1997,12 @@ export function useListUserSessions<
 export function useListUserSessions<
 	TData = Awaited<ReturnType<typeof listUserSessions>>,
 	TError = ErrorType<
-		| ListUserSessions400
-		| ListUserSessions401
-		| ListUserSessions403
-		| ListUserSessions404
-		| ListUserSessions429
-		| ListUserSessions500
+		| ListUserSessionsResponse400
+		| ListUserSessionsResponse401
+		| ListUserSessionsResponse403
+		| ListUserSessionsResponse404
+		| ListUserSessionsResponse429
+		| ListUserSessionsResponse500
 	>
 >(
 	options?: {
@@ -1939,7 +2026,7 @@ export const postApiAuthRevokeSession = (
 	apiAuthRevokeSessionPostRequest: ApiAuthRevokeSessionPostRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<PostApiAuthRevokeSession200>({
+	return customInstance<ApiAuthRevokeSessionPostResponse200>({
 		url: `/api/auth/revoke-session`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -1950,12 +2037,12 @@ export const postApiAuthRevokeSession = (
 
 export const getPostApiAuthRevokeSessionMutationOptions = <
 	TError = ErrorType<
-		| PostApiAuthRevokeSession400
-		| PostApiAuthRevokeSession401
-		| PostApiAuthRevokeSession403
-		| PostApiAuthRevokeSession404
-		| PostApiAuthRevokeSession429
-		| PostApiAuthRevokeSession500
+		| ApiAuthRevokeSessionPostResponse400
+		| ApiAuthRevokeSessionPostResponse401
+		| ApiAuthRevokeSessionPostResponse403
+		| ApiAuthRevokeSessionPostResponse404
+		| ApiAuthRevokeSessionPostResponse429
+		| ApiAuthRevokeSessionPostResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -1995,22 +2082,22 @@ export type PostApiAuthRevokeSessionMutationResult = NonNullable<
 >;
 export type PostApiAuthRevokeSessionMutationBody = ApiAuthRevokeSessionPostRequest;
 export type PostApiAuthRevokeSessionMutationError = ErrorType<
-	| PostApiAuthRevokeSession400
-	| PostApiAuthRevokeSession401
-	| PostApiAuthRevokeSession403
-	| PostApiAuthRevokeSession404
-	| PostApiAuthRevokeSession429
-	| PostApiAuthRevokeSession500
+	| ApiAuthRevokeSessionPostResponse400
+	| ApiAuthRevokeSessionPostResponse401
+	| ApiAuthRevokeSessionPostResponse403
+	| ApiAuthRevokeSessionPostResponse404
+	| ApiAuthRevokeSessionPostResponse429
+	| ApiAuthRevokeSessionPostResponse500
 >;
 
 export const usePostApiAuthRevokeSession = <
 	TError = ErrorType<
-		| PostApiAuthRevokeSession400
-		| PostApiAuthRevokeSession401
-		| PostApiAuthRevokeSession403
-		| PostApiAuthRevokeSession404
-		| PostApiAuthRevokeSession429
-		| PostApiAuthRevokeSession500
+		| ApiAuthRevokeSessionPostResponse400
+		| ApiAuthRevokeSessionPostResponse401
+		| ApiAuthRevokeSessionPostResponse403
+		| ApiAuthRevokeSessionPostResponse404
+		| ApiAuthRevokeSessionPostResponse429
+		| ApiAuthRevokeSessionPostResponse500
 	>,
 	TContext = unknown
 >(
@@ -2038,7 +2125,7 @@ export const postApiAuthRevokeSessions = (
 	apiAuthRevokeSessionsPostRequest: ApiAuthRevokeSessionsPostRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<PostApiAuthRevokeSessions200>({
+	return customInstance<ApiAuthRevokeSessionsPostResponse200>({
 		url: `/api/auth/revoke-sessions`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -2049,12 +2136,12 @@ export const postApiAuthRevokeSessions = (
 
 export const getPostApiAuthRevokeSessionsMutationOptions = <
 	TError = ErrorType<
-		| PostApiAuthRevokeSessions400
-		| PostApiAuthRevokeSessions401
-		| PostApiAuthRevokeSessions403
-		| PostApiAuthRevokeSessions404
-		| PostApiAuthRevokeSessions429
-		| PostApiAuthRevokeSessions500
+		| ApiAuthRevokeSessionsPostResponse400
+		| ApiAuthRevokeSessionsPostResponse401
+		| ApiAuthRevokeSessionsPostResponse403
+		| ApiAuthRevokeSessionsPostResponse404
+		| ApiAuthRevokeSessionsPostResponse429
+		| ApiAuthRevokeSessionsPostResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -2094,22 +2181,22 @@ export type PostApiAuthRevokeSessionsMutationResult = NonNullable<
 >;
 export type PostApiAuthRevokeSessionsMutationBody = ApiAuthRevokeSessionsPostRequest;
 export type PostApiAuthRevokeSessionsMutationError = ErrorType<
-	| PostApiAuthRevokeSessions400
-	| PostApiAuthRevokeSessions401
-	| PostApiAuthRevokeSessions403
-	| PostApiAuthRevokeSessions404
-	| PostApiAuthRevokeSessions429
-	| PostApiAuthRevokeSessions500
+	| ApiAuthRevokeSessionsPostResponse400
+	| ApiAuthRevokeSessionsPostResponse401
+	| ApiAuthRevokeSessionsPostResponse403
+	| ApiAuthRevokeSessionsPostResponse404
+	| ApiAuthRevokeSessionsPostResponse429
+	| ApiAuthRevokeSessionsPostResponse500
 >;
 
 export const usePostApiAuthRevokeSessions = <
 	TError = ErrorType<
-		| PostApiAuthRevokeSessions400
-		| PostApiAuthRevokeSessions401
-		| PostApiAuthRevokeSessions403
-		| PostApiAuthRevokeSessions404
-		| PostApiAuthRevokeSessions429
-		| PostApiAuthRevokeSessions500
+		| ApiAuthRevokeSessionsPostResponse400
+		| ApiAuthRevokeSessionsPostResponse401
+		| ApiAuthRevokeSessionsPostResponse403
+		| ApiAuthRevokeSessionsPostResponse404
+		| ApiAuthRevokeSessionsPostResponse429
+		| ApiAuthRevokeSessionsPostResponse500
 	>,
 	TContext = unknown
 >(
@@ -2137,7 +2224,7 @@ export const postApiAuthRevokeOtherSessions = (
 	apiAuthRevokeOtherSessionsPostRequest: ApiAuthRevokeOtherSessionsPostRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<PostApiAuthRevokeOtherSessions200>({
+	return customInstance<ApiAuthRevokeOtherSessionsPostResponse200>({
 		url: `/api/auth/revoke-other-sessions`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -2148,12 +2235,12 @@ export const postApiAuthRevokeOtherSessions = (
 
 export const getPostApiAuthRevokeOtherSessionsMutationOptions = <
 	TError = ErrorType<
-		| PostApiAuthRevokeOtherSessions400
-		| PostApiAuthRevokeOtherSessions401
-		| PostApiAuthRevokeOtherSessions403
-		| PostApiAuthRevokeOtherSessions404
-		| PostApiAuthRevokeOtherSessions429
-		| PostApiAuthRevokeOtherSessions500
+		| ApiAuthRevokeOtherSessionsPostResponse400
+		| ApiAuthRevokeOtherSessionsPostResponse401
+		| ApiAuthRevokeOtherSessionsPostResponse403
+		| ApiAuthRevokeOtherSessionsPostResponse404
+		| ApiAuthRevokeOtherSessionsPostResponse429
+		| ApiAuthRevokeOtherSessionsPostResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -2193,22 +2280,22 @@ export type PostApiAuthRevokeOtherSessionsMutationResult = NonNullable<
 >;
 export type PostApiAuthRevokeOtherSessionsMutationBody = ApiAuthRevokeOtherSessionsPostRequest;
 export type PostApiAuthRevokeOtherSessionsMutationError = ErrorType<
-	| PostApiAuthRevokeOtherSessions400
-	| PostApiAuthRevokeOtherSessions401
-	| PostApiAuthRevokeOtherSessions403
-	| PostApiAuthRevokeOtherSessions404
-	| PostApiAuthRevokeOtherSessions429
-	| PostApiAuthRevokeOtherSessions500
+	| ApiAuthRevokeOtherSessionsPostResponse400
+	| ApiAuthRevokeOtherSessionsPostResponse401
+	| ApiAuthRevokeOtherSessionsPostResponse403
+	| ApiAuthRevokeOtherSessionsPostResponse404
+	| ApiAuthRevokeOtherSessionsPostResponse429
+	| ApiAuthRevokeOtherSessionsPostResponse500
 >;
 
 export const usePostApiAuthRevokeOtherSessions = <
 	TError = ErrorType<
-		| PostApiAuthRevokeOtherSessions400
-		| PostApiAuthRevokeOtherSessions401
-		| PostApiAuthRevokeOtherSessions403
-		| PostApiAuthRevokeOtherSessions404
-		| PostApiAuthRevokeOtherSessions429
-		| PostApiAuthRevokeOtherSessions500
+		| ApiAuthRevokeOtherSessionsPostResponse400
+		| ApiAuthRevokeOtherSessionsPostResponse401
+		| ApiAuthRevokeOtherSessionsPostResponse403
+		| ApiAuthRevokeOtherSessionsPostResponse404
+		| ApiAuthRevokeOtherSessionsPostResponse429
+		| ApiAuthRevokeOtherSessionsPostResponse500
 	>,
 	TContext = unknown
 >(
@@ -2236,7 +2323,7 @@ export const linkSocialAccount = (
 	linkSocialAccountRequest: LinkSocialAccountRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<LinkSocialAccount200>({
+	return customInstance<LinkSocialAccountResponse200>({
 		url: `/api/auth/link-social`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -2247,12 +2334,12 @@ export const linkSocialAccount = (
 
 export const getLinkSocialAccountMutationOptions = <
 	TError = ErrorType<
-		| LinkSocialAccount400
-		| LinkSocialAccount401
-		| LinkSocialAccount403
-		| LinkSocialAccount404
-		| LinkSocialAccount429
-		| LinkSocialAccount500
+		| LinkSocialAccountResponse400
+		| LinkSocialAccountResponse401
+		| LinkSocialAccountResponse403
+		| LinkSocialAccountResponse404
+		| LinkSocialAccountResponse429
+		| LinkSocialAccountResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -2292,22 +2379,22 @@ export type LinkSocialAccountMutationResult = NonNullable<
 >;
 export type LinkSocialAccountMutationBody = LinkSocialAccountRequest;
 export type LinkSocialAccountMutationError = ErrorType<
-	| LinkSocialAccount400
-	| LinkSocialAccount401
-	| LinkSocialAccount403
-	| LinkSocialAccount404
-	| LinkSocialAccount429
-	| LinkSocialAccount500
+	| LinkSocialAccountResponse400
+	| LinkSocialAccountResponse401
+	| LinkSocialAccountResponse403
+	| LinkSocialAccountResponse404
+	| LinkSocialAccountResponse429
+	| LinkSocialAccountResponse500
 >;
 
 export const useLinkSocialAccount = <
 	TError = ErrorType<
-		| LinkSocialAccount400
-		| LinkSocialAccount401
-		| LinkSocialAccount403
-		| LinkSocialAccount404
-		| LinkSocialAccount429
-		| LinkSocialAccount500
+		| LinkSocialAccountResponse400
+		| LinkSocialAccountResponse401
+		| LinkSocialAccountResponse403
+		| LinkSocialAccountResponse404
+		| LinkSocialAccountResponse429
+		| LinkSocialAccountResponse500
 	>,
 	TContext = unknown
 >(
@@ -2332,7 +2419,7 @@ export const useLinkSocialAccount = <
  * List all accounts linked to the user
  */
 export const listUserAccounts = (signal?: AbortSignal) => {
-	return customInstance<ListUserAccounts200Item[]>({
+	return customInstance<ListUserAccountsResponse200>({
 		url: `/api/auth/list-accounts`,
 		method: 'GET',
 		signal
@@ -2346,12 +2433,12 @@ export const getListUserAccountsQueryKey = () => {
 export const getListUserAccountsQueryOptions = <
 	TData = Awaited<ReturnType<typeof listUserAccounts>>,
 	TError = ErrorType<
-		| ListUserAccounts400
-		| ListUserAccounts401
-		| ListUserAccounts403
-		| ListUserAccounts404
-		| ListUserAccounts429
-		| ListUserAccounts500
+		| ListUserAccountsResponse400
+		| ListUserAccountsResponse401
+		| ListUserAccountsResponse403
+		| ListUserAccountsResponse404
+		| ListUserAccountsResponse429
+		| ListUserAccountsResponse500
 	>
 >(options?: {
 	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof listUserAccounts>>, TError, TData>>;
@@ -2372,23 +2459,23 @@ export const getListUserAccountsQueryOptions = <
 
 export type ListUserAccountsQueryResult = NonNullable<Awaited<ReturnType<typeof listUserAccounts>>>;
 export type ListUserAccountsQueryError = ErrorType<
-	| ListUserAccounts400
-	| ListUserAccounts401
-	| ListUserAccounts403
-	| ListUserAccounts404
-	| ListUserAccounts429
-	| ListUserAccounts500
+	| ListUserAccountsResponse400
+	| ListUserAccountsResponse401
+	| ListUserAccountsResponse403
+	| ListUserAccountsResponse404
+	| ListUserAccountsResponse429
+	| ListUserAccountsResponse500
 >;
 
 export function useListUserAccounts<
 	TData = Awaited<ReturnType<typeof listUserAccounts>>,
 	TError = ErrorType<
-		| ListUserAccounts400
-		| ListUserAccounts401
-		| ListUserAccounts403
-		| ListUserAccounts404
-		| ListUserAccounts429
-		| ListUserAccounts500
+		| ListUserAccountsResponse400
+		| ListUserAccountsResponse401
+		| ListUserAccountsResponse403
+		| ListUserAccountsResponse404
+		| ListUserAccountsResponse429
+		| ListUserAccountsResponse500
 	>
 >(
 	options: {
@@ -2407,12 +2494,12 @@ export function useListUserAccounts<
 export function useListUserAccounts<
 	TData = Awaited<ReturnType<typeof listUserAccounts>>,
 	TError = ErrorType<
-		| ListUserAccounts400
-		| ListUserAccounts401
-		| ListUserAccounts403
-		| ListUserAccounts404
-		| ListUserAccounts429
-		| ListUserAccounts500
+		| ListUserAccountsResponse400
+		| ListUserAccountsResponse401
+		| ListUserAccountsResponse403
+		| ListUserAccountsResponse404
+		| ListUserAccountsResponse429
+		| ListUserAccountsResponse500
 	>
 >(
 	options?: {
@@ -2431,12 +2518,12 @@ export function useListUserAccounts<
 export function useListUserAccounts<
 	TData = Awaited<ReturnType<typeof listUserAccounts>>,
 	TError = ErrorType<
-		| ListUserAccounts400
-		| ListUserAccounts401
-		| ListUserAccounts403
-		| ListUserAccounts404
-		| ListUserAccounts429
-		| ListUserAccounts500
+		| ListUserAccountsResponse400
+		| ListUserAccountsResponse401
+		| ListUserAccountsResponse403
+		| ListUserAccountsResponse404
+		| ListUserAccountsResponse429
+		| ListUserAccountsResponse500
 	>
 >(
 	options?: {
@@ -2448,12 +2535,12 @@ export function useListUserAccounts<
 export function useListUserAccounts<
 	TData = Awaited<ReturnType<typeof listUserAccounts>>,
 	TError = ErrorType<
-		| ListUserAccounts400
-		| ListUserAccounts401
-		| ListUserAccounts403
-		| ListUserAccounts404
-		| ListUserAccounts429
-		| ListUserAccounts500
+		| ListUserAccountsResponse400
+		| ListUserAccountsResponse401
+		| ListUserAccountsResponse403
+		| ListUserAccountsResponse404
+		| ListUserAccountsResponse429
+		| ListUserAccountsResponse500
 	>
 >(
 	options?: {
@@ -2477,7 +2564,7 @@ export const getApiAuthDeleteUserCallback = (
 	params?: GetApiAuthDeleteUserCallbackParams,
 	signal?: AbortSignal
 ) => {
-	return customInstance<GetApiAuthDeleteUserCallback200>({
+	return customInstance<ApiAuthDeleteUserCallbackGetResponse200>({
 		url: `/api/auth/delete-user/callback`,
 		method: 'GET',
 		params,
@@ -2494,12 +2581,12 @@ export const getGetApiAuthDeleteUserCallbackQueryKey = (
 export const getGetApiAuthDeleteUserCallbackQueryOptions = <
 	TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
 	TError = ErrorType<
-		| GetApiAuthDeleteUserCallback400
-		| GetApiAuthDeleteUserCallback401
-		| GetApiAuthDeleteUserCallback403
-		| GetApiAuthDeleteUserCallback404
-		| GetApiAuthDeleteUserCallback429
-		| GetApiAuthDeleteUserCallback500
+		| ApiAuthDeleteUserCallbackGetResponse400
+		| ApiAuthDeleteUserCallbackGetResponse401
+		| ApiAuthDeleteUserCallbackGetResponse403
+		| ApiAuthDeleteUserCallbackGetResponse404
+		| ApiAuthDeleteUserCallbackGetResponse429
+		| ApiAuthDeleteUserCallbackGetResponse500
 	>
 >(
 	params?: GetApiAuthDeleteUserCallbackParams,
@@ -2528,23 +2615,23 @@ export type GetApiAuthDeleteUserCallbackQueryResult = NonNullable<
 	Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>
 >;
 export type GetApiAuthDeleteUserCallbackQueryError = ErrorType<
-	| GetApiAuthDeleteUserCallback400
-	| GetApiAuthDeleteUserCallback401
-	| GetApiAuthDeleteUserCallback403
-	| GetApiAuthDeleteUserCallback404
-	| GetApiAuthDeleteUserCallback429
-	| GetApiAuthDeleteUserCallback500
+	| ApiAuthDeleteUserCallbackGetResponse400
+	| ApiAuthDeleteUserCallbackGetResponse401
+	| ApiAuthDeleteUserCallbackGetResponse403
+	| ApiAuthDeleteUserCallbackGetResponse404
+	| ApiAuthDeleteUserCallbackGetResponse429
+	| ApiAuthDeleteUserCallbackGetResponse500
 >;
 
 export function useGetApiAuthDeleteUserCallback<
 	TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
 	TError = ErrorType<
-		| GetApiAuthDeleteUserCallback400
-		| GetApiAuthDeleteUserCallback401
-		| GetApiAuthDeleteUserCallback403
-		| GetApiAuthDeleteUserCallback404
-		| GetApiAuthDeleteUserCallback429
-		| GetApiAuthDeleteUserCallback500
+		| ApiAuthDeleteUserCallbackGetResponse400
+		| ApiAuthDeleteUserCallbackGetResponse401
+		| ApiAuthDeleteUserCallbackGetResponse403
+		| ApiAuthDeleteUserCallbackGetResponse404
+		| ApiAuthDeleteUserCallbackGetResponse429
+		| ApiAuthDeleteUserCallbackGetResponse500
 	>
 >(
 	params: undefined | GetApiAuthDeleteUserCallbackParams,
@@ -2566,12 +2653,12 @@ export function useGetApiAuthDeleteUserCallback<
 export function useGetApiAuthDeleteUserCallback<
 	TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
 	TError = ErrorType<
-		| GetApiAuthDeleteUserCallback400
-		| GetApiAuthDeleteUserCallback401
-		| GetApiAuthDeleteUserCallback403
-		| GetApiAuthDeleteUserCallback404
-		| GetApiAuthDeleteUserCallback429
-		| GetApiAuthDeleteUserCallback500
+		| ApiAuthDeleteUserCallbackGetResponse400
+		| ApiAuthDeleteUserCallbackGetResponse401
+		| ApiAuthDeleteUserCallbackGetResponse403
+		| ApiAuthDeleteUserCallbackGetResponse404
+		| ApiAuthDeleteUserCallbackGetResponse429
+		| ApiAuthDeleteUserCallbackGetResponse500
 	>
 >(
 	params?: GetApiAuthDeleteUserCallbackParams,
@@ -2593,12 +2680,12 @@ export function useGetApiAuthDeleteUserCallback<
 export function useGetApiAuthDeleteUserCallback<
 	TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
 	TError = ErrorType<
-		| GetApiAuthDeleteUserCallback400
-		| GetApiAuthDeleteUserCallback401
-		| GetApiAuthDeleteUserCallback403
-		| GetApiAuthDeleteUserCallback404
-		| GetApiAuthDeleteUserCallback429
-		| GetApiAuthDeleteUserCallback500
+		| ApiAuthDeleteUserCallbackGetResponse400
+		| ApiAuthDeleteUserCallbackGetResponse401
+		| ApiAuthDeleteUserCallbackGetResponse403
+		| ApiAuthDeleteUserCallbackGetResponse404
+		| ApiAuthDeleteUserCallbackGetResponse429
+		| ApiAuthDeleteUserCallbackGetResponse500
 	>
 >(
 	params?: GetApiAuthDeleteUserCallbackParams,
@@ -2613,12 +2700,12 @@ export function useGetApiAuthDeleteUserCallback<
 export function useGetApiAuthDeleteUserCallback<
 	TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
 	TError = ErrorType<
-		| GetApiAuthDeleteUserCallback400
-		| GetApiAuthDeleteUserCallback401
-		| GetApiAuthDeleteUserCallback403
-		| GetApiAuthDeleteUserCallback404
-		| GetApiAuthDeleteUserCallback429
-		| GetApiAuthDeleteUserCallback500
+		| ApiAuthDeleteUserCallbackGetResponse400
+		| ApiAuthDeleteUserCallbackGetResponse401
+		| ApiAuthDeleteUserCallbackGetResponse403
+		| ApiAuthDeleteUserCallbackGetResponse404
+		| ApiAuthDeleteUserCallbackGetResponse429
+		| ApiAuthDeleteUserCallbackGetResponse500
 	>
 >(
 	params?: GetApiAuthDeleteUserCallbackParams,
@@ -2645,7 +2732,7 @@ export const postApiAuthUnlinkAccount = (
 	apiAuthUnlinkAccountPostRequest: ApiAuthUnlinkAccountPostRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<PostApiAuthUnlinkAccount200>({
+	return customInstance<ApiAuthUnlinkAccountPostResponse200>({
 		url: `/api/auth/unlink-account`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -2656,12 +2743,12 @@ export const postApiAuthUnlinkAccount = (
 
 export const getPostApiAuthUnlinkAccountMutationOptions = <
 	TError = ErrorType<
-		| PostApiAuthUnlinkAccount400
-		| PostApiAuthUnlinkAccount401
-		| PostApiAuthUnlinkAccount403
-		| PostApiAuthUnlinkAccount404
-		| PostApiAuthUnlinkAccount429
-		| PostApiAuthUnlinkAccount500
+		| ApiAuthUnlinkAccountPostResponse400
+		| ApiAuthUnlinkAccountPostResponse401
+		| ApiAuthUnlinkAccountPostResponse403
+		| ApiAuthUnlinkAccountPostResponse404
+		| ApiAuthUnlinkAccountPostResponse429
+		| ApiAuthUnlinkAccountPostResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -2701,22 +2788,22 @@ export type PostApiAuthUnlinkAccountMutationResult = NonNullable<
 >;
 export type PostApiAuthUnlinkAccountMutationBody = ApiAuthUnlinkAccountPostRequest;
 export type PostApiAuthUnlinkAccountMutationError = ErrorType<
-	| PostApiAuthUnlinkAccount400
-	| PostApiAuthUnlinkAccount401
-	| PostApiAuthUnlinkAccount403
-	| PostApiAuthUnlinkAccount404
-	| PostApiAuthUnlinkAccount429
-	| PostApiAuthUnlinkAccount500
+	| ApiAuthUnlinkAccountPostResponse400
+	| ApiAuthUnlinkAccountPostResponse401
+	| ApiAuthUnlinkAccountPostResponse403
+	| ApiAuthUnlinkAccountPostResponse404
+	| ApiAuthUnlinkAccountPostResponse429
+	| ApiAuthUnlinkAccountPostResponse500
 >;
 
 export const usePostApiAuthUnlinkAccount = <
 	TError = ErrorType<
-		| PostApiAuthUnlinkAccount400
-		| PostApiAuthUnlinkAccount401
-		| PostApiAuthUnlinkAccount403
-		| PostApiAuthUnlinkAccount404
-		| PostApiAuthUnlinkAccount429
-		| PostApiAuthUnlinkAccount500
+		| ApiAuthUnlinkAccountPostResponse400
+		| ApiAuthUnlinkAccountPostResponse401
+		| ApiAuthUnlinkAccountPostResponse403
+		| ApiAuthUnlinkAccountPostResponse404
+		| ApiAuthUnlinkAccountPostResponse429
+		| ApiAuthUnlinkAccountPostResponse500
 	>,
 	TContext = unknown
 >(
@@ -2744,7 +2831,7 @@ export const postApiAuthRefreshToken = (
 	apiAuthRefreshTokenPostRequest: ApiAuthRefreshTokenPostRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<PostApiAuthRefreshToken200>({
+	return customInstance<ApiAuthRefreshTokenPostResponse200>({
 		url: `/api/auth/refresh-token`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -2756,11 +2843,11 @@ export const postApiAuthRefreshToken = (
 export const getPostApiAuthRefreshTokenMutationOptions = <
 	TError = ErrorType<
 		| void
-		| PostApiAuthRefreshToken401
-		| PostApiAuthRefreshToken403
-		| PostApiAuthRefreshToken404
-		| PostApiAuthRefreshToken429
-		| PostApiAuthRefreshToken500
+		| ApiAuthRefreshTokenPostResponse401
+		| ApiAuthRefreshTokenPostResponse403
+		| ApiAuthRefreshTokenPostResponse404
+		| ApiAuthRefreshTokenPostResponse429
+		| ApiAuthRefreshTokenPostResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -2801,21 +2888,21 @@ export type PostApiAuthRefreshTokenMutationResult = NonNullable<
 export type PostApiAuthRefreshTokenMutationBody = ApiAuthRefreshTokenPostRequest;
 export type PostApiAuthRefreshTokenMutationError = ErrorType<
 	| void
-	| PostApiAuthRefreshToken401
-	| PostApiAuthRefreshToken403
-	| PostApiAuthRefreshToken404
-	| PostApiAuthRefreshToken429
-	| PostApiAuthRefreshToken500
+	| ApiAuthRefreshTokenPostResponse401
+	| ApiAuthRefreshTokenPostResponse403
+	| ApiAuthRefreshTokenPostResponse404
+	| ApiAuthRefreshTokenPostResponse429
+	| ApiAuthRefreshTokenPostResponse500
 >;
 
 export const usePostApiAuthRefreshToken = <
 	TError = ErrorType<
 		| void
-		| PostApiAuthRefreshToken401
-		| PostApiAuthRefreshToken403
-		| PostApiAuthRefreshToken404
-		| PostApiAuthRefreshToken429
-		| PostApiAuthRefreshToken500
+		| ApiAuthRefreshTokenPostResponse401
+		| ApiAuthRefreshTokenPostResponse403
+		| ApiAuthRefreshTokenPostResponse404
+		| ApiAuthRefreshTokenPostResponse429
+		| ApiAuthRefreshTokenPostResponse500
 	>,
 	TContext = unknown
 >(
@@ -2843,7 +2930,7 @@ export const postApiAuthGetAccessToken = (
 	apiAuthGetAccessTokenPostRequest: ApiAuthGetAccessTokenPostRequest,
 	signal?: AbortSignal
 ) => {
-	return customInstance<PostApiAuthGetAccessToken200>({
+	return customInstance<ApiAuthGetAccessTokenPostResponse200>({
 		url: `/api/auth/get-access-token`,
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -2855,11 +2942,11 @@ export const postApiAuthGetAccessToken = (
 export const getPostApiAuthGetAccessTokenMutationOptions = <
 	TError = ErrorType<
 		| void
-		| PostApiAuthGetAccessToken401
-		| PostApiAuthGetAccessToken403
-		| PostApiAuthGetAccessToken404
-		| PostApiAuthGetAccessToken429
-		| PostApiAuthGetAccessToken500
+		| ApiAuthGetAccessTokenPostResponse401
+		| ApiAuthGetAccessTokenPostResponse403
+		| ApiAuthGetAccessTokenPostResponse404
+		| ApiAuthGetAccessTokenPostResponse429
+		| ApiAuthGetAccessTokenPostResponse500
 	>,
 	TContext = unknown
 >(options?: {
@@ -2900,21 +2987,21 @@ export type PostApiAuthGetAccessTokenMutationResult = NonNullable<
 export type PostApiAuthGetAccessTokenMutationBody = ApiAuthGetAccessTokenPostRequest;
 export type PostApiAuthGetAccessTokenMutationError = ErrorType<
 	| void
-	| PostApiAuthGetAccessToken401
-	| PostApiAuthGetAccessToken403
-	| PostApiAuthGetAccessToken404
-	| PostApiAuthGetAccessToken429
-	| PostApiAuthGetAccessToken500
+	| ApiAuthGetAccessTokenPostResponse401
+	| ApiAuthGetAccessTokenPostResponse403
+	| ApiAuthGetAccessTokenPostResponse404
+	| ApiAuthGetAccessTokenPostResponse429
+	| ApiAuthGetAccessTokenPostResponse500
 >;
 
 export const usePostApiAuthGetAccessToken = <
 	TError = ErrorType<
 		| void
-		| PostApiAuthGetAccessToken401
-		| PostApiAuthGetAccessToken403
-		| PostApiAuthGetAccessToken404
-		| PostApiAuthGetAccessToken429
-		| PostApiAuthGetAccessToken500
+		| ApiAuthGetAccessTokenPostResponse401
+		| ApiAuthGetAccessTokenPostResponse403
+		| ApiAuthGetAccessTokenPostResponse404
+		| ApiAuthGetAccessTokenPostResponse429
+		| ApiAuthGetAccessTokenPostResponse500
 	>,
 	TContext = unknown
 >(
@@ -2939,7 +3026,7 @@ export const usePostApiAuthGetAccessToken = <
  * Get the account info provided by the provider
  */
 export const getApiAuthAccountInfo = (signal?: AbortSignal) => {
-	return customInstance<GetApiAuthAccountInfo200>({
+	return customInstance<ApiAuthAccountInfoGetResponse200>({
 		url: `/api/auth/account-info`,
 		method: 'GET',
 		signal
@@ -2953,12 +3040,12 @@ export const getGetApiAuthAccountInfoQueryKey = () => {
 export const getGetApiAuthAccountInfoQueryOptions = <
 	TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
 	TError = ErrorType<
-		| GetApiAuthAccountInfo400
-		| GetApiAuthAccountInfo401
-		| GetApiAuthAccountInfo403
-		| GetApiAuthAccountInfo404
-		| GetApiAuthAccountInfo429
-		| GetApiAuthAccountInfo500
+		| ApiAuthAccountInfoGetResponse400
+		| ApiAuthAccountInfoGetResponse401
+		| ApiAuthAccountInfoGetResponse403
+		| ApiAuthAccountInfoGetResponse404
+		| ApiAuthAccountInfoGetResponse429
+		| ApiAuthAccountInfoGetResponse500
 	>
 >(options?: {
 	query?: Partial<
@@ -2983,23 +3070,23 @@ export type GetApiAuthAccountInfoQueryResult = NonNullable<
 	Awaited<ReturnType<typeof getApiAuthAccountInfo>>
 >;
 export type GetApiAuthAccountInfoQueryError = ErrorType<
-	| GetApiAuthAccountInfo400
-	| GetApiAuthAccountInfo401
-	| GetApiAuthAccountInfo403
-	| GetApiAuthAccountInfo404
-	| GetApiAuthAccountInfo429
-	| GetApiAuthAccountInfo500
+	| ApiAuthAccountInfoGetResponse400
+	| ApiAuthAccountInfoGetResponse401
+	| ApiAuthAccountInfoGetResponse403
+	| ApiAuthAccountInfoGetResponse404
+	| ApiAuthAccountInfoGetResponse429
+	| ApiAuthAccountInfoGetResponse500
 >;
 
 export function useGetApiAuthAccountInfo<
 	TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
 	TError = ErrorType<
-		| GetApiAuthAccountInfo400
-		| GetApiAuthAccountInfo401
-		| GetApiAuthAccountInfo403
-		| GetApiAuthAccountInfo404
-		| GetApiAuthAccountInfo429
-		| GetApiAuthAccountInfo500
+		| ApiAuthAccountInfoGetResponse400
+		| ApiAuthAccountInfoGetResponse401
+		| ApiAuthAccountInfoGetResponse403
+		| ApiAuthAccountInfoGetResponse404
+		| ApiAuthAccountInfoGetResponse429
+		| ApiAuthAccountInfoGetResponse500
 	>
 >(
 	options: {
@@ -3020,12 +3107,12 @@ export function useGetApiAuthAccountInfo<
 export function useGetApiAuthAccountInfo<
 	TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
 	TError = ErrorType<
-		| GetApiAuthAccountInfo400
-		| GetApiAuthAccountInfo401
-		| GetApiAuthAccountInfo403
-		| GetApiAuthAccountInfo404
-		| GetApiAuthAccountInfo429
-		| GetApiAuthAccountInfo500
+		| ApiAuthAccountInfoGetResponse400
+		| ApiAuthAccountInfoGetResponse401
+		| ApiAuthAccountInfoGetResponse403
+		| ApiAuthAccountInfoGetResponse404
+		| ApiAuthAccountInfoGetResponse429
+		| ApiAuthAccountInfoGetResponse500
 	>
 >(
 	options?: {
@@ -3046,12 +3133,12 @@ export function useGetApiAuthAccountInfo<
 export function useGetApiAuthAccountInfo<
 	TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
 	TError = ErrorType<
-		| GetApiAuthAccountInfo400
-		| GetApiAuthAccountInfo401
-		| GetApiAuthAccountInfo403
-		| GetApiAuthAccountInfo404
-		| GetApiAuthAccountInfo429
-		| GetApiAuthAccountInfo500
+		| ApiAuthAccountInfoGetResponse400
+		| ApiAuthAccountInfoGetResponse401
+		| ApiAuthAccountInfoGetResponse403
+		| ApiAuthAccountInfoGetResponse404
+		| ApiAuthAccountInfoGetResponse429
+		| ApiAuthAccountInfoGetResponse500
 	>
 >(
 	options?: {
@@ -3065,12 +3152,12 @@ export function useGetApiAuthAccountInfo<
 export function useGetApiAuthAccountInfo<
 	TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
 	TError = ErrorType<
-		| GetApiAuthAccountInfo400
-		| GetApiAuthAccountInfo401
-		| GetApiAuthAccountInfo403
-		| GetApiAuthAccountInfo404
-		| GetApiAuthAccountInfo429
-		| GetApiAuthAccountInfo500
+		| ApiAuthAccountInfoGetResponse400
+		| ApiAuthAccountInfoGetResponse401
+		| ApiAuthAccountInfoGetResponse403
+		| ApiAuthAccountInfoGetResponse404
+		| ApiAuthAccountInfoGetResponse429
+		| ApiAuthAccountInfoGetResponse500
 	>
 >(
 	options?: {
@@ -3093,7 +3180,7 @@ export function useGetApiAuthAccountInfo<
  * Check if the API is working
  */
 export const getApiAuthOk = (signal?: AbortSignal) => {
-	return customInstance<GetApiAuthOk200>({ url: `/api/auth/ok`, method: 'GET', signal });
+	return customInstance<ApiAuthOkGetResponse200>({ url: `/api/auth/ok`, method: 'GET', signal });
 };
 
 export const getGetApiAuthOkQueryKey = () => {
@@ -3103,12 +3190,12 @@ export const getGetApiAuthOkQueryKey = () => {
 export const getGetApiAuthOkQueryOptions = <
 	TData = Awaited<ReturnType<typeof getApiAuthOk>>,
 	TError = ErrorType<
-		| GetApiAuthOk400
-		| GetApiAuthOk401
-		| GetApiAuthOk403
-		| GetApiAuthOk404
-		| GetApiAuthOk429
-		| GetApiAuthOk500
+		| ApiAuthOkGetResponse400
+		| ApiAuthOkGetResponse401
+		| ApiAuthOkGetResponse403
+		| ApiAuthOkGetResponse404
+		| ApiAuthOkGetResponse429
+		| ApiAuthOkGetResponse500
 	>
 >(options?: {
 	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAuthOk>>, TError, TData>>;
@@ -3129,23 +3216,23 @@ export const getGetApiAuthOkQueryOptions = <
 
 export type GetApiAuthOkQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAuthOk>>>;
 export type GetApiAuthOkQueryError = ErrorType<
-	| GetApiAuthOk400
-	| GetApiAuthOk401
-	| GetApiAuthOk403
-	| GetApiAuthOk404
-	| GetApiAuthOk429
-	| GetApiAuthOk500
+	| ApiAuthOkGetResponse400
+	| ApiAuthOkGetResponse401
+	| ApiAuthOkGetResponse403
+	| ApiAuthOkGetResponse404
+	| ApiAuthOkGetResponse429
+	| ApiAuthOkGetResponse500
 >;
 
 export function useGetApiAuthOk<
 	TData = Awaited<ReturnType<typeof getApiAuthOk>>,
 	TError = ErrorType<
-		| GetApiAuthOk400
-		| GetApiAuthOk401
-		| GetApiAuthOk403
-		| GetApiAuthOk404
-		| GetApiAuthOk429
-		| GetApiAuthOk500
+		| ApiAuthOkGetResponse400
+		| ApiAuthOkGetResponse401
+		| ApiAuthOkGetResponse403
+		| ApiAuthOkGetResponse404
+		| ApiAuthOkGetResponse429
+		| ApiAuthOkGetResponse500
 	>
 >(
 	options: {
@@ -3164,12 +3251,12 @@ export function useGetApiAuthOk<
 export function useGetApiAuthOk<
 	TData = Awaited<ReturnType<typeof getApiAuthOk>>,
 	TError = ErrorType<
-		| GetApiAuthOk400
-		| GetApiAuthOk401
-		| GetApiAuthOk403
-		| GetApiAuthOk404
-		| GetApiAuthOk429
-		| GetApiAuthOk500
+		| ApiAuthOkGetResponse400
+		| ApiAuthOkGetResponse401
+		| ApiAuthOkGetResponse403
+		| ApiAuthOkGetResponse404
+		| ApiAuthOkGetResponse429
+		| ApiAuthOkGetResponse500
 	>
 >(
 	options?: {
@@ -3188,12 +3275,12 @@ export function useGetApiAuthOk<
 export function useGetApiAuthOk<
 	TData = Awaited<ReturnType<typeof getApiAuthOk>>,
 	TError = ErrorType<
-		| GetApiAuthOk400
-		| GetApiAuthOk401
-		| GetApiAuthOk403
-		| GetApiAuthOk404
-		| GetApiAuthOk429
-		| GetApiAuthOk500
+		| ApiAuthOkGetResponse400
+		| ApiAuthOkGetResponse401
+		| ApiAuthOkGetResponse403
+		| ApiAuthOkGetResponse404
+		| ApiAuthOkGetResponse429
+		| ApiAuthOkGetResponse500
 	>
 >(
 	options?: {
@@ -3205,12 +3292,12 @@ export function useGetApiAuthOk<
 export function useGetApiAuthOk<
 	TData = Awaited<ReturnType<typeof getApiAuthOk>>,
 	TError = ErrorType<
-		| GetApiAuthOk400
-		| GetApiAuthOk401
-		| GetApiAuthOk403
-		| GetApiAuthOk404
-		| GetApiAuthOk429
-		| GetApiAuthOk500
+		| ApiAuthOkGetResponse400
+		| ApiAuthOkGetResponse401
+		| ApiAuthOkGetResponse403
+		| ApiAuthOkGetResponse404
+		| ApiAuthOkGetResponse429
+		| ApiAuthOkGetResponse500
 	>
 >(
 	options?: {
@@ -3241,12 +3328,12 @@ export const getGetApiAuthErrorQueryKey = () => {
 export const getGetApiAuthErrorQueryOptions = <
 	TData = Awaited<ReturnType<typeof getApiAuthError>>,
 	TError = ErrorType<
-		| GetApiAuthError400
-		| GetApiAuthError401
-		| GetApiAuthError403
-		| GetApiAuthError404
-		| GetApiAuthError429
-		| GetApiAuthError500
+		| ApiAuthErrorGetResponse400
+		| ApiAuthErrorGetResponse401
+		| ApiAuthErrorGetResponse403
+		| ApiAuthErrorGetResponse404
+		| ApiAuthErrorGetResponse429
+		| ApiAuthErrorGetResponse500
 	>
 >(options?: {
 	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiAuthError>>, TError, TData>>;
@@ -3267,23 +3354,23 @@ export const getGetApiAuthErrorQueryOptions = <
 
 export type GetApiAuthErrorQueryResult = NonNullable<Awaited<ReturnType<typeof getApiAuthError>>>;
 export type GetApiAuthErrorQueryError = ErrorType<
-	| GetApiAuthError400
-	| GetApiAuthError401
-	| GetApiAuthError403
-	| GetApiAuthError404
-	| GetApiAuthError429
-	| GetApiAuthError500
+	| ApiAuthErrorGetResponse400
+	| ApiAuthErrorGetResponse401
+	| ApiAuthErrorGetResponse403
+	| ApiAuthErrorGetResponse404
+	| ApiAuthErrorGetResponse429
+	| ApiAuthErrorGetResponse500
 >;
 
 export function useGetApiAuthError<
 	TData = Awaited<ReturnType<typeof getApiAuthError>>,
 	TError = ErrorType<
-		| GetApiAuthError400
-		| GetApiAuthError401
-		| GetApiAuthError403
-		| GetApiAuthError404
-		| GetApiAuthError429
-		| GetApiAuthError500
+		| ApiAuthErrorGetResponse400
+		| ApiAuthErrorGetResponse401
+		| ApiAuthErrorGetResponse403
+		| ApiAuthErrorGetResponse404
+		| ApiAuthErrorGetResponse429
+		| ApiAuthErrorGetResponse500
 	>
 >(
 	options: {
@@ -3302,12 +3389,12 @@ export function useGetApiAuthError<
 export function useGetApiAuthError<
 	TData = Awaited<ReturnType<typeof getApiAuthError>>,
 	TError = ErrorType<
-		| GetApiAuthError400
-		| GetApiAuthError401
-		| GetApiAuthError403
-		| GetApiAuthError404
-		| GetApiAuthError429
-		| GetApiAuthError500
+		| ApiAuthErrorGetResponse400
+		| ApiAuthErrorGetResponse401
+		| ApiAuthErrorGetResponse403
+		| ApiAuthErrorGetResponse404
+		| ApiAuthErrorGetResponse429
+		| ApiAuthErrorGetResponse500
 	>
 >(
 	options?: {
@@ -3326,12 +3413,12 @@ export function useGetApiAuthError<
 export function useGetApiAuthError<
 	TData = Awaited<ReturnType<typeof getApiAuthError>>,
 	TError = ErrorType<
-		| GetApiAuthError400
-		| GetApiAuthError401
-		| GetApiAuthError403
-		| GetApiAuthError404
-		| GetApiAuthError429
-		| GetApiAuthError500
+		| ApiAuthErrorGetResponse400
+		| ApiAuthErrorGetResponse401
+		| ApiAuthErrorGetResponse403
+		| ApiAuthErrorGetResponse404
+		| ApiAuthErrorGetResponse429
+		| ApiAuthErrorGetResponse500
 	>
 >(
 	options?: {
@@ -3343,12 +3430,12 @@ export function useGetApiAuthError<
 export function useGetApiAuthError<
 	TData = Awaited<ReturnType<typeof getApiAuthError>>,
 	TError = ErrorType<
-		| GetApiAuthError400
-		| GetApiAuthError401
-		| GetApiAuthError403
-		| GetApiAuthError404
-		| GetApiAuthError429
-		| GetApiAuthError500
+		| ApiAuthErrorGetResponse400
+		| ApiAuthErrorGetResponse401
+		| ApiAuthErrorGetResponse403
+		| ApiAuthErrorGetResponse404
+		| ApiAuthErrorGetResponse429
+		| ApiAuthErrorGetResponse500
 	>
 >(
 	options?: {

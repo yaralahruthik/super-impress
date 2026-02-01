@@ -2,6 +2,7 @@ import { cors } from '@elysiajs/cors';
 import { openapi } from '@elysiajs/openapi';
 import { Elysia } from 'elysia';
 import { betterAuthPlugin, OpenAPI } from './auth';
+import { linkedInModule } from './modules/linkedin';
 import { postsModule } from './modules/posts';
 
 const app = new Elysia({
@@ -30,6 +31,7 @@ const app = new Elysia({
 	)
 	.use(betterAuthPlugin)
 	.use(postsModule)
+	.use(linkedInModule)
 	.listen(3000);
 
 console.log(

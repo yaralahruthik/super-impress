@@ -1,6 +1,6 @@
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { openAPI } from 'better-auth/plugins';
+import { genericOAuth, openAPI } from 'better-auth/plugins';
 import { Elysia } from 'elysia';
 import { db } from './db';
 import * as schema from './db/schema';
@@ -20,7 +20,22 @@ export const auth = betterAuth({
 			enabled: true,
 		},
 	},
-	plugins: [openAPI()],
+	plugins: [
+		openAPI(),
+		genericOAuth({
+			config: [
+				{
+					providerId: 'linkedin',
+					clientId: process.env.LINKEDIN_CLIENT_ID!,
+					clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+					authorizationUrl: 'https://www.linkedin.com/oauth/v2/authorization',
+					tokenUrl: 'https://www.linkedin.com/oauth/v2/accessToken',
+					userInfoUrl: 'https://api.linkedin.com/v2/userinfo',
+					scopes: ['openid', 'profile', 'email', 'w_member_social'],
+				},
+			],
+		}),
+	],
 });
 
 // OpenAPI schema extraction for @elysiajs/openapi integration

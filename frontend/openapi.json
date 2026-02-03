@@ -98,6 +98,26 @@
 					"updatedAt": {
 						"format": "date-time",
 						"type": "string"
+					},
+					"publications": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"required": ["platform", "platformPostId", "publishedAt"],
+							"properties": {
+								"platform": {
+									"type": "string",
+									"enum": ["linkedin", "twitter", "facebook"]
+								},
+								"platformPostId": {
+									"type": "string"
+								},
+								"publishedAt": {
+									"format": "date-time",
+									"type": "string"
+								}
+							}
+						}
 					}
 				}
 			},
@@ -174,6 +194,26 @@
 								"updatedAt": {
 									"format": "date-time",
 									"type": "string"
+								},
+								"publications": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"required": ["platform", "platformPostId", "publishedAt"],
+										"properties": {
+											"platform": {
+												"type": "string",
+												"enum": ["linkedin", "twitter", "facebook"]
+											},
+											"platformPostId": {
+												"type": "string"
+											},
+											"publishedAt": {
+												"format": "date-time",
+												"type": "string"
+											}
+										}
+									}
 								}
 							}
 						}
@@ -184,6 +224,55 @@
 				}
 			},
 			"PostError": {
+				"type": "object",
+				"required": ["error"],
+				"properties": {
+					"error": {
+						"type": "string"
+					}
+				}
+			},
+			"LinkedInPostRequest": {
+				"type": "object",
+				"required": ["postId"],
+				"properties": {
+					"postId": {
+						"format": "uuid",
+						"type": "string"
+					}
+				}
+			},
+			"LinkedInPostResponse": {
+				"type": "object",
+				"required": ["success"],
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"linkedInPostId": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"LinkedInConnectionStatus": {
+				"type": "object",
+				"required": ["connected"],
+				"properties": {
+					"connected": {
+						"type": "boolean"
+					},
+					"accountId": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				}
+			},
+			"LinkedInError": {
 				"type": "object",
 				"required": ["error"],
 				"properties": {
@@ -337,6 +426,61 @@
 					}
 				},
 				"required": ["identifier", "value", "expiresAt", "createdAt", "updatedAt"]
+			},
+			"GetApiLinkedinStatusResponse200": {
+				"type": "object",
+				"required": ["connected"],
+				"properties": {
+					"connected": {
+						"type": "boolean"
+					},
+					"accountId": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				}
+			},
+			"PostApiLinkedinPostRequest": {
+				"type": "object",
+				"required": ["postId"],
+				"properties": {
+					"postId": {
+						"format": "uuid",
+						"type": "string"
+					}
+				}
+			},
+			"PostApiLinkedinPostResponse200": {
+				"type": "object",
+				"required": ["success"],
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"linkedInPostId": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"PostApiLinkedinPostResponse400": {
+				"type": "object",
+				"required": ["success"],
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"linkedInPostId": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				}
 			},
 			"SocialSignInRequest": {
 				"type": "object",
@@ -2602,6 +2746,257 @@
 						"type": "string"
 					}
 				}
+			},
+			"ApiAuthSign-inOauth2PostRequest": {
+				"type": "object",
+				"properties": {
+					"providerId": {
+						"type": "string",
+						"description": "The provider ID for the OAuth provider"
+					},
+					"callbackURL": {
+						"type": "string",
+						"nullable": true,
+						"description": "The URL to redirect to after sign in"
+					},
+					"errorCallbackURL": {
+						"type": "string",
+						"nullable": true,
+						"description": "The URL to redirect to if an error occurs"
+					},
+					"newUserCallbackURL": {
+						"type": "string",
+						"nullable": true,
+						"description": "The URL to redirect to after login if the user is new. Eg: \"/welcome\""
+					},
+					"disableRedirect": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Disable redirect"
+					},
+					"scopes": {
+						"type": "array",
+						"nullable": true,
+						"description": "Scopes to be passed to the provider authorization request."
+					},
+					"requestSignUp": {
+						"type": "boolean",
+						"nullable": true,
+						"description": "Explicitly request sign-up. Useful when disableImplicitSignUp is true for this provider. Eg: false"
+					},
+					"additionalData": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": ["providerId"]
+			},
+			"ApiAuthSign-inOauth2PostResponse200": {
+				"type": "object",
+				"properties": {
+					"url": {
+						"type": "string"
+					},
+					"redirect": {
+						"type": "boolean"
+					}
+				}
+			},
+			"ApiAuthSign-inOauth2PostResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthSign-inOauth2PostResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthSign-inOauth2PostResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthSign-inOauth2PostResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthSign-inOauth2PostResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthSign-inOauth2PostResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOauth2CallbackproviderIdGetResponse200": {
+				"type": "object",
+				"properties": {
+					"url": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOauth2CallbackproviderIdGetResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthOauth2CallbackproviderIdGetResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthOauth2CallbackproviderIdGetResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOauth2CallbackproviderIdGetResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOauth2CallbackproviderIdGetResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOauth2CallbackproviderIdGetResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOauth2LinkPostRequest": {
+				"type": "object",
+				"properties": {
+					"providerId": {
+						"type": "string"
+					},
+					"callbackURL": {
+						"type": "string"
+					},
+					"scopes": {
+						"type": "array",
+						"nullable": true,
+						"description": "Additional scopes to request when linking the account"
+					},
+					"errorCallbackURL": {
+						"type": "string",
+						"nullable": true,
+						"description": "The URL to redirect to if there is an error during the link process"
+					}
+				},
+				"required": ["providerId", "callbackURL"]
+			},
+			"ApiAuthOauth2LinkPostResponse200": {
+				"type": "object",
+				"properties": {
+					"url": {
+						"type": "string",
+						"format": "uri",
+						"description": "The authorization URL to redirect the user to for linking the OAuth2 account"
+					},
+					"redirect": {
+						"type": "boolean",
+						"description": "Indicates that the client should redirect to the provided URL",
+						"enum": [true]
+					}
+				},
+				"required": ["url", "redirect"]
+			},
+			"ApiAuthOauth2LinkPostResponse400": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthOauth2LinkPostResponse401": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": ["message"]
+			},
+			"ApiAuthOauth2LinkPostResponse403": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOauth2LinkPostResponse404": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOauth2LinkPostResponse429": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"ApiAuthOauth2LinkPostResponse500": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					}
+				}
 			}
 		},
 		"securitySchemes": {
@@ -2844,6 +3239,90 @@
 					}
 				},
 				"operationId": "deleteApiPostsById"
+			}
+		},
+		"/api/linkedin/status": {
+			"get": {
+				"tags": ["LinkedIn"],
+				"summary": "Check LinkedIn connection status",
+				"description": "Check if the authenticated user has a LinkedIn account connected",
+				"responses": {
+					"200": {
+						"description": "Response for status 200",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetApiLinkedinStatusResponse200"
+								}
+							}
+						}
+					}
+				},
+				"operationId": "getApiLinkedinStatus"
+			}
+		},
+		"/api/linkedin/post": {
+			"post": {
+				"tags": ["LinkedIn"],
+				"summary": "Publish post to LinkedIn",
+				"description": "Publish a post to the authenticated user's LinkedIn account",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PostApiLinkedinPostRequest"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"type": "object",
+								"required": ["postId"],
+								"properties": {
+									"postId": {
+										"format": "uuid",
+										"type": "string"
+									}
+								}
+							}
+						},
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"required": ["postId"],
+								"properties": {
+									"postId": {
+										"format": "uuid",
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Response for status 200",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostApiLinkedinPostResponse200"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Response for status 400",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostApiLinkedinPostResponse400"
+								}
+							}
+						}
+					}
+				},
+				"operationId": "postApiLinkedinPost"
 			}
 		},
 		"/api/auth/sign-in/social": {
@@ -5451,6 +5930,323 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/ApiAuthErrorGetResponse500"
+								}
+							}
+						},
+						"description": "Internal Server Error. This is a problem with the server that you cannot fix."
+					}
+				}
+			}
+		},
+		"/api/auth/sign-in/oauth2": {
+			"post": {
+				"tags": ["Better Auth"],
+				"description": "Sign in with OAuth2",
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ApiAuthSign-inOauth2PostRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Sign in with OAuth2",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthSign-inOauth2PostResponse200"
+								}
+							}
+						}
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthSign-inOauth2PostResponse400"
+								}
+							}
+						},
+						"description": "Bad Request. Usually due to missing parameters, or invalid parameters."
+					},
+					"401": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthSign-inOauth2PostResponse401"
+								}
+							}
+						},
+						"description": "Unauthorized. Due to missing or invalid authentication."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthSign-inOauth2PostResponse403"
+								}
+							}
+						},
+						"description": "Forbidden. You do not have permission to access this resource or to perform this action."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthSign-inOauth2PostResponse404"
+								}
+							}
+						},
+						"description": "Not Found. The requested resource was not found."
+					},
+					"429": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthSign-inOauth2PostResponse429"
+								}
+							}
+						},
+						"description": "Too Many Requests. You have exceeded the rate limit. Try again later."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthSign-inOauth2PostResponse500"
+								}
+							}
+						},
+						"description": "Internal Server Error. This is a problem with the server that you cannot fix."
+					}
+				}
+			}
+		},
+		"/api/auth/oauth2/callback/{providerId}": {
+			"get": {
+				"tags": ["Better Auth"],
+				"description": "OAuth2 callback",
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"name": "code",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"nullable": true,
+							"description": "The OAuth2 code"
+						}
+					},
+					{
+						"name": "error",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"nullable": true,
+							"description": "The error message, if any"
+						}
+					},
+					{
+						"name": "error_description",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"nullable": true,
+							"description": "The error description, if any"
+						}
+					},
+					{
+						"name": "state",
+						"in": "query",
+						"schema": {
+							"type": "string",
+							"nullable": true,
+							"description": "The state parameter from the OAuth2 request"
+						}
+					},
+					{
+						"name": "providerId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OAuth2 callback",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2CallbackproviderIdGetResponse200"
+								}
+							}
+						}
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2CallbackproviderIdGetResponse400"
+								}
+							}
+						},
+						"description": "Bad Request. Usually due to missing parameters, or invalid parameters."
+					},
+					"401": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2CallbackproviderIdGetResponse401"
+								}
+							}
+						},
+						"description": "Unauthorized. Due to missing or invalid authentication."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2CallbackproviderIdGetResponse403"
+								}
+							}
+						},
+						"description": "Forbidden. You do not have permission to access this resource or to perform this action."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2CallbackproviderIdGetResponse404"
+								}
+							}
+						},
+						"description": "Not Found. The requested resource was not found."
+					},
+					"429": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2CallbackproviderIdGetResponse429"
+								}
+							}
+						},
+						"description": "Too Many Requests. You have exceeded the rate limit. Try again later."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2CallbackproviderIdGetResponse500"
+								}
+							}
+						},
+						"description": "Internal Server Error. This is a problem with the server that you cannot fix."
+					}
+				}
+			}
+		},
+		"/api/auth/oauth2/link": {
+			"post": {
+				"tags": ["Better Auth"],
+				"description": "Link an OAuth2 account to the current user session",
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ApiAuthOauth2LinkPostRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Authorization URL generated successfully for linking an OAuth2 account",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2LinkPostResponse200"
+								}
+							}
+						}
+					},
+					"400": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2LinkPostResponse400"
+								}
+							}
+						},
+						"description": "Bad Request. Usually due to missing parameters, or invalid parameters."
+					},
+					"401": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2LinkPostResponse401"
+								}
+							}
+						},
+						"description": "Unauthorized. Due to missing or invalid authentication."
+					},
+					"403": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2LinkPostResponse403"
+								}
+							}
+						},
+						"description": "Forbidden. You do not have permission to access this resource or to perform this action."
+					},
+					"404": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2LinkPostResponse404"
+								}
+							}
+						},
+						"description": "Not Found. The requested resource was not found."
+					},
+					"429": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2LinkPostResponse429"
+								}
+							}
+						},
+						"description": "Too Many Requests. You have exceeded the rate limit. Try again later."
+					},
+					"500": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ApiAuthOauth2LinkPostResponse500"
 								}
 							}
 						},

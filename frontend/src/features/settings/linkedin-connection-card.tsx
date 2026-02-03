@@ -1,8 +1,8 @@
+import { useLinkSocialAccount, usePostApiAuthUnlinkAccount } from '@/api/better-auth/better-auth';
 import {
-	useDisconnectLinkedin,
-	useGetLinkedinStatus,
-	useInitiateLinkedinConnection
-} from '@/api/linkedin/linkedin';
+	getGetApiLinkedinStatusQueryKey,
+	useGetApiLinkedinStatus
+} from '@/api/linked-in/linked-in';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -17,24 +17,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatDate } from '@/utils/format-date';
 import { getErrorMessage } from '@/utils/get-error-message';
 import { useQueryClient } from '@tanstack/react-query';
-import {
-	AlertCircle,
-	Calendar,
-	CheckCircle2,
-	Linkedin,
-	Loader2,
-	MessageCircle,
-	Unlink
-} from 'lucide-react';
+import { AlertCircle, CheckCircle2, Linkedin, Loader2, MessageCircle, Unlink } from 'lucide-react';
 import { useState } from 'react';
 
-const LINKEDIN_STATE_KEY = 'linkedin_oauth_state';
-
 export default function LinkedinConnectionCard() {
-	const { data, isPending, isError } = useGetLinkedinStatus();
+	const { data, isPending, isError } = useGetApiLinkedinStatus();
 
 	if (isPending) {
 		return <LinkedinConnectionCardLoading />;
@@ -44,8 +33,8 @@ export default function LinkedinConnectionCard() {
 		return <LinkedinConnectionCardError />;
 	}
 
-	if (data.connected) {
-		return <LinkedinConnected connectedAt={data.connected_at} expiresAt={data.expires_at} />;
+	if (data?.connected) {
+		return <LinkedinConnected email={data.email} accountId={data.accountId} />;
 	}
 
 	return <LinkedinNotConnected />;
@@ -53,19 +42,32 @@ export default function LinkedinConnectionCard() {
 
 function LinkedinNotConnected() {
 	const [error, setError] = useState<string | null>(null);
-	const { mutate: initiateConnection, isPending } = useInitiateLinkedinConnection();
+	const { mutate: linkSocialAccount, isPending } = useLinkSocialAccount();
 
 	const handleConnect = () => {
 		setError(null);
-		initiateConnection(undefined, {
-			onSuccess: (response) => {
-				sessionStorage.setItem(LINKEDIN_STATE_KEY, response.state);
-				window.location.href = response.authorization_url;
+		linkSocialAccount(
+			{
+				data: {
+					provider: 'linkedin',
+					callbackURL: 'http://localhost:5173/settings',
+					errorCallbackURL: 'http://localhost:5173/settings',
+					disableRedirect: true
+				}
 			},
-			onError: (error) => {
-				setError(getErrorMessage(error));
+			{
+				onSuccess: (response) => {
+					if (response.url) {
+						window.location.href = response.url;
+						return;
+					}
+					setError('Unable to start LinkedIn connection.');
+				},
+				onError: (error) => {
+					setError(getErrorMessage(error));
+				}
 			}
-		});
+		);
 	};
 
 	return (
@@ -111,26 +113,35 @@ function LinkedinNotConnected() {
 }
 
 function LinkedinConnected({
-	connectedAt,
-	expiresAt
+	email,
+	accountId
 }: {
-	connectedAt: string | null | undefined;
-	expiresAt: string | null | undefined;
+	email: string | null | undefined;
+	accountId: string | null | undefined;
 }) {
 	const [error, setError] = useState<string | null>(null);
 	const queryClient = useQueryClient();
-	const { mutate: disconnect, isPending } = useDisconnectLinkedin();
+	const { mutate: unlinkAccount, isPending } = usePostApiAuthUnlinkAccount();
 
 	const handleDisconnect = () => {
 		setError(null);
-		disconnect(undefined, {
-			onSuccess: () => {
-				queryClient.invalidateQueries({ queryKey: ['/api/linkedin/status'] });
+		unlinkAccount(
+			{
+				data: {
+					providerId: 'linkedin'
+				}
 			},
-			onError: (error) => {
-				setError(getErrorMessage(error));
+			{
+				onSuccess: () => {
+					queryClient.invalidateQueries({
+						queryKey: getGetApiLinkedinStatusQueryKey()
+					});
+				},
+				onError: (error) => {
+					setError(getErrorMessage(error));
+				}
 			}
-		});
+		);
 	};
 
 	return (
@@ -149,16 +160,16 @@ function LinkedinConnected({
 				</div>
 
 				<div className="space-y-2 text-sm text-muted-foreground">
-					{connectedAt && (
-						<div className="flex items-center gap-2">
-							<Calendar className="size-4" />
-							<span>Connected on {formatDate(connectedAt)}</span>
-						</div>
-					)}
-					{expiresAt && (
+					{email && (
 						<div className="flex items-center gap-2">
 							<MessageCircle className="size-4" />
-							<span>Access expires {formatDate(expiresAt)}</span>
+							<span>Connected as {email}</span>
+						</div>
+					)}
+					{!email && accountId && (
+						<div className="flex items-center gap-2">
+							<MessageCircle className="size-4" />
+							<span>Linked account ID: {accountId}</span>
 						</div>
 					)}
 				</div>

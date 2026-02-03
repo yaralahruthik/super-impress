@@ -1,11 +1,11 @@
-import { and, eq } from 'drizzle-orm';
-import { db } from '../../db';
-import { account, post, postPublication } from '../../db/schema';
+import { and, eq } from "drizzle-orm";
+import { db } from "../../db";
+import { account, post, postPublication } from "../../db/schema";
 import {
-	createLinkedInPost,
-	getLinkedInProfile,
-	getPersonUrnFromSub,
-} from './client';
+  createLinkedInPost,
+  getLinkedInProfile,
+  getPersonUrnFromSub,
+} from "./client";
 
 /**
  * Get user's LinkedIn account details
@@ -13,15 +13,13 @@ import {
  * @returns LinkedIn account or null if not connected
  */
 export async function getLinkedInAccount(userId: string) {
-	const [linkedInAccount] = await db
-		.select()
-		.from(account)
-		.where(
-			and(eq(account.userId, userId), eq(account.providerId, 'linkedin')),
-		)
-		.limit(1);
+  const [linkedInAccount] = await db
+    .select()
+    .from(account)
+    .where(and(eq(account.userId, userId), eq(account.providerId, "linkedin")))
+    .limit(1);
 
-	return linkedInAccount ?? null;
+  return linkedInAccount ?? null;
 }
 
 /**
@@ -30,23 +28,23 @@ export async function getLinkedInAccount(userId: string) {
  * @returns Connection status with account details
  */
 export async function getConnectionStatus(userId: string): Promise<{
-	connected: boolean;
-	accountId?: string;
-	email?: string;
+  connected: boolean;
+  accountId?: string;
+  email?: string;
 }> {
-	const linkedInAccount = await getLinkedInAccount(userId);
+  const linkedInAccount = await getLinkedInAccount(userId);
 
-	if (!linkedInAccount) {
-		return { connected: false };
-	}
+  if (!linkedInAccount) {
+    return { connected: false };
+  }
 
-	// Try to get additional profile info from the accountId
-	// The accountId in better-auth is typically the provider's user ID
-	return {
-		connected: true,
-		accountId: linkedInAccount.id,
-		email: linkedInAccount.accountId, // This might be email or LinkedIn ID
-	};
+  // Try to get additional profile info from the accountId
+  // The accountId in better-auth is typically the provider's user ID
+  return {
+    connected: true,
+    accountId: linkedInAccount.id,
+    email: linkedInAccount.accountId, // This might be email or LinkedIn ID
+  };
 }
 
 /**
@@ -56,71 +54,71 @@ export async function getConnectionStatus(userId: string): Promise<{
  * @returns LinkedIn post ID
  */
 export async function publishPost(
-	userId: string,
-	postId: string,
+  userId: string,
+  postId: string,
 ): Promise<{ linkedInPostId: string }> {
-	// 1. Verify user owns the post
-	const [postRecord] = await db
-		.select()
-		.from(post)
-		.where(and(eq(post.id, postId), eq(post.userId, userId)))
-		.limit(1);
+  // 1. Verify user owns the post
+  const [postRecord] = await db
+    .select()
+    .from(post)
+    .where(and(eq(post.id, postId), eq(post.userId, userId)))
+    .limit(1);
 
-	if (!postRecord) {
-		throw new Error('Post not found or unauthorized');
-	}
+  if (!postRecord) {
+    throw new Error("Post not found or unauthorized");
+  }
 
-	// 2. Get LinkedIn account
-	const linkedInAccount = await getLinkedInAccount(userId);
-	if (!linkedInAccount) {
-		throw new Error('LinkedIn account not connected');
-	}
+  // 2. Get LinkedIn account
+  const linkedInAccount = await getLinkedInAccount(userId);
+  if (!linkedInAccount) {
+    throw new Error("LinkedIn account not connected");
+  }
 
-	if (!linkedInAccount.accessToken) {
-		throw new Error('LinkedIn access token not available');
-	}
+  if (!linkedInAccount.accessToken) {
+    throw new Error("LinkedIn access token not available");
+  }
 
-	// 3. Check if already published to LinkedIn
-	const [existingPublication] = await db
-		.select()
-		.from(postPublication)
-		.where(
-			and(
-				eq(postPublication.postId, postId),
-				eq(postPublication.platform, 'linkedin'),
-				eq(postPublication.accountId, linkedInAccount.id),
-			),
-		)
-		.limit(1);
+  // 3. Check if already published to LinkedIn
+  const [existingPublication] = await db
+    .select()
+    .from(postPublication)
+    .where(
+      and(
+        eq(postPublication.postId, postId),
+        eq(postPublication.platform, "linkedin"),
+        eq(postPublication.accountId, linkedInAccount.id),
+      ),
+    )
+    .limit(1);
 
-	if (existingPublication) {
-		throw new Error('Post already published to LinkedIn');
-	}
+  if (existingPublication) {
+    throw new Error("Post already published to LinkedIn");
+  }
 
-	// 4. Get LinkedIn profile to get person URN
-	const profile = await getLinkedInProfile(linkedInAccount.accessToken);
-	const personUrn = getPersonUrnFromSub(profile.sub);
+  // 4. Get LinkedIn profile to get person URN
+  const profile = await getLinkedInProfile(linkedInAccount.accessToken);
+  const personUrn = getPersonUrnFromSub(profile.sub);
 
-	// 5. Create post on LinkedIn
-	const linkedInPostId = await createLinkedInPost(
-		linkedInAccount.accessToken,
-		personUrn,
-		postRecord.content,
-	);
+  // 5. Create post on LinkedIn
+  const linkedInPostId = await createLinkedInPost(
+    linkedInAccount.accessToken,
+    personUrn,
+    postRecord.content,
+  );
 
-	// 6. Save publication record
-	await db.insert(postPublication).values({
-		postId: postRecord.id,
-		platform: 'linkedin',
-		platformPostId: linkedInPostId,
-		accountId: linkedInAccount.id,
-		metadata: {
-			personUrn,
-			contentLength: postRecord.content.length,
-		},
-	});
+  // 6. Save publication record
+  await db.insert(postPublication).values({
+    postId: postRecord.id,
+    platform: "linkedin",
+    platformPostId: linkedInPostId,
+    accountId: linkedInAccount.id,
+    metadata: {
+      personUrn,
+      contentLength: postRecord.content.length,
+    },
+  });
 
-	return { linkedInPostId };
+  return { linkedInPostId };
 }
 
 /**
@@ -129,8 +127,8 @@ export async function publishPost(
  * @returns List of publications
  */
 export async function getPublications(postId: string) {
-	return await db
-		.select()
-		.from(postPublication)
-		.where(eq(postPublication.postId, postId));
+  return await db
+    .select()
+    .from(postPublication)
+    .where(eq(postPublication.postId, postId));
 }

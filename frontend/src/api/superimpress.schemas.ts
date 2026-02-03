@@ -47,6 +47,21 @@ export const PostResponseStatus = {
 	archived: 'archived'
 } as const;
 
+export type PostResponsePublicationsItemPlatform =
+	(typeof PostResponsePublicationsItemPlatform)[keyof typeof PostResponsePublicationsItemPlatform];
+
+export const PostResponsePublicationsItemPlatform = {
+	linkedin: 'linkedin',
+	twitter: 'twitter',
+	facebook: 'facebook'
+} as const;
+
+export type PostResponsePublicationsItem = {
+	platform: PostResponsePublicationsItemPlatform;
+	platformPostId: string;
+	publishedAt: string;
+};
+
 export interface PostResponse {
 	id: string;
 	userId: string;
@@ -57,6 +72,7 @@ export interface PostResponse {
 	status: PostResponseStatus;
 	createdAt: string;
 	updatedAt: string;
+	publications?: PostResponsePublicationsItem[];
 }
 
 export type PostListQueryStatus = (typeof PostListQueryStatus)[keyof typeof PostListQueryStatus];
@@ -88,6 +104,21 @@ export const PostListResponsePostsItemStatus = {
 	archived: 'archived'
 } as const;
 
+export type PostListResponsePostsItemPublicationsItemPlatform =
+	(typeof PostListResponsePostsItemPublicationsItemPlatform)[keyof typeof PostListResponsePostsItemPublicationsItemPlatform];
+
+export const PostListResponsePostsItemPublicationsItemPlatform = {
+	linkedin: 'linkedin',
+	twitter: 'twitter',
+	facebook: 'facebook'
+} as const;
+
+export type PostListResponsePostsItemPublicationsItem = {
+	platform: PostListResponsePostsItemPublicationsItemPlatform;
+	platformPostId: string;
+	publishedAt: string;
+};
+
 export type PostListResponsePostsItem = {
 	id: string;
 	userId: string;
@@ -98,6 +129,7 @@ export type PostListResponsePostsItem = {
 	status: PostListResponsePostsItemStatus;
 	createdAt: string;
 	updatedAt: string;
+	publications?: PostListResponsePostsItemPublicationsItem[];
 };
 
 export interface PostListResponse {
@@ -106,6 +138,26 @@ export interface PostListResponse {
 }
 
 export interface PostError {
+	error: string;
+}
+
+export interface LinkedInPostRequest {
+	postId: string;
+}
+
+export interface LinkedInPostResponse {
+	success: boolean;
+	linkedInPostId?: string;
+	message?: string;
+}
+
+export interface LinkedInConnectionStatus {
+	connected: boolean;
+	accountId?: string;
+	email?: string;
+}
+
+export interface LinkedInError {
 	error: string;
 }
 
@@ -153,6 +205,28 @@ export interface Verification {
 	expiresAt: string;
 	createdAt: string;
 	updatedAt: string;
+}
+
+export interface GetApiLinkedinStatusResponse200 {
+	connected: boolean;
+	accountId?: string;
+	email?: string;
+}
+
+export interface PostApiLinkedinPostRequest {
+	postId: string;
+}
+
+export interface PostApiLinkedinPostResponse200 {
+	success: boolean;
+	linkedInPostId?: string;
+	message?: string;
+}
+
+export interface PostApiLinkedinPostResponse400 {
+	success: boolean;
+	linkedInPostId?: string;
+	message?: string;
 }
 
 /**
@@ -1362,6 +1436,146 @@ export interface ApiAuthErrorGetResponse500 {
 	message?: string;
 }
 
+export interface ApiAuthSignInOauth2PostRequest {
+	/** The provider ID for the OAuth provider */
+	providerId: string;
+	/**
+	 * The URL to redirect to after sign in
+	 * @nullable
+	 */
+	callbackURL?: string | null;
+	/**
+	 * The URL to redirect to if an error occurs
+	 * @nullable
+	 */
+	errorCallbackURL?: string | null;
+	/**
+	 * The URL to redirect to after login if the user is new. Eg: "/welcome"
+	 * @nullable
+	 */
+	newUserCallbackURL?: string | null;
+	/**
+	 * Disable redirect
+	 * @nullable
+	 */
+	disableRedirect?: boolean | null;
+	/**
+	 * Scopes to be passed to the provider authorization request.
+	 * @nullable
+	 */
+	scopes?: unknown[] | null;
+	/**
+	 * Explicitly request sign-up. Useful when disableImplicitSignUp is true for this provider. Eg: false
+	 * @nullable
+	 */
+	requestSignUp?: boolean | null;
+	/** @nullable */
+	additionalData?: string | null;
+}
+
+export interface ApiAuthSignInOauth2PostResponse200 {
+	url?: string;
+	redirect?: boolean;
+}
+
+export interface ApiAuthSignInOauth2PostResponse400 {
+	message: string;
+}
+
+export interface ApiAuthSignInOauth2PostResponse401 {
+	message: string;
+}
+
+export interface ApiAuthSignInOauth2PostResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthSignInOauth2PostResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthSignInOauth2PostResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthSignInOauth2PostResponse500 {
+	message?: string;
+}
+
+export interface ApiAuthOauth2CallbackproviderIdGetResponse200 {
+	url?: string;
+}
+
+export interface ApiAuthOauth2CallbackproviderIdGetResponse400 {
+	message: string;
+}
+
+export interface ApiAuthOauth2CallbackproviderIdGetResponse401 {
+	message: string;
+}
+
+export interface ApiAuthOauth2CallbackproviderIdGetResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthOauth2CallbackproviderIdGetResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthOauth2CallbackproviderIdGetResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthOauth2CallbackproviderIdGetResponse500 {
+	message?: string;
+}
+
+export interface ApiAuthOauth2LinkPostRequest {
+	providerId: string;
+	callbackURL: string;
+	/**
+	 * Additional scopes to request when linking the account
+	 * @nullable
+	 */
+	scopes?: unknown[] | null;
+	/**
+	 * The URL to redirect to if there is an error during the link process
+	 * @nullable
+	 */
+	errorCallbackURL?: string | null;
+}
+
+export interface ApiAuthOauth2LinkPostResponse200 {
+	/** The authorization URL to redirect the user to for linking the OAuth2 account */
+	url: string;
+	/** Indicates that the client should redirect to the provided URL */
+	redirect: boolean;
+}
+
+export interface ApiAuthOauth2LinkPostResponse400 {
+	message: string;
+}
+
+export interface ApiAuthOauth2LinkPostResponse401 {
+	message: string;
+}
+
+export interface ApiAuthOauth2LinkPostResponse403 {
+	message?: string;
+}
+
+export interface ApiAuthOauth2LinkPostResponse404 {
+	message?: string;
+}
+
+export interface ApiAuthOauth2LinkPostResponse429 {
+	message?: string;
+}
+
+export interface ApiAuthOauth2LinkPostResponse500 {
+	message?: string;
+}
+
 export type GetApiPostsParams = {
 	status?: GetApiPostsStatus;
 	tag?: string;
@@ -1383,6 +1597,14 @@ export const GetApiPostsStatus = {
 	published: 'published',
 	archived: 'archived'
 } as const;
+
+export type PostApiLinkedinPostBodyTwo = {
+	postId: string;
+};
+
+export type PostApiLinkedinPostBodyThree = {
+	postId: string;
+};
 
 export type GetApiAuthVerifyEmailParams = {
 	/**
@@ -1412,4 +1634,27 @@ export type GetApiAuthDeleteUserCallbackParams = {
 	 * @nullable
 	 */
 	callbackURL?: string | null;
+};
+
+export type GetApiAuthOauth2CallbackProviderIdParams = {
+	/**
+	 * The OAuth2 code
+	 * @nullable
+	 */
+	code?: string | null;
+	/**
+	 * The error message, if any
+	 * @nullable
+	 */
+	error?: string | null;
+	/**
+	 * The error description, if any
+	 * @nullable
+	 */
+	error_description?: string | null;
+	/**
+	 * The state parameter from the OAuth2 request
+	 * @nullable
+	 */
+	state?: string | null;
 };

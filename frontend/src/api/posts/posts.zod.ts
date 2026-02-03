@@ -46,7 +46,16 @@ export const GetApiPostsResponse = zod.object({
 			tags: zod.array(zod.string()),
 			status: zod.enum(['draft', 'published', 'archived']),
 			createdAt: zod.iso.datetime({}),
-			updatedAt: zod.iso.datetime({})
+			updatedAt: zod.iso.datetime({}),
+			publications: zod
+				.array(
+					zod.object({
+						platform: zod.enum(['linkedin', 'twitter', 'facebook']),
+						platformPostId: zod.string(),
+						publishedAt: zod.iso.datetime({})
+					})
+				)
+				.optional()
 		})
 	),
 	total: zod.number()
@@ -68,7 +77,16 @@ export const GetApiPostsByIdResponse = zod.object({
 	tags: zod.array(zod.string()),
 	status: zod.enum(['draft', 'published', 'archived']),
 	createdAt: zod.iso.datetime({}),
-	updatedAt: zod.iso.datetime({})
+	updatedAt: zod.iso.datetime({}),
+	publications: zod
+		.array(
+			zod.object({
+				platform: zod.enum(['linkedin', 'twitter', 'facebook']),
+				platformPostId: zod.string(),
+				publishedAt: zod.iso.datetime({})
+			})
+		)
+		.optional()
 });
 
 /**
@@ -94,7 +112,16 @@ export const PatchApiPostsByIdResponse = zod.object({
 	tags: zod.array(zod.string()),
 	status: zod.enum(['draft', 'published', 'archived']),
 	createdAt: zod.iso.datetime({}),
-	updatedAt: zod.iso.datetime({})
+	updatedAt: zod.iso.datetime({}),
+	publications: zod
+		.array(
+			zod.object({
+				platform: zod.enum(['linkedin', 'twitter', 'facebook']),
+				platformPostId: zod.string(),
+				publishedAt: zod.iso.datetime({})
+			})
+		)
+		.optional()
 });
 
 /**

@@ -30,7 +30,6 @@ export async function getLinkedInAccount(userId: string) {
 export async function getConnectionStatus(userId: string): Promise<{
   connected: boolean;
   accountId?: string;
-  email?: string;
 }> {
   const linkedInAccount = await getLinkedInAccount(userId);
 
@@ -38,12 +37,9 @@ export async function getConnectionStatus(userId: string): Promise<{
     return { connected: false };
   }
 
-  // Try to get additional profile info from the accountId
-  // The accountId in better-auth is typically the provider's user ID
   return {
     connected: true,
-    accountId: linkedInAccount.id,
-    email: linkedInAccount.accountId, // This might be email or LinkedIn ID
+    accountId: linkedInAccount.accountId,
   };
 }
 
@@ -111,7 +107,7 @@ export async function publishPost(
     postId: postRecord.id,
     platform: "linkedin",
     platformPostId: linkedInPostId,
-    accountId: linkedInAccount.id,
+    accountId: linkedInAccount.accountId,
     metadata: {
       personUrn,
       contentLength: postRecord.content.length,

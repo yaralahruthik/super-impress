@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { genericOAuth, openAPI } from "better-auth/plugins";
+import { openAPI } from "better-auth/plugins";
 import { Elysia } from "elysia";
 import { db } from "./db";
 import * as schema from "./db/schema";
@@ -8,6 +8,15 @@ import * as schema from "./db/schema";
 export const auth = betterAuth({
   basePath: "/auth",
   trustedOrigins: ["http://localhost:5173", "https://www.linkedin.com"],
+  socialProviders: {
+    linkedin: {
+      clientId: process.env.LINKEDIN_CLIENT_ID!,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+      // Minimal scopes (openid/profile/email) are included by default.
+      // Request posting scopes via `/api/auth/link-social` (scopes param).
+      redirectURI: "http://localhost:3000/api/auth/callback/linkedin",
+    },
+  },
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
@@ -19,27 +28,10 @@ export const auth = betterAuth({
     accountLinking: {
       enabled: true,
       allowDifferentEmails: true,
-      trustedProviders: ["linkedin"],
+      allowUnlinkingAll: true,
     },
   },
-  plugins: [
-    openAPI(),
-    genericOAuth({
-      config: [
-        {
-          providerId: "linkedin",
-          redirectURI:
-            "http://localhost:3000/api/auth/oauth2/callback/linkedin",
-          clientId: process.env.LINKEDIN_CLIENT_ID!,
-          clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
-          authorizationUrl: "https://www.linkedin.com/oauth/v2/authorization",
-          tokenUrl: "https://www.linkedin.com/oauth/v2/accessToken",
-          userInfoUrl: "https://api.linkedin.com/v2/userinfo",
-          scopes: ["openid", "profile", "email", "w_member_social"],
-        },
-      ],
-    }),
-  ],
+  plugins: [openAPI()],
 });
 
 // OpenAPI schema extraction for @elysiajs/openapi integration

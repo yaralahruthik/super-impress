@@ -13,7 +13,7 @@ The LinkedIn integration enables users to:
 
 ### Technology Stack
 
-- **OAuth Provider**: better-auth's genericOAuth plugin
+- **OAuth Provider**: Better Auth LinkedIn social provider + manual account linking (`/api/auth/link-social`)
 - **LinkedIn API**: REST API v2 with OpenID Connect
 - **Token Storage**: better-auth's built-in account table
 - **HTTP Client**: Native fetch API (Bun)
@@ -72,15 +72,20 @@ backend/src/
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET/POST | `/api/auth/signin/linkedin` | Start LinkedIn OAuth flow |
-| GET | `/api/auth/callback/linkedin` | OAuth callback endpoint |
+| POST | `/api/auth/link-social` | Start LinkedIn OAuth flow for a logged-in user (account linking) |
+| GET/POST | `/api/auth/callback/linkedin` | OAuth callback endpoint |
 
 **Frontend Usage:**
 ```typescript
 import { authClient } from '@/lib/auth-client';
 
-// Link LinkedIn to existing account
-await authClient.linkAccount({ provider: "linkedin" });
+// Link LinkedIn to existing account with posting permission
+await authClient.linkSocialAccount({
+  provider: 'linkedin',
+  callbackURL: 'http://localhost:5173/settings',
+  errorCallbackURL: 'http://localhost:5173/settings',
+  scopes: ['w_member_social'],
+});
 ```
 
 ### LinkedIn Module Endpoints
@@ -170,7 +175,7 @@ The integration requests these OAuth scopes:
 - `openid` - Basic OpenID Connect authentication
 - `profile` - User profile information (name, picture)
 - `email` - User email address
-- `w_member_social` - **Permission to post on behalf of the user**
+- `w_member_social` - **Permission to post on behalf of the user** (requested during account linking)
 
 ### 3. Environment Variables
 
@@ -185,23 +190,18 @@ LINKEDIN_CLIENT_SECRET=your_client_secret_here
 
 ### OAuth Configuration
 
-Using better-auth's `genericOAuth` plugin:
+Using Better Auth's built-in LinkedIn social provider:
 
 ```typescript
 // src/auth.ts
-plugins: [
-  genericOAuth({
-    config: [{
-      providerId: 'linkedin',
-      clientId: process.env.LINKEDIN_CLIENT_ID!,
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
-      authorizationUrl: 'https://www.linkedin.com/oauth/v2/authorization',
-      tokenUrl: 'https://www.linkedin.com/oauth/v2/accessToken',
-      userInfoUrl: 'https://api.linkedin.com/v2/userinfo',
-      scopes: ['openid', 'profile', 'email', 'w_member_social'],
-    }]
-  })
-]
+socialProviders: {
+  linkedin: {
+    clientId: process.env.LINKEDIN_CLIENT_ID!,
+    clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+  },
+},
+
+// Request `w_member_social` when linking via `/api/auth/link-social`.
 ```
 
 ### Token Management

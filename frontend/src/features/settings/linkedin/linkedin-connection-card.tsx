@@ -1,26 +1,14 @@
-import { useLinkSocialAccount, usePostApiAuthUnlinkAccount } from '@/api/better-auth/better-auth';
-import {
-	getGetApiLinkedinStatusQueryKey,
-	useGetApiLinkedinStatus
-} from '@/api/linked-in/linked-in';
-import {
-	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger
-} from '@/components/ui/alert-dialog';
+import { useLinkSocialAccount } from '@/api/better-auth/better-auth';
+import { useGetApiLinkedinStatus } from '@/api/linked-in/linked-in';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getErrorMessage } from '@/utils/get-error-message';
-import { useQueryClient } from '@tanstack/react-query';
-import { AlertCircle, CheckCircle2, Linkedin, Loader2, MessageCircle, Unlink } from 'lucide-react';
+import { AlertCircle, Linkedin, Loader2, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
+import DisconnectLinkedinAccount from './disconnect-linkedin-account';
+import { useLinkedAccountInfo } from './use-linked-account-info';
 
 export default function LinkedinConnectionCard() {
 	const { data, isPending, isError } = useGetApiLinkedinStatus();
@@ -33,8 +21,8 @@ export default function LinkedinConnectionCard() {
 		return <LinkedinConnectionCardError />;
 	}
 
-	if (data?.connected) {
-		return <LinkedinConnected email={data.email} accountId={data.accountId} />;
+	if (data.connected && data.accountId) {
+		return <LinkedinConnected accountId={data.accountId} />;
 	}
 
 	return <LinkedinNotConnected />;
@@ -52,7 +40,7 @@ function LinkedinNotConnected() {
 					provider: 'linkedin',
 					callbackURL: 'http://localhost:5173/settings',
 					errorCallbackURL: 'http://localhost:5173/settings',
-					disableRedirect: true
+					scopes: ['w_member_social']
 				}
 			},
 			{
@@ -112,37 +100,9 @@ function LinkedinNotConnected() {
 	);
 }
 
-function LinkedinConnected({
-	email,
-	accountId
-}: {
-	email: string | null | undefined;
-	accountId: string | null | undefined;
-}) {
-	const [error, setError] = useState<string | null>(null);
-	const queryClient = useQueryClient();
-	const { mutate: unlinkAccount, isPending } = usePostApiAuthUnlinkAccount();
-
-	const handleDisconnect = () => {
-		setError(null);
-		unlinkAccount(
-			{
-				data: {
-					providerId: 'linkedin'
-				}
-			},
-			{
-				onSuccess: () => {
-					queryClient.invalidateQueries({
-						queryKey: getGetApiLinkedinStatusQueryKey()
-					});
-				},
-				onError: (error) => {
-					setError(getErrorMessage(error));
-				}
-			}
-		);
-	};
+function LinkedinConnected({ accountId }: { accountId: string }) {
+	const { data, isPending, isError, error: accountInfoError } = useLinkedAccountInfo(accountId);
+	const email = data?.user?.email;
 
 	return (
 		<Card>
@@ -154,19 +114,41 @@ function LinkedinConnected({
 				<CardDescription>Your LinkedIn account is connected</CardDescription>
 			</CardHeader>
 			<CardContent className="space-y-4">
-				<div className="flex items-center gap-2 text-sm text-green-600">
-					<CheckCircle2 className="size-4" />
-					<span>Connected</span>
-				</div>
-
 				<div className="space-y-2 text-sm text-muted-foreground">
-					{email && (
+					{!accountId && (
 						<div className="flex items-center gap-2">
 							<MessageCircle className="size-4" />
-							<span>Connected as {email}</span>
+							<span>Linked account ID unavailable</span>
 						</div>
 					)}
-					{!email && accountId && (
+					{isPending && (
+						<div className="flex items-center gap-2">
+							<MessageCircle className="size-4" />
+							<Skeleton className="h-4 w-40" />
+						</div>
+					)}
+					{isError && (
+						<div role="alert" className="flex items-center gap-2 text-destructive">
+							<AlertCircle className="size-4" />
+							<span>
+								{accountInfoError instanceof Error
+									? accountInfoError.message
+									: 'Unable to load account info.'}
+							</span>
+						</div>
+					)}
+					{!isPending && !isError && email && (
+						<div className="flex items-center gap-2">
+							<div className="flex items-center gap-2">
+								<Avatar size="sm">
+									<AvatarImage src={data.user.image} alt={data.user.name ?? email} />
+									<AvatarFallback>{(data.user.name ?? email)[0]?.toUpperCase()}</AvatarFallback>
+								</Avatar>
+								<span>{email}</span>
+							</div>
+						</div>
+					)}
+					{!isPending && !isError && !email && accountId && (
 						<div className="flex items-center gap-2">
 							<MessageCircle className="size-4" />
 							<span>Linked account ID: {accountId}</span>
@@ -174,45 +156,7 @@ function LinkedinConnected({
 					)}
 				</div>
 
-				{error && (
-					<div
-						role="alert"
-						className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive"
-					>
-						{error}
-					</div>
-				)}
-
-				<AlertDialog>
-					<AlertDialogTrigger asChild>
-						<Button variant="outline" disabled={isPending}>
-							{isPending ? (
-								<>
-									<Loader2 className="size-4 animate-spin" />
-									Disconnecting...
-								</>
-							) : (
-								<>
-									<Unlink className="size-4" />
-									Disconnect
-								</>
-							)}
-						</Button>
-					</AlertDialogTrigger>
-					<AlertDialogContent>
-						<AlertDialogHeader>
-							<AlertDialogTitle>Disconnect LinkedIn?</AlertDialogTitle>
-							<AlertDialogDescription>
-								You will no longer be able to publish posts directly to LinkedIn. You can reconnect
-								at any time.
-							</AlertDialogDescription>
-						</AlertDialogHeader>
-						<AlertDialogFooter>
-							<AlertDialogCancel>Cancel</AlertDialogCancel>
-							<AlertDialogAction onClick={handleDisconnect}>Disconnect</AlertDialogAction>
-						</AlertDialogFooter>
-					</AlertDialogContent>
-				</AlertDialog>
+				<DisconnectLinkedinAccount accountId={accountId} />
 			</CardContent>
 		</Card>
 	);

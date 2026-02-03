@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { db } from '../../db';
 import { account, post, postPublication } from '../../db/schema';
 import {
@@ -16,8 +16,9 @@ export async function getLinkedInAccount(userId: string) {
 	const [linkedInAccount] = await db
 		.select()
 		.from(account)
-		.where(eq(account.userId, userId))
-		.where(eq(account.providerId, 'linkedin'))
+		.where(
+			and(eq(account.userId, userId), eq(account.providerId, 'linkedin')),
+		)
 		.limit(1);
 
 	return linkedInAccount ?? null;
@@ -62,8 +63,7 @@ export async function publishPost(
 	const [postRecord] = await db
 		.select()
 		.from(post)
-		.where(eq(post.id, postId))
-		.where(eq(post.userId, userId))
+		.where(and(eq(post.id, postId), eq(post.userId, userId)))
 		.limit(1);
 
 	if (!postRecord) {
@@ -84,9 +84,13 @@ export async function publishPost(
 	const [existingPublication] = await db
 		.select()
 		.from(postPublication)
-		.where(eq(postPublication.postId, postId))
-		.where(eq(postPublication.platform, 'linkedin'))
-		.where(eq(postPublication.accountId, linkedInAccount.id))
+		.where(
+			and(
+				eq(postPublication.postId, postId),
+				eq(postPublication.platform, 'linkedin'),
+				eq(postPublication.accountId, linkedInAccount.id),
+			),
+		)
 		.limit(1);
 
 	if (existingPublication) {

@@ -3,11 +3,11 @@
  * Uses native fetch API for LinkedIn REST API v2
  */
 
-export interface LinkedInPostResponse {
+export type LinkedInPostResponse = {
 	id: string;
-}
+};
 
-export interface LinkedInProfileResponse {
+export type LinkedInProfileResponse = {
 	sub: string;
 	name: string;
 	given_name: string;
@@ -16,7 +16,7 @@ export interface LinkedInProfileResponse {
 	locale: { country: string; language: string };
 	email: string;
 	email_verified: boolean;
-}
+};
 
 /**
  * Create a post on LinkedIn

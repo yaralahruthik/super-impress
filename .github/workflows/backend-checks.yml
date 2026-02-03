@@ -1,4 +1,4 @@
-name: Backend Format
+name: Backend Checks
 
 on:
   pull_request:
@@ -7,8 +7,8 @@ on:
       - "backend/**"
 
 jobs:
-  backend-format-check:
-    name: Backend Format Check
+  backend-checks:
+    name: Backend Checks
     runs-on: ubuntu-latest
 
     steps:
@@ -28,3 +28,6 @@ jobs:
 
       - name: Run Biome Lint
         run: cd backend && bun lint
+
+      - name: Run Typecheck
+        run: cd backend && bun typecheck

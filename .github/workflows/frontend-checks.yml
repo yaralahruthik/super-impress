@@ -1,4 +1,4 @@
-name: Frontend Format
+name: Frontend Checks
 
 on:
   pull_request:
@@ -7,8 +7,8 @@ on:
       - "frontend/**"
 
 jobs:
-  frontend-format-check:
-    name: Frontend Format
+  frontend-checks:
+    name: Frontend Checks
     runs-on: ubuntu-latest
 
     steps:

@@ -21,8 +21,8 @@ export const linkedInModule = new Elysia({
 	})
 	.get(
 		'/status',
-		async ({ user }) => {
-			const status = await getConnectionStatus(user.id);
+		async ({ request }) => {
+			const status = await getConnectionStatus(request.headers);
 			return status;
 		},
 		{
@@ -37,9 +37,9 @@ export const linkedInModule = new Elysia({
 	)
 	.post(
 		'/post',
-		async ({ body, user, set }) => {
+		async ({ body, user, request, set }) => {
 			try {
-				const result = await publishPost(user.id, body.postId);
+				const result = await publishPost(user.id, body.postId, request.headers);
 				return {
 					success: true,
 					linkedInPostId: result.linkedInPostId,

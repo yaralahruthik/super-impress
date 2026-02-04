@@ -1,54 +1,28 @@
-/**
- * LinkedIn API Client
- * Uses native fetch API for LinkedIn REST API v2
- */
-
-export type LinkedInPostResponse = {
-  id: string;
-};
-
-export type LinkedInProfileResponse = {
-  sub: string;
-  name: string;
-  given_name: string;
-  family_name: string;
-  picture: string;
-  locale: { country: string; language: string };
-  email: string;
-  email_verified: boolean;
-};
-
-/**
- * Create a post on LinkedIn
- * @param accessToken - LinkedIn OAuth access token
- * @param personUrn - LinkedIn person URN (e.g., "urn:li:person:abc123")
- * @param content - Post content text
- * @returns LinkedIn post ID
- */
 export async function createLinkedInPost(
   accessToken: string,
   personUrn: string,
   content: string,
 ): Promise<string> {
-  const response = await fetch("https://api.linkedin.com/rest/posts", {
+  const response = await fetch("https://api.linkedin.com/v2/ugcPosts", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
-      "LinkedIn-Version": "202405",
+      "LinkedIn-Version": "202511",
       "X-RestLi-Protocol-Version": "2.0.0",
     },
     body: JSON.stringify({
       author: personUrn,
-      commentary: content,
-      visibility: "PUBLIC",
-      distribution: {
-        feedDistribution: "MAIN_FEED",
-        targetEntities: [],
-        thirdPartyDistributionChannels: [],
-      },
       lifecycleState: "PUBLISHED",
-      isReshareDisabledByAuthor: false,
+      specificContent: {
+        "com.linkedin.ugc.ShareContent": {
+          shareCommentary: { text: content },
+          shareMediaCategory: "NONE",
+        },
+      },
+      visibility: {
+        "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC",
+      },
     }),
   });
 
@@ -57,42 +31,19 @@ export async function createLinkedInPost(
     throw new Error(`LinkedIn API error (${response.status}): ${errorText}`);
   }
 
-  const data = (await response.json()) as LinkedInPostResponse;
-  return data.id;
-}
-
-/**
- * Get the authenticated user's LinkedIn profile
- * @param accessToken - LinkedIn OAuth access token
- * @returns LinkedIn profile data
- */
-export async function getLinkedInProfile(
-  accessToken: string,
-): Promise<LinkedInProfileResponse> {
-  const response = await fetch("https://api.linkedin.com/v2/userinfo", {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`LinkedIn API error (${response.status}): ${errorText}`);
+  const postId = response.headers.get("X-RestLi-Id");
+  if (!postId) {
+    throw new Error("LinkedIn API did not return a post ID");
   }
 
-  return (await response.json()) as LinkedInProfileResponse;
+  return postId;
 }
 
-/**
- * Convert LinkedIn sub (from userinfo) to person URN
- * The sub is in the format of a URN already
- */
-export function getPersonUrnFromSub(sub: string): string {
-  // The sub from LinkedIn's OpenID Connect is already in the format "urn:li:person:abc123"
-  // or it might just be the ID. We need to ensure it's a proper URN.
-  if (sub.startsWith("urn:li:person:")) {
-    return sub;
+export function getPersonUrnFromAccountId(accountId: string): string {
+  // LinkedIn account IDs are often already in the format "urn:li:person:abc123".
+  // If not, normalize to a person URN.
+  if (accountId.startsWith("urn:li:person:")) {
+    return accountId;
   }
-  return `urn:li:person:${sub}`;
+  return `urn:li:person:${accountId}`;
 }

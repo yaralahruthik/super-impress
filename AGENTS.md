@@ -8,6 +8,7 @@ Super Impress is a LinkedIn post management tool with a monorepo structure:
 
 - **Frontend**: React 19 SPA with TypeScript → see `frontend/AGENTS.md`
 - **Backend**: Bun + Elysia + TypeScript API → see `backend/AGENTS.md`
+- **Docs**: TanStack Start + Fumadocs documentation site → see `docs/AGENTS.md`
 
 Always check the detailed AGENTS.md in the relevant subdirectory for comprehensive guidelines.
 
@@ -29,6 +30,10 @@ super-impress/
 │   │   └── auth.ts       # better-auth configuration
 │   ├── drizzle/          # Database migrations
 │   └── AGENTS.md         # Backend-specific guidelines
+├── docs/                 # TanStack Start + Fumadocs documentation site
+│   ├── content/docs/     # MDX documentation content
+│   ├── src/              # React components and routing
+│   └── AGENTS.md         # Docs-specific guidelines
 ├── decisions/            # Architecture Decision Records
 │   ├── product/          # Product decisions
 │   └── tech/             # Technical decisions
@@ -78,6 +83,18 @@ docker compose exec redis redis-cli MONITOR
 
 Note: No test framework configured for frontend.
 
+### Documentation (run from `docs/`)
+
+| Command             | Description                             |
+| ------------------- | --------------------------------------- |
+| `pnpm dev`          | Start development server                |
+| `pnpm build`        | Production build                        |
+| `pnpm types:check`  | TypeScript and MDX validation           |
+| `pnpm lint`         | Run Biome linter (check only)           |
+| `pnpm format`       | Format code with Biome                  |
+
+Note: Uses Biome for linting and formatting, not ESLint/Prettier.
+
 ### Backend (run from `backend/`)
 
 | Command                          | Description                   |
@@ -99,6 +116,15 @@ Note: No test framework configured for frontend.
 - **TypeScript**: Strict mode, no `any`, use `import type` for type-only imports
 - **Imports**: Use `@/` path alias for internal imports
 - **Components**: Function components only, CVA for variants, `cn()` for class merging
+
+### Documentation
+
+- **Runtime**: TanStack Start + React with TypeScript
+- **Formatting**: Biome (2 spaces, single quotes)
+- **Linting**: Biome with auto-import organization
+- **Content**: MDX files in `content/docs/`
+- **Framework**: Fumadocs for documentation UI
+- **Package Manager**: pnpm
 
 ### Backend
 
@@ -136,7 +162,7 @@ modules/[feature]/
 
 Hooks run automatically on commit:
 
-- **Biome** (backend only): Linting and formatting
+- **Biome** (backend + docs): Linting and formatting
 - **Prettier/ESLint** (frontend only): Code formatting and linting
 - **General**: Trailing whitespace, end-of-file fixer, YAML validation, large file check (1MB max)
 
@@ -168,6 +194,7 @@ prek run --all-files  # All files
 1. Start infrastructure: `docker compose up postgres redis -d`
 2. Start backend: `cd backend && bun run dev`
 3. Start frontend: `cd frontend && pnpm dev`
+4. Start docs: `cd docs && pnpm dev`
 
 ### Making Changes
 
@@ -180,4 +207,5 @@ prek run --all-files  # All files
 
 - Backend: `bun run lint` and `bun run format` (Biome)
 - Frontend: `pnpm lint` and `pnpm format` (ESLint + Prettier)
-- Type checking: `bun run typecheck` (backend), `pnpm build` (frontend includes type check)
+- Docs: `pnpm lint` and `pnpm format` (Biome)
+- Type checking: `bun run typecheck` (backend), `pnpm build` (frontend includes type check), `pnpm types:check` (docs)

@@ -9,6 +9,7 @@ backend:
 documentation:
   - changed-files:
       - any-glob-to-any-file: "**/*.md"
+      - any-glob-to-any-file: "docs/**"
 
 ci/cd:
   - changed-files:

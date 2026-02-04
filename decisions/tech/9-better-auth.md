@@ -1,0 +1,36 @@
+# Better Auth
+
+Super Impress uses [better-auth](https://www.better-auth.com/) for authentication.
+
+## Why better-auth
+
+- **Zero Boilerplate**: Minimal configuration to get started
+- **OAuth Providers**: Built-in support for Google, GitHub, and more
+- **Database Adapters**: First-class Drizzle ORM integration
+- **Framework Support**: Official Elysia plugin
+
+## Integration
+
+better-auth integrates with Elysia via the official plugin:
+
+```ts
+import { Elysia } from 'elysia';
+import { auth } from './auth';
+
+const app = new Elysia()
+  .use(auth.plugin)
+  .get('/protected', ({ user }) => {
+    return { message: `Hello, ${user.name}` };
+  }, { auth: true });
+```
+
+The `{ auth: true }` route option automatically:
+- Validates the session
+- Rejects unauthenticated requests with 401
+- Provides typed `user` object in the handler
+
+## References
+
+- [better-auth Documentation](https://www.better-auth.com/docs)
+- [Elysia Integration](https://www.better-auth.com/docs/integrations/elysia)
+- [Drizzle Adapter](https://www.better-auth.com/docs/adapters/drizzle)

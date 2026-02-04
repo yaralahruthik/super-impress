@@ -1,0 +1,57 @@
+# Bun & Elysia Backend
+
+Super Impress uses [Bun](https://bun.sh/) as the JavaScript runtime and [Elysia](https://elysiajs.com/) as the web framework for the backend.
+
+## Why Bun
+
+- **Performance**: Significantly faster than Node.js for most workloads
+- **TypeScript Native**: Runs TypeScript directly without compilation step
+- **All-in-One**: Built-in bundler, test runner, and package manager
+- **Node.js Compatible**: Works with most npm packages
+
+## Why Elysia
+
+- **Type Safety**: End-to-end type inference from routes to handlers
+- **Performance**: One of the fastest Bun web frameworks
+- **Plugin Ecosystem**: First-party plugins for OpenAPI, auth, and more
+- **Developer Experience**: Clean, expressive API design
+
+## Project Structure
+
+```
+backend/
+├── src/
+│   ├── index.ts          # App entry point
+│   ├── auth.ts           # better-auth configuration
+│   ├── db/
+│   │   ├── index.ts      # Drizzle client
+│   │   └── schema.ts     # Database schema
+│   └── modules/
+│       └── <domain>/     # Feature modules
+└── drizzle/              # Migrations
+```
+
+## TypeBox Validation
+
+Elysia uses TypeBox for request/response validation with full type inference:
+
+```ts
+import { Elysia, t } from 'elysia';
+
+const app = new Elysia()
+  .post('/users', ({ body }) => {
+    // body is typed as { name: string, email: string }
+    return { id: 1, ...body };
+  }, {
+    body: t.Object({
+      name: t.String(),
+      email: t.String({ format: 'email' })
+    })
+  });
+```
+
+## References
+
+- [Bun Documentation](https://bun.sh/docs)
+- [Elysia Documentation](https://elysiajs.com/)
+- [TypeBox](https://github.com/sinclairzx81/typebox)

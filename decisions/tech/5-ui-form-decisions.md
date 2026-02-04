@@ -156,8 +156,7 @@ Screen readers announce:
 ## Related Patterns
 
 This decision is related to:
-- `/decisions/tech/7-ui-component-architecture.md` - UI components used in forms
-- `/decisions/tech/6-authentication.md` - Auth forms implement this pattern
+- `/decisions/tech/4-ui-component-architecture.md` - UI components used in forms
 
 ## References
 

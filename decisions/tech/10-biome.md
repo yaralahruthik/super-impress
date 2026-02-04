@@ -1,0 +1,54 @@
+# Biome
+
+Super Impress uses [Biome](https://biomejs.dev/) for linting and formatting.
+
+## Why Biome
+
+- **All-in-One**: Replaces ESLint + Prettier with a single tool
+- **Fast**: Written in Rust, significantly faster than JavaScript alternatives
+- **Consistent**: Same tool for linting and formatting ensures consistency
+- **Zero Config**: Sensible defaults with minimal configuration needed
+
+## Configuration
+
+Biome is configured in `biome.json` at the project root:
+
+```json
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "formatter": {
+    "indentStyle": "tab",
+    "indentWidth": 2
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  }
+}
+```
+
+Key settings:
+- **Tabs** for indentation
+- **Single quotes** for strings
+
+## Commands
+
+```bash
+# Check for lint errors
+bun run lint
+
+# Fix auto-fixable lint errors
+bun run lint:fix
+
+# Format code
+bun run format
+
+# Check formatting without writing
+bun run format:check
+```
+
+## References
+
+- [Biome Documentation](https://biomejs.dev/guides/getting-started/)
+- [Biome Rules](https://biomejs.dev/linter/rules/)

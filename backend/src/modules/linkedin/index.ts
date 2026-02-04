@@ -62,7 +62,8 @@ export const linkedInModule = new Elysia({
 			},
 			detail: {
 				summary: 'Publish post to LinkedIn',
-				description: 'Publish a post to the authenticated user\'s LinkedIn account',
+				description:
+					"Publish a post to the authenticated user's LinkedIn account",
 			},
 		},
 	);

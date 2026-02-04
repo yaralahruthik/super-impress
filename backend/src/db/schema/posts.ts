@@ -83,10 +83,16 @@ export const postRelations = relations(post, ({ one, many }) => ({
 	publications: many(postPublication),
 }));
 
-export const postPublicationRelations = relations(postPublication, ({ one }) => ({
-	post: one(post, { fields: [postPublication.postId], references: [post.id] }),
-	account: one(account, {
-		fields: [postPublication.accountId],
-		references: [account.id],
+export const postPublicationRelations = relations(
+	postPublication,
+	({ one }) => ({
+		post: one(post, {
+			fields: [postPublication.postId],
+			references: [post.id],
+		}),
+		account: one(account, {
+			fields: [postPublication.accountId],
+			references: [account.id],
+		}),
 	}),
-}));
+);

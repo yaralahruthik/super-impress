@@ -1,27 +1,27 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1769425086064,
-      "tag": "0000_chief_union_jack",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1769854275762,
-      "tag": "0001_colossal_mentallo",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1769971185701,
-      "tag": "0002_rare_reptil",
-      "breakpoints": true
-    }
-  ]
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1769425086064,
+			"tag": "0000_chief_union_jack",
+			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1769854275762,
+			"tag": "0001_colossal_mentallo",
+			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1769971185701,
+			"tag": "0002_rare_reptil",
+			"breakpoints": true
+		}
+	]
 }

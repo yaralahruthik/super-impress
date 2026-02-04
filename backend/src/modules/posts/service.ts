@@ -21,10 +21,7 @@ export async function createPost(
 	return newPost;
 }
 
-export async function getPostById(
-	postId: string,
-	userId: string,
-) {
+export async function getPostById(postId: string, userId: string) {
 	const result = await db.query.post.findFirst({
 		where: and(eq(post.id, postId), eq(post.userId, userId)),
 		with: {

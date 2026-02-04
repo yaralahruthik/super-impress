@@ -7,7 +7,7 @@ Guidelines for AI coding agents working in this monorepo.
 Super Impress is a LinkedIn post management tool with a monorepo structure:
 
 - **Frontend**: React 19 SPA with TypeScript → see `frontend/AGENTS.md`
-- **Backend**: Python 3.13 FastAPI API → see `backend/AGENTS.md`
+- **Backend**: Bun + Elysia + TypeScript API → see `backend/AGENTS.md`
 
 Always check the detailed AGENTS.md in the relevant subdirectory for comprehensive guidelines.
 
@@ -22,9 +22,12 @@ super-impress/
 │   │   ├── features/     # Feature modules
 │   │   └── routes/       # TanStack Router file-based routes
 │   └── AGENTS.md         # Frontend-specific guidelines
-├── backend/              # Python/FastAPI (uv)
-│   ├── app/              # Application code (feature modules)
-│   ├── migrations/       # Alembic database migrations
+├── backend/              # Bun/Elysia/TypeScript API
+│   ├── src/
+│   │   ├── modules/      # Feature modules (posts, linkedin)
+│   │   ├── db/           # Database layer (Drizzle)
+│   │   └── auth.ts       # better-auth configuration
+│   ├── drizzle/          # Database migrations
 │   └── AGENTS.md         # Backend-specific guidelines
 ├── decisions/            # Architecture Decision Records
 │   ├── product/          # Product decisions
@@ -32,15 +35,6 @@ super-impress/
 ├── docker-compose.yml    # Development infrastructure
 └── .pre-commit-config.yaml
 ```
-
-## Architecture Decision Records
-
-Before making significant changes, review relevant decisions in the `decisions/` folder:
-
-- `decisions/tech/` - Technical choices (database, frameworks, etc.)
-- `decisions/product/` - Product direction and feature decisions
-
-These documents explain the "why" behind architectural choices.
 
 ## Docker Commands (Development Infrastructure)
 
@@ -56,8 +50,8 @@ docker compose up -d              # All services
 Database migrations (Docker mode):
 
 ```bash
-docker compose exec backend uv run alembic upgrade head
-docker compose exec backend uv run alembic revision --autogenerate -m "description"
+docker compose exec backend bun run drizzle-kit push
+docker compose exec backend bun run drizzle-kit generate
 ```
 
 Redis debugging:
@@ -76,7 +70,9 @@ docker compose exec redis redis-cli MONITOR
 | ------------------- | --------------------------------------- |
 | `pnpm dev`          | Start development server                |
 | `pnpm build`        | TypeScript check + production build     |
+| `pnpm lint:check`   | Check for ESLint issues                 |
 | `pnpm lint`         | Fix ESLint issues                       |
+| `pnpm format:check` | Check Prettier formatting                |
 | `pnpm format`       | Format with Prettier                    |
 | `pnpm orval`        | Regenerate API client from OpenAPI spec |
 
@@ -86,14 +82,14 @@ Note: No test framework configured for frontend.
 
 | Command                          | Description                   |
 | -------------------------------- | ----------------------------- |
-| `uv run fastapi dev`             | Development server            |
-| `uv run ruff check --fix .`      | Lint and auto-fix             |
-| `uv run ruff format .`           | Format code                   |
-| `uv run pytest`                  | Run all tests                 |
-| `uv run pytest path/to/test.py`  | Run specific test file        |
-| `uv run pytest path/to/test.py::test_name` | Run single test     |
-| `uv run pytest -k "pattern"`     | Run tests matching pattern    |
-| `uv run alembic upgrade head`    | Apply database migrations     |
+| `bun run dev`                    | Development server with watch  |
+| `bun run build`                  | Production build (if configured) |
+| `bun run lint`                   | Run Biome linter (auto-fix)   |
+| `bun run format`                 | Format code with Biome        |
+| `bun run typecheck`              | TypeScript type checking      |
+| `bun run drizzle-kit push`       | Push database schema changes   |
+| `bun run drizzle-kit generate`   | Generate migrations           |
+| `bun run test`                   | Run tests (not implemented)   |
 
 ## Code Style Summary
 
@@ -106,16 +102,42 @@ Note: No test framework configured for frontend.
 
 ### Backend
 
-- **Formatting**: Ruff for linting and formatting
+- **Runtime**: Bun with TypeScript
+- **Formatting**: Biome (tabs, single quotes)
+- **Linting**: Biome with auto-import organization
 - **Type hints**: Required for all function parameters and return types
-- **Imports**: 3 groups (stdlib, third-party, local) separated by blank lines
-- **Patterns**: Pydantic for schemas, SQLAlchemy 2.0 for models, `HTTPException` for errors
+- **Framework**: Elysia with TypeBox validation schemas
+- **Database**: Drizzle ORM with PostgreSQL
+- **Imports**: Organized automatically by Biome
 
-## Git Hooks (prek)
+## Database Management
+
+### Backend Patterns
+
+- **Schemas**: Use TypeBox schemas in `model.ts` files for request/response validation
+- **Database**: Drizzle ORM with schema definitions in `src/db/schema/`
+- **Migrations**: Use `bun run drizzle-kit generate` then `bun run drizzle-kit push`
+- **Services**: Business logic in `service.ts` files
+- **Routes**: API endpoints in `index.ts` files with Elysia route definitions
+
+### Module Structure
+
+Each feature module follows this pattern:
+
+```
+modules/[feature]/
+├── index.ts      # Elysia routes and endpoints
+├── model.ts      # TypeBox validation schemas
+├── service.ts    # Business logic and database operations
+└── client.ts     # External API clients (if needed)
+```
+
+## Git Hooks (pre-commit)
 
 Hooks run automatically on commit:
 
-- **Ruff** (backend only): Linting and formatting
+- **Biome** (backend only): Linting and formatting
+- **Prettier/ESLint** (frontend only): Code formatting and linting
 - **General**: Trailing whitespace, end-of-file fixer, YAML validation, large file check (1MB max)
 
 Manual execution:
@@ -131,6 +153,31 @@ prek run --all-files  # All files
 
 2. **Environment files**: `frontend/.env` and `backend/.env` are not committed. See README.md for required variables.
 
-3. **Database**: PostgreSQL 18 via Docker. Always use Alembic for schema changes, never modify the database directly.
+3. **Database**: PostgreSQL via Docker. Always use Drizzle migrations, never modify the database directly.
 
-4. **Package managers**: Use `pnpm` for frontend, `uv` for backend. Do not mix.
+4. **Package managers**: Use `pnpm` for frontend, `bun` for backend. Do not mix.
+
+5. **Testing**: No test frameworks are currently configured. Tests need to be set up from scratch.
+
+6. **API Documentation**: Backend uses @elysiajs/openapi for automatic OpenAPI/Swagger documentation.
+
+## Development Workflow
+
+### Starting Development
+
+1. Start infrastructure: `docker compose up postgres redis -d`
+2. Start backend: `cd backend && bun run dev`
+3. Start frontend: `cd frontend && pnpm dev`
+
+### Making Changes
+
+1. Backend changes automatically restart with `bun --watch`
+2. Frontend hot reloads with Vite HMR
+3. Database schema changes require Drizzle migrations
+4. API changes require regenerating frontend client: `pnpm orval`
+
+### Code Quality
+
+- Backend: `bun run lint` and `bun run format` (Biome)
+- Frontend: `pnpm lint` and `pnpm format` (ESLint + Prettier)
+- Type checking: `bun run typecheck` (backend), `pnpm build` (frontend includes type check)

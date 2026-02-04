@@ -1,10 +1,8 @@
-import { baseOptions } from "@/lib/layout.shared";
-import { source } from "@/lib/source";
+import browserCollections from "fumadocs-mdx:collections/browser";
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { staticFunctionMiddleware } from "@tanstack/start-static-server-functions";
 import { useFumadocsLoader } from "fumadocs-core/source/client";
-import browserCollections from "fumadocs-mdx:collections/browser";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import {
   DocsBody,
@@ -14,6 +12,8 @@ import {
 } from "fumadocs-ui/layouts/docs/page";
 import defaultMdxComponents from "fumadocs-ui/mdx";
 import { Suspense } from "react";
+import { baseOptions } from "@/lib/layout.shared";
+import { source } from "@/lib/source";
 
 export const Route = createFileRoute("/(docs)/$")({
   component: Page,

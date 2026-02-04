@@ -26,6 +26,11 @@ function toPostResponse(post: {
 	status: 'draft' | 'published' | 'archived';
 	createdAt: Date;
 	updatedAt: Date;
+	publications?: Array<{
+		platform: 'linkedin' | 'twitter' | 'facebook';
+		platformPostId: string;
+		publishedAt: Date;
+	}>;
 }): {
 	id: string;
 	userId: string;
@@ -35,11 +40,21 @@ function toPostResponse(post: {
 	status: 'draft' | 'published' | 'archived';
 	createdAt: string;
 	updatedAt: string;
+	publications?: Array<{
+		platform: 'linkedin' | 'twitter' | 'facebook';
+		platformPostId: string;
+		publishedAt: string;
+	}>;
 } {
 	return {
 		...post,
 		createdAt: post.createdAt.toISOString(),
 		updatedAt: post.updatedAt.toISOString(),
+		publications: post.publications?.map((pub) => ({
+			platform: pub.platform,
+			platformPostId: pub.platformPostId,
+			publishedAt: pub.publishedAt.toISOString(),
+		})),
 	};
 }
 

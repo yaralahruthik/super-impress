@@ -25,6 +25,18 @@ export type PostUpdate = Static<typeof PostUpdate>;
 // Intermediate variable to avoid infinite type instantiation
 const _postSelect = createSelectSchema(post);
 
+// Publication schema for including in post response
+export const Publication = Type.Object({
+	platform: Type.Union([
+		Type.Literal('linkedin'),
+		Type.Literal('twitter'),
+		Type.Literal('facebook'),
+	]),
+	platformPostId: Type.String(),
+	publishedAt: Type.String({ format: 'date-time' }),
+});
+export type Publication = Static<typeof Publication>;
+
 // PostResponse: override date fields to strings for JSON serialization
 const _postResponseBase = Type.Omit(_postSelect, ['createdAt', 'updatedAt']);
 
@@ -33,6 +45,7 @@ export const PostResponse = Type.Composite([
 	Type.Object({
 		createdAt: Type.String({ format: 'date-time' }),
 		updatedAt: Type.String({ format: 'date-time' }),
+		publications: Type.Optional(Type.Array(Publication)),
 	}),
 ]);
 export type PostResponse = Static<typeof PostResponse>;

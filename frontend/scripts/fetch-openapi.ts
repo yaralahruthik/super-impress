@@ -58,6 +58,10 @@ function capitalizeFirst(str: string): string {
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function sanitizeSchemaName(name: string): string {
+	return name.replace(/[{}]/g, '').replace(/[^a-zA-Z0-9._-]/g, '');
+}
+
 function generateSchemaName(
 	operationId: string | undefined,
 	path: string,
@@ -67,12 +71,40 @@ function generateSchemaName(
 ): string {
 	if (operationId) {
 		const suffix = type === 'request' ? 'Request' : `Response${statusCode || ''}`;
-		return `${capitalizeFirst(operationId)}${suffix}`;
+		return sanitizeSchemaName(`${capitalizeFirst(operationId)}${suffix}`);
 	}
 	// Fallback: generate from path
 	const pathParts = path.split('/').filter(Boolean).map(capitalizeFirst).join('');
 	const suffix = type === 'request' ? 'Request' : `Response${statusCode || ''}`;
-	return `${pathParts}${capitalizeFirst(method)}${suffix}`;
+	return sanitizeSchemaName(`${pathParts}${capitalizeFirst(method)}${suffix}`);
+}
+
+function extractPathParams(path: string): string[] {
+	const matches = path.match(/{([^}]+)}/g) ?? [];
+	return matches.map((match) => match.slice(1, -1));
+}
+
+function ensurePathParameters(path: string, op: OperationObject): void {
+	const pathParams = extractPathParams(path);
+	if (pathParams.length === 0) return;
+
+	if (!op.parameters) {
+		op.parameters = [];
+	}
+
+	const existing = new Set(
+		op.parameters.filter((param) => param.in === 'path').map((param) => param.name)
+	);
+
+	for (const paramName of pathParams) {
+		if (existing.has(paramName)) continue;
+		op.parameters.push({
+			name: paramName,
+			in: 'path',
+			required: true,
+			schema: { type: 'string' }
+		});
+	}
 }
 
 function deduplicateSchemaName(baseName: string, existingSchemas: Set<string>): string {
@@ -163,6 +195,12 @@ function fixNullableTypes(schema: Record<string, unknown>): Record<string, unkno
 	return result;
 }
 
+function normalizeSchema(schema: Record<string, unknown>): Record<string, unknown> {
+	let fixedSchema = fixNullableTypes(schema);
+	fixedSchema = removeIdFields(fixedSchema) as Record<string, unknown>;
+	return fixedSchema;
+}
+
 function transformOpenAPISpec(spec: OpenAPIObject): OpenAPIObject {
 	console.log('🔄 Transforming OpenAPI spec...');
 	console.log('📊 Input spec has', Object.keys(spec.paths || {}).length, 'paths');
@@ -190,6 +228,8 @@ function transformOpenAPISpec(spec: OpenAPIObject): OpenAPIObject {
 
 			const op = operation as OperationObject;
 
+			ensurePathParameters(path, op);
+
 			// Fix parameters with type arrays
 			if (op.parameters) {
 				for (const param of op.parameters) {
@@ -200,28 +240,36 @@ function transformOpenAPISpec(spec: OpenAPIObject): OpenAPIObject {
 			}
 
 			// Fix requestBody schemas
-			if (op.requestBody?.content?.['application/json']?.schema) {
-				const inlineSchema = op.requestBody.content['application/json'].schema;
+			if (op.requestBody?.content) {
+				for (const [contentType, mediaType] of Object.entries(op.requestBody.content)) {
+					if (!mediaType || typeof mediaType !== 'object') continue;
+					const media = mediaType as { schema?: Record<string, unknown> };
+					if (!media.schema) continue;
 
-				// Skip if already a $ref
-				if (!('$ref' in inlineSchema)) {
-					// Generate a schema name and add to components
-					const baseName = generateSchemaName(op.operationId, path, method, 'request');
-					const schemaName = deduplicateSchemaName(baseName, existingSchemas);
-					existingSchemas.add(schemaName);
+					const inlineSchema = media.schema;
+					if (contentType === 'application/json') {
+						// Skip if already a $ref
+						if (!('$ref' in inlineSchema)) {
+							// Generate a schema name and add to components
+							const baseName = generateSchemaName(op.operationId, path, method, 'request');
+							const schemaName = deduplicateSchemaName(baseName, existingSchemas);
+							existingSchemas.add(schemaName);
 
-					// Fix nullable types and remove $id fields
-					let fixedSchema = fixNullableTypes(inlineSchema);
-					fixedSchema = removeIdFields(fixedSchema) as Record<string, unknown>;
+							const fixedSchema = normalizeSchema(inlineSchema);
+							transformed.components.schemas![schemaName] = fixedSchema;
 
-					transformed.components.schemas![schemaName] = fixedSchema;
+							// Replace inline schema with $ref
+							if (op.requestBody?.content?.['application/json']) {
+								op.requestBody.content['application/json'].schema = {
+									$ref: `#/components/schemas/${schemaName}`
+								};
+							}
 
-					// Replace inline schema with $ref
-					op.requestBody.content['application/json'].schema = {
-						$ref: `#/components/schemas/${schemaName}`
-					};
-
-					transformedCount++;
+							transformedCount++;
+						}
+					} else {
+						media.schema = normalizeSchema(inlineSchema);
+					}
 				}
 			}
 
@@ -245,10 +293,7 @@ function transformOpenAPISpec(spec: OpenAPIObject): OpenAPIObject {
 							const schemaName = deduplicateSchemaName(baseName, existingSchemas);
 							existingSchemas.add(schemaName);
 
-							// Fix nullable types and remove $id fields
-							let fixedSchema = fixNullableTypes(inlineSchema);
-							fixedSchema = removeIdFields(fixedSchema) as Record<string, unknown>;
-
+							const fixedSchema = normalizeSchema(inlineSchema);
 							transformed.components.schemas![schemaName] = fixedSchema;
 
 							// Replace inline schema with $ref
@@ -267,8 +312,7 @@ function transformOpenAPISpec(spec: OpenAPIObject): OpenAPIObject {
 	// Fix nullable types and remove $id in existing component schemas
 	for (const [name, schema] of Object.entries(transformed.components.schemas)) {
 		if (schema && typeof schema === 'object') {
-			let fixedSchema = fixNullableTypes(schema as Record<string, unknown>);
-			fixedSchema = removeIdFields(fixedSchema) as Record<string, unknown>;
+			const fixedSchema = normalizeSchema(schema as Record<string, unknown>);
 			transformed.components.schemas[name] = fixedSchema;
 		}
 	}

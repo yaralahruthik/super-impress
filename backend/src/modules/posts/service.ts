@@ -24,12 +24,13 @@ export async function createPost(
 export async function getPostById(
 	postId: string,
 	userId: string,
-): Promise<typeof post.$inferSelect | null> {
-	const [result] = await db
-		.select()
-		.from(post)
-		.where(and(eq(post.id, postId), eq(post.userId, userId)))
-		.limit(1);
+) {
+	const result = await db.query.post.findFirst({
+		where: and(eq(post.id, postId), eq(post.userId, userId)),
+		with: {
+			publications: true,
+		},
+	});
 
 	return result ?? null;
 }
@@ -40,7 +41,7 @@ export async function listUserPosts(options: {
 	tag?: string;
 	limit?: number;
 	offset?: number;
-}): Promise<{ posts: (typeof post.$inferSelect)[]; total: number }> {
+}) {
 	const { userId, status, tag, limit = 100, offset = 0 } = options;
 
 	const conditions = [eq(post.userId, userId)];
@@ -56,13 +57,15 @@ export async function listUserPosts(options: {
 	const whereClause = and(...conditions);
 
 	const [posts, [{ total }]] = await Promise.all([
-		db
-			.select()
-			.from(post)
-			.where(whereClause)
-			.orderBy(desc(post.createdAt))
-			.limit(limit)
-			.offset(offset),
+		db.query.post.findMany({
+			where: whereClause,
+			orderBy: [desc(post.createdAt)],
+			limit,
+			offset,
+			with: {
+				publications: true,
+			},
+		}),
 		db.select({ total: count() }).from(post).where(whereClause),
 	]);
 

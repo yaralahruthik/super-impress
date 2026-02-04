@@ -47,6 +47,21 @@ export const PostResponseStatus = {
 	archived: 'archived'
 } as const;
 
+export type PostResponsePublicationsItemPlatform =
+	(typeof PostResponsePublicationsItemPlatform)[keyof typeof PostResponsePublicationsItemPlatform];
+
+export const PostResponsePublicationsItemPlatform = {
+	linkedin: 'linkedin',
+	twitter: 'twitter',
+	facebook: 'facebook'
+} as const;
+
+export type PostResponsePublicationsItem = {
+	platform: PostResponsePublicationsItemPlatform;
+	platformPostId: string;
+	publishedAt: string;
+};
+
 export interface PostResponse {
 	id: string;
 	userId: string;
@@ -57,6 +72,7 @@ export interface PostResponse {
 	status: PostResponseStatus;
 	createdAt: string;
 	updatedAt: string;
+	publications?: PostResponsePublicationsItem[];
 }
 
 export type PostListQueryStatus = (typeof PostListQueryStatus)[keyof typeof PostListQueryStatus];
@@ -88,6 +104,21 @@ export const PostListResponsePostsItemStatus = {
 	archived: 'archived'
 } as const;
 
+export type PostListResponsePostsItemPublicationsItemPlatform =
+	(typeof PostListResponsePostsItemPublicationsItemPlatform)[keyof typeof PostListResponsePostsItemPublicationsItemPlatform];
+
+export const PostListResponsePostsItemPublicationsItemPlatform = {
+	linkedin: 'linkedin',
+	twitter: 'twitter',
+	facebook: 'facebook'
+} as const;
+
+export type PostListResponsePostsItemPublicationsItem = {
+	platform: PostListResponsePostsItemPublicationsItemPlatform;
+	platformPostId: string;
+	publishedAt: string;
+};
+
 export type PostListResponsePostsItem = {
 	id: string;
 	userId: string;
@@ -98,6 +129,7 @@ export type PostListResponsePostsItem = {
 	status: PostListResponsePostsItemStatus;
 	createdAt: string;
 	updatedAt: string;
+	publications?: PostListResponsePostsItemPublicationsItem[];
 };
 
 export interface PostListResponse {
@@ -106,6 +138,26 @@ export interface PostListResponse {
 }
 
 export interface PostError {
+	error: string;
+}
+
+export interface LinkedInPostRequest {
+	postId: string;
+}
+
+export interface LinkedInPostResponse {
+	success: boolean;
+	linkedInPostId?: string;
+	message?: string;
+}
+
+export interface LinkedInConnectionStatus {
+	connected: boolean;
+	accountId?: string;
+	email?: string;
+}
+
+export interface LinkedInError {
 	error: string;
 }
 
@@ -153,6 +205,28 @@ export interface Verification {
 	expiresAt: string;
 	createdAt: string;
 	updatedAt: string;
+}
+
+export interface GetApiLinkedinStatusResponse200 {
+	connected: boolean;
+	accountId?: string;
+	email?: string;
+}
+
+export interface PostApiLinkedinPostRequest {
+	postId: string;
+}
+
+export interface PostApiLinkedinPostResponse200 {
+	success: boolean;
+	linkedInPostId?: string;
+	message?: string;
+}
+
+export interface PostApiLinkedinPostResponse400 {
+	success: boolean;
+	linkedInPostId?: string;
+	message?: string;
 }
 
 /**
@@ -1383,6 +1457,14 @@ export const GetApiPostsStatus = {
 	published: 'published',
 	archived: 'archived'
 } as const;
+
+export type PostApiLinkedinPostBodyTwo = {
+	postId: string;
+};
+
+export type PostApiLinkedinPostBodyThree = {
+	postId: string;
+};
 
 export type GetApiAuthVerifyEmailParams = {
 	/**

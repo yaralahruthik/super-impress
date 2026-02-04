@@ -1,7 +1,7 @@
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Link } from '@tanstack/react-router';
-import DeleteAccountCard from './delete-account-card';
-import LinkedinConnectionCard from './linkedin-connection-card';
+// import DeleteAccountCard from './delete-account-card';
+import LinkedinConnectionCard from './linkedin/linkedin-connection-card';
 
 export default function SettingsPage() {
 	return (
@@ -30,7 +30,7 @@ export default function SettingsPage() {
 
 			<section className="space-y-4">
 				<h2 className="text-lg font-semibold">Danger Zone</h2>
-				<DeleteAccountCard />
+				{/* <DeleteAccountCard /> */}
 			</section>
 		</div>
 	);

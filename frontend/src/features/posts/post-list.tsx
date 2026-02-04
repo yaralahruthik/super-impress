@@ -1,3 +1,4 @@
+import { useGetApiLinkedinStatus, usePostApiLinkedinPost } from '@/api/linked-in/linked-in';
 import type { PostListResponsePostsItem } from '@/api/superimpress.schemas';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,8 +11,10 @@ import {
 	EmptyTitle
 } from '@/components/ui/empty';
 import { Skeleton } from '@/components/ui/skeleton';
+import { getErrorMessage } from '@/utils/get-error-message';
+import { useQueryClient } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
-import { FileText } from 'lucide-react';
+import { Check, FileText, Linkedin } from 'lucide-react';
 
 export function PostListLoading() {
 	return (
@@ -50,60 +53,111 @@ export function PostListEmpty() {
 	);
 }
 
+function PostCard({
+	post,
+	linkedInConnected
+}: {
+	post: PostListResponsePostsItem;
+	linkedInConnected: boolean;
+}) {
+	const queryClient = useQueryClient();
+	const { mutate, isPending, error } = usePostApiLinkedinPost();
+	const alreadyPosted = post.publications?.some((p) => p.platform === 'linkedin');
+
+	return (
+		<Card className="flex h-full flex-col transition-shadow hover:shadow-md">
+			<CardHeader>
+				<div className="flex items-start justify-between gap-4">
+					<div className="space-y-1 overflow-hidden">
+						<CardTitle className="truncate text-lg" title={post.title || 'Untitled'}>
+							{post.title || <span className="text-muted-foreground italic">Untitled</span>}
+						</CardTitle>
+						<CardDescription className="text-xs">
+							{new Date(post.createdAt).toLocaleDateString(undefined, {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric'
+							})}
+						</CardDescription>
+					</div>
+					<div
+						className={`rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wider uppercase ${
+							post.status === 'published'
+								? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+								: post.status === 'draft'
+									? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
+									: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'
+						}`}
+					>
+						{post.status}
+					</div>
+				</div>
+			</CardHeader>
+			<CardContent className="flex flex-1 flex-col gap-4">
+				<p className="line-clamp-3 text-sm text-muted-foreground">{post.content}</p>
+
+				{post.tags && post.tags.length > 0 && (
+					<div className="mt-auto flex flex-wrap gap-2 pt-2">
+						{post.tags.slice(0, 3).map((tag) => (
+							<span
+								key={tag}
+								className="inline-flex items-center rounded-md bg-secondary/50 px-2 py-1 text-xs font-medium text-secondary-foreground"
+							>
+								{tag}
+							</span>
+						))}
+						{post.tags.length > 3 && (
+							<span className="inline-flex items-center rounded-md bg-secondary/50 px-2 py-1 text-xs font-medium text-secondary-foreground">
+								+{post.tags.length - 3}
+							</span>
+						)}
+					</div>
+				)}
+			</CardContent>
+			{linkedInConnected && (
+				<div className="border-t px-6 py-4">
+					{alreadyPosted ? (
+						<p className="flex items-center gap-1.5 text-sm text-green-600 dark:text-green-400">
+							<Check className="h-4 w-4" />
+							Posted to LinkedIn
+						</p>
+					) : (
+						<>
+							<Button
+								variant="outline"
+								size="sm"
+								disabled={isPending}
+								onClick={() =>
+									mutate(
+										{ data: { postId: post.id } },
+										{
+											onSuccess: () => {
+												queryClient.invalidateQueries({ queryKey: ['/api/posts'] });
+											}
+										}
+									)
+								}
+							>
+								<Linkedin className="h-4 w-4" />
+								{isPending ? 'Posting…' : 'Post to LinkedIn'}
+							</Button>
+							{error && <p className="mt-2 text-xs text-destructive">{getErrorMessage(error)}</p>}
+						</>
+					)}
+				</div>
+			)}
+		</Card>
+	);
+}
+
 export default function PostList({ posts }: { posts: PostListResponsePostsItem[] }) {
+	const { data: linkedInStatus } = useGetApiLinkedinStatus();
+	const linkedInConnected = linkedInStatus?.connected ?? false;
+
 	return (
 		<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 			{posts.map((post) => (
-				<Card key={post.id} className="flex h-full flex-col transition-shadow hover:shadow-md">
-					<CardHeader>
-						<div className="flex items-start justify-between gap-4">
-							<div className="space-y-1 overflow-hidden">
-								<CardTitle className="truncate text-lg" title={post.title || 'Untitled'}>
-									{post.title || <span className="text-muted-foreground italic">Untitled</span>}
-								</CardTitle>
-								<CardDescription className="text-xs">
-									{new Date(post.createdAt).toLocaleDateString(undefined, {
-										year: 'numeric',
-										month: 'short',
-										day: 'numeric'
-									})}
-								</CardDescription>
-							</div>
-							<div
-								className={`rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wider uppercase ${
-									post.status === 'published'
-										? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-										: post.status === 'draft'
-											? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
-											: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400'
-								}`}
-							>
-								{post.status}
-							</div>
-						</div>
-					</CardHeader>
-					<CardContent className="flex flex-1 flex-col gap-4">
-						<p className="line-clamp-3 text-sm text-muted-foreground">{post.content}</p>
-
-						{post.tags && post.tags.length > 0 && (
-							<div className="mt-auto flex flex-wrap gap-2 pt-2">
-								{post.tags.slice(0, 3).map((tag) => (
-									<span
-										key={tag}
-										className="inline-flex items-center rounded-md bg-secondary/50 px-2 py-1 text-xs font-medium text-secondary-foreground"
-									>
-										{tag}
-									</span>
-								))}
-								{post.tags.length > 3 && (
-									<span className="inline-flex items-center rounded-md bg-secondary/50 px-2 py-1 text-xs font-medium text-secondary-foreground">
-										+{post.tags.length - 3}
-									</span>
-								)}
-							</div>
-						)}
-					</CardContent>
-				</Card>
+				<PostCard key={post.id} post={post} linkedInConnected={linkedInConnected} />
 			))}
 		</div>
 	);

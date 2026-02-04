@@ -8,7 +8,8 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"dev": "bun run --watch src/index.ts",
 		"format": "biome format . --write",
-		"lint": "biome lint . --write"
+		"lint": "biome lint . --write",
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@elysiajs/cors": "^1.4.1",
@@ -25,7 +26,8 @@
 		"@types/pg": "^8.16.0",
 		"bun-types": "latest",
 		"drizzle-kit": "^0.31.8",
-		"tsx": "^4.21.0"
+		"tsx": "^4.21.0",
+		"typescript": "^5.8.2"
 	},
 	"module": "src/index.js"
 }

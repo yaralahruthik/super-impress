@@ -98,6 +98,26 @@
 					"updatedAt": {
 						"format": "date-time",
 						"type": "string"
+					},
+					"publications": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"required": ["platform", "platformPostId", "publishedAt"],
+							"properties": {
+								"platform": {
+									"type": "string",
+									"enum": ["linkedin", "twitter", "facebook"]
+								},
+								"platformPostId": {
+									"type": "string"
+								},
+								"publishedAt": {
+									"format": "date-time",
+									"type": "string"
+								}
+							}
+						}
 					}
 				}
 			},
@@ -174,6 +194,26 @@
 								"updatedAt": {
 									"format": "date-time",
 									"type": "string"
+								},
+								"publications": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"required": ["platform", "platformPostId", "publishedAt"],
+										"properties": {
+											"platform": {
+												"type": "string",
+												"enum": ["linkedin", "twitter", "facebook"]
+											},
+											"platformPostId": {
+												"type": "string"
+											},
+											"publishedAt": {
+												"format": "date-time",
+												"type": "string"
+											}
+										}
+									}
 								}
 							}
 						}
@@ -184,6 +224,55 @@
 				}
 			},
 			"PostError": {
+				"type": "object",
+				"required": ["error"],
+				"properties": {
+					"error": {
+						"type": "string"
+					}
+				}
+			},
+			"LinkedInPostRequest": {
+				"type": "object",
+				"required": ["postId"],
+				"properties": {
+					"postId": {
+						"format": "uuid",
+						"type": "string"
+					}
+				}
+			},
+			"LinkedInPostResponse": {
+				"type": "object",
+				"required": ["success"],
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"linkedInPostId": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"LinkedInConnectionStatus": {
+				"type": "object",
+				"required": ["connected"],
+				"properties": {
+					"connected": {
+						"type": "boolean"
+					},
+					"accountId": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				}
+			},
+			"LinkedInError": {
 				"type": "object",
 				"required": ["error"],
 				"properties": {
@@ -337,6 +426,61 @@
 					}
 				},
 				"required": ["identifier", "value", "expiresAt", "createdAt", "updatedAt"]
+			},
+			"GetApiLinkedinStatusResponse200": {
+				"type": "object",
+				"required": ["connected"],
+				"properties": {
+					"connected": {
+						"type": "boolean"
+					},
+					"accountId": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					}
+				}
+			},
+			"PostApiLinkedinPostRequest": {
+				"type": "object",
+				"required": ["postId"],
+				"properties": {
+					"postId": {
+						"format": "uuid",
+						"type": "string"
+					}
+				}
+			},
+			"PostApiLinkedinPostResponse200": {
+				"type": "object",
+				"required": ["success"],
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"linkedInPostId": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				}
+			},
+			"PostApiLinkedinPostResponse400": {
+				"type": "object",
+				"required": ["success"],
+				"properties": {
+					"success": {
+						"type": "boolean"
+					},
+					"linkedInPostId": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				}
 			},
 			"SocialSignInRequest": {
 				"type": "object",
@@ -2844,6 +2988,90 @@
 					}
 				},
 				"operationId": "deleteApiPostsById"
+			}
+		},
+		"/api/linkedin/status": {
+			"get": {
+				"tags": ["LinkedIn"],
+				"summary": "Check LinkedIn connection status",
+				"description": "Check if the authenticated user has a LinkedIn account connected",
+				"responses": {
+					"200": {
+						"description": "Response for status 200",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GetApiLinkedinStatusResponse200"
+								}
+							}
+						}
+					}
+				},
+				"operationId": "getApiLinkedinStatus"
+			}
+		},
+		"/api/linkedin/post": {
+			"post": {
+				"tags": ["LinkedIn"],
+				"summary": "Publish post to LinkedIn",
+				"description": "Publish a post to the authenticated user's LinkedIn account",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/PostApiLinkedinPostRequest"
+							}
+						},
+						"application/x-www-form-urlencoded": {
+							"schema": {
+								"type": "object",
+								"required": ["postId"],
+								"properties": {
+									"postId": {
+										"format": "uuid",
+										"type": "string"
+									}
+								}
+							}
+						},
+						"multipart/form-data": {
+							"schema": {
+								"type": "object",
+								"required": ["postId"],
+								"properties": {
+									"postId": {
+										"format": "uuid",
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Response for status 200",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostApiLinkedinPostResponse200"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Response for status 400",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PostApiLinkedinPostResponse400"
+								}
+							}
+						}
+					}
+				},
+				"operationId": "postApiLinkedinPost"
 			}
 		},
 		"/api/auth/sign-in/social": {

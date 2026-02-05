@@ -1,220 +1,246 @@
-import { useSignUpWithEmailAndPassword } from '@/api/better-auth/better-auth';
-import { Button } from '@/components/ui/button';
+import { useForm } from "@tanstack/react-form";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import * as z from "zod";
+import { useSignUpWithEmailAndPassword } from "@/api/better-auth/better-auth";
+import { Button } from "@/components/ui/button";
 import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle
-} from '@/components/ui/card';
-import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
-import { AuthLayout } from '@/layouts/auth-layout';
-import { getErrorMessage } from '@/utils/get-error-message';
-import { useForm } from '@tanstack/react-form';
-import { Link, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
-import * as z from 'zod';
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { AuthLayout } from "@/layouts/auth-layout";
+import { getErrorMessage } from "@/utils/get-error-message";
 
 const formSchema = z
-	.object({
-		name: z.string().min(1, 'Name is required'),
-		email: z.email('Invalid email address'),
-		password: z
-			.string()
-			.min(8, 'Password must be at least 8 characters')
-			.max(15, 'Password must be at most 15 characters'),
-		confirmPassword: z.string()
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		message: 'Passwords do not match',
-		path: ['confirmPassword']
-	});
+  .object({
+    name: z.string().min(1, "Name is required"),
+    email: z.email("Invalid email address"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .max(15, "Password must be at most 15 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export default function RegisterPage() {
-	const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-	const navigate = useNavigate();
-	const { mutate, isPending } = useSignUpWithEmailAndPassword();
+  const navigate = useNavigate();
+  const { mutate, isPending } = useSignUpWithEmailAndPassword();
 
-	const form = useForm({
-		defaultValues: {
-			name: '',
-			email: '',
-			password: '',
-			confirmPassword: ''
-		},
-		validators: {
-			onSubmit: formSchema
-		},
-		onSubmit: async ({ value }) => {
-			setError(null);
-			mutate(
-				{
-					data: {
-						name: value.name,
-						email: value.email,
-						password: value.password
-					}
-				},
-				{
-					onSuccess: () => {
-						navigate({ to: '/login' });
-					},
-					onError: (error) => {
-						setError(getErrorMessage(error));
-					}
-				}
-			);
-		}
-	});
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validators: {
+      onSubmit: formSchema,
+    },
+    onSubmit: ({ value }) => {
+      setError(null);
+      mutate(
+        {
+          data: {
+            name: value.name,
+            email: value.email,
+            password: value.password,
+          },
+        },
+        {
+          onSuccess: () => {
+            navigate({ to: "/login" });
+          },
+          onError: (error) => {
+            setError(getErrorMessage(error));
+          },
+        }
+      );
+    },
+  });
 
-	return (
-		<AuthLayout>
-			<Card>
-				<CardHeader>
-					<CardTitle>Create Account</CardTitle>
-					<CardDescription>Enter your details to create a new account</CardDescription>
-				</CardHeader>
+  return (
+    <AuthLayout>
+      <Card>
+        <CardHeader>
+          <CardTitle>Create Account</CardTitle>
+          <CardDescription>
+            Enter your details to create a new account
+          </CardDescription>
+        </CardHeader>
 
-				<CardContent>
-					<form
-						id="register-form"
-						onSubmit={(e) => {
-							e.preventDefault();
-							form.handleSubmit();
-						}}
-					>
-						<fieldset disabled={isPending} className="space-y-4">
-							<FieldGroup>
-								<form.Field
-									name="name"
-									children={(field) => {
-										const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-										return (
-											<Field data-invalid={isInvalid}>
-												<FieldLabel htmlFor="name">Name</FieldLabel>
-												<Input
-													id="name"
-													name="name"
-													type="text"
-													autoComplete="name"
-													required
-													value={field.state.value}
-													onChange={(e) => field.handleChange(e.target.value)}
-													onBlur={field.handleBlur}
-													aria-invalid={isInvalid}
-												/>
-												{isInvalid && <FieldError errors={field.state.meta.errors} />}
-											</Field>
-										);
-									}}
-								/>
-								<form.Field
-									name="email"
-									children={(field) => {
-										const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-										return (
-											<Field data-invalid={isInvalid}>
-												<FieldLabel htmlFor="email">Email</FieldLabel>
-												<Input
-													id="email"
-													name="email"
-													type="email"
-													autoComplete="email"
-													required
-													value={field.state.value}
-													onChange={(e) => field.handleChange(e.target.value)}
-													onBlur={field.handleBlur}
-													aria-invalid={isInvalid}
-												/>
-												{isInvalid && <FieldError errors={field.state.meta.errors} />}
-											</Field>
-										);
-									}}
-								/>
-								<form.Field
-									name="password"
-									children={(field) => {
-										const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-										return (
-											<Field data-invalid={isInvalid}>
-												<FieldLabel htmlFor="password">Password</FieldLabel>
-												<Input
-													id="password"
-													name="password"
-													type="password"
-													autoComplete="new-password"
-													required
-													minLength={8}
-													maxLength={15}
-													value={field.state.value}
-													onChange={(e) => field.handleChange(e.target.value)}
-													onBlur={field.handleBlur}
-													aria-invalid={isInvalid}
-												/>
-												<p className="text-xs text-muted-foreground">
-													Must be 8-15 characters with uppercase, lowercase, digit, and special
-													character
-												</p>
-												{isInvalid && <FieldError errors={field.state.meta.errors} />}
-											</Field>
-										);
-									}}
-								/>
-								<form.Field
-									name="confirmPassword"
-									children={(field) => {
-										const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
-										return (
-											<Field data-invalid={isInvalid}>
-												<FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
-												<Input
-													id="confirmPassword"
-													name="confirmPassword"
-													type="password"
-													autoComplete="new-password"
-													required
-													minLength={8}
-													maxLength={15}
-													value={field.state.value}
-													onChange={(e) => field.handleChange(e.target.value)}
-													onBlur={field.handleBlur}
-													aria-invalid={isInvalid}
-												/>
-												{isInvalid && <FieldError errors={field.state.meta.errors} />}
-											</Field>
-										);
-									}}
-								/>
-							</FieldGroup>
+        <CardContent>
+          <form
+            id="register-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+          >
+            <fieldset className="space-y-4" disabled={isPending}>
+              <FieldGroup>
+                <form.Field
+                  children={(field) => {
+                    const isInvalid =
+                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    return (
+                      <Field data-invalid={isInvalid}>
+                        <FieldLabel htmlFor="name">Name</FieldLabel>
+                        <Input
+                          aria-invalid={isInvalid}
+                          autoComplete="name"
+                          id="name"
+                          name="name"
+                          onBlur={field.handleBlur}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          required
+                          type="text"
+                          value={field.state.value}
+                        />
+                        {isInvalid && (
+                          <FieldError errors={field.state.meta.errors} />
+                        )}
+                      </Field>
+                    );
+                  }}
+                  name="name"
+                />
+                <form.Field
+                  children={(field) => {
+                    const isInvalid =
+                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    return (
+                      <Field data-invalid={isInvalid}>
+                        <FieldLabel htmlFor="email">Email</FieldLabel>
+                        <Input
+                          aria-invalid={isInvalid}
+                          autoComplete="email"
+                          id="email"
+                          name="email"
+                          onBlur={field.handleBlur}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          required
+                          type="email"
+                          value={field.state.value}
+                        />
+                        {isInvalid && (
+                          <FieldError errors={field.state.meta.errors} />
+                        )}
+                      </Field>
+                    );
+                  }}
+                  name="email"
+                />
+                <form.Field
+                  children={(field) => {
+                    const isInvalid =
+                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    return (
+                      <Field data-invalid={isInvalid}>
+                        <FieldLabel htmlFor="password">Password</FieldLabel>
+                        <Input
+                          aria-invalid={isInvalid}
+                          autoComplete="new-password"
+                          id="password"
+                          maxLength={15}
+                          minLength={8}
+                          name="password"
+                          onBlur={field.handleBlur}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          required
+                          type="password"
+                          value={field.state.value}
+                        />
+                        <p className="text-muted-foreground text-xs">
+                          Must be 8-15 characters with uppercase, lowercase,
+                          digit, and special character
+                        </p>
+                        {isInvalid && (
+                          <FieldError errors={field.state.meta.errors} />
+                        )}
+                      </Field>
+                    );
+                  }}
+                  name="password"
+                />
+                <form.Field
+                  children={(field) => {
+                    const isInvalid =
+                      field.state.meta.isTouched && !field.state.meta.isValid;
+                    return (
+                      <Field data-invalid={isInvalid}>
+                        <FieldLabel htmlFor="confirmPassword">
+                          Confirm Password
+                        </FieldLabel>
+                        <Input
+                          aria-invalid={isInvalid}
+                          autoComplete="new-password"
+                          id="confirmPassword"
+                          maxLength={15}
+                          minLength={8}
+                          name="confirmPassword"
+                          onBlur={field.handleBlur}
+                          onChange={(e) => field.handleChange(e.target.value)}
+                          required
+                          type="password"
+                          value={field.state.value}
+                        />
+                        {isInvalid && (
+                          <FieldError errors={field.state.meta.errors} />
+                        )}
+                      </Field>
+                    );
+                  }}
+                  name="confirmPassword"
+                />
+              </FieldGroup>
 
-							{error && (
-								<div
-									role="alert"
-									className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive"
-								>
-									{error}
-								</div>
-							)}
+              {error && (
+                <div
+                  className="rounded-md bg-destructive/10 px-4 py-3 text-destructive text-sm"
+                  role="alert"
+                >
+                  {error}
+                </div>
+              )}
 
-							<Button type="submit" className="w-full" aria-busy={isPending}>
-								{isPending ? 'Creating account...' : 'Create Account'}
-							</Button>
-						</fieldset>
-					</form>
-				</CardContent>
+              <Button aria-busy={isPending} className="w-full" type="submit">
+                {isPending ? "Creating account..." : "Create Account"}
+              </Button>
+            </fieldset>
+          </form>
+        </CardContent>
 
-				<CardFooter className="justify-center">
-					<div className="text-center text-sm">
-						<span className="text-muted-foreground">Already have an account? </span>
-						<Link to="/login" className="font-medium text-primary hover:underline">
-							Sign in
-						</Link>
-					</div>
-				</CardFooter>
-			</Card>
-		</AuthLayout>
-	);
+        <CardFooter className="justify-center">
+          <div className="text-center text-sm">
+            <span className="text-muted-foreground">
+              Already have an account?{" "}
+            </span>
+            <Link
+              className="font-medium text-primary hover:underline"
+              to="/login"
+            >
+              Sign in
+            </Link>
+          </div>
+        </CardFooter>
+      </Card>
+    </AuthLayout>
+  );
 }

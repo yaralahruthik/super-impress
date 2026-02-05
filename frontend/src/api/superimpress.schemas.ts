@@ -5,670 +5,674 @@
  * LinkedIn post management tool API
  * OpenAPI spec version: 1.0.0
  */
-export type PostCreateStatus = (typeof PostCreateStatus)[keyof typeof PostCreateStatus];
+export type PostCreateStatus =
+  (typeof PostCreateStatus)[keyof typeof PostCreateStatus];
 
 export const PostCreateStatus = {
-	draft: 'draft',
-	published: 'published',
-	archived: 'archived'
+  draft: "draft",
+  published: "published",
+  archived: "archived",
 } as const;
 
 export interface PostCreate {
-	/** @nullable */
-	title?: string | null;
-	/** @minLength 1 */
-	content: string;
-	tags?: string[];
-	status?: PostCreateStatus;
+  /** @nullable */
+  title?: string | null;
+  /** @minLength 1 */
+  content: string;
+  tags?: string[];
+  status?: PostCreateStatus;
 }
 
-export type PostUpdateStatus = (typeof PostUpdateStatus)[keyof typeof PostUpdateStatus];
+export type PostUpdateStatus =
+  (typeof PostUpdateStatus)[keyof typeof PostUpdateStatus];
 
 export const PostUpdateStatus = {
-	draft: 'draft',
-	published: 'published',
-	archived: 'archived'
+  draft: "draft",
+  published: "published",
+  archived: "archived",
 } as const;
 
 export interface PostUpdate {
-	/** @nullable */
-	title?: string | null;
-	/** @minLength 1 */
-	content?: string;
-	tags?: string[];
-	status?: PostUpdateStatus;
+  /** @nullable */
+  title?: string | null;
+  /** @minLength 1 */
+  content?: string;
+  tags?: string[];
+  status?: PostUpdateStatus;
 }
 
-export type PostResponseStatus = (typeof PostResponseStatus)[keyof typeof PostResponseStatus];
+export type PostResponseStatus =
+  (typeof PostResponseStatus)[keyof typeof PostResponseStatus];
 
 export const PostResponseStatus = {
-	draft: 'draft',
-	published: 'published',
-	archived: 'archived'
+  draft: "draft",
+  published: "published",
+  archived: "archived",
 } as const;
 
 export type PostResponsePublicationsItemPlatform =
-	(typeof PostResponsePublicationsItemPlatform)[keyof typeof PostResponsePublicationsItemPlatform];
+  (typeof PostResponsePublicationsItemPlatform)[keyof typeof PostResponsePublicationsItemPlatform];
 
 export const PostResponsePublicationsItemPlatform = {
-	linkedin: 'linkedin',
-	twitter: 'twitter',
-	facebook: 'facebook'
+  linkedin: "linkedin",
+  twitter: "twitter",
+  facebook: "facebook",
 } as const;
 
 export type PostResponsePublicationsItem = {
-	platform: PostResponsePublicationsItemPlatform;
-	platformPostId: string;
-	publishedAt: string;
+  platform: PostResponsePublicationsItemPlatform;
+  platformPostId: string;
+  publishedAt: string;
 };
 
 export interface PostResponse {
-	id: string;
-	userId: string;
-	/** @nullable */
-	title: string | null;
-	content: string;
-	tags: string[];
-	status: PostResponseStatus;
-	createdAt: string;
-	updatedAt: string;
-	publications?: PostResponsePublicationsItem[];
+  id: string;
+  userId: string;
+  /** @nullable */
+  title: string | null;
+  content: string;
+  tags: string[];
+  status: PostResponseStatus;
+  createdAt: string;
+  updatedAt: string;
+  publications?: PostResponsePublicationsItem[];
 }
 
-export type PostListQueryStatus = (typeof PostListQueryStatus)[keyof typeof PostListQueryStatus];
+export type PostListQueryStatus =
+  (typeof PostListQueryStatus)[keyof typeof PostListQueryStatus];
 
 export const PostListQueryStatus = {
-	draft: 'draft',
-	published: 'published',
-	archived: 'archived'
+  draft: "draft",
+  published: "published",
+  archived: "archived",
 } as const;
 
 export interface PostListQuery {
-	status?: PostListQueryStatus;
-	tag?: string;
-	/**
-	 * @minimum 1
-	 * @maximum 100
-	 */
-	limit?: number;
-	/** @minimum 0 */
-	offset?: number;
+  status?: PostListQueryStatus;
+  tag?: string;
+  /**
+   * @minimum 1
+   * @maximum 100
+   */
+  limit?: number;
+  /** @minimum 0 */
+  offset?: number;
 }
 
 export type PostListResponsePostsItemStatus =
-	(typeof PostListResponsePostsItemStatus)[keyof typeof PostListResponsePostsItemStatus];
+  (typeof PostListResponsePostsItemStatus)[keyof typeof PostListResponsePostsItemStatus];
 
 export const PostListResponsePostsItemStatus = {
-	draft: 'draft',
-	published: 'published',
-	archived: 'archived'
+  draft: "draft",
+  published: "published",
+  archived: "archived",
 } as const;
 
 export type PostListResponsePostsItemPublicationsItemPlatform =
-	(typeof PostListResponsePostsItemPublicationsItemPlatform)[keyof typeof PostListResponsePostsItemPublicationsItemPlatform];
+  (typeof PostListResponsePostsItemPublicationsItemPlatform)[keyof typeof PostListResponsePostsItemPublicationsItemPlatform];
 
 export const PostListResponsePostsItemPublicationsItemPlatform = {
-	linkedin: 'linkedin',
-	twitter: 'twitter',
-	facebook: 'facebook'
+  linkedin: "linkedin",
+  twitter: "twitter",
+  facebook: "facebook",
 } as const;
 
 export type PostListResponsePostsItemPublicationsItem = {
-	platform: PostListResponsePostsItemPublicationsItemPlatform;
-	platformPostId: string;
-	publishedAt: string;
+  platform: PostListResponsePostsItemPublicationsItemPlatform;
+  platformPostId: string;
+  publishedAt: string;
 };
 
 export type PostListResponsePostsItem = {
-	id: string;
-	userId: string;
-	/** @nullable */
-	title: string | null;
-	content: string;
-	tags: string[];
-	status: PostListResponsePostsItemStatus;
-	createdAt: string;
-	updatedAt: string;
-	publications?: PostListResponsePostsItemPublicationsItem[];
+  id: string;
+  userId: string;
+  /** @nullable */
+  title: string | null;
+  content: string;
+  tags: string[];
+  status: PostListResponsePostsItemStatus;
+  createdAt: string;
+  updatedAt: string;
+  publications?: PostListResponsePostsItemPublicationsItem[];
 };
 
 export interface PostListResponse {
-	posts: PostListResponsePostsItem[];
-	total: number;
+  posts: PostListResponsePostsItem[];
+  total: number;
 }
 
 export interface PostError {
-	error: string;
+  error: string;
 }
 
 export interface LinkedInPostRequest {
-	postId: string;
+  postId: string;
 }
 
 export interface LinkedInPostResponse {
-	success: boolean;
-	linkedInPostId?: string;
-	message?: string;
+  success: boolean;
+  linkedInPostId?: string;
+  message?: string;
 }
 
 export interface LinkedInConnectionStatus {
-	connected: boolean;
-	accountId?: string;
-	email?: string;
+  connected: boolean;
+  accountId?: string;
+  email?: string;
 }
 
 export interface LinkedInError {
-	error: string;
+  error: string;
 }
 
 export interface User {
-	id?: string;
-	name: string;
-	email: string;
-	readonly emailVerified?: boolean;
-	image?: string;
-	createdAt: string;
-	updatedAt: string;
+  id?: string;
+  name: string;
+  email: string;
+  readonly emailVerified?: boolean;
+  image?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Session {
-	id?: string;
-	expiresAt: string;
-	token: string;
-	createdAt: string;
-	updatedAt: string;
-	ipAddress?: string;
-	userAgent?: string;
-	userId: string;
+  id?: string;
+  expiresAt: string;
+  token: string;
+  createdAt: string;
+  updatedAt: string;
+  ipAddress?: string;
+  userAgent?: string;
+  userId: string;
 }
 
 export interface Account {
-	id?: string;
-	accountId: string;
-	providerId: string;
-	userId: string;
-	accessToken?: string;
-	refreshToken?: string;
-	idToken?: string;
-	accessTokenExpiresAt?: string;
-	refreshTokenExpiresAt?: string;
-	scope?: string;
-	password?: string;
-	createdAt: string;
-	updatedAt: string;
+  id?: string;
+  accountId: string;
+  providerId: string;
+  userId: string;
+  accessToken?: string;
+  refreshToken?: string;
+  idToken?: string;
+  accessTokenExpiresAt?: string;
+  refreshTokenExpiresAt?: string;
+  scope?: string;
+  password?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Verification {
-	id?: string;
-	identifier: string;
-	value: string;
-	expiresAt: string;
-	createdAt: string;
-	updatedAt: string;
+  id?: string;
+  identifier: string;
+  value: string;
+  expiresAt: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface GetApiLinkedinStatusResponse200 {
-	connected: boolean;
-	accountId?: string;
-	email?: string;
+  connected: boolean;
+  accountId?: string;
+  email?: string;
 }
 
 export interface PostApiLinkedinPostRequest {
-	postId: string;
+  postId: string;
 }
 
 export interface PostApiLinkedinPostResponse200 {
-	success: boolean;
-	linkedInPostId?: string;
-	message?: string;
+  success: boolean;
+  linkedInPostId?: string;
+  message?: string;
 }
 
 export interface PostApiLinkedinPostResponse400 {
-	success: boolean;
-	linkedInPostId?: string;
-	message?: string;
+  success: boolean;
+  linkedInPostId?: string;
+  message?: string;
 }
 
 /**
  * @nullable
  */
 export type SocialSignInRequestIdToken = {
-	/** ID token from the provider */
-	token: string;
-	/**
-	 * Nonce used to generate the token
-	 * @nullable
-	 */
-	nonce?: string | null;
-	/**
-	 * Access token from the provider
-	 * @nullable
-	 */
-	accessToken?: string | null;
-	/**
-	 * Refresh token from the provider
-	 * @nullable
-	 */
-	refreshToken?: string | null;
-	/**
-	 * Expiry date of the token
-	 * @nullable
-	 */
-	expiresAt?: number | null;
+  /** ID token from the provider */
+  token: string;
+  /**
+   * Nonce used to generate the token
+   * @nullable
+   */
+  nonce?: string | null;
+  /**
+   * Access token from the provider
+   * @nullable
+   */
+  accessToken?: string | null;
+  /**
+   * Refresh token from the provider
+   * @nullable
+   */
+  refreshToken?: string | null;
+  /**
+   * Expiry date of the token
+   * @nullable
+   */
+  expiresAt?: number | null;
 } | null;
 
 export interface SocialSignInRequest {
-	/**
-	 * Callback URL to redirect to after the user has signed in
-	 * @nullable
-	 */
-	callbackURL?: string | null;
-	/** @nullable */
-	newUserCallbackURL?: string | null;
-	/**
-	 * Callback URL to redirect to if an error happens
-	 * @nullable
-	 */
-	errorCallbackURL?: string | null;
-	provider: string;
-	/**
-	 * Disable automatic redirection to the provider. Useful for handling the redirection yourself
-	 * @nullable
-	 */
-	disableRedirect?: boolean | null;
-	/** @nullable */
-	idToken?: SocialSignInRequestIdToken;
-	/**
-	 * Array of scopes to request from the provider. This will override the default scopes passed.
-	 * @nullable
-	 */
-	scopes?: unknown[] | null;
-	/**
-	 * Explicitly request sign-up. Useful when disableImplicitSignUp is true for this provider
-	 * @nullable
-	 */
-	requestSignUp?: boolean | null;
-	/**
-	 * The login hint to use for the authorization code request
-	 * @nullable
-	 */
-	loginHint?: string | null;
-	/** @nullable */
-	additionalData?: string | null;
+  /**
+   * Callback URL to redirect to after the user has signed in
+   * @nullable
+   */
+  callbackURL?: string | null;
+  /** @nullable */
+  newUserCallbackURL?: string | null;
+  /**
+   * Callback URL to redirect to if an error happens
+   * @nullable
+   */
+  errorCallbackURL?: string | null;
+  provider: string;
+  /**
+   * Disable automatic redirection to the provider. Useful for handling the redirection yourself
+   * @nullable
+   */
+  disableRedirect?: boolean | null;
+  /** @nullable */
+  idToken?: SocialSignInRequestIdToken;
+  /**
+   * Array of scopes to request from the provider. This will override the default scopes passed.
+   * @nullable
+   */
+  scopes?: unknown[] | null;
+  /**
+   * Explicitly request sign-up. Useful when disableImplicitSignUp is true for this provider
+   * @nullable
+   */
+  requestSignUp?: boolean | null;
+  /**
+   * The login hint to use for the authorization code request
+   * @nullable
+   */
+  loginHint?: string | null;
+  /** @nullable */
+  additionalData?: string | null;
 }
 
 /**
  * Session response when idToken is provided
  */
 export interface SocialSignInResponse200 {
-	token: string;
-	user: User;
-	url?: string;
-	redirect: boolean;
+  token: string;
+  user: User;
+  url?: string;
+  redirect: boolean;
 }
 
 export interface SocialSignInResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface SocialSignInResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface SocialSignInResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface SocialSignInResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface SocialSignInResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface SocialSignInResponse500 {
-	message?: string;
+  message?: string;
 }
 
 /**
  * @nullable
  */
 export type GetSessionResponse200 = {
-	session: Session;
-	user: User;
+  session: Session;
+  user: User;
 } | null;
 
 export interface GetSessionResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface GetSessionResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface GetSessionResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface GetSessionResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface GetSessionResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface GetSessionResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignOutRequest {
-	[key: string]: unknown;
+  [key: string]: unknown;
 }
 
 export interface SignOutResponse200 {
-	success?: boolean;
+  success?: boolean;
 }
 
 export interface SignOutResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface SignOutResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface SignOutResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignOutResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignOutResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignOutResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignUpWithEmailAndPasswordRequest {
-	/** The name of the user */
-	name: string;
-	/** The email of the user */
-	email: string;
-	/** The password of the user */
-	password: string;
-	/** The profile image URL of the user */
-	image?: string;
-	/** The URL to use for email verification callback */
-	callbackURL?: string;
-	/** If this is false, the session will not be remembered. Default is `true`. */
-	rememberMe?: boolean;
+  /** The name of the user */
+  name: string;
+  /** The email of the user */
+  email: string;
+  /** The password of the user */
+  password: string;
+  /** The profile image URL of the user */
+  image?: string;
+  /** The URL to use for email verification callback */
+  callbackURL?: string;
+  /** If this is false, the session will not be remembered. Default is `true`. */
+  rememberMe?: boolean;
 }
 
 export type SignUpWithEmailAndPasswordResponse200User = {
-	/** The unique identifier of the user */
-	id: string;
-	/** The email address of the user */
-	email: string;
-	/** The name of the user */
-	name: string;
-	/**
-	 * The profile image URL of the user
-	 * @nullable
-	 */
-	image?: string | null;
-	/** Whether the email has been verified */
-	emailVerified: boolean;
-	/** When the user was created */
-	createdAt: string;
-	/** When the user was last updated */
-	updatedAt: string;
+  /** The unique identifier of the user */
+  id: string;
+  /** The email address of the user */
+  email: string;
+  /** The name of the user */
+  name: string;
+  /**
+   * The profile image URL of the user
+   * @nullable
+   */
+  image?: string | null;
+  /** Whether the email has been verified */
+  emailVerified: boolean;
+  /** When the user was created */
+  createdAt: string;
+  /** When the user was last updated */
+  updatedAt: string;
 };
 
 export interface SignUpWithEmailAndPasswordResponse200 {
-	/**
-	 * Authentication token for the session
-	 * @nullable
-	 */
-	token?: string | null;
-	user: SignUpWithEmailAndPasswordResponse200User;
+  /**
+   * Authentication token for the session
+   * @nullable
+   */
+  token?: string | null;
+  user: SignUpWithEmailAndPasswordResponse200User;
 }
 
 export interface SignUpWithEmailAndPasswordResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface SignUpWithEmailAndPasswordResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface SignUpWithEmailAndPasswordResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignUpWithEmailAndPasswordResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignUpWithEmailAndPasswordResponse422 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignUpWithEmailAndPasswordResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignUpWithEmailAndPasswordResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignInEmailRequest {
-	/** Email of the user */
-	email: string;
-	/** Password of the user */
-	password: string;
-	/**
-	 * Callback URL to use as a redirect for email verification
-	 * @nullable
-	 */
-	callbackURL?: string | null;
-	/**
-	 * If this is false, the session will not be remembered. Default is `true`.
-	 * @nullable
-	 */
-	rememberMe?: boolean | null;
+  /** Email of the user */
+  email: string;
+  /** Password of the user */
+  password: string;
+  /**
+   * Callback URL to use as a redirect for email verification
+   * @nullable
+   */
+  callbackURL?: string | null;
+  /**
+   * If this is false, the session will not be remembered. Default is `true`.
+   * @nullable
+   */
+  rememberMe?: boolean | null;
 }
 
 /**
  * Session response when idToken is provided
  */
 export interface SignInEmailResponse200 {
-	redirect: boolean;
-	/** Session token */
-	token: string;
-	/** @nullable */
-	url?: string | null;
-	user: User;
+  redirect: boolean;
+  /** Session token */
+  token: string;
+  /** @nullable */
+  url?: string | null;
+  user: User;
 }
 
 export interface SignInEmailResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface SignInEmailResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface SignInEmailResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignInEmailResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignInEmailResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface SignInEmailResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ResetPasswordRequest {
-	/** The new password to set */
-	newPassword: string;
-	/**
-	 * The token to reset the password
-	 * @nullable
-	 */
-	token?: string | null;
+  /** The new password to set */
+  newPassword: string;
+  /**
+   * The token to reset the password
+   * @nullable
+   */
+  token?: string | null;
 }
 
 export interface ResetPasswordResponse200 {
-	status?: boolean;
+  status?: boolean;
 }
 
 export interface ResetPasswordResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ResetPasswordResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ResetPasswordResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ResetPasswordResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ResetPasswordResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ResetPasswordResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface VerifyPasswordRequest {
-	/** The password to verify */
-	password: string;
+  /** The password to verify */
+  password: string;
 }
 
 export interface VerifyPasswordResponse200 {
-	status?: boolean;
+  status?: boolean;
 }
 
 export interface VerifyPasswordResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface VerifyPasswordResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface VerifyPasswordResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface VerifyPasswordResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface VerifyPasswordResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface VerifyPasswordResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthVerifyEmailGetResponse200 {
-	user: User;
-	/** Indicates if the email was verified successfully */
-	status: boolean;
+  user: User;
+  /** Indicates if the email was verified successfully */
+  status: boolean;
 }
 
 export interface ApiAuthVerifyEmailGetResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthVerifyEmailGetResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthVerifyEmailGetResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthVerifyEmailGetResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthVerifyEmailGetResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthVerifyEmailGetResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface SendVerificationEmailRequest {
-	/** The email to send the verification email to */
-	email: string;
-	/**
-	 * The URL to use for email verification callback
-	 * @nullable
-	 */
-	callbackURL?: string | null;
+  /** The email to send the verification email to */
+  email: string;
+  /**
+   * The URL to use for email verification callback
+   * @nullable
+   */
+  callbackURL?: string | null;
 }
 
 export interface SendVerificationEmailResponse200 {
-	/** Indicates if the email was sent successfully */
-	status?: boolean;
+  /** Indicates if the email was sent successfully */
+  status?: boolean;
 }
 
 export interface SendVerificationEmailResponse400 {
-	/** Error message */
-	message?: string;
+  /** Error message */
+  message?: string;
 }
 
 export interface SendVerificationEmailResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface SendVerificationEmailResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface SendVerificationEmailResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface SendVerificationEmailResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface SendVerificationEmailResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ChangeEmailRequest {
-	/** The new email address to set must be a valid email address */
-	newEmail: string;
-	/**
-	 * The URL to redirect to after email verification
-	 * @nullable
-	 */
-	callbackURL?: string | null;
+  /** The new email address to set must be a valid email address */
+  newEmail: string;
+  /**
+   * The URL to redirect to after email verification
+   * @nullable
+   */
+  callbackURL?: string | null;
 }
 
 /**
@@ -676,822 +680,823 @@ export interface ChangeEmailRequest {
  * @nullable
  */
 export type ChangeEmailResponse200Message =
-	| (typeof ChangeEmailResponse200Message)[keyof typeof ChangeEmailResponse200Message]
-	| null;
+  | (typeof ChangeEmailResponse200Message)[keyof typeof ChangeEmailResponse200Message]
+  | null;
 
 export const ChangeEmailResponse200Message = {
-	Email_updated: 'Email updated',
-	Verification_email_sent: 'Verification email sent'
+  Email_updated: "Email updated",
+  Verification_email_sent: "Verification email sent",
 } as const;
 
 export interface ChangeEmailResponse200 {
-	user?: User;
-	/** Indicates if the request was successful */
-	status: boolean;
-	/**
-	 * Status message of the email change process
-	 * @nullable
-	 */
-	message?: ChangeEmailResponse200Message;
+  user?: User;
+  /** Indicates if the request was successful */
+  status: boolean;
+  /**
+   * Status message of the email change process
+   * @nullable
+   */
+  message?: ChangeEmailResponse200Message;
 }
 
 export interface ChangeEmailResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ChangeEmailResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ChangeEmailResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ChangeEmailResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ChangeEmailResponse422 {
-	message?: string;
+  message?: string;
 }
 
 export interface ChangeEmailResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ChangeEmailResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ChangePasswordRequest {
-	/** The new password to set */
-	newPassword: string;
-	/** The current password is required */
-	currentPassword: string;
-	/**
-	 * Must be a boolean value
-	 * @nullable
-	 */
-	revokeOtherSessions?: boolean | null;
+  /** The new password to set */
+  newPassword: string;
+  /** The current password is required */
+  currentPassword: string;
+  /**
+   * Must be a boolean value
+   * @nullable
+   */
+  revokeOtherSessions?: boolean | null;
 }
 
 export type ChangePasswordResponse200User = {
-	/** The unique identifier of the user */
-	id: string;
-	/** The email address of the user */
-	email: string;
-	/** The name of the user */
-	name: string;
-	/**
-	 * The profile image URL of the user
-	 * @nullable
-	 */
-	image?: string | null;
-	/** Whether the email has been verified */
-	emailVerified: boolean;
-	/** When the user was created */
-	createdAt: string;
-	/** When the user was last updated */
-	updatedAt: string;
+  /** The unique identifier of the user */
+  id: string;
+  /** The email address of the user */
+  email: string;
+  /** The name of the user */
+  name: string;
+  /**
+   * The profile image URL of the user
+   * @nullable
+   */
+  image?: string | null;
+  /** Whether the email has been verified */
+  emailVerified: boolean;
+  /** When the user was created */
+  createdAt: string;
+  /** When the user was last updated */
+  updatedAt: string;
 };
 
 export interface ChangePasswordResponse200 {
-	/**
-	 * New session token if other sessions were revoked
-	 * @nullable
-	 */
-	token?: string | null;
-	user: ChangePasswordResponse200User;
+  /**
+   * New session token if other sessions were revoked
+   * @nullable
+   */
+  token?: string | null;
+  user: ChangePasswordResponse200User;
 }
 
 export interface ChangePasswordResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ChangePasswordResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ChangePasswordResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ChangePasswordResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ChangePasswordResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ChangePasswordResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface UpdateUserRequest {
-	/** The name of the user */
-	name?: string;
-	/**
-	 * The image of the user
-	 * @nullable
-	 */
-	image?: string | null;
+  /** The name of the user */
+  name?: string;
+  /**
+   * The image of the user
+   * @nullable
+   */
+  image?: string | null;
 }
 
 export interface UpdateUserResponse200 {
-	user?: User;
+  user?: User;
 }
 
 export interface UpdateUserResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface UpdateUserResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface UpdateUserResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface UpdateUserResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface UpdateUserResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface UpdateUserResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface DeleteUserRequest {
-	/** The callback URL to redirect to after the user is deleted */
-	callbackURL?: string;
-	/** The user's password. Required if session is not fresh */
-	password?: string;
-	/** The deletion verification token */
-	token?: string;
+  /** The callback URL to redirect to after the user is deleted */
+  callbackURL?: string;
+  /** The user's password. Required if session is not fresh */
+  password?: string;
+  /** The deletion verification token */
+  token?: string;
 }
 
 /**
  * Status message of the deletion process
  */
 export type DeleteUserResponse200Message =
-	(typeof DeleteUserResponse200Message)[keyof typeof DeleteUserResponse200Message];
+  (typeof DeleteUserResponse200Message)[keyof typeof DeleteUserResponse200Message];
 
 export const DeleteUserResponse200Message = {
-	User_deleted: 'User deleted',
-	Verification_email_sent: 'Verification email sent'
+  User_deleted: "User deleted",
+  Verification_email_sent: "Verification email sent",
 } as const;
 
 export interface DeleteUserResponse200 {
-	/** Indicates if the operation was successful */
-	success: boolean;
-	/** Status message of the deletion process */
-	message: DeleteUserResponse200Message;
+  /** Indicates if the operation was successful */
+  success: boolean;
+  /** Status message of the deletion process */
+  message: DeleteUserResponse200Message;
 }
 
 export interface DeleteUserResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface DeleteUserResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface DeleteUserResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface DeleteUserResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface DeleteUserResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface DeleteUserResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface RequestPasswordResetRequest {
-	/** The email address of the user to send a password reset email to */
-	email: string;
-	/**
-	 * The URL to redirect the user to reset their password. If the token isn't valid or expired, it'll be redirected with a query parameter `?error=INVALID_TOKEN`. If the token is valid, it'll be redirected with a query parameter `?token=VALID_TOKEN
-	 * @nullable
-	 */
-	redirectTo?: string | null;
+  /** The email address of the user to send a password reset email to */
+  email: string;
+  /**
+   * The URL to redirect the user to reset their password. If the token isn't valid or expired, it'll be redirected with a query parameter `?error=INVALID_TOKEN`. If the token is valid, it'll be redirected with a query parameter `?token=VALID_TOKEN
+   * @nullable
+   */
+  redirectTo?: string | null;
 }
 
 export interface RequestPasswordResetResponse200 {
-	status?: boolean;
-	message?: string;
+  status?: boolean;
+  message?: string;
 }
 
 export interface RequestPasswordResetResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface RequestPasswordResetResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface RequestPasswordResetResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface RequestPasswordResetResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface RequestPasswordResetResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface RequestPasswordResetResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ResetPasswordCallbackResponse200 {
-	token?: string;
+  token?: string;
 }
 
 export interface ResetPasswordCallbackResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ResetPasswordCallbackResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ResetPasswordCallbackResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ResetPasswordCallbackResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ResetPasswordCallbackResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ResetPasswordCallbackResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export type ListUserSessionsResponse200 = Session[];
 
 export interface ListUserSessionsResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ListUserSessionsResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ListUserSessionsResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ListUserSessionsResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ListUserSessionsResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ListUserSessionsResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeSessionPostRequest {
-	/** The token to revoke */
-	token: string;
+  /** The token to revoke */
+  token: string;
 }
 
 export interface ApiAuthRevokeSessionPostResponse200 {
-	/** Indicates if the session was revoked successfully */
-	status: boolean;
+  /** Indicates if the session was revoked successfully */
+  status: boolean;
 }
 
 export interface ApiAuthRevokeSessionPostResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthRevokeSessionPostResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthRevokeSessionPostResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeSessionPostResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeSessionPostResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeSessionPostResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeSessionsPostRequest {
-	[key: string]: unknown;
+  [key: string]: unknown;
 }
 
 export interface ApiAuthRevokeSessionsPostResponse200 {
-	/** Indicates if all sessions were revoked successfully */
-	status: boolean;
+  /** Indicates if all sessions were revoked successfully */
+  status: boolean;
 }
 
 export interface ApiAuthRevokeSessionsPostResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthRevokeSessionsPostResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthRevokeSessionsPostResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeSessionsPostResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeSessionsPostResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeSessionsPostResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeOtherSessionsPostRequest {
-	[key: string]: unknown;
+  [key: string]: unknown;
 }
 
 export interface ApiAuthRevokeOtherSessionsPostResponse200 {
-	/** Indicates if all other sessions were revoked successfully */
-	status: boolean;
+  /** Indicates if all other sessions were revoked successfully */
+  status: boolean;
 }
 
 export interface ApiAuthRevokeOtherSessionsPostResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthRevokeOtherSessionsPostResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthRevokeOtherSessionsPostResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeOtherSessionsPostResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeOtherSessionsPostResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRevokeOtherSessionsPostResponse500 {
-	message?: string;
+  message?: string;
 }
 
 /**
  * @nullable
  */
 export type LinkSocialAccountRequestIdToken = {
-	token: string;
-	/** @nullable */
-	nonce?: string | null;
-	/** @nullable */
-	accessToken?: string | null;
-	/** @nullable */
-	refreshToken?: string | null;
-	/** @nullable */
-	scopes?: unknown[] | null;
+  token: string;
+  /** @nullable */
+  nonce?: string | null;
+  /** @nullable */
+  accessToken?: string | null;
+  /** @nullable */
+  refreshToken?: string | null;
+  /** @nullable */
+  scopes?: unknown[] | null;
 } | null;
 
 export interface LinkSocialAccountRequest {
-	/**
-	 * The URL to redirect to after the user has signed in
-	 * @nullable
-	 */
-	callbackURL?: string | null;
-	provider: string;
-	/** @nullable */
-	idToken?: LinkSocialAccountRequestIdToken;
-	/** @nullable */
-	requestSignUp?: boolean | null;
-	/**
-	 * Additional scopes to request from the provider
-	 * @nullable
-	 */
-	scopes?: unknown[] | null;
-	/**
-	 * The URL to redirect to if there is an error during the link process
-	 * @nullable
-	 */
-	errorCallbackURL?: string | null;
-	/**
-	 * Disable automatic redirection to the provider. Useful for handling the redirection yourself
-	 * @nullable
-	 */
-	disableRedirect?: boolean | null;
-	/** @nullable */
-	additionalData?: string | null;
+  /**
+   * The URL to redirect to after the user has signed in
+   * @nullable
+   */
+  callbackURL?: string | null;
+  provider: string;
+  /** @nullable */
+  idToken?: LinkSocialAccountRequestIdToken;
+  /** @nullable */
+  requestSignUp?: boolean | null;
+  /**
+   * Additional scopes to request from the provider
+   * @nullable
+   */
+  scopes?: unknown[] | null;
+  /**
+   * The URL to redirect to if there is an error during the link process
+   * @nullable
+   */
+  errorCallbackURL?: string | null;
+  /**
+   * Disable automatic redirection to the provider. Useful for handling the redirection yourself
+   * @nullable
+   */
+  disableRedirect?: boolean | null;
+  /** @nullable */
+  additionalData?: string | null;
 }
 
 export interface LinkSocialAccountResponse200 {
-	/** The authorization URL to redirect the user to */
-	url?: string;
-	/** Indicates if the user should be redirected to the authorization URL */
-	redirect: boolean;
-	status?: boolean;
+  /** The authorization URL to redirect the user to */
+  url?: string;
+  /** Indicates if the user should be redirected to the authorization URL */
+  redirect: boolean;
+  status?: boolean;
 }
 
 export interface LinkSocialAccountResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface LinkSocialAccountResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface LinkSocialAccountResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface LinkSocialAccountResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface LinkSocialAccountResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface LinkSocialAccountResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export type ListUserAccountsResponse200Item = {
-	id: string;
-	providerId: string;
-	createdAt: string;
-	updatedAt: string;
-	accountId: string;
-	userId: string;
-	scopes: string[];
+  id: string;
+  providerId: string;
+  createdAt: string;
+  updatedAt: string;
+  accountId: string;
+  userId: string;
+  scopes: string[];
 };
 
 export type ListUserAccountsResponse200 = ListUserAccountsResponse200Item[];
 
 export interface ListUserAccountsResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ListUserAccountsResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ListUserAccountsResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ListUserAccountsResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ListUserAccountsResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ListUserAccountsResponse500 {
-	message?: string;
+  message?: string;
 }
 
 /**
  * Confirmation message
  */
 export type ApiAuthDeleteUserCallbackGetResponse200Message =
-	(typeof ApiAuthDeleteUserCallbackGetResponse200Message)[keyof typeof ApiAuthDeleteUserCallbackGetResponse200Message];
+  (typeof ApiAuthDeleteUserCallbackGetResponse200Message)[keyof typeof ApiAuthDeleteUserCallbackGetResponse200Message];
 
 export const ApiAuthDeleteUserCallbackGetResponse200Message = {
-	User_deleted: 'User deleted'
+  User_deleted: "User deleted",
 } as const;
 
 export interface ApiAuthDeleteUserCallbackGetResponse200 {
-	/** Indicates if the deletion was successful */
-	success: boolean;
-	/** Confirmation message */
-	message: ApiAuthDeleteUserCallbackGetResponse200Message;
+  /** Indicates if the deletion was successful */
+  success: boolean;
+  /** Confirmation message */
+  message: ApiAuthDeleteUserCallbackGetResponse200Message;
 }
 
 export interface ApiAuthDeleteUserCallbackGetResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthDeleteUserCallbackGetResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthDeleteUserCallbackGetResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthDeleteUserCallbackGetResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthDeleteUserCallbackGetResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthDeleteUserCallbackGetResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthUnlinkAccountPostRequest {
-	providerId: string;
-	/** @nullable */
-	accountId?: string | null;
+  providerId: string;
+  /** @nullable */
+  accountId?: string | null;
 }
 
 export interface ApiAuthUnlinkAccountPostResponse200 {
-	status?: boolean;
+  status?: boolean;
 }
 
 export interface ApiAuthUnlinkAccountPostResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthUnlinkAccountPostResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthUnlinkAccountPostResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthUnlinkAccountPostResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthUnlinkAccountPostResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthUnlinkAccountPostResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRefreshTokenPostRequest {
-	/** The provider ID for the OAuth provider */
-	providerId: string;
-	/**
-	 * The account ID associated with the refresh token
-	 * @nullable
-	 */
-	accountId?: string | null;
-	/**
-	 * The user ID associated with the account
-	 * @nullable
-	 */
-	userId?: string | null;
+  /** The provider ID for the OAuth provider */
+  providerId: string;
+  /**
+   * The account ID associated with the refresh token
+   * @nullable
+   */
+  accountId?: string | null;
+  /**
+   * The user ID associated with the account
+   * @nullable
+   */
+  userId?: string | null;
 }
 
 export interface ApiAuthRefreshTokenPostResponse200 {
-	tokenType?: string;
-	idToken?: string;
-	accessToken?: string;
-	refreshToken?: string;
-	accessTokenExpiresAt?: string;
-	refreshTokenExpiresAt?: string;
+  tokenType?: string;
+  idToken?: string;
+  accessToken?: string;
+  refreshToken?: string;
+  accessTokenExpiresAt?: string;
+  refreshTokenExpiresAt?: string;
 }
 
 export interface ApiAuthRefreshTokenPostResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthRefreshTokenPostResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRefreshTokenPostResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRefreshTokenPostResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthRefreshTokenPostResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthGetAccessTokenPostRequest {
-	/** The provider ID for the OAuth provider */
-	providerId: string;
-	/**
-	 * The account ID associated with the refresh token
-	 * @nullable
-	 */
-	accountId?: string | null;
-	/**
-	 * The user ID associated with the account
-	 * @nullable
-	 */
-	userId?: string | null;
+  /** The provider ID for the OAuth provider */
+  providerId: string;
+  /**
+   * The account ID associated with the refresh token
+   * @nullable
+   */
+  accountId?: string | null;
+  /**
+   * The user ID associated with the account
+   * @nullable
+   */
+  userId?: string | null;
 }
 
 export interface ApiAuthGetAccessTokenPostResponse200 {
-	tokenType?: string;
-	idToken?: string;
-	accessToken?: string;
-	accessTokenExpiresAt?: string;
+  tokenType?: string;
+  idToken?: string;
+  accessToken?: string;
+  accessTokenExpiresAt?: string;
 }
 
 export interface ApiAuthGetAccessTokenPostResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthGetAccessTokenPostResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthGetAccessTokenPostResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthGetAccessTokenPostResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthGetAccessTokenPostResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export type ApiAuthAccountInfoGetResponse200User = {
-	id: string;
-	name?: string;
-	email?: string;
-	image?: string;
-	emailVerified: boolean;
+  id: string;
+  name?: string;
+  email?: string;
+  image?: string;
+  emailVerified: boolean;
 };
 
 export type ApiAuthAccountInfoGetResponse200Data = { [key: string]: unknown };
 
 export interface ApiAuthAccountInfoGetResponse200 {
-	user: ApiAuthAccountInfoGetResponse200User;
-	data: ApiAuthAccountInfoGetResponse200Data;
+  user: ApiAuthAccountInfoGetResponse200User;
+  data: ApiAuthAccountInfoGetResponse200Data;
 }
 
 export interface ApiAuthAccountInfoGetResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthAccountInfoGetResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthAccountInfoGetResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthAccountInfoGetResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthAccountInfoGetResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthAccountInfoGetResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthOkGetResponse200 {
-	/** Indicates if the API is working */
-	ok: boolean;
+  /** Indicates if the API is working */
+  ok: boolean;
 }
 
 export interface ApiAuthOkGetResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthOkGetResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthOkGetResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthOkGetResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthOkGetResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthOkGetResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthErrorGetResponse400 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthErrorGetResponse401 {
-	message: string;
+  message: string;
 }
 
 export interface ApiAuthErrorGetResponse403 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthErrorGetResponse404 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthErrorGetResponse429 {
-	message?: string;
+  message?: string;
 }
 
 export interface ApiAuthErrorGetResponse500 {
-	message?: string;
+  message?: string;
 }
 
 export type GetApiPostsParams = {
-	status?: GetApiPostsStatus;
-	tag?: string;
-	/**
-	 * @minimum 1
-	 * @maximum 100
-	 */
-	limit?: number;
-	/**
-	 * @minimum 0
-	 */
-	offset?: number;
+  status?: GetApiPostsStatus;
+  tag?: string;
+  /**
+   * @minimum 1
+   * @maximum 100
+   */
+  limit?: number;
+  /**
+   * @minimum 0
+   */
+  offset?: number;
 };
 
-export type GetApiPostsStatus = (typeof GetApiPostsStatus)[keyof typeof GetApiPostsStatus];
+export type GetApiPostsStatus =
+  (typeof GetApiPostsStatus)[keyof typeof GetApiPostsStatus];
 
 export const GetApiPostsStatus = {
-	draft: 'draft',
-	published: 'published',
-	archived: 'archived'
+  draft: "draft",
+  published: "published",
+  archived: "archived",
 } as const;
 
 export type PostApiLinkedinPostBodyTwo = {
-	postId: string;
+  postId: string;
 };
 
 export type PostApiLinkedinPostBodyThree = {
-	postId: string;
+  postId: string;
 };
 
 export type GetApiAuthVerifyEmailParams = {
-	/**
-	 * The token to verify the email
-	 */
-	token: string;
-	/**
-	 * The URL to redirect to after email verification
-	 */
-	callbackURL?: string;
+  /**
+   * The token to verify the email
+   */
+  token: string;
+  /**
+   * The URL to redirect to after email verification
+   */
+  callbackURL?: string;
 };
 
 export type ResetPasswordCallbackParams = {
-	/**
-	 * The URL to redirect the user to reset their password
-	 */
-	callbackURL: string;
+  /**
+   * The URL to redirect the user to reset their password
+   */
+  callbackURL: string;
 };
 
 export type GetApiAuthDeleteUserCallbackParams = {
-	/**
-	 * The token to verify the deletion request
-	 */
-	token?: string;
-	/**
-	 * The URL to redirect to after deletion
-	 * @nullable
-	 */
-	callbackURL?: string | null;
+  /**
+   * The token to verify the deletion request
+   */
+  token?: string;
+  /**
+   * The URL to redirect to after deletion
+   * @nullable
+   */
+  callbackURL?: string | null;
 };

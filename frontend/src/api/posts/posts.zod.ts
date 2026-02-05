@@ -5,7 +5,7 @@
  * LinkedIn post management tool API
  * OpenAPI spec version: 1.0.0
  */
-import * as zod from 'zod';
+import * as zod from "zod";
 
 /**
  * Create a new post for the authenticated user
@@ -13,10 +13,10 @@ import * as zod from 'zod';
  */
 
 export const PostApiPostsBody = zod.object({
-	title: zod.string().nullish(),
-	content: zod.string().min(1),
-	tags: zod.array(zod.string()).optional(),
-	status: zod.enum(['draft', 'published', 'archived']).optional()
+  title: zod.string().nullish(),
+  content: zod.string().min(1),
+  tags: zod.array(zod.string()).optional(),
+  status: zod.enum(["draft", "published", "archived"]).optional(),
 });
 
 /**
@@ -30,35 +30,42 @@ export const getApiPostsQueryOffsetDefault = 0;
 export const getApiPostsQueryOffsetMin = 0;
 
 export const GetApiPostsQueryParams = zod.object({
-	status: zod.enum(['draft', 'published', 'archived']).optional(),
-	tag: zod.string().optional(),
-	limit: zod.number().min(1).max(getApiPostsQueryLimitMax).default(getApiPostsQueryLimitDefault),
-	offset: zod.number().min(getApiPostsQueryOffsetMin).default(getApiPostsQueryOffsetDefault)
+  status: zod.enum(["draft", "published", "archived"]).optional(),
+  tag: zod.string().optional(),
+  limit: zod
+    .number()
+    .min(1)
+    .max(getApiPostsQueryLimitMax)
+    .default(getApiPostsQueryLimitDefault),
+  offset: zod
+    .number()
+    .min(getApiPostsQueryOffsetMin)
+    .default(getApiPostsQueryOffsetDefault),
 });
 
 export const GetApiPostsResponse = zod.object({
-	posts: zod.array(
-		zod.object({
-			id: zod.uuid(),
-			userId: zod.string(),
-			title: zod.string().nullable(),
-			content: zod.string(),
-			tags: zod.array(zod.string()),
-			status: zod.enum(['draft', 'published', 'archived']),
-			createdAt: zod.iso.datetime({}),
-			updatedAt: zod.iso.datetime({}),
-			publications: zod
-				.array(
-					zod.object({
-						platform: zod.enum(['linkedin', 'twitter', 'facebook']),
-						platformPostId: zod.string(),
-						publishedAt: zod.iso.datetime({})
-					})
-				)
-				.optional()
-		})
-	),
-	total: zod.number()
+  posts: zod.array(
+    zod.object({
+      id: zod.uuid(),
+      userId: zod.string(),
+      title: zod.string().nullable(),
+      content: zod.string(),
+      tags: zod.array(zod.string()),
+      status: zod.enum(["draft", "published", "archived"]),
+      createdAt: zod.iso.datetime({}),
+      updatedAt: zod.iso.datetime({}),
+      publications: zod
+        .array(
+          zod.object({
+            platform: zod.enum(["linkedin", "twitter", "facebook"]),
+            platformPostId: zod.string(),
+            publishedAt: zod.iso.datetime({}),
+          })
+        )
+        .optional(),
+    })
+  ),
+  total: zod.number(),
 });
 
 /**
@@ -66,27 +73,27 @@ export const GetApiPostsResponse = zod.object({
  * @summary Get a post
  */
 export const GetApiPostsByIdParams = zod.object({
-	id: zod.uuid()
+  id: zod.uuid(),
 });
 
 export const GetApiPostsByIdResponse = zod.object({
-	id: zod.uuid(),
-	userId: zod.string(),
-	title: zod.string().nullable(),
-	content: zod.string(),
-	tags: zod.array(zod.string()),
-	status: zod.enum(['draft', 'published', 'archived']),
-	createdAt: zod.iso.datetime({}),
-	updatedAt: zod.iso.datetime({}),
-	publications: zod
-		.array(
-			zod.object({
-				platform: zod.enum(['linkedin', 'twitter', 'facebook']),
-				platformPostId: zod.string(),
-				publishedAt: zod.iso.datetime({})
-			})
-		)
-		.optional()
+  id: zod.uuid(),
+  userId: zod.string(),
+  title: zod.string().nullable(),
+  content: zod.string(),
+  tags: zod.array(zod.string()),
+  status: zod.enum(["draft", "published", "archived"]),
+  createdAt: zod.iso.datetime({}),
+  updatedAt: zod.iso.datetime({}),
+  publications: zod
+    .array(
+      zod.object({
+        platform: zod.enum(["linkedin", "twitter", "facebook"]),
+        platformPostId: zod.string(),
+        publishedAt: zod.iso.datetime({}),
+      })
+    )
+    .optional(),
 });
 
 /**
@@ -94,34 +101,34 @@ export const GetApiPostsByIdResponse = zod.object({
  * @summary Update a post
  */
 export const PatchApiPostsByIdParams = zod.object({
-	id: zod.uuid()
+  id: zod.uuid(),
 });
 
 export const PatchApiPostsByIdBody = zod.object({
-	title: zod.string().nullish(),
-	content: zod.string().min(1).optional(),
-	tags: zod.array(zod.string()).optional(),
-	status: zod.enum(['draft', 'published', 'archived']).optional()
+  title: zod.string().nullish(),
+  content: zod.string().min(1).optional(),
+  tags: zod.array(zod.string()).optional(),
+  status: zod.enum(["draft", "published", "archived"]).optional(),
 });
 
 export const PatchApiPostsByIdResponse = zod.object({
-	id: zod.uuid(),
-	userId: zod.string(),
-	title: zod.string().nullable(),
-	content: zod.string(),
-	tags: zod.array(zod.string()),
-	status: zod.enum(['draft', 'published', 'archived']),
-	createdAt: zod.iso.datetime({}),
-	updatedAt: zod.iso.datetime({}),
-	publications: zod
-		.array(
-			zod.object({
-				platform: zod.enum(['linkedin', 'twitter', 'facebook']),
-				platformPostId: zod.string(),
-				publishedAt: zod.iso.datetime({})
-			})
-		)
-		.optional()
+  id: zod.uuid(),
+  userId: zod.string(),
+  title: zod.string().nullable(),
+  content: zod.string(),
+  tags: zod.array(zod.string()),
+  status: zod.enum(["draft", "published", "archived"]),
+  createdAt: zod.iso.datetime({}),
+  updatedAt: zod.iso.datetime({}),
+  publications: zod
+    .array(
+      zod.object({
+        platform: zod.enum(["linkedin", "twitter", "facebook"]),
+        platformPostId: zod.string(),
+        publishedAt: zod.iso.datetime({}),
+      })
+    )
+    .optional(),
 });
 
 /**
@@ -129,5 +136,5 @@ export const PatchApiPostsByIdResponse = zod.object({
  * @summary Delete a post
  */
 export const DeleteApiPostsByIdParams = zod.object({
-	id: zod.uuid()
+  id: zod.uuid(),
 });

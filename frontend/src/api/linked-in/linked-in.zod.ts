@@ -5,16 +5,16 @@
  * LinkedIn post management tool API
  * OpenAPI spec version: 1.0.0
  */
-import * as zod from 'zod';
+import * as zod from "zod";
 
 /**
  * Check if the authenticated user has a LinkedIn account connected
  * @summary Check LinkedIn connection status
  */
 export const GetApiLinkedinStatusResponse = zod.object({
-	connected: zod.boolean(),
-	accountId: zod.string().optional(),
-	email: zod.string().optional()
+  connected: zod.boolean(),
+  accountId: zod.string().optional(),
+  email: zod.string().optional(),
 });
 
 /**
@@ -22,11 +22,11 @@ export const GetApiLinkedinStatusResponse = zod.object({
  * @summary Publish post to LinkedIn
  */
 export const PostApiLinkedinPostBody = zod.object({
-	postId: zod.uuid()
+  postId: zod.uuid(),
 });
 
 export const PostApiLinkedinPostResponse = zod.object({
-	success: zod.boolean(),
-	linkedInPostId: zod.string().optional(),
-	message: zod.string().optional()
+  success: zod.boolean(),
+  linkedInPostId: zod.string().optional(),
+  message: zod.string().optional(),
 });

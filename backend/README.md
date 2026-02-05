@@ -1,192 +1,150 @@
-# Getting Started With Backend
+# Super Impress Backend
 
-We use [uv](https://github.com/astral-sh/uv) for dependency management. It's 10-100x faster than pip, built in Rust, and provides reproducible environments via lockfiles.
+Backend API built with Elysia, Bun, and PostgreSQL.
 
-## Installation
+## Tech Stack
 
-Follow the [official installation instructions](https://docs.astral.sh/uv/getting-started/installation/)
+- **Runtime**: Bun
+- **Framework**: Elysia
+- **Database**: PostgreSQL
+- **ORM**: Drizzle
+- **Authentication**: better-auth
+- **Validation**: TypeBox
 
-## Quick Start
+## Getting Started
 
+### Prerequisites
+
+- [Bun](https://bun.sh/) installed
+- PostgreSQL database running
+
+### Installation
+
+1. Install dependencies:
 ```bash
-# Setup virtual environment for the project and install dependencies
-uv sync
-
-# MacOS/Linux (Bash/Zsh)
-source .venv/bin/activate
-
-# Windows (Git Bash)
-source .venv/Scripts/activate
-
-# RECOMMENDED: You can also just use 'uv run' without activating
-# uv run fastapi dev
-
-# Run application
-uv run fastapi dev
+bun install
 ```
 
-## Key Commands
-
+2. Copy environment variables:
 ```bash
-uv sync              # Install dependencies
-uv add <package>     # Add dependency
-uv remove <package>  # Remove dependency
-uv run <command>     # Run in virtual environment
-uv pip list          # Show installed packages
+cp .env.example .env
 ```
 
-## Pre-commit Setup
+3. Configure your `.env` file with:
+   - Database connection string
+   - better-auth secret and URL
+   - LinkedIn OAuth credentials (see LinkedIn Setup below)
 
-This project uses pre-commit hooks to ensure code quality and consistency.
-
-**Steps to setup pre-commit:**
-
+4. Run database migrations:
 ```bash
-# Install pre-commit
-pip install pre-commit
-
-# or if you have uv installed
-uv tool install pre-commit
-
-# Install the git hooks
-pre-commit install
+bun run drizzle-kit generate  # Generate migration
+bun run drizzle-kit push      # Apply to database
 ```
 
-Now pre-commit hooks will automatically run on staged files before each commit. If a hook fails, the commit will be blocked until issues are resolved.
+### Development
 
-**Manual execution (optional):**
-
+Start the development server:
 ```bash
-# Run on staged files
-pre-commit run
-
-# Run on all files
-pre-commit run --all-files
+bun run dev
 ```
 
-## Database Setup
+The API will be available at:
+- Base URL: http://localhost:3000/api
+- API Documentation: http://localhost:3000/api/swagger
 
-This project uses PostgreSQL as the primary database. The database choice is documented in `decisions/tech/5-postgresql.md`.
+## LinkedIn OAuth Setup
 
-The application connects via `DATABASE_URL` and works with any PostgreSQL instance - Docker (recommended for development), local installation, or cloud services like Supabase.
+To enable LinkedIn posting functionality:
 
-### Development Setup
+1. Go to [LinkedIn Developers](https://www.linkedin.com/developers/)
+2. Create a new app or select an existing one
+3. Add these products to your app:
+   - **Sign In with LinkedIn using OpenID Connect** (for authentication)
+   - **Share on LinkedIn** (for posting)
+4. Set the redirect URI: `http://localhost:3000/api/auth/oauth2/callback/linkedin`
+5. Copy the Client ID and Client Secret to your `.env` file:
+   ```
+   LINKEDIN_CLIENT_ID=your_client_id
+   LINKEDIN_CLIENT_SECRET=your_client_secret
+   ```
 
-There are two ways to run the backend during development:
+### Required Scopes
 
-#### Option 1: Local Backend + Docker PostgreSQL (Recommended)
+The LinkedIn integration uses these scopes:
+- `openid` - Basic authentication
+- `profile` - User profile information
+- `email` - User email address
+- `w_member_social` - Permission to post on behalf of the user
 
-Run the backend on your machine with PostgreSQL in Docker. Best for active development.
+## API Endpoints
 
-**1. Create `backend/.env`:**
+### Authentication (better-auth)
+- `POST /api/auth/signup/email` - Sign up with email
+- `POST /api/auth/signin/email` - Sign in with email
+- `POST /api/auth/signout` - Sign out
+- `POST /api/auth/sign-in/oauth2` - Start LinkedIn OAuth (providerId: linkedin)
+- `GET /api/auth/oauth2/callback/linkedin` - LinkedIn OAuth callback
 
-```env
-DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/super_impress
-```
+### Posts
+- `GET /api/posts` - List user's posts
+- `POST /api/posts` - Create a new post
+- `GET /api/posts/:id` - Get a specific post
+- `PATCH /api/posts/:id` - Update a post
+- `DELETE /api/posts/:id` - Delete a post
 
-**2. Start PostgreSQL:**
+### LinkedIn
+- `GET /api/linkedin/status` - Check LinkedIn connection status
+- `POST /api/linkedin/post` - Publish a post to LinkedIn
 
+## Database Schema
+
+### Tables
+- `user` - User accounts
+- `session` - User sessions
+- `account` - OAuth accounts (including LinkedIn)
+- `post` - User posts
+- `post_publication` - Tracks posts published to social platforms
+
+### Migrations
+
+Generate a new migration after schema changes:
 ```bash
-# From project root
-docker compose up postgres -d
+bun run drizzle-kit generate
 ```
 
-**3. Run backend:**
-
+Apply migrations:
 ```bash
-cd backend
-uv sync
-uv run fastapi dev
+bun run drizzle-kit push
 ```
 
-**Note:** Use `localhost` as the database hostname since the backend runs on your local machine.
-
-#### Option 2: Full Docker (Backend + PostgreSQL)
-
-Run everything in Docker containers.
-
-**1. Create `backend/.env`:**
-
-```env
-DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/super_impress
-```
-
-**2. Start all services:**
-
+View current schema:
 ```bash
-# From project root
-docker compose up -d
+bun run drizzle-kit studio
 ```
 
-**Note:** Use `postgres` as the database hostname since both services run in Docker and communicate via Docker networking.
+## Project Structure
 
-### Switching Between Modes
-
-To switch from one mode to another, simply update the hostname in `backend/.env`:
-
-- **Local Backend:** `localhost:5432`
-- **Docker Backend:** `postgres:5432`
-
-All other connection details remain the same (username: `postgres`, password: `postgres`, database: `super_impress`).
-
-### Database Operations
-
-```bash
-# Run migrations
-uv run alembic upgrade head
-
-# Create a new migration (after model changes)
-uv run alembic revision --autogenerate -m "Description of changes"
-
-# Run development server
-uv run fastapi dev
 ```
-
-### Database Schema
-
-The application uses SQLAlchemy ORM for database operations and Pydantic for data validation. Current models:
-
-- `User`: Authentication model with email and password
-
-Database models are defined in `app/*/models.py` using SQLAlchemy ORM. Schema migrations are managed via Alembic.
-
-## Redis Setup
-
-### Quick Start
-
-```bash
-# From project root
-docker compose up redis -d
-
-# Verify connection
-docker compose exec redis redis-cli ping
-# Expected output: PONG
+backend/
+├── src/
+│   ├── modules/
+│   │   ├── posts/          # Post management
+│   │   │   ├── index.ts    # Routes
+│   │   │   ├── model.ts    # TypeBox schemas
+│   │   │   └── service.ts  # Business logic
+│   │   └── linkedin/       # LinkedIn integration
+│   │       ├── index.ts    # Routes
+│   │       ├── model.ts    # TypeBox schemas
+│   │       ├── service.ts  # Business logic
+│   │       └── client.ts   # LinkedIn API wrapper
+│   ├── db/
+│   │   ├── schema/         # Database schemas
+│   │   │   ├── auth.ts     # Auth tables
+│   │   │   ├── posts.ts    # Post tables
+│   │   │   └── index.ts
+│   │   └── index.ts        # Database client
+│   ├── auth.ts             # better-auth configuration
+│   └── index.ts            # Main application
+├── drizzle/                # Migrations
+└── .env                    # Environment variables
 ```
-
-### Environment Configuration
-
-Add to `backend/.env`:
-
-```env
-# Redis Configuration
-REDIS_HOST=localhost  # Use 'redis' when backend runs in Docker
-REDIS_PORT=6379
-REDIS_DB=0
-# REDIS_PASSWORD=  # Optional, uncomment if Redis requires authentication
-```
-
-**Hostname Configuration:**
-
-- **Local backend + Docker Redis:** `REDIS_HOST=localhost`
-- **Docker backend + Docker Redis:** `REDIS_HOST=redis`
-
-### Current Usage
-
-- **OAuth state tokens:** CSRF protection with 10-minute TTL
-- **Key pattern:** `oauth_state:{token}`
-- **Expiration:** Automatic via Redis TTL (600 seconds)
-
-### Implementation Documentation
-
-- **OAuth flow details:** See `../decisions/tech/14-oauth-flow-implementation.md`
-- **Code implementation:** See `app/redis.py`

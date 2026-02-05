@@ -1,18 +1,8 @@
-import { authUtils } from '@/stores/auth';
 import type { AxiosError, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
 
-export const axiosInstance = axios.create();
-
-axiosInstance.interceptors.request.use((config) => {
-	if (typeof window !== 'undefined') {
-		const token = authUtils.getToken();
-
-		if (token) {
-			config.headers.Authorization = `Bearer ${token}`;
-		}
-	}
-	return config;
+export const axiosInstance = axios.create({
+	withCredentials: true
 });
 
 axiosInstance.interceptors.response.use(

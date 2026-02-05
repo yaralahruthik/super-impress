@@ -1,11 +1,11 @@
-import { useListPosts } from '@/api/posts/posts';
+import { useGetApiPosts } from '@/api/posts/posts';
 import { Button } from '@/components/ui/button';
 import { Link } from '@tanstack/react-router';
 import { Plus } from 'lucide-react';
 import PostList, { PostListEmpty, PostListError, PostListLoading } from './post-list';
 
 function PostDataContainer() {
-	const { data, isPending, isError } = useListPosts();
+	const { data, isPending, isError } = useGetApiPosts();
 
 	if (isPending) {
 		return <PostListLoading />;

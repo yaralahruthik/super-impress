@@ -1,13 +1,54 @@
 repos:
-  # Backend hooks
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.1
+  # Backend hooks (Biome)
+  - repo: local
     hooks:
-      - id: ruff-check
+      - id: biome-check
+        name: biome check
+        entry: bunx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off
+        language: system
+        types: [text]
         files: ^backend/
-        args: [--fix]
-      - id: ruff-format
-        files: ^backend/
+
+  # Frontend hooks (Prettier & ESLint)
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: pnpm -C frontend format
+        language: system
+        pass_filenames: false
+        types_or: [css, javascript, jsx, ts, tsx, json, html, yaml, markdown]
+        files: ^frontend/
+
+      - id: eslint-frontend
+        name: eslint (frontend)
+        entry: pnpm -C frontend lint
+        language: system
+        pass_filenames: false
+        files: ^frontend/
+        types: [file]
+        types_or: [javascript, jsx, ts, tsx]
+
+  # Docs hooks (Biome)
+  - repo: local
+    hooks:
+      - id: biome-check-docs
+        name: biome check (docs)
+        entry: pnpm -C docs lint
+        language: system
+        pass_filenames: false
+        files: ^docs/
+        types: [file]
+        types_or: [javascript, jsx, ts, tsx, json]
+
+      - id: biome-format-docs
+        name: biome format (docs)
+        entry: pnpm -C docs format
+        language: system
+        pass_filenames: false
+        files: ^docs/
+        types: [file]
+        types_or: [javascript, jsx, ts, tsx, json, css]
 
   # General hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks

@@ -1,6 +1,8 @@
+import { useSignOut } from '@/api/better-auth/better-auth';
 import {
 	Sidebar,
 	SidebarContent,
+	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
@@ -9,11 +11,15 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem
 } from '@/components/ui/sidebar';
-import { Link, type LinkProps } from '@tanstack/react-router';
-import { FileText, Home, Settings } from 'lucide-react';
+import { Link, useRouter, type LinkProps } from '@tanstack/react-router';
+import { FileText, Home, LogOut, Settings } from 'lucide-react';
 import { Logo } from './logo';
 
-const items: { title: string; url: LinkProps['to']; icon: React.ElementType }[] = [
+const items: {
+	title: string;
+	url: LinkProps['to'];
+	icon: React.ElementType;
+}[] = [
 	{
 		title: 'Dashboard',
 		url: '/',
@@ -30,6 +36,28 @@ const items: { title: string; url: LinkProps['to']; icon: React.ElementType }[] 
 		icon: Settings
 	}
 ];
+
+function LogOutButton() {
+	const router = useRouter();
+	const { mutate } = useSignOut();
+
+	const handleLogout = () => {
+		mutate(
+			{ data: {} },
+			{
+				onSuccess: () => {
+					router.invalidate();
+				}
+			}
+		);
+	};
+	return (
+		<SidebarMenuButton onClick={handleLogout}>
+			<LogOut />
+			<span>Logout</span>
+		</SidebarMenuButton>
+	);
+}
 
 export function AppSidebar() {
 	return (
@@ -64,6 +92,13 @@ export function AppSidebar() {
 					</SidebarGroupContent>
 				</SidebarGroup>
 			</SidebarContent>
+			<SidebarFooter>
+				<SidebarMenu>
+					<SidebarMenuItem>
+						<LogOutButton />
+					</SidebarMenuItem>
+				</SidebarMenu>
+			</SidebarFooter>
 		</Sidebar>
 	);
 }

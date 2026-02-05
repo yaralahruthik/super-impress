@@ -1,4 +1,4 @@
-import { useDeleteCurrentUser } from '@/api/authentication/authentication';
+import { useDeleteUser } from '@/api/better-auth/better-auth';
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/hooks/use-auth';
+import { Input } from '@/components/ui/input';
+import { authClient } from '@/utils/auth-client';
 import { getErrorMessage } from '@/utils/get-error-message';
 import { useNavigate } from '@tanstack/react-router';
 import { AlertTriangle, Loader2, Trash2 } from 'lucide-react';
@@ -20,21 +21,24 @@ import { useState } from 'react';
 
 export default function DeleteAccountCard() {
 	const [error, setError] = useState<string | null>(null);
+	const [password, setPassword] = useState('');
 	const navigate = useNavigate();
-	const { logout } = useAuth();
-	const { mutate: deleteAccount, isPending } = useDeleteCurrentUser();
+	const { mutate: deleteAccount, isPending } = useDeleteUser();
 
 	const handleDelete = () => {
 		setError(null);
-		deleteAccount(undefined, {
-			onSuccess: () => {
-				logout();
-				navigate({ to: '/login' });
-			},
-			onError: (error) => {
-				setError(getErrorMessage(error));
+		deleteAccount(
+			{ data: { password } },
+			{
+				onSuccess: () => {
+					authClient.signOut();
+					navigate({ to: '/login' });
+				},
+				onError: (error) => {
+					setError(getErrorMessage(error));
+				}
 			}
-		});
+		);
 	};
 
 	return (
@@ -85,12 +89,22 @@ export default function DeleteAccountCard() {
 								all your data from our servers.
 							</AlertDialogDescription>
 						</AlertDialogHeader>
+						<div className="py-4">
+							<label htmlFor="delete-password" className="text-sm font-medium">
+								Enter your password to confirm
+							</label>
+							<Input
+								id="delete-password"
+								type="password"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								placeholder="Password"
+								className="mt-2"
+							/>
+						</div>
 						<AlertDialogFooter>
 							<AlertDialogCancel>Cancel</AlertDialogCancel>
-							<AlertDialogAction
-								onClick={handleDelete}
-								className="bg-destructive text-white hover:bg-destructive/90"
-							>
+							<AlertDialogAction onClick={handleDelete} disabled={!password}>
 								Delete Account
 							</AlertDialogAction>
 						</AlertDialogFooter>

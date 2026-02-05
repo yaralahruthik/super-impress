@@ -1,0 +1,33 @@
+name: Backend Checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "backend/**"
+
+jobs:
+  backend-checks:
+    name: Backend Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: cd backend && bun install
+
+      - name: Run Biome Format
+        run: cd backend && bun format
+
+      - name: Run Biome Lint
+        run: cd backend && bun lint
+
+      - name: Run Typecheck
+        run: cd backend && bun typecheck

@@ -1,4 +1,4 @@
-import { useLoginUser } from '@/api/authentication/authentication';
+import { useSignInEmail } from '@/api/better-auth/better-auth';
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -10,11 +10,10 @@ import {
 } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
-import { useAuth } from '@/hooks/use-auth';
 import { AuthLayout } from '@/layouts/auth-layout';
 import { getErrorMessage } from '@/utils/get-error-message';
 import { useForm } from '@tanstack/react-form';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { Link, useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
 import * as z from 'zod';
 
@@ -24,11 +23,10 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
+	const router = useRouter();
 	const [error, setError] = useState<string | null>(null);
 
-	const navigate = useNavigate();
-	const { login } = useAuth();
-	const { mutate, isPending } = useLoginUser();
+	const { mutate, isPending } = useSignInEmail();
 
 	const form = useForm({
 		defaultValues: {
@@ -38,19 +36,18 @@ export default function LoginPage() {
 		validators: {
 			onSubmit: formSchema
 		},
-		onSubmit: async ({ value }) => {
+		onSubmit: ({ value }) => {
 			setError(null);
 			mutate(
 				{
 					data: {
-						username: value.email,
+						email: value.email,
 						password: value.password
 					}
 				},
 				{
-					onSuccess: (response) => {
-						login(response.access_token);
-						navigate({ to: '/' });
+					onSuccess: () => {
+						router.invalidate();
 					},
 					onError: (error) => {
 						setError(getErrorMessage(error));

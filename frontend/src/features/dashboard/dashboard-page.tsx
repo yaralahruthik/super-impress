@@ -1,18 +1,18 @@
-import { useReadCurrentUser } from '@/api/authentication/authentication';
+import { useGetSession } from '@/api/better-auth/better-auth';
 import UserInfoCard, { UserInfoCardError, UserInfoCardLoading } from './user-info-card';
 
 function DashboardDataContainer() {
-	const { data, isPending, isError } = useReadCurrentUser();
+	const { data, isPending } = useGetSession();
 
 	if (isPending) {
 		return <UserInfoCardLoading />;
 	}
 
-	if (isError) {
+	if (!data?.user) {
 		return <UserInfoCardError />;
 	}
 
-	return <UserInfoCard user={data} />;
+	return <UserInfoCard user={data.user} />;
 }
 
 export default function DashboardPage() {

@@ -1,0 +1,20 @@
+---
+title: PostgreSQL Database
+description: Decision to use PostgreSQL as the primary database
+---
+
+From v0 of Super Impress, we know that almost all of our application data will be structured and relational in nature.
+So we will use PostgreSQL as our primary database.
+
+## Why PostgreSQL
+
+- **Structured Data**: User profiles, posts, social connections are all relational
+- **ACID Compliance**: Strong consistency for user data and transactions
+- **Industry Standard**: Great for team career development
+- **TypeScript Ecosystem**: Excellent integration with Drizzle ORM
+
+## Why Not Alternatives
+
+- **MongoDB**: Data is structured, not document-based
+- **SQLite**: Can't handle multi-user concurrent access
+- **MySQL**: PostgreSQL has better JSON support

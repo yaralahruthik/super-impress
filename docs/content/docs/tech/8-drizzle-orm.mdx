@@ -1,0 +1,73 @@
+---
+title: Drizzle ORM
+description: Decision to use Drizzle ORM for database access and migrations
+---
+
+Super Impress uses [Drizzle ORM](https://orm.drizzle.team/) for database access and migrations.
+
+## Why Drizzle
+
+- **Type Safety**: Full TypeScript inference from schema to queries
+- **SQL-Like**: Familiar syntax that maps closely to SQL
+- **Lightweight**: No heavy runtime, just a thin query builder
+- **Migrations**: Built-in migration generation and management
+
+## Schema Definition
+
+Schemas are defined in TypeScript with full type inference:
+
+```ts
+import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+
+export const users = pgTable('users', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: text('name').notNull(),
+  email: text('email').notNull().unique(),
+  createdAt: timestamp('created_at').defaultNow().notNull()
+});
+```
+
+## Query Examples
+
+```ts
+import { db } from './db';
+import { users } from './db/schema';
+import { eq } from 'drizzle-orm';
+
+// Select all users
+const allUsers = await db.select().from(users);
+
+// Select with filter
+const user = await db.select()
+  .from(users)
+  .where(eq(users.email, 'test@example.com'));
+
+// Insert
+await db.insert(users).values({
+  name: 'John',
+  email: 'john@example.com'
+});
+
+// Update
+await db.update(users)
+  .set({ name: 'Jane' })
+  .where(eq(users.id, userId));
+```
+
+## Migration Commands
+
+```bash
+# Generate migration from schema changes
+bun run drizzle-kit generate
+
+# Push schema directly to database (dev only)
+bun run drizzle-kit push
+
+# Run migrations
+bun run drizzle-kit migrate
+```
+
+## References
+
+- [Drizzle ORM Documentation](https://orm.drizzle.team/)
+- [Drizzle Kit (Migrations)](https://orm.drizzle.team/kit-docs/overview)

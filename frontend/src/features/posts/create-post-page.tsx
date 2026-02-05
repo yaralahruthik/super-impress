@@ -1,4 +1,4 @@
-import { useCreatePost } from '@/api/posts/posts';
+import { usePostApiPosts } from '@/api/posts/posts';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
@@ -20,7 +20,7 @@ export default function CreatePostPage() {
 	const [error, setError] = useState<string | null>(null);
 
 	const navigate = useNavigate();
-	const { mutate, isPending } = useCreatePost();
+	const { mutate, isPending } = usePostApiPosts();
 
 	const form = useForm({
 		defaultValues: {

@@ -1,4 +1,4 @@
-import { useChangePassword } from '@/api/authentication/authentication';
+import { useChangePassword } from '@/api/better-auth/better-auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
@@ -44,8 +44,8 @@ export default function ChangePasswordPage() {
 			mutate(
 				{
 					data: {
-						old_password: value.currentPassword,
-						new_password: value.newPassword
+						currentPassword: value.currentPassword,
+						newPassword: value.newPassword
 					}
 				},
 				{

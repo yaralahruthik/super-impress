@@ -1,0 +1,42 @@
+name: Docs Checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "docs/**"
+
+jobs:
+  docs-checks:
+    name: Docs Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: docs/package.json
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          package_json_file: docs/package.json
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: docs
+
+      - name: Check Formatting
+        run: pnpm biome format
+        working-directory: docs
+
+      - name: Check Linting
+        run: pnpm lint
+        working-directory: docs
+
+      - name: Check Types
+        run: pnpm types:check
+        working-directory: docs

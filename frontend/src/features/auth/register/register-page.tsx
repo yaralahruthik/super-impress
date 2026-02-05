@@ -1,4 +1,4 @@
-import { useRegisterUser } from '@/api/authentication/authentication';
+import { useSignUpWithEmailAndPassword } from '@/api/better-auth/better-auth';
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -19,6 +19,7 @@ import * as z from 'zod';
 
 const formSchema = z
 	.object({
+		name: z.string().min(1, 'Name is required'),
 		email: z.email('Invalid email address'),
 		password: z
 			.string()
@@ -35,10 +36,11 @@ export default function RegisterPage() {
 	const [error, setError] = useState<string | null>(null);
 
 	const navigate = useNavigate();
-	const { mutate, isPending } = useRegisterUser();
+	const { mutate, isPending } = useSignUpWithEmailAndPassword();
 
 	const form = useForm({
 		defaultValues: {
+			name: '',
 			email: '',
 			password: '',
 			confirmPassword: ''
@@ -51,6 +53,7 @@ export default function RegisterPage() {
 			mutate(
 				{
 					data: {
+						name: value.name,
 						email: value.email,
 						password: value.password
 					}
@@ -85,6 +88,29 @@ export default function RegisterPage() {
 					>
 						<fieldset disabled={isPending} className="space-y-4">
 							<FieldGroup>
+								<form.Field
+									name="name"
+									children={(field) => {
+										const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+										return (
+											<Field data-invalid={isInvalid}>
+												<FieldLabel htmlFor="name">Name</FieldLabel>
+												<Input
+													id="name"
+													name="name"
+													type="text"
+													autoComplete="name"
+													required
+													value={field.state.value}
+													onChange={(e) => field.handleChange(e.target.value)}
+													onBlur={field.handleBlur}
+													aria-invalid={isInvalid}
+												/>
+												{isInvalid && <FieldError errors={field.state.meta.errors} />}
+											</Field>
+										);
+									}}
+								/>
 								<form.Field
 									name="email"
 									children={(field) => {

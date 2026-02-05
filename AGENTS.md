@@ -99,8 +99,8 @@ Note: Uses Biome for linting and formatting, not ESLint/Prettier.
 | ------------------------------ | -------------------------------- |
 | `bun run dev`                  | Development server with watch    |
 | `bun run build`                | Production build (if configured) |
-| `bun run lint`                 | Run Biome linter (auto-fix)      |
-| `bun run format`               | Format code with Biome           |
+| `bun run check`                | Check formatting and linting (ultracite) |
+| `bun run fix`                  | Fix formatting and linting (ultracite)   |
 | `bun run typecheck`            | TypeScript type checking         |
 | `bun run drizzle-kit push`     | Push database schema changes     |
 | `bun run drizzle-kit generate` | Generate migrations              |
@@ -127,12 +127,12 @@ Note: Uses Biome for linting and formatting, not ESLint/Prettier.
 ### Backend
 
 - **Runtime**: Bun with TypeScript
-- **Formatting**: Biome (tabs, single quotes)
-- **Linting**: Biome with auto-import organization
+- **Formatting**: ultracite (Biome-based) — tabs, single quotes
+- **Linting**: ultracite with auto-import organization
 - **Type hints**: Required for all function parameters and return types
 - **Framework**: Elysia with TypeBox validation schemas
 - **Database**: Drizzle ORM with PostgreSQL
-- **Imports**: Organized automatically by Biome
+- **Imports**: Organized automatically by ultracite
 
 ## Database Management
 
@@ -160,8 +160,7 @@ modules/[feature]/
 
 Hooks run automatically on commit:
 
-- **Biome** (backend): Linting and formatting
-- **ultracite** (frontend + docs): Linting and formatting
+- **ultracite** (backend, frontend, docs): Linting and formatting
 - **General**: Trailing whitespace, end-of-file fixer, YAML validation, large file check (1MB max)
 
 Manual execution:
@@ -203,7 +202,7 @@ prek run --all-files  # All files
 
 ### Code Quality
 
-- Backend: `bun run lint` and `bun run format` (Biome)
+- Backend: `bun run check` and `bun run fix` (ultracite)
 - Frontend: `bun run check` and `bun run fix` (ultracite)
-- Docs: `bun run check` and `bun run fix` (Biome)
+- Docs: `bun run check` and `bun run fix` (ultracite)
 - Type checking: `bun run typecheck` (backend), `bun run build` (frontend includes type check), `bun run types:check` (docs)

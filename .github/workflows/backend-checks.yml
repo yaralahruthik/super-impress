@@ -23,11 +23,8 @@ jobs:
       - name: Install dependencies
         run: cd backend && bun install
 
-      - name: Run Biome Format
-        run: cd backend && bun format
-
-      - name: Run Biome Lint
-        run: cd backend && bun lint
+      - name: Run ultracite check
+        run: cd backend && bun run check
 
       - name: Run Typecheck
         run: cd backend && bun typecheck

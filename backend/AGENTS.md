@@ -15,7 +15,7 @@ Bun + Elysia + TypeScript backend API for Super Impress, a LinkedIn post managem
 - **Authentication**: better-auth with OAuth support
 - **Validation**: TypeBox runtime type validation
 - **API Documentation**: OpenAPI/Swagger via @elysiajs/openapi
-- **Linting/Formatting**: Biome (all-in-one tool)
+- **Linting/Formatting**: ultracite (Biome-based preset)
 - **Package Manager**: Bun (required)
 
 ## Commands
@@ -24,8 +24,8 @@ Bun + Elysia + TypeScript backend API for Super Impress, a LinkedIn post managem
 | ------------------------------ | -------------------------------- |
 | `bun run dev`                  | Development server with watch    |
 | `bun run build`                | Production build (if configured) |
-| `bun run lint`                 | Run Biome linter (auto-fix)      |
-| `bun run format`               | Format code with Biome           |
+| `bun run check`                | Check formatting and linting (ultracite) |
+| `bun run fix`                  | Fix formatting and linting (ultracite)   |
 | `bun run typecheck`            | TypeScript type checking         |
 | `bun run drizzle-kit generate` | Generate database migrations     |
 | `bun run drizzle-kit push`     | Push database schema changes     |
@@ -59,16 +59,16 @@ src/
 
 ## Code Style Guidelines
 
-### Formatting (Biome)
+### Formatting (ultracite)
 
 - **Indentation**: Tabs (not spaces)
 - **Quotes**: Single quotes
 - **Semicolons**: Yes
-- **Auto-import organization**: Enabled automatically by Biome
+- **Auto-import organization**: Enabled automatically by ultracite
 
 ### Imports
 
-Biome automatically organizes imports into three groups:
+ultracite automatically organizes imports into three groups:
 
 ```typescript
 // Standard library imports
@@ -87,7 +87,7 @@ import type { PostModel } from "@/modules/posts/model";
 
 - **Strict mode** enabled - no `any` types
 - **Type hints required** for all function parameters and return types
-- **Import type** for type-only imports (enforced by Biome)
+- **Import type** for type-only imports (enforced by ultracite)
 - **No unused variables or parameters** (enforced by TypeScript compiler)
 
 ```typescript
@@ -288,4 +288,4 @@ Required environment variables (see `.env.example`):
 3. **Never expose internals**: Transform database records to API responses
 4. **Consistent error responses**: Use standard error response format across all endpoints
 5. **Type safety everywhere**: From database to API responses, maintain type safety
-6. **Biome handles formatting**: Trust Biome to handle all code formatting and import organization
+6. **ultracite handles formatting**: Trust ultracite to handle all code formatting and import organization

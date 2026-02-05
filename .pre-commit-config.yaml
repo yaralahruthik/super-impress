@@ -1,13 +1,15 @@
 repos:
-  # Backend hooks (Biome)
+  # Backend hooks (ultracite)
   - repo: local
     hooks:
-      - id: biome-check
-        name: biome check
-        entry: bunx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off
+      - id: ultracite-backend
+        name: ultracite check (backend)
+        entry: bun --cwd backend run check
         language: system
-        types: [text]
+        pass_filenames: false
         files: ^backend/
+        types: [file]
+        types_or: [javascript, jsx, ts, tsx, json, css]
 
   # Frontend hooks (ultracite)
   - repo: local

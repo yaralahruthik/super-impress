@@ -49,7 +49,7 @@ export default function CreatePostPage() {
 				},
 				{
 					onSuccess: () => {
-						navigate({ to: '/' });
+						navigate({ to: '/posts' });
 					},
 					onError: (error) => {
 						setError(getErrorMessage(error));

@@ -9,25 +9,17 @@ repos:
         types: [text]
         files: ^backend/
 
-  # Frontend hooks (Prettier & ESLint)
+  # Frontend hooks (ultracite)
   - repo: local
     hooks:
-      - id: prettier
-        name: prettier
-        entry: pnpm -C frontend format
-        language: system
-        pass_filenames: false
-        types_or: [css, javascript, jsx, ts, tsx, json, html, yaml, markdown]
-        files: ^frontend/
-
-      - id: eslint-frontend
-        name: eslint (frontend)
-        entry: pnpm -C frontend lint
+      - id: ultracite-frontend
+        name: ultracite check (frontend)
+        entry: bun --cwd frontend run check
         language: system
         pass_filenames: false
         files: ^frontend/
         types: [file]
-        types_or: [javascript, jsx, ts, tsx]
+        types_or: [javascript, jsx, ts, tsx, json, css]
 
   # Docs hooks (ultracite)
   - repo: local

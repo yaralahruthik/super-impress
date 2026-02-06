@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Super Impress API",
+    "title": "SuperImpress API",
     "description": "LinkedIn post management tool API",
     "version": "1.0.0"
   },

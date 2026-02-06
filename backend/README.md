@@ -1,4 +1,4 @@
-# Super Impress Backend
+# SuperImpress Backend
 
 Backend API built with Elysia, Bun, and PostgreSQL.
 

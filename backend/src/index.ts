@@ -12,7 +12,7 @@ const app = new Elysia({
     openapi({
       documentation: {
         info: {
-          title: "Super Impress API",
+          title: "SuperImpress API",
           version: "1.0.0",
           description: "LinkedIn post management tool API",
         },

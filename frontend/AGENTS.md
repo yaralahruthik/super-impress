@@ -1,4 +1,4 @@
-# AGENTS.md - Super Impress Frontend
+# AGENTS.md - SuperImpress Frontend
 
 This document provides guidelines for AI coding agents working in this repository.
 

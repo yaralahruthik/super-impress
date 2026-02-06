@@ -9,7 +9,9 @@
     "schemas": {
       "PostCreate": {
         "type": "object",
-        "required": ["content"],
+        "required": [
+          "content"
+        ],
         "properties": {
           "title": {
             "type": "string",
@@ -27,7 +29,11 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "published", "archived"]
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
           }
         }
       },
@@ -50,7 +56,11 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "published", "archived"]
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
           }
         }
       },
@@ -89,7 +99,11 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "published", "archived"]
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
           },
           "createdAt": {
             "format": "date-time",
@@ -103,14 +117,36 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["platform", "platformPostId", "publishedAt"],
+              "required": [
+                "id",
+                "platform",
+                "publishedAt"
+              ],
               "properties": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
                 "platform": {
                   "type": "string",
-                  "enum": ["linkedin", "twitter", "facebook"]
+                  "enum": [
+                    "linkedin",
+                    "twitter",
+                    "facebook",
+                    "instagram"
+                  ]
                 },
                 "platformPostId": {
-                  "type": "string"
+                  "type": "string",
+                  "nullable": true
+                },
+                "url": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "accountId": {
+                  "type": "string",
+                  "nullable": true
                 },
                 "publishedAt": {
                   "format": "date-time",
@@ -126,7 +162,11 @@
         "properties": {
           "status": {
             "type": "string",
-            "enum": ["draft", "published", "archived"]
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
           },
           "tag": {
             "type": "string"
@@ -146,7 +186,10 @@
       },
       "PostListResponse": {
         "type": "object",
-        "required": ["posts", "total"],
+        "required": [
+          "posts",
+          "total"
+        ],
         "properties": {
           "posts": {
             "type": "array",
@@ -185,7 +228,11 @@
                 },
                 "status": {
                   "type": "string",
-                  "enum": ["draft", "published", "archived"]
+                  "enum": [
+                    "draft",
+                    "published",
+                    "archived"
+                  ]
                 },
                 "createdAt": {
                   "format": "date-time",
@@ -199,14 +246,36 @@
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": ["platform", "platformPostId", "publishedAt"],
+                    "required": [
+                      "id",
+                      "platform",
+                      "publishedAt"
+                    ],
                     "properties": {
+                      "id": {
+                        "format": "uuid",
+                        "type": "string"
+                      },
                       "platform": {
                         "type": "string",
-                        "enum": ["linkedin", "twitter", "facebook"]
+                        "enum": [
+                          "linkedin",
+                          "twitter",
+                          "facebook",
+                          "instagram"
+                        ]
                       },
                       "platformPostId": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "url": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "accountId": {
+                        "type": "string",
+                        "nullable": true
                       },
                       "publishedAt": {
                         "format": "date-time",
@@ -223,9 +292,70 @@
           }
         }
       },
+      "ManualPublicationRequest": {
+        "type": "object",
+        "required": [
+          "platform",
+          "url"
+        ],
+        "properties": {
+          "platform": {
+            "type": "string",
+            "enum": [
+              "linkedin",
+              "twitter",
+              "facebook",
+              "instagram"
+            ]
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          }
+        }
+      },
+      "ManualPublicationResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "postId",
+          "platform",
+          "url",
+          "publishedAt"
+        ],
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "postId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "platform": {
+            "type": "string",
+            "enum": [
+              "linkedin",
+              "twitter",
+              "facebook",
+              "instagram"
+            ]
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          },
+          "publishedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        }
+      },
       "PostError": {
         "type": "object",
-        "required": ["error"],
+        "required": [
+          "error"
+        ],
         "properties": {
           "error": {
             "type": "string"
@@ -234,7 +364,9 @@
       },
       "LinkedInPostRequest": {
         "type": "object",
-        "required": ["postId"],
+        "required": [
+          "postId"
+        ],
         "properties": {
           "postId": {
             "format": "uuid",
@@ -244,7 +376,9 @@
       },
       "LinkedInPostResponse": {
         "type": "object",
-        "required": ["success"],
+        "required": [
+          "success"
+        ],
         "properties": {
           "success": {
             "type": "boolean"
@@ -259,7 +393,9 @@
       },
       "LinkedInConnectionStatus": {
         "type": "object",
-        "required": ["connected"],
+        "required": [
+          "connected"
+        ],
         "properties": {
           "connected": {
             "type": "boolean"
@@ -274,7 +410,9 @@
       },
       "LinkedInError": {
         "type": "object",
-        "required": ["error"],
+        "required": [
+          "error"
+        ],
         "properties": {
           "error": {
             "type": "string"
@@ -312,7 +450,12 @@
             "default": "Generated at runtime"
           }
         },
-        "required": ["name", "email", "createdAt", "updatedAt"]
+        "required": [
+          "name",
+          "email",
+          "createdAt",
+          "updatedAt"
+        ]
       },
       "Session": {
         "type": "object",
@@ -346,7 +489,13 @@
             "type": "string"
           }
         },
-        "required": ["expiresAt", "token", "createdAt", "updatedAt", "userId"]
+        "required": [
+          "expiresAt",
+          "token",
+          "createdAt",
+          "updatedAt",
+          "userId"
+        ]
       },
       "Account": {
         "type": "object",
@@ -441,7 +590,9 @@
       },
       "GetApiLinkedinStatusResponse200": {
         "type": "object",
-        "required": ["connected"],
+        "required": [
+          "connected"
+        ],
         "properties": {
           "connected": {
             "type": "boolean"
@@ -456,7 +607,9 @@
       },
       "PostApiLinkedinPostRequest": {
         "type": "object",
-        "required": ["postId"],
+        "required": [
+          "postId"
+        ],
         "properties": {
           "postId": {
             "format": "uuid",
@@ -466,7 +619,9 @@
       },
       "PostApiLinkedinPostResponse200": {
         "type": "object",
-        "required": ["success"],
+        "required": [
+          "success"
+        ],
         "properties": {
           "success": {
             "type": "boolean"
@@ -481,7 +636,9 @@
       },
       "PostApiLinkedinPostResponse400": {
         "type": "object",
-        "required": ["success"],
+        "required": [
+          "success"
+        ],
         "properties": {
           "success": {
             "type": "boolean"
@@ -548,7 +705,9 @@
                 "description": "Expiry date of the token"
               }
             },
-            "required": ["token"]
+            "required": [
+              "token"
+            ]
           },
           "scopes": {
             "type": "array",
@@ -570,7 +729,9 @@
             "nullable": true
           }
         },
-        "required": ["provider"]
+        "required": [
+          "provider"
+        ]
       },
       "SocialSignInResponse200": {
         "type": "object",
@@ -588,10 +749,16 @@
           },
           "redirect": {
             "type": "boolean",
-            "enum": [false]
+            "enum": [
+              false
+            ]
           }
         },
-        "required": ["redirect", "token", "user"]
+        "required": [
+          "redirect",
+          "token",
+          "user"
+        ]
       },
       "SocialSignInResponse400": {
         "type": "object",
@@ -600,7 +767,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "SocialSignInResponse401": {
         "type": "object",
@@ -609,7 +778,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "SocialSignInResponse403": {
         "type": "object",
@@ -654,7 +825,10 @@
             "$ref": "#/components/schemas/User"
           }
         },
-        "required": ["session", "user"]
+        "required": [
+          "session",
+          "user"
+        ]
       },
       "GetSessionResponse400": {
         "type": "object",
@@ -663,7 +837,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "GetSessionResponse401": {
         "type": "object",
@@ -672,7 +848,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "GetSessionResponse403": {
         "type": "object",
@@ -725,7 +903,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "SignOutResponse401": {
         "type": "object",
@@ -734,7 +914,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "SignOutResponse403": {
         "type": "object",
@@ -796,7 +978,11 @@
             "description": "If this is false, the session will not be remembered. Default is `true`."
           }
         },
-        "required": ["name", "email", "password"]
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
       },
       "SignUpWithEmailAndPasswordResponse200": {
         "type": "object",
@@ -853,7 +1039,9 @@
             ]
           }
         },
-        "required": ["user"]
+        "required": [
+          "user"
+        ]
       },
       "SignUpWithEmailAndPasswordResponse400": {
         "type": "object",
@@ -862,7 +1050,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "SignUpWithEmailAndPasswordResponse401": {
         "type": "object",
@@ -871,7 +1061,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "SignUpWithEmailAndPasswordResponse403": {
         "type": "object",
@@ -936,7 +1128,10 @@
             "default": true
           }
         },
-        "required": ["email", "password"]
+        "required": [
+          "email",
+          "password"
+        ]
       },
       "SignInEmailResponse200": {
         "type": "object",
@@ -944,7 +1139,9 @@
         "properties": {
           "redirect": {
             "type": "boolean",
-            "enum": [false]
+            "enum": [
+              false
+            ]
           },
           "token": {
             "type": "string",
@@ -959,7 +1156,11 @@
             "$ref": "#/components/schemas/User"
           }
         },
-        "required": ["redirect", "token", "user"]
+        "required": [
+          "redirect",
+          "token",
+          "user"
+        ]
       },
       "SignInEmailResponse400": {
         "type": "object",
@@ -968,7 +1169,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "SignInEmailResponse401": {
         "type": "object",
@@ -977,7 +1180,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "SignInEmailResponse403": {
         "type": "object",
@@ -1024,7 +1229,9 @@
             "description": "The token to reset the password"
           }
         },
-        "required": ["newPassword"]
+        "required": [
+          "newPassword"
+        ]
       },
       "ResetPasswordResponse200": {
         "type": "object",
@@ -1041,7 +1248,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ResetPasswordResponse401": {
         "type": "object",
@@ -1050,7 +1259,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ResetPasswordResponse403": {
         "type": "object",
@@ -1092,7 +1303,9 @@
             "description": "The password to verify"
           }
         },
-        "required": ["password"]
+        "required": [
+          "password"
+        ]
       },
       "VerifyPasswordResponse200": {
         "type": "object",
@@ -1109,7 +1322,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "VerifyPasswordResponse401": {
         "type": "object",
@@ -1118,7 +1333,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "VerifyPasswordResponse403": {
         "type": "object",
@@ -1164,7 +1381,10 @@
             "description": "Indicates if the email was verified successfully"
           }
         },
-        "required": ["user", "status"]
+        "required": [
+          "user",
+          "status"
+        ]
       },
       "ApiAuthVerify-emailGetResponse400": {
         "type": "object",
@@ -1173,7 +1393,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthVerify-emailGetResponse401": {
         "type": "object",
@@ -1182,7 +1404,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthVerify-emailGetResponse403": {
         "type": "object",
@@ -1231,7 +1455,9 @@
             "nullable": true
           }
         },
-        "required": ["email"]
+        "required": [
+          "email"
+        ]
       },
       "SendVerificationEmailResponse200": {
         "type": "object",
@@ -1260,7 +1486,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "SendVerificationEmailResponse403": {
         "type": "object",
@@ -1307,7 +1535,9 @@
             "description": "The URL to redirect to after email verification"
           }
         },
-        "required": ["newEmail"]
+        "required": [
+          "newEmail"
+        ]
       },
       "ChangeEmailResponse200": {
         "type": "object",
@@ -1322,12 +1552,17 @@
           },
           "message": {
             "type": "string",
-            "enum": ["Email updated", "Verification email sent"],
+            "enum": [
+              "Email updated",
+              "Verification email sent"
+            ],
             "description": "Status message of the email change process",
             "nullable": true
           }
         },
-        "required": ["status"]
+        "required": [
+          "status"
+        ]
       },
       "ChangeEmailResponse400": {
         "type": "object",
@@ -1336,7 +1571,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ChangeEmailResponse401": {
         "type": "object",
@@ -1345,7 +1582,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ChangeEmailResponse403": {
         "type": "object",
@@ -1404,7 +1643,10 @@
             "description": "Must be a boolean value"
           }
         },
-        "required": ["newPassword", "currentPassword"]
+        "required": [
+          "newPassword",
+          "currentPassword"
+        ]
       },
       "ChangePasswordResponse200": {
         "type": "object",
@@ -1461,7 +1703,9 @@
             ]
           }
         },
-        "required": ["user"]
+        "required": [
+          "user"
+        ]
       },
       "ChangePasswordResponse400": {
         "type": "object",
@@ -1470,7 +1714,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ChangePasswordResponse401": {
         "type": "object",
@@ -1479,7 +1725,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ChangePasswordResponse403": {
         "type": "object",
@@ -1543,7 +1791,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "UpdateUserResponse401": {
         "type": "object",
@@ -1552,7 +1802,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "UpdateUserResponse403": {
         "type": "object",
@@ -1612,11 +1864,17 @@
           },
           "message": {
             "type": "string",
-            "enum": ["User deleted", "Verification email sent"],
+            "enum": [
+              "User deleted",
+              "Verification email sent"
+            ],
             "description": "Status message of the deletion process"
           }
         },
-        "required": ["success", "message"]
+        "required": [
+          "success",
+          "message"
+        ]
       },
       "DeleteUserResponse400": {
         "type": "object",
@@ -1625,7 +1883,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "DeleteUserResponse401": {
         "type": "object",
@@ -1634,7 +1894,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "DeleteUserResponse403": {
         "type": "object",
@@ -1681,7 +1943,9 @@
             "description": "The URL to redirect the user to reset their password. If the token isn't valid or expired, it'll be redirected with a query parameter `?error=INVALID_TOKEN`. If the token is valid, it'll be redirected with a query parameter `?token=VALID_TOKEN"
           }
         },
-        "required": ["email"]
+        "required": [
+          "email"
+        ]
       },
       "RequestPasswordResetResponse200": {
         "type": "object",
@@ -1701,7 +1965,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "RequestPasswordResetResponse401": {
         "type": "object",
@@ -1710,7 +1976,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "RequestPasswordResetResponse403": {
         "type": "object",
@@ -1759,7 +2027,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ResetPasswordCallbackResponse401": {
         "type": "object",
@@ -1768,7 +2038,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ResetPasswordCallbackResponse403": {
         "type": "object",
@@ -1815,7 +2087,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ListUserSessionsResponse401": {
         "type": "object",
@@ -1824,7 +2098,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ListUserSessionsResponse403": {
         "type": "object",
@@ -1866,7 +2142,9 @@
             "description": "The token to revoke"
           }
         },
-        "required": ["token"]
+        "required": [
+          "token"
+        ]
       },
       "ApiAuthRevoke-sessionPostResponse200": {
         "type": "object",
@@ -1876,7 +2154,9 @@
             "description": "Indicates if the session was revoked successfully"
           }
         },
-        "required": ["status"]
+        "required": [
+          "status"
+        ]
       },
       "ApiAuthRevoke-sessionPostResponse400": {
         "type": "object",
@@ -1885,7 +2165,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthRevoke-sessionPostResponse401": {
         "type": "object",
@@ -1894,7 +2176,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthRevoke-sessionPostResponse403": {
         "type": "object",
@@ -1940,7 +2224,9 @@
             "description": "Indicates if all sessions were revoked successfully"
           }
         },
-        "required": ["status"]
+        "required": [
+          "status"
+        ]
       },
       "ApiAuthRevoke-sessionsPostResponse400": {
         "type": "object",
@@ -1949,7 +2235,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthRevoke-sessionsPostResponse401": {
         "type": "object",
@@ -1958,7 +2246,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthRevoke-sessionsPostResponse403": {
         "type": "object",
@@ -2004,7 +2294,9 @@
             "description": "Indicates if all other sessions were revoked successfully"
           }
         },
-        "required": ["status"]
+        "required": [
+          "status"
+        ]
       },
       "ApiAuthRevoke-other-sessionsPostResponse400": {
         "type": "object",
@@ -2013,7 +2305,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthRevoke-other-sessionsPostResponse401": {
         "type": "object",
@@ -2022,7 +2316,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthRevoke-other-sessionsPostResponse403": {
         "type": "object",
@@ -2091,7 +2387,9 @@
                 "nullable": true
               }
             },
-            "required": ["token"]
+            "required": [
+              "token"
+            ]
           },
           "requestSignUp": {
             "type": "boolean",
@@ -2117,7 +2415,9 @@
             "nullable": true
           }
         },
-        "required": ["provider"]
+        "required": [
+          "provider"
+        ]
       },
       "LinkSocialAccountResponse200": {
         "type": "object",
@@ -2134,7 +2434,9 @@
             "type": "boolean"
           }
         },
-        "required": ["redirect"]
+        "required": [
+          "redirect"
+        ]
       },
       "LinkSocialAccountResponse400": {
         "type": "object",
@@ -2143,7 +2445,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "LinkSocialAccountResponse401": {
         "type": "object",
@@ -2152,7 +2456,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "LinkSocialAccountResponse403": {
         "type": "object",
@@ -2236,7 +2542,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ListUserAccountsResponse401": {
         "type": "object",
@@ -2245,7 +2553,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ListUserAccountsResponse403": {
         "type": "object",
@@ -2288,11 +2598,16 @@
           },
           "message": {
             "type": "string",
-            "enum": ["User deleted"],
+            "enum": [
+              "User deleted"
+            ],
             "description": "Confirmation message"
           }
         },
-        "required": ["success", "message"]
+        "required": [
+          "success",
+          "message"
+        ]
       },
       "ApiAuthDelete-userCallbackGetResponse400": {
         "type": "object",
@@ -2301,7 +2616,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthDelete-userCallbackGetResponse401": {
         "type": "object",
@@ -2310,7 +2627,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthDelete-userCallbackGetResponse403": {
         "type": "object",
@@ -2355,7 +2674,9 @@
             "nullable": true
           }
         },
-        "required": ["providerId"]
+        "required": [
+          "providerId"
+        ]
       },
       "ApiAuthUnlink-accountPostResponse200": {
         "type": "object",
@@ -2372,7 +2693,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthUnlink-accountPostResponse401": {
         "type": "object",
@@ -2381,7 +2704,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthUnlink-accountPostResponse403": {
         "type": "object",
@@ -2433,7 +2758,9 @@
             "description": "The user ID associated with the account"
           }
         },
-        "required": ["providerId"]
+        "required": [
+          "providerId"
+        ]
       },
       "ApiAuthRefresh-tokenPostResponse200": {
         "type": "object",
@@ -2467,7 +2794,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthRefresh-tokenPostResponse403": {
         "type": "object",
@@ -2519,7 +2848,9 @@
             "description": "The user ID associated with the account"
           }
         },
-        "required": ["providerId"]
+        "required": [
+          "providerId"
+        ]
       },
       "ApiAuthGet-access-tokenPostResponse200": {
         "type": "object",
@@ -2546,7 +2877,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthGet-access-tokenPostResponse403": {
         "type": "object",
@@ -2602,7 +2935,10 @@
                 "type": "boolean"
               }
             },
-            "required": ["id", "emailVerified"]
+            "required": [
+              "id",
+              "emailVerified"
+            ]
           },
           "data": {
             "type": "object",
@@ -2610,7 +2946,10 @@
             "additionalProperties": true
           }
         },
-        "required": ["user", "data"],
+        "required": [
+          "user",
+          "data"
+        ],
         "additionalProperties": false
       },
       "ApiAuthAccount-infoGetResponse400": {
@@ -2620,7 +2959,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthAccount-infoGetResponse401": {
         "type": "object",
@@ -2629,7 +2970,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthAccount-infoGetResponse403": {
         "type": "object",
@@ -2671,7 +3014,9 @@
             "description": "Indicates if the API is working"
           }
         },
-        "required": ["ok"]
+        "required": [
+          "ok"
+        ]
       },
       "ApiAuthOkGetResponse400": {
         "type": "object",
@@ -2680,7 +3025,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthOkGetResponse401": {
         "type": "object",
@@ -2689,7 +3036,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthOkGetResponse403": {
         "type": "object",
@@ -2730,7 +3079,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthErrorGetResponse401": {
         "type": "object",
@@ -2739,7 +3090,9 @@
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "ApiAuthErrorGetResponse403": {
         "type": "object",
@@ -2791,7 +3144,9 @@
   "paths": {
     "/api/posts": {
       "post": {
-        "tags": ["Posts"],
+        "tags": [
+          "Posts"
+        ],
         "summary": "Create a new post",
         "description": "Create a new post for the authenticated user",
         "requestBody": {
@@ -2829,7 +3184,9 @@
         "operationId": "postApiPosts"
       },
       "get": {
-        "tags": ["Posts"],
+        "tags": [
+          "Posts"
+        ],
         "summary": "List posts",
         "description": "List posts for the authenticated user with optional filtering by status and tag",
         "parameters": [
@@ -2839,7 +3196,11 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["draft", "published", "archived"]
+              "enum": [
+                "draft",
+                "published",
+                "archived"
+              ]
             }
           },
           {
@@ -2889,7 +3250,9 @@
     },
     "/api/posts/{id}": {
       "get": {
-        "tags": ["Posts"],
+        "tags": [
+          "Posts"
+        ],
         "summary": "Get a post",
         "description": "Get a specific post by ID",
         "parameters": [
@@ -2928,7 +3291,9 @@
         "operationId": "getApiPostsById"
       },
       "patch": {
-        "tags": ["Posts"],
+        "tags": [
+          "Posts"
+        ],
         "summary": "Update a post",
         "description": "Update a specific post by ID",
         "parameters": [
@@ -2987,7 +3352,9 @@
         "operationId": "patchApiPostsById"
       },
       "delete": {
-        "tags": ["Posts"],
+        "tags": [
+          "Posts"
+        ],
         "summary": "Delete a post",
         "description": "Delete a specific post by ID",
         "parameters": [
@@ -3016,9 +3383,74 @@
         "operationId": "deleteApiPostsById"
       }
     },
+    "/api/posts/{id}/publications": {
+      "post": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "Mark post as published",
+        "description": "Manually record that a post was published on a platform",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManualPublicationRequest"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ManualPublicationRequest"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ManualPublicationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Response for status 201",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManualPublicationResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response for status 404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostError"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postApiPostsByIdPublications"
+      }
+    },
     "/api/linkedin/status": {
       "get": {
-        "tags": ["LinkedIn"],
+        "tags": [
+          "LinkedIn"
+        ],
         "summary": "Check LinkedIn connection status",
         "description": "Check if the authenticated user has a LinkedIn account connected",
         "responses": {
@@ -3038,7 +3470,9 @@
     },
     "/api/linkedin/post": {
       "post": {
-        "tags": ["LinkedIn"],
+        "tags": [
+          "LinkedIn"
+        ],
         "summary": "Publish post to LinkedIn",
         "description": "Publish a post to the authenticated user's LinkedIn account",
         "requestBody": {
@@ -3052,7 +3486,9 @@
             "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
-                "required": ["postId"],
+                "required": [
+                  "postId"
+                ],
                 "properties": {
                   "postId": {
                     "format": "uuid",
@@ -3064,7 +3500,9 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["postId"],
+                "required": [
+                  "postId"
+                ],
                 "properties": {
                   "postId": {
                     "format": "uuid",
@@ -3102,7 +3540,9 @@
     },
     "/api/auth/sign-in/social": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Sign in with a social provider",
         "operationId": "socialSignIn",
         "security": [
@@ -3197,7 +3637,9 @@
     },
     "/api/auth/get-session": {
       "get": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Get the current session",
         "operationId": "getSession",
         "security": [
@@ -3282,7 +3724,9 @@
     },
     "/api/auth/sign-out": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Sign out the current user",
         "operationId": "signOut",
         "security": [
@@ -3376,7 +3820,9 @@
     },
     "/api/auth/sign-up/email": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Sign up a user using email and password",
         "operationId": "signUpWithEmailAndPassword",
         "security": [
@@ -3480,7 +3926,9 @@
     },
     "/api/auth/sign-in/email": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Sign in with email and password",
         "operationId": "signInEmail",
         "security": [
@@ -3575,7 +4023,9 @@
     },
     "/api/auth/reset-password": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Reset the password for a user",
         "operationId": "resetPassword",
         "security": [
@@ -3670,7 +4120,9 @@
     },
     "/api/auth/verify-password": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Verify the current user's password",
         "operationId": "verifyPassword",
         "security": [
@@ -3765,7 +4217,9 @@
     },
     "/api/auth/verify-email": {
       "get": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Verify the email of the user",
         "security": [
           {
@@ -3868,7 +4322,9 @@
     },
     "/api/auth/send-verification-email": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Send a verification email to the user",
         "operationId": "sendVerificationEmail",
         "security": [
@@ -3962,7 +4418,9 @@
     },
     "/api/auth/change-email": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "operationId": "changeEmail",
         "security": [
           {
@@ -4066,7 +4524,9 @@
     },
     "/api/auth/change-password": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Change the password of the user",
         "operationId": "changePassword",
         "security": [
@@ -4161,7 +4621,9 @@
     },
     "/api/auth/update-user": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Update the current user",
         "operationId": "updateUser",
         "security": [
@@ -4255,7 +4717,9 @@
     },
     "/api/auth/delete-user": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Delete the user",
         "operationId": "deleteUser",
         "security": [
@@ -4349,7 +4813,9 @@
     },
     "/api/auth/request-password-reset": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Send a password reset email to the user",
         "operationId": "requestPasswordReset",
         "security": [
@@ -4444,7 +4910,9 @@
     },
     "/api/auth/reset-password/{token}": {
       "get": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Redirects the user to the callback URL with the token",
         "operationId": "resetPasswordCallback",
         "security": [
@@ -4548,7 +5016,9 @@
     },
     "/api/auth/list-sessions": {
       "get": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "List all active sessions for the user",
         "operationId": "listUserSessions",
         "security": [
@@ -4633,7 +5103,9 @@
     },
     "/api/auth/revoke-session": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Revoke a single session",
         "security": [
           {
@@ -4726,7 +5198,9 @@
     },
     "/api/auth/revoke-sessions": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Revoke all sessions for the user",
         "security": [
           {
@@ -4819,7 +5293,9 @@
     },
     "/api/auth/revoke-other-sessions": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Revoke all other sessions for the user except the current one",
         "security": [
           {
@@ -4912,7 +5388,9 @@
     },
     "/api/auth/link-social": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Link a social account to the user",
         "operationId": "linkSocialAccount",
         "security": [
@@ -5007,7 +5485,9 @@
     },
     "/api/auth/list-accounts": {
       "get": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "List all accounts linked to the user",
         "operationId": "listUserAccounts",
         "security": [
@@ -5092,7 +5572,9 @@
     },
     "/api/auth/delete-user/callback": {
       "get": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Callback to complete user deletion with verification token",
         "security": [
           {
@@ -5194,7 +5676,9 @@
     },
     "/api/auth/unlink-account": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Unlink an account",
         "security": [
           {
@@ -5288,7 +5772,9 @@
     },
     "/api/auth/refresh-token": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Refresh the access token using a refresh token",
         "security": [
           {
@@ -5375,7 +5861,9 @@
     },
     "/api/auth/get-access-token": {
       "post": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Get a valid access token, doing a refresh if needed",
         "security": [
           {
@@ -5462,7 +5950,9 @@
     },
     "/api/auth/account-info": {
       "get": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Get the account info provided by the provider",
         "security": [
           {
@@ -5546,7 +6036,9 @@
     },
     "/api/auth/ok": {
       "get": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Check if the API is working",
         "security": [
           {
@@ -5630,7 +6122,9 @@
     },
     "/api/auth/error": {
       "get": {
-        "tags": ["Better Auth"],
+        "tags": [
+          "Better Auth"
+        ],
         "description": "Displays an error page",
         "security": [
           {

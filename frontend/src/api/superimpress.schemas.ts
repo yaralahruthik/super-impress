@@ -57,11 +57,18 @@ export const PostResponsePublicationsItemPlatform = {
   linkedin: "linkedin",
   twitter: "twitter",
   facebook: "facebook",
+  instagram: "instagram",
 } as const;
 
 export type PostResponsePublicationsItem = {
+  id: string;
   platform: PostResponsePublicationsItemPlatform;
-  platformPostId: string;
+  /** @nullable */
+  platformPostId?: string | null;
+  /** @nullable */
+  url?: string | null;
+  /** @nullable */
+  accountId?: string | null;
   publishedAt: string;
 };
 
@@ -115,11 +122,18 @@ export const PostListResponsePostsItemPublicationsItemPlatform = {
   linkedin: "linkedin",
   twitter: "twitter",
   facebook: "facebook",
+  instagram: "instagram",
 } as const;
 
 export type PostListResponsePostsItemPublicationsItem = {
+  id: string;
   platform: PostListResponsePostsItemPublicationsItemPlatform;
-  platformPostId: string;
+  /** @nullable */
+  platformPostId?: string | null;
+  /** @nullable */
+  url?: string | null;
+  /** @nullable */
+  accountId?: string | null;
   publishedAt: string;
 };
 
@@ -139,6 +153,40 @@ export type PostListResponsePostsItem = {
 export interface PostListResponse {
   posts: PostListResponsePostsItem[];
   total: number;
+}
+
+export type ManualPublicationRequestPlatform =
+  (typeof ManualPublicationRequestPlatform)[keyof typeof ManualPublicationRequestPlatform];
+
+export const ManualPublicationRequestPlatform = {
+  linkedin: "linkedin",
+  twitter: "twitter",
+  facebook: "facebook",
+  instagram: "instagram",
+} as const;
+
+export interface ManualPublicationRequest {
+  platform: ManualPublicationRequestPlatform;
+  url: string;
+}
+
+export type ManualPublicationResponsePlatform =
+  (typeof ManualPublicationResponsePlatform)[keyof typeof ManualPublicationResponsePlatform];
+
+export const ManualPublicationResponsePlatform = {
+  linkedin: "linkedin",
+  twitter: "twitter",
+  facebook: "facebook",
+  instagram: "instagram",
+} as const;
+
+export interface ManualPublicationResponse {
+  id: string;
+  postId: string;
+  platform: ManualPublicationResponsePlatform;
+  /** @nullable */
+  url: string | null;
+  publishedAt: string;
 }
 
 export interface PostError {

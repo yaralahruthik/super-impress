@@ -22,6 +22,13 @@
       "when": 1769971185701,
       "tag": "0002_rare_reptil",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1770413940166,
+      "tag": "0003_cheerful_magdalene",
+      "breakpoints": true
     }
   ]
 }

@@ -1,6 +1,8 @@
 import { Elysia, t } from "elysia";
 import { betterAuthPlugin } from "../../auth";
 import {
+  ManualPublicationRequest,
+  ManualPublicationResponse,
   PostCreate,
   PostListQuery,
   PostListResponse,
@@ -12,6 +14,7 @@ import {
   deletePost,
   getPostById,
   listUserPosts,
+  markAsPublished,
   updatePost,
 } from "./service";
 
@@ -27,8 +30,11 @@ function toPostResponse(post: {
   createdAt: Date;
   updatedAt: Date;
   publications?: Array<{
-    platform: "linkedin" | "twitter" | "facebook";
-    platformPostId: string;
+    id: string;
+    platform: "linkedin" | "twitter" | "facebook" | "instagram";
+    platformPostId: string | null;
+    url: string | null;
+    accountId: string | null;
     publishedAt: Date;
   }>;
 }): {
@@ -41,8 +47,11 @@ function toPostResponse(post: {
   createdAt: string;
   updatedAt: string;
   publications?: Array<{
-    platform: "linkedin" | "twitter" | "facebook";
-    platformPostId: string;
+    id: string;
+    platform: "linkedin" | "twitter" | "facebook" | "instagram";
+    platformPostId: string | null;
+    url: string | null;
+    accountId: string | null;
     publishedAt: string;
   }>;
 } {
@@ -51,8 +60,11 @@ function toPostResponse(post: {
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString(),
     publications: post.publications?.map((pub) => ({
+      id: pub.id,
       platform: pub.platform,
       platformPostId: pub.platformPostId,
+      url: pub.url,
+      accountId: pub.accountId,
       publishedAt: pub.publishedAt.toISOString(),
     })),
   };
@@ -66,6 +78,8 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     PostResponse,
     PostListQuery,
     PostListResponse,
+    ManualPublicationRequest,
+    ManualPublicationResponse,
     PostError: t.Object({ error: t.String() }),
   })
   .post(
@@ -179,6 +193,37 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       detail: {
         summary: "Delete a post",
         description: "Delete a specific post by ID",
+      },
+    }
+  )
+  .post(
+    "/:id/publications",
+    async ({ params, body, user, set }) => {
+      const publication = await markAsPublished(user.id, params.id, body);
+      if (!publication) {
+        set.status = 404;
+        return { error: "Post not found" };
+      }
+      set.status = 201;
+      return {
+        id: publication.id,
+        postId: publication.postId,
+        platform: publication.platform,
+        url: publication.url,
+        publishedAt: publication.publishedAt.toISOString(),
+      };
+    },
+    {
+      auth: true,
+      params: t.Object({ id: t.String({ format: "uuid" }) }),
+      body: "ManualPublicationRequest",
+      response: {
+        201: "ManualPublicationResponse",
+        404: "PostError",
+      },
+      detail: {
+        summary: "Mark post as published",
+        description: "Manually record that a post was published on a platform",
       },
     }
   );

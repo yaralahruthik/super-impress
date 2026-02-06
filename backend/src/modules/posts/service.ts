@@ -1,7 +1,12 @@
 import { and, arrayContains, count, desc, eq } from "drizzle-orm";
 import { db } from "../../db";
-import { post } from "../../db/schema";
-import type { PostCreate, PostStatus, PostUpdate } from "./model";
+import { post, postPublication } from "../../db/schema";
+import type {
+  ManualPublicationRequest,
+  PostCreate,
+  PostStatus,
+  PostUpdate,
+} from "./model";
 
 export async function createPost(
   userId: string,
@@ -102,4 +107,36 @@ export async function deletePost(
     .where(and(eq(post.id, postId), eq(post.userId, userId)));
 
   return true;
+}
+
+export async function markAsPublished(
+  userId: string,
+  postId: string,
+  data: ManualPublicationRequest
+) {
+  const existing = await getPostById(postId, userId);
+  if (!existing) {
+    return null;
+  }
+
+  const [publication] = await db
+    .insert(postPublication)
+    .values({
+      postId,
+      platform: data.platform,
+      platformPostId: null,
+      url: data.url,
+      accountId: null,
+      metadata: { manual: true },
+    })
+    .returning();
+
+  if (existing.status === "draft") {
+    await db
+      .update(post)
+      .set({ status: "published" })
+      .where(and(eq(post.id, postId), eq(post.userId, userId)));
+  }
+
+  return publication;
 }

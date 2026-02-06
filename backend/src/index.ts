@@ -32,6 +32,9 @@ const app = new Elysia({
   .use(betterAuthPlugin)
   .use(postsModule)
   .use(linkedInModule)
+  .onError(({ error, path }) => {
+    console.error(`[${path}]`, error);
+  })
   .listen(3000);
 
 console.log(

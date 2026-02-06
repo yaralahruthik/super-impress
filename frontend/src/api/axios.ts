@@ -9,7 +9,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {

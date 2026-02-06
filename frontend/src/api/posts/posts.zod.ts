@@ -57,13 +57,21 @@ export const GetApiPostsResponse = zod.object({
       publications: zod
         .array(
           zod.object({
-            platform: zod.enum(["linkedin", "twitter", "facebook"]),
-            platformPostId: zod.string(),
+            id: zod.uuid(),
+            platform: zod.enum([
+              "linkedin",
+              "twitter",
+              "facebook",
+              "instagram",
+            ]),
+            platformPostId: zod.string().nullish(),
+            url: zod.string().nullish(),
+            accountId: zod.string().nullish(),
             publishedAt: zod.iso.datetime({}),
-          })
+          }),
         )
         .optional(),
-    })
+    }),
   ),
   total: zod.number(),
 });
@@ -88,10 +96,13 @@ export const GetApiPostsByIdResponse = zod.object({
   publications: zod
     .array(
       zod.object({
-        platform: zod.enum(["linkedin", "twitter", "facebook"]),
-        platformPostId: zod.string(),
+        id: zod.uuid(),
+        platform: zod.enum(["linkedin", "twitter", "facebook", "instagram"]),
+        platformPostId: zod.string().nullish(),
+        url: zod.string().nullish(),
+        accountId: zod.string().nullish(),
         publishedAt: zod.iso.datetime({}),
-      })
+      }),
     )
     .optional(),
 });
@@ -123,10 +134,13 @@ export const PatchApiPostsByIdResponse = zod.object({
   publications: zod
     .array(
       zod.object({
-        platform: zod.enum(["linkedin", "twitter", "facebook"]),
-        platformPostId: zod.string(),
+        id: zod.uuid(),
+        platform: zod.enum(["linkedin", "twitter", "facebook", "instagram"]),
+        platformPostId: zod.string().nullish(),
+        url: zod.string().nullish(),
+        accountId: zod.string().nullish(),
         publishedAt: zod.iso.datetime({}),
-      })
+      }),
     )
     .optional(),
 });
@@ -137,4 +151,17 @@ export const PatchApiPostsByIdResponse = zod.object({
  */
 export const DeleteApiPostsByIdParams = zod.object({
   id: zod.uuid(),
+});
+
+/**
+ * Manually record that a post was published on a platform
+ * @summary Mark post as published
+ */
+export const PostApiPostsByIdPublicationsParams = zod.object({
+  id: zod.uuid(),
+});
+
+export const PostApiPostsByIdPublicationsBody = zod.object({
+  platform: zod.enum(["linkedin", "twitter", "facebook", "instagram"]),
+  url: zod.url(),
 });

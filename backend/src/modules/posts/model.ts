@@ -27,15 +27,47 @@ const _postSelect = createSelectSchema(post);
 
 // Publication schema for including in post response
 export const Publication = Type.Object({
+  id: Type.String({ format: "uuid" }),
   platform: Type.Union([
     Type.Literal("linkedin"),
     Type.Literal("twitter"),
     Type.Literal("facebook"),
+    Type.Literal("instagram"),
   ]),
-  platformPostId: Type.String(),
+  platformPostId: Type.Optional(Type.Union([Type.String(), Type.Null()])),
+  url: Type.Optional(Type.Union([Type.String(), Type.Null()])),
+  accountId: Type.Optional(Type.Union([Type.String(), Type.Null()])),
   publishedAt: Type.String({ format: "date-time" }),
 });
 export type Publication = Static<typeof Publication>;
+
+// Manual publication request/response schemas
+export const ManualPublicationRequest = Type.Object({
+  platform: Type.Union([
+    Type.Literal("linkedin"),
+    Type.Literal("twitter"),
+    Type.Literal("facebook"),
+    Type.Literal("instagram"),
+  ]),
+  url: Type.String({ format: "uri" }),
+});
+export type ManualPublicationRequest = Static<typeof ManualPublicationRequest>;
+
+export const ManualPublicationResponse = Type.Object({
+  id: Type.String({ format: "uuid" }),
+  postId: Type.String({ format: "uuid" }),
+  platform: Type.Union([
+    Type.Literal("linkedin"),
+    Type.Literal("twitter"),
+    Type.Literal("facebook"),
+    Type.Literal("instagram"),
+  ]),
+  url: Type.Union([Type.String(), Type.Null()]),
+  publishedAt: Type.String({ format: "date-time" }),
+});
+export type ManualPublicationResponse = Static<
+  typeof ManualPublicationResponse
+>;
 
 // PostResponse: override date fields to strings for JSON serialization
 const _postResponseBase = Type.Omit(_postSelect, ["createdAt", "updatedAt"]);

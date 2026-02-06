@@ -5,7 +5,7 @@
  * LinkedIn post management tool API
  * OpenAPI spec version: 1.0.0
  */
-
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -20,12 +20,11 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import type { ErrorType } from ".././axios";
 
-import { customInstance } from ".././axios";
 import type {
   GetApiPostsParams,
+  ManualPublicationRequest,
+  ManualPublicationResponse,
   PostCreate,
   PostError,
   PostListResponse,
@@ -33,13 +32,16 @@ import type {
   PostUpdate,
 } from "../superimpress.schemas";
 
+import { customInstance } from ".././axios";
+import type { ErrorType } from ".././axios";
+
 /**
  * Create a new post for the authenticated user
  * @summary Create a new post
  */
 export const postApiPosts = (postCreate: PostCreate, signal?: AbortSignal) => {
   return customInstance<PostResponse>({
-    url: "/api/posts",
+    url: `/api/posts`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: postCreate,
@@ -105,7 +107,7 @@ export const usePostApiPosts = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof postApiPosts>>,
   TError,
@@ -120,10 +122,10 @@ export const usePostApiPosts = <
  */
 export const getApiPosts = (
   params?: GetApiPostsParams,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<PostListResponse>({
-    url: "/api/posts",
+    url: `/api/posts`,
     method: "GET",
     params,
     signal,
@@ -131,7 +133,7 @@ export const getApiPosts = (
 };
 
 export const getGetApiPostsQueryKey = (params?: GetApiPostsParams) => {
-  return ["/api/posts", ...(params ? [params] : [])] as const;
+  return [`/api/posts`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetApiPostsQueryOptions = <
@@ -143,7 +145,7 @@ export const getGetApiPostsQueryOptions = <
     query?: Partial<
       UseQueryOptions<Awaited<ReturnType<typeof getApiPosts>>, TError, TData>
     >;
-  }
+  },
 ) => {
   const { query: queryOptions } = options ?? {};
 
@@ -183,7 +185,7 @@ export function useGetApiPosts<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -205,7 +207,7 @@ export function useGetApiPosts<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -219,7 +221,7 @@ export function useGetApiPosts<
       UseQueryOptions<Awaited<ReturnType<typeof getApiPosts>>, TError, TData>
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -237,7 +239,7 @@ export function useGetApiPosts<
       UseQueryOptions<Awaited<ReturnType<typeof getApiPosts>>, TError, TData>
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -246,9 +248,7 @@ export function useGetApiPosts<
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -282,7 +282,7 @@ export const getGetApiPostsByIdQueryOptions = <
         TData
       >
     >;
-  }
+  },
 ) => {
   const { query: queryOptions } = options ?? {};
 
@@ -331,7 +331,7 @@ export function useGetApiPostsById<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -357,7 +357,7 @@ export function useGetApiPostsById<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -375,7 +375,7 @@ export function useGetApiPostsById<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -397,7 +397,7 @@ export function useGetApiPostsById<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -406,9 +406,7 @@ export function useGetApiPostsById<
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -420,7 +418,7 @@ export function useGetApiPostsById<
 export const patchApiPostsById = (
   id: string,
   postUpdate: PostUpdate,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<PostResponse>({
     url: `/api/posts/${id}`,
@@ -489,7 +487,7 @@ export const usePatchApiPostsById = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof patchApiPostsById>>,
   TError,
@@ -568,7 +566,7 @@ export const useDeleteApiPostsById = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteApiPostsById>>,
   TError,
@@ -577,6 +575,94 @@ export const useDeleteApiPostsById = <
 > => {
   return useMutation(
     getDeleteApiPostsByIdMutationOptions(options),
-    queryClient
+    queryClient,
+  );
+};
+/**
+ * Manually record that a post was published on a platform
+ * @summary Mark post as published
+ */
+export const postApiPostsByIdPublications = (
+  id: string,
+  manualPublicationRequest: ManualPublicationRequest,
+  signal?: AbortSignal,
+) => {
+  return customInstance<ManualPublicationResponse>({
+    url: `/api/posts/${id}/publications`,
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    data: manualPublicationRequest,
+    signal,
+  });
+};
+
+export const getPostApiPostsByIdPublicationsMutationOptions = <
+  TError = ErrorType<PostError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
+    TError,
+    { id: string; data: ManualPublicationRequest },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
+  TError,
+  { id: string; data: ManualPublicationRequest },
+  TContext
+> => {
+  const mutationKey = ["postApiPostsByIdPublications"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
+    { id: string; data: ManualPublicationRequest }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return postApiPostsByIdPublications(id, data);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type PostApiPostsByIdPublicationsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postApiPostsByIdPublications>>
+>;
+export type PostApiPostsByIdPublicationsMutationBody = ManualPublicationRequest;
+export type PostApiPostsByIdPublicationsMutationError = ErrorType<PostError>;
+
+/**
+ * @summary Mark post as published
+ */
+export const usePostApiPostsByIdPublications = <
+  TError = ErrorType<PostError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
+      TError,
+      { id: string; data: ManualPublicationRequest },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient,
+): UseMutationResult<
+  Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
+  TError,
+  { id: string; data: ManualPublicationRequest },
+  TContext
+> => {
+  return useMutation(
+    getPostApiPostsByIdPublicationsMutationOptions(options),
+    queryClient,
   );
 };

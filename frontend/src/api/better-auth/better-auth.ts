@@ -5,7 +5,7 @@
  * LinkedIn post management tool API
  * OpenAPI spec version: 1.0.0
  */
-
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -20,10 +20,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import type { ErrorType } from ".././axios";
 
-import { customInstance } from ".././axios";
 import type {
   ApiAuthAccountInfoGetResponse200,
   ApiAuthAccountInfoGetResponse400,
@@ -244,15 +241,18 @@ import type {
   VerifyPasswordResponse500,
 } from "../superimpress.schemas";
 
+import { customInstance } from ".././axios";
+import type { ErrorType } from ".././axios";
+
 /**
  * Sign in with a social provider
  */
 export const socialSignIn = (
   socialSignInRequest: SocialSignInRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<SocialSignInResponse200>({
-    url: "/api/auth/sign-in/social",
+    url: `/api/auth/sign-in/social`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: socialSignInRequest,
@@ -336,7 +336,7 @@ export const useSocialSignIn = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof socialSignIn>>,
   TError,
@@ -350,14 +350,14 @@ export const useSocialSignIn = <
  */
 export const getSession = (signal?: AbortSignal) => {
   return customInstance<GetSessionResponse200 | null>({
-    url: "/api/auth/get-session",
+    url: `/api/auth/get-session`,
     method: "GET",
     signal,
   });
 };
 
 export const getGetSessionQueryKey = () => {
-  return ["/api/auth/get-session"] as const;
+  return [`/api/auth/get-session`] as const;
 };
 
 export const getGetSessionQueryOptions = <
@@ -426,7 +426,7 @@ export function useGetSession<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -454,7 +454,7 @@ export function useGetSession<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -474,7 +474,7 @@ export function useGetSession<
       UseQueryOptions<Awaited<ReturnType<typeof getSession>>, TError, TData>
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -495,7 +495,7 @@ export function useGetSession<
       UseQueryOptions<Awaited<ReturnType<typeof getSession>>, TError, TData>
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -504,9 +504,7 @@ export function useGetSession<
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -516,10 +514,10 @@ export function useGetSession<
  */
 export const signOut = (
   signOutRequest: SignOutRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<SignOutResponse200>({
-    url: "/api/auth/sign-out",
+    url: `/api/auth/sign-out`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: signOutRequest,
@@ -603,7 +601,7 @@ export const useSignOut = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof signOut>>,
   TError,
@@ -617,10 +615,10 @@ export const useSignOut = <
  */
 export const signUpWithEmailAndPassword = (
   signUpWithEmailAndPasswordRequest: SignUpWithEmailAndPasswordRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<SignUpWithEmailAndPasswordResponse200>({
-    url: "/api/auth/sign-up/email",
+    url: `/api/auth/sign-up/email`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: signUpWithEmailAndPasswordRequest,
@@ -708,7 +706,7 @@ export const useSignUpWithEmailAndPassword = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof signUpWithEmailAndPassword>>,
   TError,
@@ -717,7 +715,7 @@ export const useSignUpWithEmailAndPassword = <
 > => {
   return useMutation(
     getSignUpWithEmailAndPasswordMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };
 /**
@@ -725,10 +723,10 @@ export const useSignUpWithEmailAndPassword = <
  */
 export const signInEmail = (
   signInEmailRequest: SignInEmailRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<SignInEmailResponse200>({
-    url: "/api/auth/sign-in/email",
+    url: `/api/auth/sign-in/email`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: signInEmailRequest,
@@ -812,7 +810,7 @@ export const useSignInEmail = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof signInEmail>>,
   TError,
@@ -826,10 +824,10 @@ export const useSignInEmail = <
  */
 export const resetPassword = (
   resetPasswordRequest: ResetPasswordRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ResetPasswordResponse200>({
-    url: "/api/auth/reset-password",
+    url: `/api/auth/reset-password`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: resetPasswordRequest,
@@ -913,7 +911,7 @@ export const useResetPassword = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof resetPassword>>,
   TError,
@@ -927,10 +925,10 @@ export const useResetPassword = <
  */
 export const verifyPassword = (
   verifyPasswordRequest: VerifyPasswordRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<VerifyPasswordResponse200>({
-    url: "/api/auth/verify-password",
+    url: `/api/auth/verify-password`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: verifyPasswordRequest,
@@ -1014,7 +1012,7 @@ export const useVerifyPassword = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof verifyPassword>>,
   TError,
@@ -1028,10 +1026,10 @@ export const useVerifyPassword = <
  */
 export const getApiAuthVerifyEmail = (
   params: GetApiAuthVerifyEmailParams,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ApiAuthVerifyEmailGetResponse200>({
-    url: "/api/auth/verify-email",
+    url: `/api/auth/verify-email`,
     method: "GET",
     params,
     signal,
@@ -1039,9 +1037,9 @@ export const getApiAuthVerifyEmail = (
 };
 
 export const getGetApiAuthVerifyEmailQueryKey = (
-  params?: GetApiAuthVerifyEmailParams
+  params?: GetApiAuthVerifyEmailParams,
 ) => {
-  return ["/api/auth/verify-email", ...(params ? [params] : [])] as const;
+  return [`/api/auth/verify-email`, ...(params ? [params] : [])] as const;
 };
 
 export const getGetApiAuthVerifyEmailQueryOptions = <
@@ -1064,7 +1062,7 @@ export const getGetApiAuthVerifyEmailQueryOptions = <
         TData
       >
     >;
-  }
+  },
 ) => {
   const { query: queryOptions } = options ?? {};
 
@@ -1123,7 +1121,7 @@ export function useGetApiAuthVerifyEmail<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -1156,7 +1154,7 @@ export function useGetApiAuthVerifyEmail<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -1181,7 +1179,7 @@ export function useGetApiAuthVerifyEmail<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -1207,7 +1205,7 @@ export function useGetApiAuthVerifyEmail<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -1216,9 +1214,7 @@ export function useGetApiAuthVerifyEmail<
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -1228,10 +1224,10 @@ export function useGetApiAuthVerifyEmail<
  */
 export const sendVerificationEmail = (
   sendVerificationEmailRequest: SendVerificationEmailRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<SendVerificationEmailResponse200>({
-    url: "/api/auth/send-verification-email",
+    url: `/api/auth/send-verification-email`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: sendVerificationEmailRequest,
@@ -1315,7 +1311,7 @@ export const useSendVerificationEmail = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof sendVerificationEmail>>,
   TError,
@@ -1324,15 +1320,15 @@ export const useSendVerificationEmail = <
 > => {
   return useMutation(
     getSendVerificationEmailMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };
 export const changeEmail = (
   changeEmailRequest: ChangeEmailRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ChangeEmailResponse200>({
-    url: "/api/auth/change-email",
+    url: `/api/auth/change-email`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: changeEmailRequest,
@@ -1419,7 +1415,7 @@ export const useChangeEmail = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof changeEmail>>,
   TError,
@@ -1433,10 +1429,10 @@ export const useChangeEmail = <
  */
 export const changePassword = (
   changePasswordRequest: ChangePasswordRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ChangePasswordResponse200>({
-    url: "/api/auth/change-password",
+    url: `/api/auth/change-password`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: changePasswordRequest,
@@ -1520,7 +1516,7 @@ export const useChangePassword = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof changePassword>>,
   TError,
@@ -1534,10 +1530,10 @@ export const useChangePassword = <
  */
 export const updateUser = (
   updateUserRequest: UpdateUserRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<UpdateUserResponse200>({
-    url: "/api/auth/update-user",
+    url: `/api/auth/update-user`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: updateUserRequest,
@@ -1621,7 +1617,7 @@ export const useUpdateUser = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof updateUser>>,
   TError,
@@ -1635,10 +1631,10 @@ export const useUpdateUser = <
  */
 export const deleteUser = (
   deleteUserRequest: DeleteUserRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<DeleteUserResponse200>({
-    url: "/api/auth/delete-user",
+    url: `/api/auth/delete-user`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: deleteUserRequest,
@@ -1722,7 +1718,7 @@ export const useDeleteUser = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof deleteUser>>,
   TError,
@@ -1736,10 +1732,10 @@ export const useDeleteUser = <
  */
 export const requestPasswordReset = (
   requestPasswordResetRequest: RequestPasswordResetRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<RequestPasswordResetResponse200>({
-    url: "/api/auth/request-password-reset",
+    url: `/api/auth/request-password-reset`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: requestPasswordResetRequest,
@@ -1823,7 +1819,7 @@ export const useRequestPasswordReset = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof requestPasswordReset>>,
   TError,
@@ -1832,7 +1828,7 @@ export const useRequestPasswordReset = <
 > => {
   return useMutation(
     getRequestPasswordResetMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };
 /**
@@ -1841,7 +1837,7 @@ export const useRequestPasswordReset = <
 export const resetPasswordCallback = (
   token: string,
   params: ResetPasswordCallbackParams,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ResetPasswordCallbackResponse200>({
     url: `/api/auth/reset-password/${token}`,
@@ -1853,7 +1849,7 @@ export const resetPasswordCallback = (
 
 export const getResetPasswordCallbackQueryKey = (
   token: string,
-  params?: ResetPasswordCallbackParams
+  params?: ResetPasswordCallbackParams,
 ) => {
   return [
     `/api/auth/reset-password/${token}`,
@@ -1882,7 +1878,7 @@ export const getResetPasswordCallbackQueryOptions = <
         TData
       >
     >;
-  }
+  },
 ) => {
   const { query: queryOptions } = options ?? {};
 
@@ -1947,7 +1943,7 @@ export function useResetPasswordCallback<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -1981,7 +1977,7 @@ export function useResetPasswordCallback<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2007,7 +2003,7 @@ export function useResetPasswordCallback<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2034,22 +2030,20 @@ export function useResetPasswordCallback<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getResetPasswordCallbackQueryOptions(
     token,
     params,
-    options
+    options,
   );
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -2059,14 +2053,14 @@ export function useResetPasswordCallback<
  */
 export const listUserSessions = (signal?: AbortSignal) => {
   return customInstance<ListUserSessionsResponse200>({
-    url: "/api/auth/list-sessions",
+    url: `/api/auth/list-sessions`,
     method: "GET",
     signal,
   });
 };
 
 export const getListUserSessionsQueryKey = () => {
-  return ["/api/auth/list-sessions"] as const;
+  return [`/api/auth/list-sessions`] as const;
 };
 
 export const getListUserSessionsQueryOptions = <
@@ -2139,7 +2133,7 @@ export function useListUserSessions<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2171,7 +2165,7 @@ export function useListUserSessions<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2195,7 +2189,7 @@ export function useListUserSessions<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2220,7 +2214,7 @@ export function useListUserSessions<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -2229,9 +2223,7 @@ export function useListUserSessions<
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -2241,10 +2233,10 @@ export function useListUserSessions<
  */
 export const postApiAuthRevokeSession = (
   apiAuthRevokeSessionPostRequest: ApiAuthRevokeSessionPostRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ApiAuthRevokeSessionPostResponse200>({
-    url: "/api/auth/revoke-session",
+    url: `/api/auth/revoke-session`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: apiAuthRevokeSessionPostRequest,
@@ -2329,7 +2321,7 @@ export const usePostApiAuthRevokeSession = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof postApiAuthRevokeSession>>,
   TError,
@@ -2338,7 +2330,7 @@ export const usePostApiAuthRevokeSession = <
 > => {
   return useMutation(
     getPostApiAuthRevokeSessionMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };
 /**
@@ -2346,10 +2338,10 @@ export const usePostApiAuthRevokeSession = <
  */
 export const postApiAuthRevokeSessions = (
   apiAuthRevokeSessionsPostRequest: ApiAuthRevokeSessionsPostRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ApiAuthRevokeSessionsPostResponse200>({
-    url: "/api/auth/revoke-sessions",
+    url: `/api/auth/revoke-sessions`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: apiAuthRevokeSessionsPostRequest,
@@ -2434,7 +2426,7 @@ export const usePostApiAuthRevokeSessions = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof postApiAuthRevokeSessions>>,
   TError,
@@ -2443,7 +2435,7 @@ export const usePostApiAuthRevokeSessions = <
 > => {
   return useMutation(
     getPostApiAuthRevokeSessionsMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };
 /**
@@ -2451,10 +2443,10 @@ export const usePostApiAuthRevokeSessions = <
  */
 export const postApiAuthRevokeOtherSessions = (
   apiAuthRevokeOtherSessionsPostRequest: ApiAuthRevokeOtherSessionsPostRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ApiAuthRevokeOtherSessionsPostResponse200>({
-    url: "/api/auth/revoke-other-sessions",
+    url: `/api/auth/revoke-other-sessions`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: apiAuthRevokeOtherSessionsPostRequest,
@@ -2539,7 +2531,7 @@ export const usePostApiAuthRevokeOtherSessions = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof postApiAuthRevokeOtherSessions>>,
   TError,
@@ -2548,7 +2540,7 @@ export const usePostApiAuthRevokeOtherSessions = <
 > => {
   return useMutation(
     getPostApiAuthRevokeOtherSessionsMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };
 /**
@@ -2556,10 +2548,10 @@ export const usePostApiAuthRevokeOtherSessions = <
  */
 export const linkSocialAccount = (
   linkSocialAccountRequest: LinkSocialAccountRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<LinkSocialAccountResponse200>({
-    url: "/api/auth/link-social",
+    url: `/api/auth/link-social`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: linkSocialAccountRequest,
@@ -2643,7 +2635,7 @@ export const useLinkSocialAccount = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof linkSocialAccount>>,
   TError,
@@ -2657,14 +2649,14 @@ export const useLinkSocialAccount = <
  */
 export const listUserAccounts = (signal?: AbortSignal) => {
   return customInstance<ListUserAccountsResponse200>({
-    url: "/api/auth/list-accounts",
+    url: `/api/auth/list-accounts`,
     method: "GET",
     signal,
   });
 };
 
 export const getListUserAccountsQueryKey = () => {
-  return ["/api/auth/list-accounts"] as const;
+  return [`/api/auth/list-accounts`] as const;
 };
 
 export const getListUserAccountsQueryOptions = <
@@ -2737,7 +2729,7 @@ export function useListUserAccounts<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2769,7 +2761,7 @@ export function useListUserAccounts<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2793,7 +2785,7 @@ export function useListUserAccounts<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2818,7 +2810,7 @@ export function useListUserAccounts<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -2827,9 +2819,7 @@ export function useListUserAccounts<
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -2839,10 +2829,10 @@ export function useListUserAccounts<
  */
 export const getApiAuthDeleteUserCallback = (
   params?: GetApiAuthDeleteUserCallbackParams,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ApiAuthDeleteUserCallbackGetResponse200>({
-    url: "/api/auth/delete-user/callback",
+    url: `/api/auth/delete-user/callback`,
     method: "GET",
     params,
     signal,
@@ -2850,10 +2840,10 @@ export const getApiAuthDeleteUserCallback = (
 };
 
 export const getGetApiAuthDeleteUserCallbackQueryKey = (
-  params?: GetApiAuthDeleteUserCallbackParams
+  params?: GetApiAuthDeleteUserCallbackParams,
 ) => {
   return [
-    "/api/auth/delete-user/callback",
+    `/api/auth/delete-user/callback`,
     ...(params ? [params] : []),
   ] as const;
 };
@@ -2878,7 +2868,7 @@ export const getGetApiAuthDeleteUserCallbackQueryOptions = <
         TData
       >
     >;
-  }
+  },
 ) => {
   const { query: queryOptions } = options ?? {};
 
@@ -2937,7 +2927,7 @@ export function useGetApiAuthDeleteUserCallback<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2970,7 +2960,7 @@ export function useGetApiAuthDeleteUserCallback<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -2995,7 +2985,7 @@ export function useGetApiAuthDeleteUserCallback<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3021,21 +3011,19 @@ export function useGetApiAuthDeleteUserCallback<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetApiAuthDeleteUserCallbackQueryOptions(
     params,
-    options
+    options,
   );
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -3045,10 +3033,10 @@ export function useGetApiAuthDeleteUserCallback<
  */
 export const postApiAuthUnlinkAccount = (
   apiAuthUnlinkAccountPostRequest: ApiAuthUnlinkAccountPostRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ApiAuthUnlinkAccountPostResponse200>({
-    url: "/api/auth/unlink-account",
+    url: `/api/auth/unlink-account`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: apiAuthUnlinkAccountPostRequest,
@@ -3133,7 +3121,7 @@ export const usePostApiAuthUnlinkAccount = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof postApiAuthUnlinkAccount>>,
   TError,
@@ -3142,7 +3130,7 @@ export const usePostApiAuthUnlinkAccount = <
 > => {
   return useMutation(
     getPostApiAuthUnlinkAccountMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };
 /**
@@ -3150,10 +3138,10 @@ export const usePostApiAuthUnlinkAccount = <
  */
 export const postApiAuthRefreshToken = (
   apiAuthRefreshTokenPostRequest: ApiAuthRefreshTokenPostRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ApiAuthRefreshTokenPostResponse200>({
-    url: "/api/auth/refresh-token",
+    url: `/api/auth/refresh-token`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: apiAuthRefreshTokenPostRequest,
@@ -3238,7 +3226,7 @@ export const usePostApiAuthRefreshToken = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof postApiAuthRefreshToken>>,
   TError,
@@ -3247,7 +3235,7 @@ export const usePostApiAuthRefreshToken = <
 > => {
   return useMutation(
     getPostApiAuthRefreshTokenMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };
 /**
@@ -3255,10 +3243,10 @@ export const usePostApiAuthRefreshToken = <
  */
 export const postApiAuthGetAccessToken = (
   apiAuthGetAccessTokenPostRequest: ApiAuthGetAccessTokenPostRequest,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<ApiAuthGetAccessTokenPostResponse200>({
-    url: "/api/auth/get-access-token",
+    url: `/api/auth/get-access-token`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: apiAuthGetAccessTokenPostRequest,
@@ -3343,7 +3331,7 @@ export const usePostApiAuthGetAccessToken = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof postApiAuthGetAccessToken>>,
   TError,
@@ -3352,7 +3340,7 @@ export const usePostApiAuthGetAccessToken = <
 > => {
   return useMutation(
     getPostApiAuthGetAccessTokenMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };
 /**
@@ -3360,14 +3348,14 @@ export const usePostApiAuthGetAccessToken = <
  */
 export const getApiAuthAccountInfo = (signal?: AbortSignal) => {
   return customInstance<ApiAuthAccountInfoGetResponse200>({
-    url: "/api/auth/account-info",
+    url: `/api/auth/account-info`,
     method: "GET",
     signal,
   });
 };
 
 export const getGetApiAuthAccountInfoQueryKey = () => {
-  return ["/api/auth/account-info"] as const;
+  return [`/api/auth/account-info`] as const;
 };
 
 export const getGetApiAuthAccountInfoQueryOptions = <
@@ -3444,7 +3432,7 @@ export function useGetApiAuthAccountInfo<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3476,7 +3464,7 @@ export function useGetApiAuthAccountInfo<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3500,7 +3488,7 @@ export function useGetApiAuthAccountInfo<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3525,7 +3513,7 @@ export function useGetApiAuthAccountInfo<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -3534,9 +3522,7 @@ export function useGetApiAuthAccountInfo<
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -3546,14 +3532,14 @@ export function useGetApiAuthAccountInfo<
  */
 export const getApiAuthOk = (signal?: AbortSignal) => {
   return customInstance<ApiAuthOkGetResponse200>({
-    url: "/api/auth/ok",
+    url: `/api/auth/ok`,
     method: "GET",
     signal,
   });
 };
 
 export const getGetApiAuthOkQueryKey = () => {
-  return ["/api/auth/ok"] as const;
+  return [`/api/auth/ok`] as const;
 };
 
 export const getGetApiAuthOkQueryOptions = <
@@ -3622,7 +3608,7 @@ export function useGetApiAuthOk<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3650,7 +3636,7 @@ export function useGetApiAuthOk<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3670,7 +3656,7 @@ export function useGetApiAuthOk<
       UseQueryOptions<Awaited<ReturnType<typeof getApiAuthOk>>, TError, TData>
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3691,7 +3677,7 @@ export function useGetApiAuthOk<
       UseQueryOptions<Awaited<ReturnType<typeof getApiAuthOk>>, TError, TData>
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -3700,9 +3686,7 @@ export function useGetApiAuthOk<
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
@@ -3712,14 +3696,14 @@ export function useGetApiAuthOk<
  */
 export const getApiAuthError = (signal?: AbortSignal) => {
   return customInstance<string>({
-    url: "/api/auth/error",
+    url: `/api/auth/error`,
     method: "GET",
     signal,
   });
 };
 
 export const getGetApiAuthErrorQueryKey = () => {
-  return ["/api/auth/error"] as const;
+  return [`/api/auth/error`] as const;
 };
 
 export const getGetApiAuthErrorQueryOptions = <
@@ -3792,7 +3776,7 @@ export function useGetApiAuthError<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3824,7 +3808,7 @@ export function useGetApiAuthError<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3848,7 +3832,7 @@ export function useGetApiAuthError<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -3873,7 +3857,7 @@ export function useGetApiAuthError<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -3882,9 +3866,7 @@ export function useGetApiAuthError<
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
     TError
-  > & {
-    queryKey: DataTag<QueryKey, TData, TError>;
-  };
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 
   return { ...query, queryKey: queryOptions.queryKey };
 }

@@ -25,7 +25,7 @@ export const SocialSignInBody = zod.object({
     .boolean()
     .nullish()
     .describe(
-      "Disable automatic redirection to the provider. Useful for handling the redirection yourself"
+      "Disable automatic redirection to the provider. Useful for handling the redirection yourself",
     ),
   idToken: zod
     .object({
@@ -49,13 +49,13 @@ export const SocialSignInBody = zod.object({
     .array()
     .nullish()
     .describe(
-      "Array of scopes to request from the provider. This will override the default scopes passed."
+      "Array of scopes to request from the provider. This will override the default scopes passed.",
     ),
   requestSignUp: zod
     .boolean()
     .nullish()
     .describe(
-      "Explicitly request sign-up. Useful when disableImplicitSignUp is true for this provider"
+      "Explicitly request sign-up. Useful when disableImplicitSignUp is true for this provider",
     ),
   loginHint: zod
     .string()
@@ -65,8 +65,8 @@ export const SocialSignInBody = zod.object({
 });
 
 export const socialSignInResponseUserEmailVerifiedDefault = false;
-export const socialSignInResponseUserCreatedAtDefault = "Generated at runtime";
-export const socialSignInResponseUserUpdatedAtDefault = "Generated at runtime";
+export const socialSignInResponseUserCreatedAtDefault = `Generated at runtime`;
+export const socialSignInResponseUserUpdatedAtDefault = `Generated at runtime`;
 
 export const SocialSignInResponse = zod
   .object({
@@ -90,10 +90,10 @@ export const SocialSignInResponse = zod
 /**
  * Get the current session
  */
-export const getSessionResponseSessionCreatedAtDefault = "Generated at runtime";
+export const getSessionResponseSessionCreatedAtDefault = `Generated at runtime`;
 export const getSessionResponseUserEmailVerifiedDefault = false;
-export const getSessionResponseUserCreatedAtDefault = "Generated at runtime";
-export const getSessionResponseUserUpdatedAtDefault = "Generated at runtime";
+export const getSessionResponseUserCreatedAtDefault = `Generated at runtime`;
+export const getSessionResponseUserUpdatedAtDefault = `Generated at runtime`;
 
 export const GetSessionResponse = zod
   .object({
@@ -146,7 +146,7 @@ export const SignUpWithEmailAndPasswordBody = zod.object({
     .boolean()
     .optional()
     .describe(
-      "If this is false, the session will not be remembered. Default is `true`."
+      "If this is false, the session will not be remembered. Default is `true`.",
     ),
 });
 
@@ -184,13 +184,13 @@ export const SignInEmailBody = zod.object({
     .boolean()
     .default(signInEmailBodyRememberMeDefault)
     .describe(
-      "If this is false, the session will not be remembered. Default is `true`."
+      "If this is false, the session will not be remembered. Default is `true`.",
     ),
 });
 
 export const signInEmailResponseUserEmailVerifiedDefault = false;
-export const signInEmailResponseUserCreatedAtDefault = "Generated at runtime";
-export const signInEmailResponseUserUpdatedAtDefault = "Generated at runtime";
+export const signInEmailResponseUserCreatedAtDefault = `Generated at runtime`;
+export const signInEmailResponseUserUpdatedAtDefault = `Generated at runtime`;
 
 export const SignInEmailResponse = zod
   .object({
@@ -246,10 +246,8 @@ export const GetApiAuthVerifyEmailQueryParams = zod.object({
 });
 
 export const getApiAuthVerifyEmailResponseUserEmailVerifiedDefault = false;
-export const getApiAuthVerifyEmailResponseUserCreatedAtDefault =
-  "Generated at runtime";
-export const getApiAuthVerifyEmailResponseUserUpdatedAtDefault =
-  "Generated at runtime";
+export const getApiAuthVerifyEmailResponseUserCreatedAtDefault = `Generated at runtime`;
+export const getApiAuthVerifyEmailResponseUserUpdatedAtDefault = `Generated at runtime`;
 
 export const GetApiAuthVerifyEmailResponse = zod.object({
   user: zod.object({
@@ -297,8 +295,8 @@ export const ChangeEmailBody = zod.object({
 });
 
 export const changeEmailResponseUserEmailVerifiedDefault = false;
-export const changeEmailResponseUserCreatedAtDefault = "Generated at runtime";
-export const changeEmailResponseUserUpdatedAtDefault = "Generated at runtime";
+export const changeEmailResponseUserCreatedAtDefault = `Generated at runtime`;
+export const changeEmailResponseUserUpdatedAtDefault = `Generated at runtime`;
 
 export const ChangeEmailResponse = zod.object({
   user: zod
@@ -360,8 +358,8 @@ export const UpdateUserBody = zod.object({
 });
 
 export const updateUserResponseUserEmailVerifiedDefault = false;
-export const updateUserResponseUserCreatedAtDefault = "Generated at runtime";
-export const updateUserResponseUserUpdatedAtDefault = "Generated at runtime";
+export const updateUserResponseUserCreatedAtDefault = `Generated at runtime`;
+export const updateUserResponseUserUpdatedAtDefault = `Generated at runtime`;
 
 export const UpdateUserResponse = zod.object({
   user: zod
@@ -408,13 +406,13 @@ export const RequestPasswordResetBody = zod.object({
   email: zod
     .string()
     .describe(
-      "The email address of the user to send a password reset email to"
+      "The email address of the user to send a password reset email to",
     ),
   redirectTo: zod
     .string()
     .nullish()
     .describe(
-      "The URL to redirect the user to reset their password. If the token isn't valid or expired, it'll be redirected with a query parameter `?error=INVALID_TOKEN`. If the token is valid, it'll be redirected with a query parameter `?token=VALID_TOKEN"
+      "The URL to redirect the user to reset their password. If the token isn't valid or expired, it'll be redirected with a query parameter `?error=INVALID_TOKEN`. If the token is valid, it'll be redirected with a query parameter `?token=VALID_TOKEN",
     ),
 });
 
@@ -443,7 +441,7 @@ export const ResetPasswordCallbackResponse = zod.object({
 /**
  * List all active sessions for the user
  */
-export const listUserSessionsResponseCreatedAtDefault = "Generated at runtime";
+export const listUserSessionsResponseCreatedAtDefault = `Generated at runtime`;
 
 export const ListUserSessionsResponseItem = zod.object({
   id: zod.string().optional(),
@@ -519,13 +517,13 @@ export const LinkSocialAccountBody = zod.object({
     .string()
     .nullish()
     .describe(
-      "The URL to redirect to if there is an error during the link process"
+      "The URL to redirect to if there is an error during the link process",
     ),
   disableRedirect: zod
     .boolean()
     .nullish()
     .describe(
-      "Disable automatic redirection to the provider. Useful for handling the redirection yourself"
+      "Disable automatic redirection to the provider. Useful for handling the redirection yourself",
     ),
   additionalData: zod.string().nullish(),
 });
@@ -538,7 +536,7 @@ export const LinkSocialAccountResponse = zod.object({
   redirect: zod
     .boolean()
     .describe(
-      "Indicates if the user should be redirected to the authorization URL"
+      "Indicates if the user should be redirected to the authorization URL",
     ),
   status: zod.boolean().optional(),
 });

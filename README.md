@@ -35,18 +35,19 @@ Join [the discord community](https://discord.gg/DWAVqksVtx) for the latest updat
 
 ## Getting Started
 
+### Prerequisites
+
+- [Bun](https://bun.sh/) — runtime and package manager for all packages
+- [Docker](https://www.docker.com/) — for PostgreSQL and Redis
+- [prek](https://prek.j178.dev/) — for git hooks
+
 ### Git Hooks Setup (prek)
 
 This project uses [prek](https://prek.j178.dev/) to run git hooks that ensure code quality and consistency.
 
-**Steps to setup prek:**
-
 ```bash
 # Install prek
 brew install prek
-
-# or if you have uv installed
-uv tool install prek
 
 # Install the git hooks
 prek install
@@ -64,136 +65,106 @@ prek run
 prek run --all-files
 ```
 
-## Database Setup
+### Database & Infrastructure Setup
 
-Super Impress uses PostgreSQL as its database. The database choice is documented in `decisions/tech/5-postgresql.md`.
+Super Impress uses PostgreSQL as its database and Redis for caching/state. Both run via Docker in development.
 
-The application connects via `DATABASE_URL` and works with any PostgreSQL instance - Docker (recommended for development), local installation, or cloud services like AWS RDS.
+```bash
+docker compose up postgres redis -d
+```
 
 ### Development Modes
 
 You can run the project in two modes:
 
-#### Mode 1: Local Backend + Docker PostgreSQL (Recommended)
+#### Mode 1: Local Dev Servers + Docker Infrastructure (Recommended)
 
-Best for active development with fast backend restarts and debugging.
+Best for active development with fast restarts, HMR, and debugging.
 
-1. **Configure backend environment:**
-   Create `backend/.env`:
-
-   ```bash
-   # Backend runs locally, PostgreSQL in Docker
-   DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/super_impress
-   ```
-
-2. **Start PostgreSQL:**
+1. **Start infrastructure:**
 
    ```bash
-   docker compose up postgres -d
+   docker compose up postgres redis -d
    ```
 
-3. **Install dependencies:**
+2. **Start backend:**
 
    ```bash
-   cd backend
-   uv sync
+   cd backend && bun run dev
    ```
 
-4. **Run database migrations:**
+3. **Start frontend:**
 
    ```bash
-   uv run alembic upgrade head
+   cd frontend && bun dev
    ```
 
-5. **Start backend locally:**
+4. **Start docs (optional):**
 
    ```bash
-   uv run fastapi dev
+   cd docs && bun dev
    ```
 
-6. **Test the setup:**
-   - Backend: http://localhost:8000/docs
-   - PostgreSQL: Available on `localhost:5432`
+5. **Verify the setup:**
+   - Backend: http://localhost:3000
+   - Frontend: http://localhost:5173
+   - PostgreSQL: `localhost:5432`
+   - Redis: `localhost:6379`
 
-#### Mode 2: Full Docker (Backend + PostgreSQL)
+#### Mode 2: Full Docker (All Services)
 
 Run everything in Docker with a single command.
 
-1. **Configure backend environment:**
-   Create `backend/.env`:
-
-   ```bash
-   # Both backend and PostgreSQL in Docker
-   DATABASE_URL=postgresql+psycopg://postgres:postgres@postgres:5432/super_impress
-   ```
-
-2. **Start all services:**
-
-   ```bash
-   docker compose up backend -d
-   ```
-
-3. **Run database migrations:**
-   ```bash
-   docker compose exec backend uv run alembic upgrade head
-   ```
-
-**Key Difference:** The hostname in `DATABASE_URL`:
-
-- `localhost` - Backend runs on your machine (Mode 1)
-- `postgres` - Backend runs in Docker (Mode 2)
+```bash
+docker compose up -d
+```
 
 ### Database Migrations
 
-We use Alembic for database schema migrations.
-
-#### Creating a new migration
-
-After modifying models in `backend/app/*/models.py`:
+We use [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview) for database schema migrations.
 
 ```bash
-# Mode 1 (Local backend)
-cd backend
-uv run alembic revision --autogenerate -m "describe your changes"
+# Push schema changes to the database (from backend/)
+bun run drizzle-kit push
 
-# Mode 2 (Docker backend)
-docker compose exec backend uv run alembic revision --autogenerate -m "describe your changes"
+# Generate migration files (from backend/)
+bun run drizzle-kit generate
+
+# Docker mode
+docker compose exec backend bun run drizzle-kit push
+docker compose exec backend bun run drizzle-kit generate
 ```
 
-Review the generated migration file in `backend/alembic/versions/` before applying.
+### Quick Command Reference
 
-#### Applying migrations
+#### Frontend (run from `frontend/`)
 
-```bash
-# Mode 1 (Local backend)
-uv run alembic upgrade head
+| Command         | Description                              |
+| --------------- | ---------------------------------------- |
+| `bun dev`       | Start development server                 |
+| `bun run build` | TypeScript check + production build      |
+| `bun run check` | Check formatting and linting (ultracite) |
+| `bun run fix`   | Fix formatting and linting (ultracite)   |
+| `bun run orval` | Regenerate API client from OpenAPI spec  |
 
-# Mode 2 (Docker backend)
-docker compose exec backend uv run alembic upgrade head
-```
+#### Backend (run from `backend/`)
 
-#### Reverting migrations
+| Command                        | Description                              |
+| ------------------------------ | ---------------------------------------- |
+| `bun run dev`                  | Development server with watch            |
+| `bun run build`                | Production build (if configured)         |
+| `bun run check`                | Check formatting and linting (ultracite) |
+| `bun run fix`                  | Fix formatting and linting (ultracite)   |
+| `bun run typecheck`            | TypeScript type checking                 |
+| `bun run drizzle-kit push`     | Push database schema changes             |
+| `bun run drizzle-kit generate` | Generate migrations                      |
 
-```bash
-# Rollback one migration
-uv run alembic downgrade -1
+#### Documentation (run from `docs/`)
 
-# Rollback to specific revision
-uv run alembic downgrade <revision_id>
-
-# Rollback all migrations
-uv run alembic downgrade base
-```
-
-#### Viewing migration history
-
-```bash
-# Show current revision
-uv run alembic current
-
-# Show migration history
-uv run alembic history
-
-# Show pending migrations
-uv run alembic heads
-```
+| Command               | Description                              |
+| --------------------- | ---------------------------------------- |
+| `bun dev`             | Start development server                 |
+| `bun run build`       | Production build                         |
+| `bun run types:check` | TypeScript and MDX validation            |
+| `bun run check`       | Check formatting and linting (ultracite) |
+| `bun run fix`         | Fix formatting and linting (ultracite)   |

@@ -1,8 +1,5 @@
-import { useForm } from "@tanstack/react-form";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import * as z from "zod";
 import { usePostApiPostsByIdPublications } from "@/api/posts/posts";
+import { ManualPublicationRequestPlatform } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,16 +17,29 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { getErrorMessage } from "@/utils/get-error-message";
+import { useForm } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import * as z from "zod";
 
-const platforms = [
-  { value: "linkedin", label: "LinkedIn" },
-  { value: "twitter", label: "Twitter/X" },
-  { value: "instagram", label: "Instagram" },
-  { value: "facebook", label: "Facebook" },
-] as const;
+const platformValues = Object.values(
+  ManualPublicationRequestPlatform
+) as ManualPublicationRequestPlatform[];
+
+const getPlatformLabel = (platform: ManualPublicationRequestPlatform): string => {
+  const labels: Record<ManualPublicationRequestPlatform, string> = {
+    linkedin: "LinkedIn",
+    twitter: "Twitter/X",
+    threads: "Threads",
+    peerlist: "Peerlist",
+  };
+  return labels[platform] || platform;
+};
 
 const formSchema = z.object({
-  platform: z.enum(["linkedin", "twitter", "instagram", "facebook"]),
+  platform: z.enum(
+    platformValues as [ManualPublicationRequestPlatform, ...ManualPublicationRequestPlatform[]]
+  ),
   url: z.string().trim().url("Please enter a valid URL"),
 });
 
@@ -48,7 +58,7 @@ export function MarkAsPublishedDialog({
 
   const form = useForm({
     defaultValues: {
-      platform: "linkedin" as "linkedin" | "twitter" | "instagram" | "facebook",
+      platform: "linkedin" as ManualPublicationRequestPlatform,
       url: "",
     },
     validators: {
@@ -112,18 +122,14 @@ export function MarkAsPublishedDialog({
                         onBlur={field.handleBlur}
                         onChange={(e) =>
                           field.handleChange(
-                            e.target.value as
-                              | "linkedin"
-                              | "twitter"
-                              | "instagram"
-                              | "facebook"
+                            e.target.value as ManualPublicationRequestPlatform
                           )
                         }
                         value={field.state.value}
                       >
-                        {platforms.map((p) => (
-                          <option key={p.value} value={p.value}>
-                            {p.label}
+                        {platformValues.map((platform) => (
+                          <option key={platform} value={platform}>
+                            {getPlatformLabel(platform)}
                           </option>
                         ))}
                       </select>

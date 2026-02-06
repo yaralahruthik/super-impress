@@ -58,12 +58,7 @@ export const GetApiPostsResponse = zod.object({
         .array(
           zod.object({
             id: zod.uuid(),
-            platform: zod.enum([
-              "linkedin",
-              "twitter",
-              "facebook",
-              "instagram",
-            ]),
+            platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
             platformPostId: zod.string().nullish(),
             url: zod.string().nullish(),
             accountId: zod.string().nullish(),
@@ -97,7 +92,7 @@ export const GetApiPostsByIdResponse = zod.object({
     .array(
       zod.object({
         id: zod.uuid(),
-        platform: zod.enum(["linkedin", "twitter", "facebook", "instagram"]),
+        platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
         platformPostId: zod.string().nullish(),
         url: zod.string().nullish(),
         accountId: zod.string().nullish(),
@@ -135,7 +130,7 @@ export const PatchApiPostsByIdResponse = zod.object({
     .array(
       zod.object({
         id: zod.uuid(),
-        platform: zod.enum(["linkedin", "twitter", "facebook", "instagram"]),
+        platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
         platformPostId: zod.string().nullish(),
         url: zod.string().nullish(),
         accountId: zod.string().nullish(),
@@ -162,6 +157,6 @@ export const PostApiPostsByIdPublicationsParams = zod.object({
 });
 
 export const PostApiPostsByIdPublicationsBody = zod.object({
-  platform: zod.enum(["linkedin", "twitter", "facebook", "instagram"]),
+  platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
   url: zod.url(),
 });

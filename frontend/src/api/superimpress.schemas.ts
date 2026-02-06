@@ -56,8 +56,8 @@ export type PostResponsePublicationsItemPlatform =
 export const PostResponsePublicationsItemPlatform = {
   linkedin: "linkedin",
   twitter: "twitter",
-  facebook: "facebook",
-  instagram: "instagram",
+  threads: "threads",
+  peerlist: "peerlist",
 } as const;
 
 export type PostResponsePublicationsItem = {
@@ -121,8 +121,8 @@ export type PostListResponsePostsItemPublicationsItemPlatform =
 export const PostListResponsePostsItemPublicationsItemPlatform = {
   linkedin: "linkedin",
   twitter: "twitter",
-  facebook: "facebook",
-  instagram: "instagram",
+  threads: "threads",
+  peerlist: "peerlist",
 } as const;
 
 export type PostListResponsePostsItemPublicationsItem = {
@@ -161,8 +161,8 @@ export type ManualPublicationRequestPlatform =
 export const ManualPublicationRequestPlatform = {
   linkedin: "linkedin",
   twitter: "twitter",
-  facebook: "facebook",
-  instagram: "instagram",
+  threads: "threads",
+  peerlist: "peerlist",
 } as const;
 
 export interface ManualPublicationRequest {
@@ -176,8 +176,8 @@ export type ManualPublicationResponsePlatform =
 export const ManualPublicationResponsePlatform = {
   linkedin: "linkedin",
   twitter: "twitter",
-  facebook: "facebook",
-  instagram: "instagram",
+  threads: "threads",
+  peerlist: "peerlist",
 } as const;
 
 export interface ManualPublicationResponse {

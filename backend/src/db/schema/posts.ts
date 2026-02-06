@@ -19,8 +19,8 @@ export const postStatusEnum = pgEnum("post_status", [
 export const socialPlatformEnum = pgEnum("social_platform", [
   "linkedin",
   "twitter",
-  "facebook",
-  "instagram",
+  "threads",
+  "peerlist",
 ]);
 
 export const post = pgTable(

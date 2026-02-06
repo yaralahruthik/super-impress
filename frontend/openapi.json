@@ -132,8 +132,8 @@
                   "enum": [
                     "linkedin",
                     "twitter",
-                    "facebook",
-                    "instagram"
+                    "threads",
+                    "peerlist"
                   ]
                 },
                 "platformPostId": {
@@ -261,8 +261,8 @@
                         "enum": [
                           "linkedin",
                           "twitter",
-                          "facebook",
-                          "instagram"
+                          "threads",
+                          "peerlist"
                         ]
                       },
                       "platformPostId": {
@@ -304,8 +304,8 @@
             "enum": [
               "linkedin",
               "twitter",
-              "facebook",
-              "instagram"
+              "threads",
+              "peerlist"
             ]
           },
           "url": {
@@ -337,8 +337,8 @@
             "enum": [
               "linkedin",
               "twitter",
-              "facebook",
-              "instagram"
+              "threads",
+              "peerlist"
             ]
           },
           "url": {

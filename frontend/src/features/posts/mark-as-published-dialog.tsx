@@ -21,20 +21,11 @@ import { useForm } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import * as z from "zod";
+import { getPlatformLabel } from "./utils";
 
 const platformValues = Object.values(
   ManualPublicationRequestPlatform
 ) as ManualPublicationRequestPlatform[];
-
-const getPlatformLabel = (platform: ManualPublicationRequestPlatform): string => {
-  const labels: Record<ManualPublicationRequestPlatform, string> = {
-    linkedin: "LinkedIn",
-    twitter: "Twitter/X",
-    threads: "Threads",
-    peerlist: "Peerlist",
-  };
-  return labels[platform] || platform;
-};
 
 const formSchema = z.object({
   platform: z.enum(

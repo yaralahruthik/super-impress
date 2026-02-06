@@ -1,18 +1,8 @@
-import {
-  ExternalLink,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Twitter,
-} from "lucide-react";
-import type { PostListResponsePostsItemPublicationsItem } from "@/api/superimpress.schemas";
-
-const platformConfig = {
-  linkedin: { icon: Linkedin, label: "LinkedIn" },
-  twitter: { icon: Twitter, label: "Twitter/X" },
-  facebook: { icon: Facebook, label: "Facebook" },
-  instagram: { icon: Instagram, label: "Instagram" },
-} as const;
+import type {
+  PostListResponsePostsItemPublicationsItem,
+} from "@/api/superimpress.schemas";
+import { ExternalLink } from "lucide-react";
+import { getPlatformIcon, getPlatformLabel } from "./utils";
 
 export function PublicationHistory({
   publications,
@@ -28,14 +18,14 @@ export function PublicationHistory({
   return (
     <ul className="flex flex-col gap-2">
       {publications.map((pub) => {
-        const config = platformConfig[pub.platform];
-        const Icon = config.icon;
+        const Icon = getPlatformIcon(pub.platform);
+        const label = getPlatformLabel(pub.platform);
         const isManual = !pub.accountId;
 
         return (
           <li className="flex items-center gap-2 text-xs" key={pub.id}>
             <Icon className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-            <span className="font-medium">{config.label}</span>
+            <span className="font-medium">{label}</span>
             <span
               className={`rounded-full px-1.5 py-0.5 text-[10px] leading-none ${
                 isManual

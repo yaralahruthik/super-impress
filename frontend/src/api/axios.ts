@@ -1,19 +1,19 @@
-import type { AxiosError, AxiosRequestConfig } from 'axios';
-import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig } from "axios";
+import axios from "axios";
 
 export const axiosInstance = axios.create({
-	withCredentials: true
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.response.use(
-	(response) => response,
-	(error: AxiosError) => {
-		return Promise.reject(error);
-	}
+  (response) => response,
+  (error: AxiosError) => {
+    return Promise.reject(error);
+  }
 );
 
 export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
-	return axiosInstance(config).then(({ data }) => data);
+  return axiosInstance(config).then(({ data }) => data);
 };
 
 export type ErrorType<Error> = AxiosError<Error>;

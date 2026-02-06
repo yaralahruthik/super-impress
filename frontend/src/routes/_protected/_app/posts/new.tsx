@@ -1,6 +1,6 @@
-import CreatePostPage from '@/features/posts/create-post-page';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
+import CreatePostPage from "@/features/posts/create-post-page";
 
-export const Route = createFileRoute('/_protected/_app/posts/new')({
-	component: CreatePostPage
+export const Route = createFileRoute("/_protected/_app/posts/new")({
+  component: CreatePostPage,
 });

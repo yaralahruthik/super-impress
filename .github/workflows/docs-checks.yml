@@ -15,28 +15,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Set up Node
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: docs/package.json
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          package_json_file: docs/package.json
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
         working-directory: docs
 
-      - name: Check Formatting
-        run: pnpm biome format
-        working-directory: docs
-
-      - name: Check Linting
-        run: pnpm lint
+      - name: Check Formatting & Linting
+        run: bun run check
         working-directory: docs
 
       - name: Check Types
-        run: pnpm types:check
+        run: bun run types:check
         working-directory: docs

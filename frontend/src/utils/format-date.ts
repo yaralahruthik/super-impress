@@ -5,13 +5,13 @@
  * @returns Formatted date string
  */
 export function formatDate(
-	dateString: string,
-	options: Intl.DateTimeFormatOptions = {
-		year: 'numeric',
-		month: 'long',
-		day: 'numeric'
-	}
+  dateString: string,
+  options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }
 ): string {
-	const date = new Date(dateString);
-	return new Intl.DateTimeFormat('en-US', options).format(date);
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("en-US", options).format(date);
 }

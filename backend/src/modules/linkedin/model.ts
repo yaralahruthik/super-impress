@@ -1,10 +1,10 @@
-import { Type, type Static } from '@sinclair/typebox';
+import { type Static, Type } from "@sinclair/typebox";
 
 /**
  * Request to publish a post to LinkedIn
  */
 export const LinkedInPostRequest = Type.Object({
-	postId: Type.String({ format: 'uuid' }),
+  postId: Type.String({ format: "uuid" }),
 });
 export type LinkedInPostRequest = Static<typeof LinkedInPostRequest>;
 
@@ -12,9 +12,9 @@ export type LinkedInPostRequest = Static<typeof LinkedInPostRequest>;
  * Response after publishing to LinkedIn
  */
 export const LinkedInPostResponse = Type.Object({
-	success: Type.Boolean(),
-	linkedInPostId: Type.Optional(Type.String()),
-	message: Type.Optional(Type.String()),
+  success: Type.Boolean(),
+  linkedInPostId: Type.Optional(Type.String()),
+  message: Type.Optional(Type.String()),
 });
 export type LinkedInPostResponse = Static<typeof LinkedInPostResponse>;
 
@@ -22,9 +22,9 @@ export type LinkedInPostResponse = Static<typeof LinkedInPostResponse>;
  * LinkedIn connection status
  */
 export const LinkedInConnectionStatus = Type.Object({
-	connected: Type.Boolean(),
-	accountId: Type.Optional(Type.String()),
-	email: Type.Optional(Type.String()),
+  connected: Type.Boolean(),
+  accountId: Type.Optional(Type.String()),
+  email: Type.Optional(Type.String()),
 });
 export type LinkedInConnectionStatus = Static<typeof LinkedInConnectionStatus>;
 
@@ -32,6 +32,6 @@ export type LinkedInConnectionStatus = Static<typeof LinkedInConnectionStatus>;
  * Error response
  */
 export const LinkedInError = Type.Object({
-	error: Type.String(),
+  error: Type.String(),
 });
 export type LinkedInError = Static<typeof LinkedInError>;

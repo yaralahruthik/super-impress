@@ -1,0 +1,54 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": [
+    "ultracite/biome/core",
+    "ultracite/biome/react",
+    "ultracite/biome/remix"
+  ],
+  "linter": {
+    "rules": {
+      "performance": {
+        "noNamespaceImport": "off"
+      },
+      "correctness": {
+        "noChildrenProp": "off"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["src/api/**/*"],
+      "linter": {
+        "rules": {
+          "performance": "off",
+          "style": "off",
+          "suspicious": "off"
+        }
+      }
+    },
+    {
+      "includes": ["src/components/ui/**/*"],
+      "linter": {
+        "rules": {
+          "performance": "off",
+          "a11y": "off",
+          "style": "off",
+          "suspicious": "off",
+          "correctness": "off"
+        }
+      }
+    },
+    {
+      "includes": ["scripts/**/*"],
+      "linter": {
+        "rules": {
+          "performance": "off",
+          "a11y": "off",
+          "style": "off",
+          "suspicious": "off",
+          "complexity": "off"
+        }
+      }
+    }
+  ]
+}

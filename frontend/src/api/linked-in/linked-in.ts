@@ -5,146 +5,180 @@
  * LinkedIn post management tool API
  * OpenAPI spec version: 1.0.0
  */
-import { useMutation, useQuery } from '@tanstack/react-query';
-import type {
-	DataTag,
-	DefinedInitialDataOptions,
-	DefinedUseQueryResult,
-	MutationFunction,
-	QueryClient,
-	QueryFunction,
-	QueryKey,
-	UndefinedInitialDataOptions,
-	UseMutationOptions,
-	UseMutationResult,
-	UseQueryOptions,
-	UseQueryResult
-} from '@tanstack/react-query';
 
 import type {
-	GetApiLinkedinStatusResponse200,
-	PostApiLinkedinPostBodyThree,
-	PostApiLinkedinPostBodyTwo,
-	PostApiLinkedinPostRequest,
-	PostApiLinkedinPostResponse200,
-	PostApiLinkedinPostResponse400
-} from '../superimpress.schemas';
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult,
+} from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import type { ErrorType } from ".././axios";
 
-import { customInstance } from '.././axios';
-import type { ErrorType } from '.././axios';
+import { customInstance } from ".././axios";
+import type {
+  GetApiLinkedinStatusResponse200,
+  PostApiLinkedinPostBodyThree,
+  PostApiLinkedinPostBodyTwo,
+  PostApiLinkedinPostRequest,
+  PostApiLinkedinPostResponse200,
+  PostApiLinkedinPostResponse400,
+} from "../superimpress.schemas";
 
 /**
  * Check if the authenticated user has a LinkedIn account connected
  * @summary Check LinkedIn connection status
  */
 export const getApiLinkedinStatus = (signal?: AbortSignal) => {
-	return customInstance<GetApiLinkedinStatusResponse200>({
-		url: `/api/linkedin/status`,
-		method: 'GET',
-		signal
-	});
+  return customInstance<GetApiLinkedinStatusResponse200>({
+    url: "/api/linkedin/status",
+    method: "GET",
+    signal,
+  });
 };
 
 export const getGetApiLinkedinStatusQueryKey = () => {
-	return [`/api/linkedin/status`] as const;
+  return ["/api/linkedin/status"] as const;
 };
 
 export const getGetApiLinkedinStatusQueryOptions = <
-	TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
-	TError = ErrorType<unknown>
+  TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+  TError = ErrorType<unknown>,
 >(options?: {
-	query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getApiLinkedinStatus>>, TError, TData>>;
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+      TError,
+      TData
+    >
+  >;
 }) => {
-	const { query: queryOptions } = options ?? {};
+  const { query: queryOptions } = options ?? {};
 
-	const queryKey = queryOptions?.queryKey ?? getGetApiLinkedinStatusQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetApiLinkedinStatusQueryKey();
 
-	const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiLinkedinStatus>>> = ({ signal }) =>
-		getApiLinkedinStatus(signal);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getApiLinkedinStatus>>
+  > = ({ signal }) => getApiLinkedinStatus(signal);
 
-	return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-		Awaited<ReturnType<typeof getApiLinkedinStatus>>,
-		TError,
-		TData
-	> & { queryKey: DataTag<QueryKey, TData, TError> };
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
 export type GetApiLinkedinStatusQueryResult = NonNullable<
-	Awaited<ReturnType<typeof getApiLinkedinStatus>>
+  Awaited<ReturnType<typeof getApiLinkedinStatus>>
 >;
 export type GetApiLinkedinStatusQueryError = ErrorType<unknown>;
 
 export function useGetApiLinkedinStatus<
-	TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
-	TError = ErrorType<unknown>
+  TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+  TError = ErrorType<unknown>,
 >(
-	options: {
-		query: Partial<
-			UseQueryOptions<Awaited<ReturnType<typeof getApiLinkedinStatus>>, TError, TData>
-		> &
-			Pick<
-				DefinedInitialDataOptions<
-					Awaited<ReturnType<typeof getApiLinkedinStatus>>,
-					TError,
-					Awaited<ReturnType<typeof getApiLinkedinStatus>>
-				>,
-				'initialData'
-			>;
-	},
-	queryClient?: QueryClient
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getApiLinkedinStatus>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetApiLinkedinStatus<
-	TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
-	TError = ErrorType<unknown>
+  TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+  TError = ErrorType<unknown>,
 >(
-	options?: {
-		query?: Partial<
-			UseQueryOptions<Awaited<ReturnType<typeof getApiLinkedinStatus>>, TError, TData>
-		> &
-			Pick<
-				UndefinedInitialDataOptions<
-					Awaited<ReturnType<typeof getApiLinkedinStatus>>,
-					TError,
-					Awaited<ReturnType<typeof getApiLinkedinStatus>>
-				>,
-				'initialData'
-			>;
-	},
-	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+          TError,
+          Awaited<ReturnType<typeof getApiLinkedinStatus>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 export function useGetApiLinkedinStatus<
-	TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
-	TError = ErrorType<unknown>
+  TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+  TError = ErrorType<unknown>,
 >(
-	options?: {
-		query?: Partial<
-			UseQueryOptions<Awaited<ReturnType<typeof getApiLinkedinStatus>>, TError, TData>
-		>;
-	},
-	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
 /**
  * @summary Check LinkedIn connection status
  */
 
 export function useGetApiLinkedinStatus<
-	TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
-	TError = ErrorType<unknown>
+  TData = Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+  TError = ErrorType<unknown>,
 >(
-	options?: {
-		query?: Partial<
-			UseQueryOptions<Awaited<ReturnType<typeof getApiLinkedinStatus>>, TError, TData>
-		>;
-	},
-	queryClient?: QueryClient
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-	const queryOptions = getGetApiLinkedinStatusQueryOptions(options);
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApiLinkedinStatus>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetApiLinkedinStatusQueryOptions(options);
 
-	const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-		queryKey: DataTag<QueryKey, TData, TError>;
-	};
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & {
+    queryKey: DataTag<QueryKey, TData, TError>;
+  };
 
-	return { ...query, queryKey: queryOptions.queryKey };
+  return { ...query, queryKey: queryOptions.queryKey };
 }
 
 /**
@@ -152,92 +186,116 @@ export function useGetApiLinkedinStatus<
  * @summary Publish post to LinkedIn
  */
 export const postApiLinkedinPost = (
-	postApiLinkedinPostBody:
-		| PostApiLinkedinPostRequest
-		| PostApiLinkedinPostBodyTwo
-		| PostApiLinkedinPostBodyThree,
-	signal?: AbortSignal
+  postApiLinkedinPostBody:
+    | PostApiLinkedinPostRequest
+    | PostApiLinkedinPostBodyTwo
+    | PostApiLinkedinPostBodyThree,
+  signal?: AbortSignal
 ) => {
-	return customInstance<PostApiLinkedinPostResponse200>({
-		url: `/api/linkedin/post`,
-		method: 'POST',
-		data: postApiLinkedinPostBody,
-		signal
-	});
+  return customInstance<PostApiLinkedinPostResponse200>({
+    url: "/api/linkedin/post",
+    method: "POST",
+    data: postApiLinkedinPostBody,
+    signal,
+  });
 };
 
 export const getPostApiLinkedinPostMutationOptions = <
-	TError = ErrorType<PostApiLinkedinPostResponse400>,
-	TContext = unknown
+  TError = ErrorType<PostApiLinkedinPostResponse400>,
+  TContext = unknown,
 >(options?: {
-	mutation?: UseMutationOptions<
-		Awaited<ReturnType<typeof postApiLinkedinPost>>,
-		TError,
-		{
-			data: PostApiLinkedinPostRequest | PostApiLinkedinPostBodyTwo | PostApiLinkedinPostBodyThree;
-		},
-		TContext
-	>;
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof postApiLinkedinPost>>,
+    TError,
+    {
+      data:
+        | PostApiLinkedinPostRequest
+        | PostApiLinkedinPostBodyTwo
+        | PostApiLinkedinPostBodyThree;
+    },
+    TContext
+  >;
 }): UseMutationOptions<
-	Awaited<ReturnType<typeof postApiLinkedinPost>>,
-	TError,
-	{ data: PostApiLinkedinPostRequest | PostApiLinkedinPostBodyTwo | PostApiLinkedinPostBodyThree },
-	TContext
+  Awaited<ReturnType<typeof postApiLinkedinPost>>,
+  TError,
+  {
+    data:
+      | PostApiLinkedinPostRequest
+      | PostApiLinkedinPostBodyTwo
+      | PostApiLinkedinPostBodyThree;
+  },
+  TContext
 > => {
-	const mutationKey = ['postApiLinkedinPost'];
-	const { mutation: mutationOptions } = options
-		? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-			? options
-			: { ...options, mutation: { ...options.mutation, mutationKey } }
-		: { mutation: { mutationKey } };
+  const mutationKey = ["postApiLinkedinPost"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
 
-	const mutationFn: MutationFunction<
-		Awaited<ReturnType<typeof postApiLinkedinPost>>,
-		{ data: PostApiLinkedinPostRequest | PostApiLinkedinPostBodyTwo | PostApiLinkedinPostBodyThree }
-	> = (props) => {
-		const { data } = props ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof postApiLinkedinPost>>,
+    {
+      data:
+        | PostApiLinkedinPostRequest
+        | PostApiLinkedinPostBodyTwo
+        | PostApiLinkedinPostBodyThree;
+    }
+  > = (props) => {
+    const { data } = props ?? {};
 
-		return postApiLinkedinPost(data);
-	};
+    return postApiLinkedinPost(data);
+  };
 
-	return { mutationFn, ...mutationOptions };
+  return { mutationFn, ...mutationOptions };
 };
 
 export type PostApiLinkedinPostMutationResult = NonNullable<
-	Awaited<ReturnType<typeof postApiLinkedinPost>>
+  Awaited<ReturnType<typeof postApiLinkedinPost>>
 >;
 export type PostApiLinkedinPostMutationBody =
-	| PostApiLinkedinPostRequest
-	| PostApiLinkedinPostBodyTwo
-	| PostApiLinkedinPostBodyThree;
-export type PostApiLinkedinPostMutationError = ErrorType<PostApiLinkedinPostResponse400>;
+  | PostApiLinkedinPostRequest
+  | PostApiLinkedinPostBodyTwo
+  | PostApiLinkedinPostBodyThree;
+export type PostApiLinkedinPostMutationError =
+  ErrorType<PostApiLinkedinPostResponse400>;
 
 /**
  * @summary Publish post to LinkedIn
  */
 export const usePostApiLinkedinPost = <
-	TError = ErrorType<PostApiLinkedinPostResponse400>,
-	TContext = unknown
+  TError = ErrorType<PostApiLinkedinPostResponse400>,
+  TContext = unknown,
 >(
-	options?: {
-		mutation?: UseMutationOptions<
-			Awaited<ReturnType<typeof postApiLinkedinPost>>,
-			TError,
-			{
-				data:
-					| PostApiLinkedinPostRequest
-					| PostApiLinkedinPostBodyTwo
-					| PostApiLinkedinPostBodyThree;
-			},
-			TContext
-		>;
-	},
-	queryClient?: QueryClient
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof postApiLinkedinPost>>,
+      TError,
+      {
+        data:
+          | PostApiLinkedinPostRequest
+          | PostApiLinkedinPostBodyTwo
+          | PostApiLinkedinPostBodyThree;
+      },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
 ): UseMutationResult<
-	Awaited<ReturnType<typeof postApiLinkedinPost>>,
-	TError,
-	{ data: PostApiLinkedinPostRequest | PostApiLinkedinPostBodyTwo | PostApiLinkedinPostBodyThree },
-	TContext
+  Awaited<ReturnType<typeof postApiLinkedinPost>>,
+  TError,
+  {
+    data:
+      | PostApiLinkedinPostRequest
+      | PostApiLinkedinPostBodyTwo
+      | PostApiLinkedinPostBodyThree;
+  },
+  TContext
 > => {
-	return useMutation(getPostApiLinkedinPostMutationOptions(options), queryClient);
+  return useMutation(
+    getPostApiLinkedinPostMutationOptions(options),
+    queryClient
+  );
 };

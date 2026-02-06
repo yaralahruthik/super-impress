@@ -16,7 +16,7 @@ Always check the detailed AGENTS.md in the relevant subdirectory for comprehensi
 
 ```
 super-impress/
-├── frontend/             # React/TypeScript SPA (pnpm)
+├── frontend/             # React/TypeScript SPA (bun)
 │   ├── src/
 │   │   ├── api/          # Auto-generated - DO NOT EDIT
 │   │   ├── components/   # UI components (shadcn/ui)
@@ -71,48 +71,46 @@ docker compose exec redis redis-cli MONITOR
 
 ### Frontend (run from `frontend/`)
 
-| Command             | Description                             |
-| ------------------- | --------------------------------------- |
-| `pnpm dev`          | Start development server                |
-| `pnpm build`        | TypeScript check + production build     |
-| `pnpm lint:check`   | Check for ESLint issues                 |
-| `pnpm lint`         | Fix ESLint issues                       |
-| `pnpm format:check` | Check Prettier formatting                |
-| `pnpm format`       | Format with Prettier                    |
-| `pnpm orval`        | Regenerate API client from OpenAPI spec |
+| Command         | Description                              |
+| --------------- | ---------------------------------------- |
+| `bun dev`       | Start development server                 |
+| `bun run build` | TypeScript check + production build      |
+| `bun run check` | Check formatting and linting (ultracite) |
+| `bun run fix`   | Fix formatting and linting (ultracite)   |
+| `bun run orval` | Regenerate API client from OpenAPI spec  |
 
 Note: No test framework configured for frontend.
 
 ### Documentation (run from `docs/`)
 
-| Command             | Description                             |
-| ------------------- | --------------------------------------- |
-| `pnpm dev`          | Start development server                |
-| `pnpm build`        | Production build                        |
-| `pnpm types:check`  | TypeScript and MDX validation           |
-| `pnpm lint`         | Run Biome linter (check only)           |
-| `pnpm format`       | Format code with Biome                  |
+| Command               | Description                              |
+| --------------------- | ---------------------------------------- |
+| `bun dev`             | Start development server                 |
+| `bun run build`       | Production build                         |
+| `bun run types:check` | TypeScript and MDX validation            |
+| `bun run check`       | Check formatting and linting (ultracite) |
+| `bun run fix`         | Fix formatting and linting (ultracite)   |
 
 Note: Uses Biome for linting and formatting, not ESLint/Prettier.
 
 ### Backend (run from `backend/`)
 
-| Command                          | Description                   |
-| -------------------------------- | ----------------------------- |
-| `bun run dev`                    | Development server with watch  |
-| `bun run build`                  | Production build (if configured) |
-| `bun run lint`                   | Run Biome linter (auto-fix)   |
-| `bun run format`                 | Format code with Biome        |
-| `bun run typecheck`              | TypeScript type checking      |
-| `bun run drizzle-kit push`       | Push database schema changes   |
-| `bun run drizzle-kit generate`   | Generate migrations           |
-| `bun run test`                   | Run tests (not implemented)   |
+| Command                        | Description                      |
+| ------------------------------ | -------------------------------- |
+| `bun run dev`                  | Development server with watch    |
+| `bun run build`                | Production build (if configured) |
+| `bun run check`                | Check formatting and linting (ultracite) |
+| `bun run fix`                  | Fix formatting and linting (ultracite)   |
+| `bun run typecheck`            | TypeScript type checking         |
+| `bun run drizzle-kit push`     | Push database schema changes     |
+| `bun run drizzle-kit generate` | Generate migrations              |
+| `bun run test`                 | Run tests (not implemented)      |
 
 ## Code Style Summary
 
 ### Frontend
 
-- **Formatting**: Tabs, single quotes, no trailing commas, 100 char width
+- **Formatting/Linting**: ultracite (Biome-based) — tabs, single quotes, no trailing commas, 100 char width
 - **TypeScript**: Strict mode, no `any`, use `import type` for type-only imports
 - **Imports**: Use `@/` path alias for internal imports
 - **Components**: Function components only, CVA for variants, `cn()` for class merging
@@ -129,12 +127,12 @@ Note: Uses Biome for linting and formatting, not ESLint/Prettier.
 ### Backend
 
 - **Runtime**: Bun with TypeScript
-- **Formatting**: Biome (tabs, single quotes)
-- **Linting**: Biome with auto-import organization
+- **Formatting**: ultracite (Biome-based) — tabs, single quotes
+- **Linting**: ultracite with auto-import organization
 - **Type hints**: Required for all function parameters and return types
 - **Framework**: Elysia with TypeBox validation schemas
 - **Database**: Drizzle ORM with PostgreSQL
-- **Imports**: Organized automatically by Biome
+- **Imports**: Organized automatically by ultracite
 
 ## Database Management
 
@@ -162,8 +160,7 @@ modules/[feature]/
 
 Hooks run automatically on commit:
 
-- **Biome** (backend + docs): Linting and formatting
-- **Prettier/ESLint** (frontend only): Code formatting and linting
+- **ultracite** (backend, frontend, docs): Linting and formatting
 - **General**: Trailing whitespace, end-of-file fixer, YAML validation, large file check (1MB max)
 
 Manual execution:
@@ -175,13 +172,13 @@ prek run --all-files  # All files
 
 ## Critical Notes
 
-1. **Auto-generated code**: `frontend/src/api/` is generated by Orval. Never edit manually. Regenerate with `pnpm orval` after backend API changes.
+1. **Auto-generated code**: `frontend/src/api/` is generated by Orval. Never edit manually. Regenerate with `bun run orval` after backend API changes.
 
 2. **Environment files**: `frontend/.env` and `backend/.env` are not committed. See README.md for required variables.
 
 3. **Database**: PostgreSQL via Docker. Always use Drizzle migrations, never modify the database directly.
 
-4. **Package managers**: Use `pnpm` for frontend, `bun` for backend. Do not mix.
+4. **Package managers**: Use `bun` for all packages.
 
 5. **Testing**: No test frameworks are currently configured. Tests need to be set up from scratch.
 
@@ -193,19 +190,19 @@ prek run --all-files  # All files
 
 1. Start infrastructure: `docker compose up postgres redis -d`
 2. Start backend: `cd backend && bun run dev`
-3. Start frontend: `cd frontend && pnpm dev`
-4. Start docs: `cd docs && pnpm dev`
+3. Start frontend: `cd frontend && bun dev`
+4. Start docs: `cd docs && bun dev`
 
 ### Making Changes
 
 1. Backend changes automatically restart with `bun --watch`
 2. Frontend hot reloads with Vite HMR
 3. Database schema changes require Drizzle migrations
-4. API changes require regenerating frontend client: `pnpm orval`
+4. API changes require regenerating frontend client: `bun run orval`
 
 ### Code Quality
 
-- Backend: `bun run lint` and `bun run format` (Biome)
-- Frontend: `pnpm lint` and `pnpm format` (ESLint + Prettier)
-- Docs: `pnpm lint` and `pnpm format` (Biome)
-- Type checking: `bun run typecheck` (backend), `pnpm build` (frontend includes type check), `pnpm types:check` (docs)
+- Backend: `bun run check` and `bun run fix` (ultracite)
+- Frontend: `bun run check` and `bun run fix` (ultracite)
+- Docs: `bun run check` and `bun run fix` (ultracite)
+- Type checking: `bun run typecheck` (backend), `bun run build` (frontend includes type check), `bun run types:check` (docs)

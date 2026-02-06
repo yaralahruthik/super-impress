@@ -1,49 +1,34 @@
 repos:
-  # Backend hooks (Biome)
+  # Backend hooks (ultracite)
   - repo: local
     hooks:
-      - id: biome-check
-        name: biome check
-        entry: bunx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off
+      - id: ultracite-backend
+        name: ultracite check (backend)
+        entry: bun --cwd backend run check
         language: system
-        types: [text]
+        pass_filenames: false
         files: ^backend/
+        types: [file]
+        types_or: [javascript, jsx, ts, tsx, json, css]
 
-  # Frontend hooks (Prettier & ESLint)
+  # Frontend hooks (ultracite)
   - repo: local
     hooks:
-      - id: prettier
-        name: prettier
-        entry: pnpm -C frontend format
-        language: system
-        pass_filenames: false
-        types_or: [css, javascript, jsx, ts, tsx, json, html, yaml, markdown]
-        files: ^frontend/
-
-      - id: eslint-frontend
-        name: eslint (frontend)
-        entry: pnpm -C frontend lint
+      - id: ultracite-frontend
+        name: ultracite check (frontend)
+        entry: bun --cwd frontend run check
         language: system
         pass_filenames: false
         files: ^frontend/
         types: [file]
-        types_or: [javascript, jsx, ts, tsx]
+        types_or: [javascript, jsx, ts, tsx, json, css]
 
-  # Docs hooks (Biome)
+  # Docs hooks (ultracite)
   - repo: local
     hooks:
-      - id: biome-check-docs
-        name: biome check (docs)
-        entry: pnpm -C docs lint
-        language: system
-        pass_filenames: false
-        files: ^docs/
-        types: [file]
-        types_or: [javascript, jsx, ts, tsx, json]
-
-      - id: biome-format-docs
-        name: biome format (docs)
-        entry: pnpm -C docs format
+      - id: ultracite-docs
+        name: ultracite check (docs)
+        entry: bun --cwd docs run check
         language: system
         pass_filenames: false
         files: ^docs/

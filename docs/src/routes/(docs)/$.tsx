@@ -32,7 +32,9 @@ const loader = createServerFn({
   .middleware([staticFunctionMiddleware])
   .handler(async ({ data: slugs }) => {
     const page = source.getPage(slugs);
-    if (!page) throw notFound();
+    if (!page) {
+      throw notFound();
+    }
 
     return {
       path: page.path,
@@ -46,7 +48,7 @@ const clientLoader = browserCollections.docs.createClientLoader({
     // you can define props for the component
     props: {
       className?: string;
-    },
+    }
   ) {
     return (
       <DocsPage toc={toc} {...props}>

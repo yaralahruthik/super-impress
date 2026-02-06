@@ -1,4 +1,4 @@
-import { AlertCircle } from "lucide-react";
+import { IconAlertCircle } from "@tabler/icons-react";
 import type { User } from "@/api/superimpress.schemas";
 import {
   Card,
@@ -69,7 +69,7 @@ export function UserInfoCardError() {
         <CardDescription>Error loading details</CardDescription>
       </CardHeader>
       <CardContent className="justify-centertext-center flex flex-col items-center">
-        <AlertCircle className="mb-2 size-8 text-destructive" />
+        <IconAlertCircle className="mb-2 size-8 text-destructive" />
         <p className="font-medium text-muted-foreground text-sm">
           Failed to load user information
         </p>

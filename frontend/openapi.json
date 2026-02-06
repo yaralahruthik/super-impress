@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Super Impress API",
+    "title": "SuperImpress API",
     "description": "LinkedIn post management tool API",
     "version": "1.0.0"
   },
@@ -103,14 +103,27 @@
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["platform", "platformPostId", "publishedAt"],
+              "required": ["id", "platform", "publishedAt"],
               "properties": {
+                "id": {
+                  "format": "uuid",
+                  "type": "string"
+                },
                 "platform": {
                   "type": "string",
-                  "enum": ["linkedin", "twitter", "facebook"]
+                  "enum": ["linkedin", "twitter", "threads", "peerlist"]
                 },
                 "platformPostId": {
-                  "type": "string"
+                  "type": "string",
+                  "nullable": true
+                },
+                "url": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "accountId": {
+                  "type": "string",
+                  "nullable": true
                 },
                 "publishedAt": {
                   "format": "date-time",
@@ -199,14 +212,27 @@
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": ["platform", "platformPostId", "publishedAt"],
+                    "required": ["id", "platform", "publishedAt"],
                     "properties": {
+                      "id": {
+                        "format": "uuid",
+                        "type": "string"
+                      },
                       "platform": {
                         "type": "string",
-                        "enum": ["linkedin", "twitter", "facebook"]
+                        "enum": ["linkedin", "twitter", "threads", "peerlist"]
                       },
                       "platformPostId": {
-                        "type": "string"
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "url": {
+                        "type": "string",
+                        "nullable": true
+                      },
+                      "accountId": {
+                        "type": "string",
+                        "nullable": true
                       },
                       "publishedAt": {
                         "format": "date-time",
@@ -220,6 +246,46 @@
           },
           "total": {
             "type": "number"
+          }
+        }
+      },
+      "ManualPublicationRequest": {
+        "type": "object",
+        "required": ["platform", "url"],
+        "properties": {
+          "platform": {
+            "type": "string",
+            "enum": ["linkedin", "twitter", "threads", "peerlist"]
+          },
+          "url": {
+            "format": "uri",
+            "type": "string"
+          }
+        }
+      },
+      "ManualPublicationResponse": {
+        "type": "object",
+        "required": ["id", "postId", "platform", "url", "publishedAt"],
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "postId": {
+            "format": "uuid",
+            "type": "string"
+          },
+          "platform": {
+            "type": "string",
+            "enum": ["linkedin", "twitter", "threads", "peerlist"]
+          },
+          "url": {
+            "type": "string",
+            "nullable": true
+          },
+          "publishedAt": {
+            "format": "date-time",
+            "type": "string"
           }
         }
       },
@@ -3014,6 +3080,67 @@
           }
         },
         "operationId": "deleteApiPostsById"
+      }
+    },
+    "/api/posts/{id}/publications": {
+      "post": {
+        "tags": ["Posts"],
+        "summary": "Mark post as published",
+        "description": "Manually record that a post was published on a platform",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ManualPublicationRequest"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ManualPublicationRequest"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ManualPublicationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Response for status 201",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManualPublicationResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Response for status 404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostError"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "postApiPostsByIdPublications"
       }
     },
     "/api/linkedin/status": {

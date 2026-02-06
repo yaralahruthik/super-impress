@@ -6,7 +6,6 @@ import {
   pgTable,
   text,
   timestamp,
-  uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
 import { account, user } from "./auth";
@@ -20,7 +19,8 @@ export const postStatusEnum = pgEnum("post_status", [
 export const socialPlatformEnum = pgEnum("social_platform", [
   "linkedin",
   "twitter",
-  "facebook",
+  "threads",
+  "peerlist",
 ]);
 
 export const post = pgTable(
@@ -57,7 +57,8 @@ export const postPublication = pgTable(
       .notNull()
       .references(() => post.id, { onDelete: "cascade" }),
     platform: socialPlatformEnum("platform").notNull(),
-    platformPostId: text("platform_post_id").notNull(),
+    platformPostId: text("platform_post_id"),
+    url: text("url"),
     publishedAt: timestamp("published_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
@@ -67,11 +68,6 @@ export const postPublication = pgTable(
     metadata: jsonb("metadata"),
   },
   (table) => [
-    uniqueIndex("post_publication_unique_idx").on(
-      table.postId,
-      table.platform,
-      table.accountId
-    ),
     index("post_publication_post_id_idx").on(table.postId),
     index("post_publication_platform_idx").on(table.platform),
     index("post_publication_account_id_idx").on(table.accountId),

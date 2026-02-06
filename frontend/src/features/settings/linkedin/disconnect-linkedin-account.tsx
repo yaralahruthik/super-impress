@@ -1,5 +1,5 @@
+import { IconLoader2, IconUnlink } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader2, Unlink } from "lucide-react";
 import { usePostApiAuthUnlinkAccount } from "@/api/better-auth/better-auth";
 import { getGetApiLinkedinStatusQueryKey } from "@/api/linked-in/linked-in";
 import {
@@ -65,12 +65,12 @@ export default function DisconnectLinkedinAccount({
           <Button disabled={unlinkPending} variant="outline">
             {unlinkPending ? (
               <>
-                <Loader2 className="size-4 animate-spin" />
+                <IconLoader2 className="size-4 animate-spin" />
                 Disconnecting...
               </>
             ) : (
               <>
-                <Unlink className="size-4" />
+                <IconUnlink className="size-4" />
                 Disconnect
               </>
             )}

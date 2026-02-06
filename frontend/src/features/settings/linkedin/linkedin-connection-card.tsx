@@ -1,4 +1,9 @@
-import { AlertCircle, Linkedin, Loader2, MessageCircle } from "lucide-react";
+import {
+  IconAlertCircle,
+  IconBrandLinkedin,
+  IconLoader2,
+  IconMessageCircle,
+} from "@tabler/icons-react";
 import { useState } from "react";
 import { useLinkSocialAccount } from "@/api/better-auth/better-auth";
 import { useGetApiLinkedinStatus } from "@/api/linked-in/linked-in";
@@ -68,7 +73,7 @@ function LinkedinNotConnected() {
     <Card>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Linkedin className="size-5 text-[#0A66C2]" />
+          <IconBrandLinkedin className="size-5 text-[#0A66C2]" />
           <CardTitle className="text-lg">LinkedIn</CardTitle>
         </div>
         <CardDescription>
@@ -77,7 +82,7 @@ function LinkedinNotConnected() {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center gap-2 text-muted-foreground text-sm">
-          <AlertCircle className="size-4" />
+          <IconAlertCircle className="size-4" />
           <span>Not connected</span>
         </div>
 
@@ -93,12 +98,12 @@ function LinkedinNotConnected() {
         <Button disabled={isPending} onClick={handleConnect}>
           {isPending ? (
             <>
-              <Loader2 className="size-4 animate-spin" />
+              <IconLoader2 className="size-4 animate-spin" />
               Connecting...
             </>
           ) : (
             <>
-              <Linkedin className="size-4" />
+              <IconBrandLinkedin className="size-4" />
               Connect LinkedIn
             </>
           )}
@@ -121,7 +126,7 @@ function LinkedinConnected({ accountId }: { accountId: string }) {
     <Card>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Linkedin className="size-5 text-[#0A66C2]" />
+          <IconBrandLinkedin className="size-5 text-[#0A66C2]" />
           <CardTitle className="text-lg">LinkedIn</CardTitle>
         </div>
         <CardDescription>Your LinkedIn account is connected</CardDescription>
@@ -130,13 +135,13 @@ function LinkedinConnected({ accountId }: { accountId: string }) {
         <div className="space-y-2 text-muted-foreground text-sm">
           {!accountId && (
             <div className="flex items-center gap-2">
-              <MessageCircle className="size-4" />
+              <IconMessageCircle className="size-4" />
               <span>Linked account ID unavailable</span>
             </div>
           )}
           {isPending && (
             <div className="flex items-center gap-2">
-              <MessageCircle className="size-4" />
+              <IconMessageCircle className="size-4" />
               <Skeleton className="h-4 w-40" />
             </div>
           )}
@@ -145,7 +150,7 @@ function LinkedinConnected({ accountId }: { accountId: string }) {
               className="flex items-center gap-2 text-destructive"
               role="alert"
             >
-              <AlertCircle className="size-4" />
+              <IconAlertCircle className="size-4" />
               <span>
                 {accountInfoError instanceof Error
                   ? accountInfoError.message
@@ -171,7 +176,7 @@ function LinkedinConnected({ accountId }: { accountId: string }) {
           )}
           {!(isPending || isError || email) && accountId && (
             <div className="flex items-center gap-2">
-              <MessageCircle className="size-4" />
+              <IconMessageCircle className="size-4" />
               <span>Linked account ID: {accountId}</span>
             </div>
           )}
@@ -206,13 +211,13 @@ function LinkedinConnectionCardError() {
     <Card className="border-destructive/50">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <Linkedin className="size-5 text-[#0A66C2]" />
+          <IconBrandLinkedin className="size-5 text-[#0A66C2]" />
           <CardTitle className="text-lg">LinkedIn</CardTitle>
         </div>
         <CardDescription>Failed to load connection status</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center justify-center text-center">
-        <AlertCircle className="mb-2 size-8 text-destructive" />
+        <IconAlertCircle className="mb-2 size-8 text-destructive" />
         <p className="font-medium text-muted-foreground text-sm">
           Unable to check LinkedIn connection status
         </p>

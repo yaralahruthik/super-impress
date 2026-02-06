@@ -1,5 +1,5 @@
+import { IconPlus } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
-import { Plus } from "lucide-react";
 import { useGetApiPosts } from "@/api/posts/posts";
 import { Button } from "@/components/ui/button";
 import PostList, {
@@ -38,7 +38,7 @@ export default function PostsPage() {
         </div>
         <Button asChild>
           <Link to="/posts/new">
-            <Plus className="mr-2 h-4 w-4" />
+            <IconPlus className="mr-2 size-4" />
             Create Post
           </Link>
         </Button>

@@ -1,4 +1,4 @@
-# AGENTS.md - Super Impress Frontend
+# AGENTS.md - SuperImpress Frontend
 
 This document provides guidelines for AI coding agents working in this repository.
 
@@ -233,4 +233,4 @@ npx shadcn@latest add <component-name>
 ```
 
 Use compound component patterns (Card, CardHeader, CardTitle, CardContent, etc.).
-Icons from `lucide-react`.
+Icons from `@tabler/icons-react`.

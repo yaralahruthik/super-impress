@@ -1,10 +1,10 @@
-# AGENTS.md - Super Impress Backend
+# AGENTS.md - SuperImpress Backend
 
 This document provides guidelines for AI coding agents working in this repository.
 
 ## Overview
 
-Bun + Elysia + TypeScript backend API for Super Impress, a LinkedIn post management tool with authentication, post creation, and LinkedIn integration features.
+Bun + Elysia + TypeScript backend API for SuperImpress, a LinkedIn post management tool with authentication, post creation, and LinkedIn integration features.
 
 ## Tech Stack
 

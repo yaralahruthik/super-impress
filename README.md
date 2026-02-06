@@ -1,6 +1,6 @@
-# Super Impress
+# SuperImpress
 
-Super Impress is a [Frontend Hire](https://www.frontendhire.com/) initiative where we build a serious product in public as a community.
+SuperImpress is a [Frontend Hire](https://www.frontendhire.com/) initiative where we build a serious product in public as a community.
 
 ## Quick Intro
 
@@ -67,7 +67,7 @@ prek run --all-files
 
 ### Database & Infrastructure Setup
 
-Super Impress uses PostgreSQL as its database and Redis for caching/state. Both run via Docker in development.
+SuperImpress uses PostgreSQL as its database and Redis for caching/state. Both run via Docker in development.
 
 ```bash
 docker compose up postgres redis -d

@@ -1,10 +1,10 @@
-# AGENTS.md - Super Impress
+# AGENTS.md - SuperImpress
 
 Guidelines for AI coding agents working in this monorepo.
 
 ## Overview
 
-Super Impress is a LinkedIn post management tool with a monorepo structure:
+SuperImpress is a LinkedIn post management tool with a monorepo structure:
 
 - **Frontend**: React 19 SPA with TypeScript → see `frontend/AGENTS.md`
 - **Backend**: Bun + Elysia + TypeScript API → see `backend/AGENTS.md`

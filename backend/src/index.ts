@@ -12,7 +12,7 @@ const app = new Elysia({
     openapi({
       documentation: {
         info: {
-          title: "Super Impress API",
+          title: "SuperImpress API",
           version: "1.0.0",
           description: "LinkedIn post management tool API",
         },
@@ -32,6 +32,9 @@ const app = new Elysia({
   .use(betterAuthPlugin)
   .use(postsModule)
   .use(linkedInModule)
+  .onError(({ error, path }) => {
+    console.error(`[${path}]`, error);
+  })
   .listen(3000);
 
 console.log(

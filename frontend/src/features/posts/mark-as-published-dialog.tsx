@@ -1,3 +1,7 @@
+import { useForm } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import * as z from "zod";
 import { usePostApiPostsByIdPublications } from "@/api/posts/posts";
 import { ManualPublicationRequestPlatform } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
@@ -17,10 +21,6 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { getErrorMessage } from "@/utils/get-error-message";
-import { useForm } from "@tanstack/react-form";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import * as z from "zod";
 import { getPlatformLabel } from "./utils";
 
 const platformValues = Object.values(
@@ -29,7 +29,10 @@ const platformValues = Object.values(
 
 const formSchema = z.object({
   platform: z.enum(
-    platformValues as [ManualPublicationRequestPlatform, ...ManualPublicationRequestPlatform[]]
+    platformValues as [
+      ManualPublicationRequestPlatform,
+      ...ManualPublicationRequestPlatform[],
+    ]
   ),
   url: z.string().trim().url("Please enter a valid URL"),
 });

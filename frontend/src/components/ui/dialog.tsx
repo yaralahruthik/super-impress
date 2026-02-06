@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
-import { cn } from "@/utils/classname";
 import { IconX } from "@tabler/icons-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 import type * as React from "react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/utils/classname";
 
 function Dialog({
   ...props
@@ -151,6 +151,5 @@ export {
   DialogOverlay,
   DialogPortal,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 };
-

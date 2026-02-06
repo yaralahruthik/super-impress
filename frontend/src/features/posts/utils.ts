@@ -1,8 +1,13 @@
+import {
+  IconBrandLinkedin,
+  IconBrandThreads,
+  IconBrandX,
+  IconLabel,
+} from "@tabler/icons-react";
 import type {
   ManualPublicationRequestPlatform,
   PostListResponsePostsItemPublicationsItemPlatform,
 } from "@/api/superimpress.schemas";
-import { IconBrandLinkedin, IconBrandThreads, IconBrandX, IconLabel } from "@tabler/icons-react";
 
 type Platform =
   | ManualPublicationRequestPlatform

@@ -1,7 +1,5 @@
-import type {
-  PostListResponsePostsItemPublicationsItem,
-} from "@/api/superimpress.schemas";
 import { IconExternalLink } from "@tabler/icons-react";
+import type { PostListResponsePostsItemPublicationsItem } from "@/api/superimpress.schemas";
 import { getPlatformIcon, getPlatformLabel } from "./utils";
 
 export function PublicationHistory({

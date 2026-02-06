@@ -63,10 +63,10 @@ export const GetApiPostsResponse = zod.object({
             url: zod.string().nullish(),
             accountId: zod.string().nullish(),
             publishedAt: zod.iso.datetime({}),
-          }),
+          })
         )
         .optional(),
-    }),
+    })
   ),
   total: zod.number(),
 });
@@ -97,7 +97,7 @@ export const GetApiPostsByIdResponse = zod.object({
         url: zod.string().nullish(),
         accountId: zod.string().nullish(),
         publishedAt: zod.iso.datetime({}),
-      }),
+      })
     )
     .optional(),
 });
@@ -135,7 +135,7 @@ export const PatchApiPostsByIdResponse = zod.object({
         url: zod.string().nullish(),
         accountId: zod.string().nullish(),
         publishedAt: zod.iso.datetime({}),
-      }),
+      })
     )
     .optional(),
 });

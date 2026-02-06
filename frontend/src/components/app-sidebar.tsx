@@ -1,3 +1,10 @@
+import {
+  IconHome,
+  IconLogout,
+  IconNotes,
+  IconSettings,
+} from "@tabler/icons-react";
+import { Link, type LinkProps, useRouter } from "@tanstack/react-router";
 import { useSignOut } from "@/api/better-auth/better-auth";
 import {
   Sidebar,
@@ -11,8 +18,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { IconHome, IconLogout, IconNotes, IconSettings } from "@tabler/icons-react";
-import { Link, type LinkProps, useRouter } from "@tanstack/react-router";
 import { Logo } from "./logo";
 
 const items: {

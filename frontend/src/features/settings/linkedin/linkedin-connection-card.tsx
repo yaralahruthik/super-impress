@@ -1,4 +1,10 @@
-
+import {
+  IconAlertCircle,
+  IconBrandLinkedin,
+  IconLoader2,
+  IconMessageCircle,
+} from "@tabler/icons-react";
+import { useState } from "react";
 import { useLinkSocialAccount } from "@/api/better-auth/better-auth";
 import { useGetApiLinkedinStatus } from "@/api/linked-in/linked-in";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -12,8 +18,6 @@ import {
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getErrorMessage } from "@/utils/get-error-message";
-import { IconAlertCircle, IconBrandLinkedin, IconLoader2, IconMessageCircle } from "@tabler/icons-react";
-import { useState } from "react";
 import DisconnectLinkedinAccount from "./disconnect-linkedin-account";
 import { useLinkedAccountInfo } from "./use-linked-account-info";
 

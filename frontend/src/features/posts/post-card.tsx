@@ -1,6 +1,12 @@
 import {
-  usePostApiLinkedinPost,
-} from "@/api/linked-in/linked-in";
+  IconBrandLinkedin,
+  IconCheck,
+  IconCopy,
+  IconNotebook,
+} from "@tabler/icons-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { usePostApiLinkedinPost } from "@/api/linked-in/linked-in";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,9 +18,6 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/utils/classname";
 import { getErrorMessage } from "@/utils/get-error-message";
-import { IconBrandLinkedin, IconCheck, IconCopy, IconNotebook } from "@tabler/icons-react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { MarkAsPublishedDialog } from "./mark-as-published-dialog";
 import { PublicationHistory } from "./publication-history";
 
@@ -26,10 +29,16 @@ function StatusBadge({ status }: { status: string }) {
   };
 
   const statusKey = status.toLowerCase() as keyof typeof styles;
-  const className = styles[statusKey] || "bg-secondary text-secondary-foreground";
+  const className =
+    styles[statusKey] || "bg-secondary text-secondary-foreground";
 
   return (
-    <span className={cn("inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2", className)}>
+    <span
+      className={cn(
+        "inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold text-xs transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+        className
+      )}
+    >
       {status}
     </span>
   );
@@ -50,11 +59,11 @@ export function PostCard({
 
   const handleCopy = async () => {
     try {
-        await navigator.clipboard.writeText(post.content);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(post.content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-        console.error("Failed to copy text: ", err);
+      console.error("Failed to copy text: ", err);
     }
   };
 
@@ -84,18 +93,22 @@ export function PostCard({
           </div>
         </CardHeader>
         <CardContent className="flex flex-1 flex-col gap-4">
-          <div className="relative group">
-            <p className="whitespace-pre-wrap text-sm text-muted-foreground">
+          <div className="group relative">
+            <p className="whitespace-pre-wrap text-muted-foreground text-sm">
               {post.content}
             </p>
             <Button
-              variant="secondary"
-              size="icon"
-              className="absolute top-0 right-0 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-0 right-0 h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
               onClick={handleCopy}
+              size="icon"
               title="Copy content"
+              variant="secondary"
             >
-              {copied ? <IconCheck className="size-3" /> : <IconCopy className="size-3" />}
+              {copied ? (
+                <IconCheck className="size-3" />
+              ) : (
+                <IconCopy className="size-3" />
+              )}
             </Button>
           </div>
 
@@ -103,7 +116,7 @@ export function PostCard({
             <div className="mt-auto flex flex-wrap gap-2 pt-2">
               {post.tags.map((tag) => (
                 <span
-                  className="inline-flex items-center rounded-md border px-2 py-1 text-xs font-medium text-foreground transition-colors hover:bg-secondary/50"
+                  className="inline-flex items-center rounded-md border px-2 py-1 font-medium text-foreground text-xs transition-colors hover:bg-secondary/50"
                   key={tag}
                 >
                   <span className="mr-1 text-muted-foreground">#</span>

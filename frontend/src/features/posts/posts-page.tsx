@@ -1,7 +1,7 @@
-import { useGetApiPosts } from "@/api/posts/posts";
-import { Button } from "@/components/ui/button";
 import { IconPlus } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
+import { useGetApiPosts } from "@/api/posts/posts";
+import { Button } from "@/components/ui/button";
 import PostList, {
   PostListEmpty,
   PostListError,

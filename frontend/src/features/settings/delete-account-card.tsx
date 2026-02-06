@@ -1,3 +1,6 @@
+import { IconAlertTriangle, IconLoader2, IconTrash } from "@tabler/icons-react";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { useDeleteUser } from "@/api/better-auth/better-auth";
 import {
   AlertDialog,
@@ -21,9 +24,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/utils/auth-client";
 import { getErrorMessage } from "@/utils/get-error-message";
-import { IconAlertTriangle, IconLoader2, IconTrash } from "@tabler/icons-react";
-import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
 
 export default function DeleteAccountCard() {
   const [error, setError] = useState<string | null>(null);

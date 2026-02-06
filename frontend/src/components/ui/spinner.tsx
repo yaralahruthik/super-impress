@@ -1,5 +1,5 @@
-import { cn } from "@/utils/classname";
 import { IconLoader2 } from "@tabler/icons-react";
+import { cn } from "@/utils/classname";
 
 function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
   return (

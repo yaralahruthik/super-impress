@@ -1,6 +1,6 @@
-import {
-  useGetApiLinkedinStatus,
-} from "@/api/linked-in/linked-in";
+import { IconFileText } from "@tabler/icons-react";
+import { Link } from "@tanstack/react-router";
+import { useGetApiLinkedinStatus } from "@/api/linked-in/linked-in";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,8 +12,6 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
-import { IconFileText } from "@tabler/icons-react";
-import { Link } from "@tanstack/react-router";
 import { PostCard } from "./post-card";
 
 export function PostListLoading() {

@@ -25,7 +25,7 @@ export const SocialSignInBody = zod.object({
     .boolean()
     .nullish()
     .describe(
-      "Disable automatic redirection to the provider. Useful for handling the redirection yourself",
+      "Disable automatic redirection to the provider. Useful for handling the redirection yourself"
     ),
   idToken: zod
     .object({
@@ -49,13 +49,13 @@ export const SocialSignInBody = zod.object({
     .array()
     .nullish()
     .describe(
-      "Array of scopes to request from the provider. This will override the default scopes passed.",
+      "Array of scopes to request from the provider. This will override the default scopes passed."
     ),
   requestSignUp: zod
     .boolean()
     .nullish()
     .describe(
-      "Explicitly request sign-up. Useful when disableImplicitSignUp is true for this provider",
+      "Explicitly request sign-up. Useful when disableImplicitSignUp is true for this provider"
     ),
   loginHint: zod
     .string()
@@ -146,7 +146,7 @@ export const SignUpWithEmailAndPasswordBody = zod.object({
     .boolean()
     .optional()
     .describe(
-      "If this is false, the session will not be remembered. Default is `true`.",
+      "If this is false, the session will not be remembered. Default is `true`."
     ),
 });
 
@@ -184,7 +184,7 @@ export const SignInEmailBody = zod.object({
     .boolean()
     .default(signInEmailBodyRememberMeDefault)
     .describe(
-      "If this is false, the session will not be remembered. Default is `true`.",
+      "If this is false, the session will not be remembered. Default is `true`."
     ),
 });
 
@@ -406,13 +406,13 @@ export const RequestPasswordResetBody = zod.object({
   email: zod
     .string()
     .describe(
-      "The email address of the user to send a password reset email to",
+      "The email address of the user to send a password reset email to"
     ),
   redirectTo: zod
     .string()
     .nullish()
     .describe(
-      "The URL to redirect the user to reset their password. If the token isn't valid or expired, it'll be redirected with a query parameter `?error=INVALID_TOKEN`. If the token is valid, it'll be redirected with a query parameter `?token=VALID_TOKEN",
+      "The URL to redirect the user to reset their password. If the token isn't valid or expired, it'll be redirected with a query parameter `?error=INVALID_TOKEN`. If the token is valid, it'll be redirected with a query parameter `?token=VALID_TOKEN"
     ),
 });
 
@@ -517,13 +517,13 @@ export const LinkSocialAccountBody = zod.object({
     .string()
     .nullish()
     .describe(
-      "The URL to redirect to if there is an error during the link process",
+      "The URL to redirect to if there is an error during the link process"
     ),
   disableRedirect: zod
     .boolean()
     .nullish()
     .describe(
-      "Disable automatic redirection to the provider. Useful for handling the redirection yourself",
+      "Disable automatic redirection to the provider. Useful for handling the redirection yourself"
     ),
   additionalData: zod.string().nullish(),
 });
@@ -536,7 +536,7 @@ export const LinkSocialAccountResponse = zod.object({
   redirect: zod
     .boolean()
     .describe(
-      "Indicates if the user should be redirected to the authorization URL",
+      "Indicates if the user should be redirected to the authorization URL"
     ),
   status: zod.boolean().optional(),
 });

@@ -5,7 +5,7 @@
  * LinkedIn post management tool API
  * OpenAPI spec version: 1.0.0
  */
-
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
   DataTag,
   DefinedInitialDataOptions,
@@ -20,10 +20,7 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import type { ErrorType } from ".././axios";
 
-import { customInstance } from ".././axios";
 import type {
   GetApiLinkedinStatusResponse200,
   PostApiLinkedinPostBodyThree,
@@ -32,6 +29,9 @@ import type {
   PostApiLinkedinPostResponse200,
   PostApiLinkedinPostResponse400,
 } from "../superimpress.schemas";
+
+import { customInstance } from ".././axios";
+import type { ErrorType } from ".././axios";
 
 /**
  * Check if the authenticated user has a LinkedIn account connected
@@ -102,7 +102,7 @@ export function useGetApiLinkedinStatus<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -127,7 +127,7 @@ export function useGetApiLinkedinStatus<
         "initialData"
       >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -144,7 +144,7 @@ export function useGetApiLinkedinStatus<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
@@ -165,7 +165,7 @@ export function useGetApiLinkedinStatus<
       >
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
@@ -188,7 +188,7 @@ export const postApiLinkedinPost = (
     | PostApiLinkedinPostRequest
     | PostApiLinkedinPostBodyTwo
     | PostApiLinkedinPostBodyThree,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ) => {
   return customInstance<PostApiLinkedinPostResponse200>({
     url: `/api/linkedin/post`,
@@ -280,7 +280,7 @@ export const usePostApiLinkedinPost = <
       TContext
     >;
   },
-  queryClient?: QueryClient
+  queryClient?: QueryClient,
 ): UseMutationResult<
   Awaited<ReturnType<typeof postApiLinkedinPost>>,
   TError,
@@ -294,6 +294,6 @@ export const usePostApiLinkedinPost = <
 > => {
   return useMutation(
     getPostApiLinkedinPostMutationOptions(options),
-    queryClient
+    queryClient,
   );
 };

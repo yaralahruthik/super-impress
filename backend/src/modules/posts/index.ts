@@ -3,6 +3,7 @@ import { betterAuthPlugin } from "../../auth";
 import {
   ManualPublicationRequest,
   ManualPublicationResponse,
+  type Platform,
   PostCreate,
   PostListQuery,
   PostListResponse,
@@ -31,7 +32,7 @@ function toPostResponse(post: {
   updatedAt: Date;
   publications?: Array<{
     id: string;
-    platform: "linkedin" | "twitter" | "facebook" | "instagram";
+    platform: Platform;
     platformPostId: string | null;
     url: string | null;
     accountId: string | null;
@@ -48,7 +49,7 @@ function toPostResponse(post: {
   updatedAt: string;
   publications?: Array<{
     id: string;
-    platform: "linkedin" | "twitter" | "facebook" | "instagram";
+    platform: Platform;
     platformPostId: string | null;
     url: string | null;
     accountId: string | null;

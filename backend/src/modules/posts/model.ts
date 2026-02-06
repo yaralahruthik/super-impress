@@ -1,6 +1,6 @@
 import { type Static, Type } from "@sinclair/typebox";
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
-import { post, socialPlatformEnum } from "../../db/schema";
+import { post } from "../../db/schema";
 
 // Derive insert schema, customize content validation
 const _postInsert = createInsertSchema(post, {
@@ -26,9 +26,13 @@ export type PostUpdate = Static<typeof PostUpdate>;
 const _postSelect = createSelectSchema(post);
 
 // Reusable platform schema derived from database enum
-const PlatformSchema = Type.Union(
-  socialPlatformEnum.enumValues.map((platform) => Type.Literal(platform))
-);
+export const PlatformSchema = Type.Union([
+  Type.Literal("linkedin"),
+  Type.Literal("twitter"),
+  Type.Literal("threads"),
+  Type.Literal("peerlist"),
+]);
+export type Platform = Static<typeof PlatformSchema>;
 
 // Publication schema for including in post response
 export const Publication = Type.Object({

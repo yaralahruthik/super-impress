@@ -1,19 +1,19 @@
 import {
-    usePostApiLinkedinPost,
+  usePostApiLinkedinPost,
 } from "@/api/linked-in/linked-in";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/utils/classname";
 import { getErrorMessage } from "@/utils/get-error-message";
+import { IconBrandLinkedin, IconCheck, IconCopy, IconNotebook } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { BookCheck, Check, Copy, Linkedin } from "lucide-react";
 import { useState } from "react";
 import { MarkAsPublishedDialog } from "./mark-as-published-dialog";
 import { PublicationHistory } from "./publication-history";
@@ -95,7 +95,7 @@ export function PostCard({
               onClick={handleCopy}
               title="Copy content"
             >
-              {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+              {copied ? <IconCheck className="size-3" /> : <IconCopy className="size-3" />}
             </Button>
           </div>
 
@@ -121,7 +121,7 @@ export function PostCard({
               size="sm"
               variant="outline"
             >
-              <BookCheck className="h-4 w-4" />
+              <IconNotebook className="size-4" />
               Mark as Published
             </Button>
 
@@ -144,7 +144,7 @@ export function PostCard({
                   size="sm"
                   variant="outline"
                 >
-                  <Linkedin className="h-4 w-4" />
+                  <IconBrandLinkedin className="size-4" />
                   {isPending ? "Posting..." : "Post to LinkedIn"}
                 </Button>
                 {error && (

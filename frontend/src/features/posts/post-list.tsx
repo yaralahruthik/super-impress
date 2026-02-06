@@ -1,19 +1,19 @@
 import {
-    useGetApiLinkedinStatus,
+  useGetApiLinkedinStatus,
 } from "@/api/linked-in/linked-in";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
-    Empty,
-    EmptyContent,
-    EmptyDescription,
-    EmptyHeader,
-    EmptyMedia,
-    EmptyTitle,
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
 } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
+import { IconFileText } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
-import { FileText } from "lucide-react";
 import { PostCard } from "./post-card";
 
 export function PostListLoading() {
@@ -42,7 +42,7 @@ export function PostListEmpty() {
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="icon">
-          <FileText />
+          <IconFileText />
         </EmptyMedia>
         <EmptyTitle>No posts found</EmptyTitle>
         <EmptyDescription>You haven't created any posts yet.</EmptyDescription>

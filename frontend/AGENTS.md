@@ -233,4 +233,4 @@ npx shadcn@latest add <component-name>
 ```
 
 Use compound component patterns (Card, CardHeader, CardTitle, CardContent, etc.).
-Icons from `lucide-react`.
+Icons from `@tabler/icons-react`.

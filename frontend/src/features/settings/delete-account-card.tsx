@@ -1,6 +1,3 @@
-import { useNavigate } from "@tanstack/react-router";
-import { AlertTriangle, Loader2, Trash2 } from "lucide-react";
-import { useState } from "react";
 import { useDeleteUser } from "@/api/better-auth/better-auth";
 import {
   AlertDialog,
@@ -24,6 +21,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/utils/auth-client";
 import { getErrorMessage } from "@/utils/get-error-message";
+import { IconAlertTriangle, IconLoader2, IconTrash } from "@tabler/icons-react";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 
 export default function DeleteAccountCard() {
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +51,7 @@ export default function DeleteAccountCard() {
     <Card className="border-destructive/50">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <AlertTriangle className="size-5 text-destructive" />
+          <IconAlertTriangle className="size-5 text-destructive" />
           <CardTitle className="text-lg">Danger Zone</CardTitle>
         </div>
         <CardDescription>
@@ -78,12 +78,12 @@ export default function DeleteAccountCard() {
             <Button disabled={isPending} variant="destructive">
               {isPending ? (
                 <>
-                  <Loader2 className="size-4 animate-spin" />
+                  <IconLoader2 className="size-4 animate-spin" />
                   Deleting...
                 </>
               ) : (
                 <>
-                  <Trash2 className="size-4" />
+                  <IconTrash className="size-4" />
                   Delete Account
                 </>
               )}

@@ -1,7 +1,7 @@
 import type {
   PostListResponsePostsItemPublicationsItem,
 } from "@/api/superimpress.schemas";
-import { ExternalLink } from "lucide-react";
+import { IconExternalLink } from "@tabler/icons-react";
 import { getPlatformIcon, getPlatformLabel } from "./utils";
 
 export function PublicationHistory({
@@ -42,7 +42,7 @@ export function PublicationHistory({
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <ExternalLink className="h-3 w-3" />
+                <IconExternalLink className="size-3" />
               </a>
             )}
             <span className="text-muted-foreground">

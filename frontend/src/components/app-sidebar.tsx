@@ -1,5 +1,3 @@
-import { Link, type LinkProps, useRouter } from "@tanstack/react-router";
-import { FileText, Home, LogOut, Settings } from "lucide-react";
 import { useSignOut } from "@/api/better-auth/better-auth";
 import {
   Sidebar,
@@ -13,6 +11,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { IconHome, IconLogout, IconNotes, IconSettings } from "@tabler/icons-react";
+import { Link, type LinkProps, useRouter } from "@tanstack/react-router";
 import { Logo } from "./logo";
 
 const items: {
@@ -23,17 +23,17 @@ const items: {
   {
     title: "Dashboard",
     url: "/",
-    icon: Home,
+    icon: IconHome,
   },
   {
     title: "Posts",
     url: "/posts",
-    icon: FileText,
+    icon: IconNotes,
   },
   {
     title: "Settings",
     url: "/settings",
-    icon: Settings,
+    icon: IconSettings,
   },
 ];
 
@@ -53,7 +53,7 @@ function LogOutButton() {
   };
   return (
     <SidebarMenuButton onClick={handleLogout}>
-      <LogOut />
+      <IconLogout />
       <span>Logout</span>
     </SidebarMenuButton>
   );

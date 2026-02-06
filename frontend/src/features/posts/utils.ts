@@ -1,9 +1,8 @@
 import type {
-    ManualPublicationRequestPlatform,
-    PostListResponsePostsItemPublicationsItemPlatform,
+  ManualPublicationRequestPlatform,
+  PostListResponsePostsItemPublicationsItemPlatform,
 } from "@/api/superimpress.schemas";
-import type { LucideIcon } from "lucide-react";
-import { Hash, Linkedin, Twitter, Users } from "lucide-react";
+import { IconBrandLinkedin, IconBrandThreads, IconBrandX, IconLabel } from "@tabler/icons-react";
 
 type Platform =
   | ManualPublicationRequestPlatform
@@ -19,12 +18,12 @@ export const getPlatformLabel = (platform: Platform): string => {
   return labels[platform] || platform;
 };
 
-export const getPlatformIcon = (platform: Platform): LucideIcon => {
-  const icons: Record<Platform, LucideIcon> = {
-    linkedin: Linkedin,
-    twitter: Twitter,
-    threads: Hash,
-    peerlist: Users,
+export const getPlatformIcon = (platform: Platform): React.ElementType => {
+  const icons: Record<Platform, React.ElementType> = {
+    linkedin: IconBrandLinkedin,
+    twitter: IconBrandX,
+    threads: IconBrandThreads,
+    peerlist: IconLabel,
   };
-  return icons[platform] || Hash;
+  return icons[platform] || IconLabel;
 };

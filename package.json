@@ -1,8 +1,0 @@
-{
-	"name": "super-impress",
-	"private": true,
-	"dependencies": {},
-	"devDependencies": {
-		"@biomejs/biome": "2.3.14"
-	}
-}

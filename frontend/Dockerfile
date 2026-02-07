@@ -1,16 +1,13 @@
-FROM node:24-alpine
+FROM oven/bun:1.2.0-alpine
 
 WORKDIR /app
 
-# Enable corepack and use the project-declared pnpm version
-RUN corepack enable && corepack prepare pnpm@10.18.0 --activate
-
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+COPY package.json bun.lock ./
+RUN bun install --frozen-lockfile
 
 COPY . .
-RUN pnpm build
+RUN bun run build
 
 EXPOSE 5173
 
-CMD ["pnpm", "preview", "--host", "0.0.0.0", "--port", "5173"]
+CMD ["bun", "run", "preview", "--host", "0.0.0.0", "--port", "5173"]

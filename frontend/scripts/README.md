@@ -30,7 +30,7 @@ Fetches the OpenAPI spec from the backend, applies transformations, and saves to
 **Usage:**
 
 ```bash
-pnpm fetch-openapi
+bun fetch-openapi
 ```
 
 **Environment variables:**
@@ -39,11 +39,11 @@ pnpm fetch-openapi
 
 ## Workflow
 
-The `pnpm orval` command automatically runs the fetch script first:
+The `bun orval` command automatically runs the fetch script first:
 
 ```bash
-pnpm orval
-# Internally runs: pnpm fetch-openapi && orval
+bun orval
+# Internally runs: bun fetch-openapi && orval
 ```
 
 **Step-by-step:**

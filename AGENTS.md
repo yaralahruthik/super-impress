@@ -122,7 +122,7 @@ Note: Uses Biome for linting and formatting, not ESLint/Prettier.
 - **Linting**: Biome with auto-import organization
 - **Content**: MDX files in `content/docs/`
 - **Framework**: Fumadocs for documentation UI
-- **Package Manager**: pnpm
+- **Package Manager**: bun
 
 ### Backend
 

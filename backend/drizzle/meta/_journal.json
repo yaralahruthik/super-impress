@@ -29,6 +29,13 @@
       "when": 1770413940166,
       "tag": "0003_cheerful_magdalene",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1770483032878,
+      "tag": "0004_groovy_smiling_tiger",
+      "breakpoints": true
     }
   ]
 }

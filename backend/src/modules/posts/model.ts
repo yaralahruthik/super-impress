@@ -64,12 +64,19 @@ export type ManualPublicationResponse = Static<
   typeof ManualPublicationResponse
 >;
 
+export const PostStatus = Type.Union([
+  Type.Literal("draft"),
+  Type.Literal("published"),
+]);
+export type PostStatus = Static<typeof PostStatus>;
+
 // PostResponse: override date fields to strings for JSON serialization
 const _postResponseBase = Type.Omit(_postSelect, ["createdAt", "updatedAt"]);
 
 export const PostResponse = Type.Composite([
   _postResponseBase,
   Type.Object({
+    status: PostStatus,
     createdAt: Type.String({ format: "date-time" }),
     updatedAt: Type.String({ format: "date-time" }),
     publications: Type.Optional(Type.Array(Publication)),
@@ -78,13 +85,6 @@ export const PostResponse = Type.Composite([
 export type PostResponse = Static<typeof PostResponse>;
 
 // PostListQuery & PostListResponse: keep manual (not direct table mappings)
-export const PostStatus = Type.Union([
-  Type.Literal("draft"),
-  Type.Literal("published"),
-  Type.Literal("archived"),
-]);
-export type PostStatus = Static<typeof PostStatus>;
-
 export const PostListQuery = Type.Object({
   status: Type.Optional(PostStatus),
   tag: Type.Optional(Type.String()),
@@ -108,7 +108,6 @@ export type PostListResponse = Static<typeof PostListResponse>;
 export const PostStatusCounts = Type.Object({
   draft: Type.Number(),
   published: Type.Number(),
-  archived: Type.Number(),
 });
 export type PostStatusCounts = Static<typeof PostStatusCounts>;
 

@@ -37,7 +37,7 @@ import { STATUS_STYLES } from "@/constants";
 import { cn } from "@/utils/classname";
 import { formatDate } from "@/utils/format-date";
 
-type StatusKey = "draft" | "published" | "archived";
+type StatusKey = "draft" | "published";
 
 function StatusBadge({ status }: { status: string }) {
   const statusKey = status.toLowerCase() as StatusKey;

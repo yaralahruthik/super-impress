@@ -167,7 +167,10 @@ export function PostCard({
 
           {publications.length > 0 && (
             <div className="mt-3">
-              <PublicationHistory publications={publications} />
+              <PublicationHistory
+                postId={post.id}
+                publications={publications}
+              />
             </div>
           )}
         </div>

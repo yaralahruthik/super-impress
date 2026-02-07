@@ -14,6 +14,7 @@ import {
 import {
   createPost,
   deletePost,
+  deletePublication,
   getPostById,
   getPostsSummary,
   listUserPosts,
@@ -29,7 +30,6 @@ function toPostResponse(post: {
   title: string | null;
   content: string;
   tags: string[];
-  status: "draft" | "published" | "archived";
   createdAt: Date;
   updatedAt: Date;
   publications?: Array<{
@@ -46,7 +46,7 @@ function toPostResponse(post: {
   title: string | null;
   content: string;
   tags: string[];
-  status: "draft" | "published" | "archived";
+  status: "draft" | "published";
   createdAt: string;
   updatedAt: string;
   publications?: Array<{
@@ -58,8 +58,12 @@ function toPostResponse(post: {
     publishedAt: string;
   }>;
 } {
+  const status =
+    post.publications && post.publications.length > 0 ? "published" : "draft";
+
   return {
     ...post,
+    status,
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString(),
     publications: post.publications?.map((pub) => ({
@@ -242,6 +246,36 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       detail: {
         summary: "Mark post as published",
         description: "Manually record that a post was published on a platform",
+      },
+    }
+  )
+  .delete(
+    "/:id/publications/:publicationId",
+    async ({ params, user, set }) => {
+      const deleted = await deletePublication(
+        user.id,
+        params.id,
+        params.publicationId
+      );
+      if (!deleted) {
+        set.status = 404;
+        return { error: "Publication not found" };
+      }
+      set.status = 204;
+    },
+    {
+      auth: true,
+      params: t.Object({
+        id: t.String({ format: "uuid" }),
+        publicationId: t.String({ format: "uuid" }),
+      }),
+      response: {
+        404: "PostError",
+      },
+      detail: {
+        summary: "Delete publication record",
+        description:
+          "Delete a publication history entry from a post for the authenticated user",
       },
     }
   );

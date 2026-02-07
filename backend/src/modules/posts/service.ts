@@ -158,6 +158,37 @@ export async function markAsPublished(
   return publication;
 }
 
+export async function deletePublication(
+  userId: string,
+  postId: string,
+  publicationId: string
+): Promise<boolean> {
+  const publication = await db.query.postPublication.findFirst({
+    where: and(
+      eq(postPublication.id, publicationId),
+      eq(postPublication.postId, postId)
+    ),
+    with: {
+      post: true,
+    },
+  });
+
+  if (!publication || publication.post.userId !== userId) {
+    return false;
+  }
+
+  await db
+    .delete(postPublication)
+    .where(
+      and(
+        eq(postPublication.id, publicationId),
+        eq(postPublication.postId, postId)
+      )
+    );
+
+  return true;
+}
+
 export async function getPostsSummary(userId: string): Promise<{
   totalPosts: number;
   totalWordCount: number;

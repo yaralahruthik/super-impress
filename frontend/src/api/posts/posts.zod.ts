@@ -174,3 +174,12 @@ export const PostApiPostsByIdPublicationsBody = zod.object({
   platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
   url: zod.url(),
 });
+
+/**
+ * Delete a publication history entry from a post for the authenticated user
+ * @summary Delete publication record
+ */
+export const DeleteApiPostsByIdPublicationsByPublicationIdParams = zod.object({
+  id: zod.uuid(),
+  publicationId: zod.uuid(),
+});

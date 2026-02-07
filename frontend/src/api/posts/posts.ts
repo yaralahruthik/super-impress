@@ -813,3 +813,91 @@ export const usePostApiPostsByIdPublications = <
     queryClient
   );
 };
+/**
+ * Delete a publication history entry from a post for the authenticated user
+ * @summary Delete publication record
+ */
+export const deleteApiPostsByIdPublicationsByPublicationId = (
+  id: string,
+  publicationId: string,
+  signal?: AbortSignal
+) => {
+  return customInstance<unknown>({
+    url: `/api/posts/${id}/publications/${publicationId}`,
+    method: "DELETE",
+    signal,
+  });
+};
+
+export const getDeleteApiPostsByIdPublicationsByPublicationIdMutationOptions = <
+  TError = ErrorType<PostError>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof deleteApiPostsByIdPublicationsByPublicationId>>,
+    TError,
+    { id: string; publicationId: string },
+    TContext
+  >;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof deleteApiPostsByIdPublicationsByPublicationId>>,
+  TError,
+  { id: string; publicationId: string },
+  TContext
+> => {
+  const mutationKey = ["deleteApiPostsByIdPublicationsByPublicationId"];
+  const { mutation: mutationOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey } };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof deleteApiPostsByIdPublicationsByPublicationId>>,
+    { id: string; publicationId: string }
+  > = (props) => {
+    const { id, publicationId } = props ?? {};
+
+    return deleteApiPostsByIdPublicationsByPublicationId(id, publicationId);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type DeleteApiPostsByIdPublicationsByPublicationIdMutationResult =
+  NonNullable<
+    Awaited<ReturnType<typeof deleteApiPostsByIdPublicationsByPublicationId>>
+  >;
+
+export type DeleteApiPostsByIdPublicationsByPublicationIdMutationError =
+  ErrorType<PostError>;
+
+/**
+ * @summary Delete publication record
+ */
+export const useDeleteApiPostsByIdPublicationsByPublicationId = <
+  TError = ErrorType<PostError>,
+  TContext = unknown,
+>(
+  options?: {
+    mutation?: UseMutationOptions<
+      Awaited<ReturnType<typeof deleteApiPostsByIdPublicationsByPublicationId>>,
+      TError,
+      { id: string; publicationId: string },
+      TContext
+    >;
+  },
+  queryClient?: QueryClient
+): UseMutationResult<
+  Awaited<ReturnType<typeof deleteApiPostsByIdPublicationsByPublicationId>>,
+  TError,
+  { id: string; publicationId: string },
+  TContext
+> => {
+  return useMutation(
+    getDeleteApiPostsByIdPublicationsByPublicationIdMutationOptions(options),
+    queryClient
+  );
+};

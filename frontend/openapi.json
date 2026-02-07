@@ -3190,6 +3190,46 @@
         "operationId": "postApiPostsByIdPublications"
       }
     },
+    "/api/posts/{id}/publications/{publicationId}": {
+      "delete": {
+        "tags": ["Posts"],
+        "summary": "Delete publication record",
+        "description": "Delete a publication history entry from a post for the authenticated user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          },
+          {
+            "name": "publicationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Response for status 404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostError"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "deleteApiPostsByIdPublicationsByPublicationId"
+      }
+    },
     "/api/linkedin/status": {
       "get": {
         "tags": ["LinkedIn"],

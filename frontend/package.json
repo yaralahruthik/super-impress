@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "fetch-openapi": "tsx scripts/fetch-openapi.ts",
     "orval": "bun fetch-openapi && orval",
+    "test": "bun test",
     "check": "ultracite check",
     "fix": "ultracite fix"
   },
@@ -26,6 +27,7 @@
     "radix-ui": "^1.4.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-error-boundary": "^6.1.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
     "zod": "^4.3.5"

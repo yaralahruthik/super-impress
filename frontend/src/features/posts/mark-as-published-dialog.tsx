@@ -37,7 +37,7 @@ const formSchema = z.object({
   url: z.string().trim().url("Please enter a valid URL"),
 });
 
-export function MarkAsPublishedDialog({
+export default function MarkAsPublishedDialog({
   postId,
   open,
   onOpenChange,

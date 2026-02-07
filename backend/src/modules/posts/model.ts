@@ -97,3 +97,17 @@ export const PostListResponse = Type.Object({
   total: Type.Number(),
 });
 export type PostListResponse = Static<typeof PostListResponse>;
+
+export const PostStatusCounts = Type.Object({
+  draft: Type.Number(),
+  published: Type.Number(),
+  archived: Type.Number(),
+});
+export type PostStatusCounts = Static<typeof PostStatusCounts>;
+
+export const PostSummaryResponse = Type.Object({
+  totalPosts: Type.Number(),
+  totalWordCount: Type.Number(),
+  statusCounts: PostStatusCounts,
+});
+export type PostSummaryResponse = Static<typeof PostSummaryResponse>;

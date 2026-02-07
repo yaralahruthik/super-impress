@@ -72,6 +72,20 @@ export const GetApiPostsResponse = zod.object({
 });
 
 /**
+ * Get summary stats and total word count for user posts
+ * @summary Posts summary
+ */
+export const GetApiPostsSummaryResponse = zod.object({
+  totalPosts: zod.number(),
+  totalWordCount: zod.number(),
+  statusCounts: zod.object({
+    draft: zod.number(),
+    published: zod.number(),
+    archived: zod.number(),
+  }),
+});
+
+/**
  * Get a specific post by ID
  * @summary Get a post
  */

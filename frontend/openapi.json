@@ -249,6 +249,33 @@
           }
         }
       },
+      "PostSummaryResponse": {
+        "type": "object",
+        "required": ["totalPosts", "totalWordCount", "statusCounts"],
+        "properties": {
+          "totalPosts": {
+            "type": "number"
+          },
+          "totalWordCount": {
+            "type": "number"
+          },
+          "statusCounts": {
+            "type": "object",
+            "required": ["draft", "published", "archived"],
+            "properties": {
+              "draft": {
+                "type": "number"
+              },
+              "published": {
+                "type": "number"
+              },
+              "archived": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
       "ManualPublicationRequest": {
         "type": "object",
         "required": ["platform", "url"],
@@ -2951,6 +2978,26 @@
           }
         },
         "operationId": "getApiPosts"
+      }
+    },
+    "/api/posts/summary": {
+      "get": {
+        "tags": ["Posts"],
+        "summary": "Posts summary",
+        "description": "Get summary stats and total word count for user posts",
+        "responses": {
+          "200": {
+            "description": "Response for status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostSummaryResponse"
+                }
+              }
+            }
+          }
+        },
+        "operationId": "getApiPostsSummary"
       }
     },
     "/api/posts/{id}": {

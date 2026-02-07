@@ -17,9 +17,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/utils/classname";
+import { formatDate } from "@/utils/format-date";
 import { getErrorMessage } from "@/utils/get-error-message";
-import { MarkAsPublishedDialog } from "./mark-as-published-dialog";
-import { PublicationHistory } from "./publication-history";
+import MarkAsPublishedDialog from "./mark-as-published-dialog";
+import PublicationHistory from "./publication-history";
 
 function StatusBadge({ status }: { status: string }) {
   const styles = {
@@ -82,7 +83,7 @@ export function PostCard({
                 )}
               </CardTitle>
               <CardDescription className="text-xs">
-                {new Date(post.createdAt).toLocaleDateString(undefined, {
+                {formatDate(post.createdAt, {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
@@ -93,23 +94,10 @@ export function PostCard({
           </div>
         </CardHeader>
         <CardContent className="flex flex-1 flex-col gap-4">
-          <div className="group relative">
+          <div>
             <p className="whitespace-pre-wrap text-muted-foreground text-sm">
               {post.content}
             </p>
-            <Button
-              className="absolute top-0 right-0 h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-              onClick={handleCopy}
-              size="icon"
-              title="Copy content"
-              variant="secondary"
-            >
-              {copied ? (
-                <IconCheck className="size-3" />
-              ) : (
-                <IconCopy className="size-3" />
-              )}
-            </Button>
           </div>
 
           {post.tags && post.tags.length > 0 && (
@@ -129,6 +117,19 @@ export function PostCard({
 
         <div className="border-t px-6 py-4">
           <div className="flex flex-wrap gap-2">
+            <Button
+              onClick={handleCopy}
+              size="sm"
+              title="Copy post"
+              variant="outline"
+            >
+              {copied ? (
+                <IconCheck className="size-4" />
+              ) : (
+                <IconCopy className="size-4" />
+              )}
+              {copied ? "Copied" : "Copy Post"}
+            </Button>
             <Button
               onClick={() => setDialogOpen(true)}
               size="sm"

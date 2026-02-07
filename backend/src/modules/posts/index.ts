@@ -8,11 +8,13 @@ import {
   PostListQuery,
   PostListResponse,
   PostResponse,
+  PostSummaryResponse,
   PostUpdate,
 } from "./model";
 import {
   createPost,
   deletePost,
+  getPostsSummary,
   getPostById,
   listUserPosts,
   markAsPublished,
@@ -79,6 +81,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     PostResponse,
     PostListQuery,
     PostListResponse,
+    PostSummaryResponse,
     ManualPublicationRequest,
     ManualPublicationResponse,
     PostError: t.Object({ error: t.String() }),
@@ -125,6 +128,20 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         summary: "List posts",
         description:
           "List posts for the authenticated user with optional filtering by status and tag",
+      },
+    }
+  )
+  .get(
+    "/summary",
+    async ({ user }) => {
+      return getPostsSummary(user.id);
+    },
+    {
+      auth: true,
+      response: "PostSummaryResponse",
+      detail: {
+        summary: "Posts summary",
+        description: "Get summary stats and total word count for user posts",
       },
     }
   )

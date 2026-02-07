@@ -32,6 +32,7 @@ import type {
   PostError,
   PostListResponse,
   PostResponse,
+  PostSummaryResponse,
   PostUpdate,
 } from "../superimpress.schemas";
 
@@ -244,6 +245,152 @@ export function useGetApiPosts<
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
   const queryOptions = getGetApiPostsQueryOptions(params, options);
+
+  const query = useQuery(queryOptions, queryClient) as UseQueryResult<
+    TData,
+    TError
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * Get summary stats and total word count for user posts
+ * @summary Posts summary
+ */
+export const getApiPostsSummary = (signal?: AbortSignal) => {
+  return customInstance<PostSummaryResponse>({
+    url: `/api/posts/summary`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getGetApiPostsSummaryQueryKey = () => {
+  return [`/api/posts/summary`] as const;
+};
+
+export const getGetApiPostsSummaryQueryOptions = <
+  TData = Awaited<ReturnType<typeof getApiPostsSummary>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof getApiPostsSummary>>,
+      TError,
+      TData
+    >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetApiPostsSummaryQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getApiPostsSummary>>
+  > = ({ signal }) => getApiPostsSummary(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getApiPostsSummary>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetApiPostsSummaryQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getApiPostsSummary>>
+>;
+export type GetApiPostsSummaryQueryError = ErrorType<unknown>;
+
+export function useGetApiPostsSummary<
+  TData = Awaited<ReturnType<typeof getApiPostsSummary>>,
+  TError = ErrorType<unknown>,
+>(
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApiPostsSummary>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiPostsSummary>>,
+          TError,
+          Awaited<ReturnType<typeof getApiPostsSummary>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiPostsSummary<
+  TData = Awaited<ReturnType<typeof getApiPostsSummary>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApiPostsSummary>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getApiPostsSummary>>,
+          TError,
+          Awaited<ReturnType<typeof getApiPostsSummary>>
+        >,
+        "initialData"
+      >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+export function useGetApiPostsSummary<
+  TData = Awaited<ReturnType<typeof getApiPostsSummary>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApiPostsSummary>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+};
+/**
+ * @summary Posts summary
+ */
+
+export function useGetApiPostsSummary<
+  TData = Awaited<ReturnType<typeof getApiPostsSummary>>,
+  TError = ErrorType<unknown>,
+>(
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof getApiPostsSummary>>,
+        TError,
+        TData
+      >
+    >;
+  },
+  queryClient?: QueryClient
+): UseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData, TError>;
+} {
+  const queryOptions = getGetApiPostsSummaryQueryOptions(options);
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

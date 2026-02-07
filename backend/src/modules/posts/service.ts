@@ -2,11 +2,19 @@ import { and, arrayContains, count, desc, eq } from "drizzle-orm";
 import { db } from "../../db";
 import { post, postPublication } from "../../db/schema";
 import type {
-  ManualPublicationRequest,
-  PostCreate,
-  PostStatus,
-  PostUpdate,
+	ManualPublicationRequest,
+	PostCreate,
+	PostStatus,
+	PostUpdate,
 } from "./model";
+
+function countWords(content: string): number {
+	const trimmed = content.trim();
+	if (!trimmed) {
+		return 0;
+	}
+	return trimmed.split(/\s+/).length;
+}
 
 export async function createPost(
   userId: string,
@@ -110,9 +118,9 @@ export async function deletePost(
 }
 
 export async function markAsPublished(
-  userId: string,
-  postId: string,
-  data: ManualPublicationRequest
+	userId: string,
+	postId: string,
+	data: ManualPublicationRequest
 ) {
   const existing = await getPostById(postId, userId);
   if (!existing) {
@@ -138,5 +146,40 @@ export async function markAsPublished(
       .where(and(eq(post.id, postId), eq(post.userId, userId)));
   }
 
-  return publication;
+	return publication;
+}
+
+export async function getPostsSummary(
+	userId: string
+): Promise<{
+	totalPosts: number;
+	totalWordCount: number;
+	statusCounts: { draft: number; published: number; archived: number };
+}> {
+	const posts = await db.query.post.findMany({
+		where: eq(post.userId, userId),
+		columns: {
+			content: true,
+			status: true,
+		},
+	});
+
+	const statusCounts = {
+		draft: 0,
+		published: 0,
+		archived: 0,
+	};
+
+	let totalWordCount = 0;
+
+	for (const record of posts) {
+		statusCounts[record.status] += 1;
+		totalWordCount += countWords(record.content);
+	}
+
+	return {
+		totalPosts: posts.length,
+		totalWordCount,
+		statusCounts,
+	};
 }

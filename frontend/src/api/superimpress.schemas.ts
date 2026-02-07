@@ -155,6 +155,18 @@ export interface PostListResponse {
   total: number;
 }
 
+export type PostSummaryResponseStatusCounts = {
+  draft: number;
+  published: number;
+  archived: number;
+};
+
+export interface PostSummaryResponse {
+  totalPosts: number;
+  totalWordCount: number;
+  statusCounts: PostSummaryResponseStatusCounts;
+}
+
 export type ManualPublicationRequestPlatform =
   (typeof ManualPublicationRequestPlatform)[keyof typeof ManualPublicationRequestPlatform];
 

@@ -15,6 +15,7 @@ import type {
   PostSummaryResponse,
   User,
 } from "@/api/superimpress.schemas";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -541,7 +542,9 @@ function DashboardSessionError() {
 export default function DashboardPage() {
   return (
     <div className="mx-auto max-w-7xl space-y-6 p-6">
-      <DashboardDataContainer />
+      <ErrorBoundary>
+        <DashboardDataContainer />
+      </ErrorBoundary>
     </div>
   );
 }

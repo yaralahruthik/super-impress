@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/utils/classname";
+import { formatDate } from "@/utils/format-date";
 import { getErrorMessage } from "@/utils/get-error-message";
 import MarkAsPublishedDialog from "./mark-as-published-dialog";
 import PublicationHistory from "./publication-history";
@@ -82,7 +83,7 @@ export function PostCard({
                 )}
               </CardTitle>
               <CardDescription className="text-xs">
-                {new Date(post.createdAt).toLocaleDateString(undefined, {
+                {formatDate(post.createdAt, {
                   year: "numeric",
                   month: "short",
                   day: "numeric",

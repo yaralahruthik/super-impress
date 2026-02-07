@@ -19,6 +19,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PASSWORD } from "@/constants";
 import { AuthLayout } from "@/layouts/auth-layout";
 import { getErrorMessage } from "@/utils/get-error-message";
 
@@ -28,8 +29,14 @@ const formSchema = z
     email: z.email("Invalid email address"),
     password: z
       .string()
-      .min(8, "Password must be at least 8 characters")
-      .max(15, "Password must be at most 15 characters"),
+      .min(
+        PASSWORD.minLength,
+        `Password must be at least ${PASSWORD.minLength} characters`
+      )
+      .max(
+        PASSWORD.maxLength,
+        `Password must be at most ${PASSWORD.maxLength} characters`
+      ),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -158,8 +165,8 @@ export default function RegisterPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="password"
-                          maxLength={15}
-                          minLength={8}
+                          maxLength={PASSWORD.maxLength}
+                          minLength={PASSWORD.minLength}
                           name="password"
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}
@@ -192,8 +199,8 @@ export default function RegisterPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="confirmPassword"
-                          maxLength={15}
-                          minLength={8}
+                          maxLength={PASSWORD.maxLength}
+                          minLength={PASSWORD.minLength}
                           name="confirmPassword"
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}

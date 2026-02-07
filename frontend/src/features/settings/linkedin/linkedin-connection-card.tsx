@@ -17,6 +17,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { URLS } from "@/constants";
 import { getErrorMessage } from "@/utils/get-error-message";
 import DisconnectLinkedinAccount from "./disconnect-linkedin-account";
 import { useLinkedAccountInfo } from "./use-linked-account-info";
@@ -49,8 +50,8 @@ function LinkedinNotConnected() {
       {
         data: {
           provider: "linkedin",
-          callbackURL: "http://localhost:5173/settings",
-          errorCallbackURL: "http://localhost:5173/settings",
+          callbackURL: `${URLS.app}/settings`,
+          errorCallbackURL: `${URLS.app}/settings`,
           scopes: ["w_member_social"],
         },
       },

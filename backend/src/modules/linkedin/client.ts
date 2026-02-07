@@ -1,15 +1,17 @@
+import { LINKEDIN_CONFIG } from "../../constants";
+
 export async function createLinkedInPost(
   accessToken: string,
   personUrn: string,
   content: string
 ): Promise<string> {
-  const response = await fetch("https://api.linkedin.com/v2/ugcPosts", {
+  const response = await fetch(LINKEDIN_CONFIG.apiUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
-      "LinkedIn-Version": "202511",
-      "X-RestLi-Protocol-Version": "2.0.0",
+      "LinkedIn-Version": LINKEDIN_CONFIG.apiVersion,
+      "X-RestLi-Protocol-Version": LINKEDIN_CONFIG.restliProtocolVersion,
     },
     body: JSON.stringify({
       author: personUrn,

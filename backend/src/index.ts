@@ -23,7 +23,7 @@ const app = new Elysia({
   )
   .use(
     cors({
-      origin: "http://localhost:5173",
+      origin: process.env.FRONTEND_URL || "http://localhost:5173",
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
@@ -35,7 +35,7 @@ const app = new Elysia({
   .onError(({ error, path }) => {
     console.error(`[${path}]`, error);
   })
-  .listen(3000);
+  .listen(Number(process.env.PORT) || 3000);
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`

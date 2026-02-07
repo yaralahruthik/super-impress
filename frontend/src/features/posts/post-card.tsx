@@ -16,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { STATUS_STYLES } from "@/constants";
 import { cn } from "@/utils/classname";
 import { formatDate } from "@/utils/format-date";
 import { getErrorMessage } from "@/utils/get-error-message";
@@ -23,15 +24,9 @@ import MarkAsPublishedDialog from "./mark-as-published-dialog";
 import PublicationHistory from "./publication-history";
 
 function StatusBadge({ status }: { status: string }) {
-  const styles = {
-    draft: "bg-yellow-100 text-yellow-800 border-yellow-200",
-    published: "bg-green-100 text-green-800 border-green-200",
-    archived: "bg-gray-100 text-gray-800 border-gray-200",
-  };
-
-  const statusKey = status.toLowerCase() as keyof typeof styles;
+  const statusKey = status.toLowerCase() as keyof typeof STATUS_STYLES;
   const className =
-    styles[statusKey] || "bg-secondary text-secondary-foreground";
+    STATUS_STYLES[statusKey] || "bg-secondary text-secondary-foreground";
 
   return (
     <span

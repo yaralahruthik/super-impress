@@ -1,4 +1,5 @@
 import { and, arrayContains, count, desc, eq } from "drizzle-orm";
+import { DEFAULT_POSTS_LIMIT } from "../../constants";
 import { db } from "../../db";
 import { post, postPublication } from "../../db/schema";
 import type {
@@ -54,7 +55,13 @@ export async function listUserPosts(options: {
   limit?: number;
   offset?: number;
 }) {
-  const { userId, status, tag, limit = 100, offset = 0 } = options;
+  const {
+    userId,
+    status,
+    tag,
+    limit = DEFAULT_POSTS_LIMIT,
+    offset = 0,
+  } = options;
 
   const conditions = [eq(post.userId, userId)];
 

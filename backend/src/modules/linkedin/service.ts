@@ -1,5 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { auth } from "../../auth";
+import { LINKEDIN_CONFIG } from "../../constants";
 import { db } from "../../db";
 import { post, postPublication } from "../../db/schema";
 import { createLinkedInPost, getPersonUrnFromAccountId } from "./client";
@@ -19,7 +20,7 @@ async function getLinkedInAccountFromAuth(
   }
 
   const linkedInAccount = accounts.find(
-    (account) => account.providerId === "linkedin"
+    (account) => account.providerId === LINKEDIN_CONFIG.providerId
   );
 
   return linkedInAccount ?? null;
@@ -64,7 +65,7 @@ export async function publishPost(
   const tokens = await auth.api.getAccessToken({
     headers,
     body: {
-      providerId: "linkedin",
+      providerId: LINKEDIN_CONFIG.providerId,
       accountId: linkedInAccount.id,
     },
   });
@@ -82,7 +83,7 @@ export async function publishPost(
 
   await db.insert(postPublication).values({
     postId: postRecord.id,
-    platform: "linkedin",
+    platform: LINKEDIN_CONFIG.providerId,
     platformPostId: linkedInPostId,
     accountId: linkedInAccount.id,
     metadata: {

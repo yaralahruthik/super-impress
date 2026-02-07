@@ -1,4 +1,4 @@
-import { and, arrayContains, count, desc, eq } from "drizzle-orm";
+import { and, arrayContains, count, desc, eq, sql } from "drizzle-orm";
 import { DEFAULT_POSTS_LIMIT } from "../../constants";
 import { db } from "../../db";
 import { post, postPublication } from "../../db/schema";
@@ -30,7 +30,6 @@ export async function createPost(
       title: data.title ?? null,
       content: data.content,
       tags: data.tags ?? [],
-      status: data.status ?? "draft",
     })
     .returning();
 
@@ -66,7 +65,15 @@ export async function listUserPosts(options: {
   const conditions = [eq(post.userId, userId)];
 
   if (status) {
-    conditions.push(eq(post.status, status));
+    if (status === "published") {
+      conditions.push(
+        sql`exists (select 1 from ${postPublication} where ${postPublication.postId} = ${post.id})`
+      );
+    } else {
+      conditions.push(
+        sql`not exists (select 1 from ${postPublication} where ${postPublication.postId} = ${post.id})`
+      );
+    }
   }
 
   if (tag) {
@@ -95,19 +102,18 @@ export async function updatePost(
   postId: string,
   userId: string,
   data: PostUpdate
-): Promise<typeof post.$inferSelect | null> {
+): Promise<Awaited<ReturnType<typeof getPostById>>> {
   const existing = await getPostById(postId, userId);
   if (!existing) {
     return null;
   }
 
-  const [updated] = await db
+  await db
     .update(post)
     .set(data)
-    .where(and(eq(post.id, postId), eq(post.userId, userId)))
-    .returning();
+    .where(and(eq(post.id, postId), eq(post.userId, userId)));
 
-  return updated ?? null;
+  return getPostById(postId, userId);
 }
 
 export async function deletePost(
@@ -148,13 +154,6 @@ export async function markAsPublished(
     })
     .returning();
 
-  if (existing.status === "draft") {
-    await db
-      .update(post)
-      .set({ status: "published" })
-      .where(and(eq(post.id, postId), eq(post.userId, userId)));
-  }
-
   return publication;
 }
 
@@ -192,26 +191,35 @@ export async function deletePublication(
 export async function getPostsSummary(userId: string): Promise<{
   totalPosts: number;
   totalWordCount: number;
-  statusCounts: { draft: number; published: number; archived: number };
+  statusCounts: { draft: number; published: number };
 }> {
   const posts = await db.query.post.findMany({
     where: eq(post.userId, userId),
     columns: {
       content: true,
-      status: true,
+    },
+    with: {
+      publications: {
+        columns: {
+          id: true,
+        },
+      },
     },
   });
 
   const statusCounts = {
     draft: 0,
     published: 0,
-    archived: 0,
   };
 
   let totalWordCount = 0;
 
   for (const record of posts) {
-    statusCounts[record.status] += 1;
+    if (record.publications.length > 0) {
+      statusCounts.published += 1;
+    } else {
+      statusCounts.draft += 1;
+    }
     totalWordCount += countWords(record.content);
   }
 

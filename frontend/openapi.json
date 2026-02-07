@@ -24,10 +24,6 @@
             "items": {
               "type": "string"
             }
-          },
-          "status": {
-            "type": "string",
-            "enum": ["draft", "published", "archived"]
           }
         }
       },
@@ -47,10 +43,6 @@
             "items": {
               "type": "string"
             }
-          },
-          "status": {
-            "type": "string",
-            "enum": ["draft", "published", "archived"]
           }
         }
       },
@@ -89,7 +81,7 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "published", "archived"]
+            "enum": ["draft", "published"]
           },
           "createdAt": {
             "format": "date-time",
@@ -139,7 +131,7 @@
         "properties": {
           "status": {
             "type": "string",
-            "enum": ["draft", "published", "archived"]
+            "enum": ["draft", "published"]
           },
           "tag": {
             "type": "string"
@@ -198,7 +190,7 @@
                 },
                 "status": {
                   "type": "string",
-                  "enum": ["draft", "published", "archived"]
+                  "enum": ["draft", "published"]
                 },
                 "createdAt": {
                   "format": "date-time",
@@ -261,15 +253,12 @@
           },
           "statusCounts": {
             "type": "object",
-            "required": ["draft", "published", "archived"],
+            "required": ["draft", "published"],
             "properties": {
               "draft": {
                 "type": "number"
               },
               "published": {
-                "type": "number"
-              },
-              "archived": {
                 "type": "number"
               }
             }
@@ -2932,7 +2921,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["draft", "published", "archived"]
+              "enum": ["draft", "published"]
             }
           },
           {

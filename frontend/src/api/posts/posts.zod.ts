@@ -16,7 +16,6 @@ export const PostApiPostsBody = zod.object({
   title: zod.string().nullish(),
   content: zod.string().min(1),
   tags: zod.array(zod.string()).optional(),
-  status: zod.enum(["draft", "published", "archived"]).optional(),
 });
 
 /**
@@ -30,7 +29,7 @@ export const getApiPostsQueryOffsetDefault = 0;
 export const getApiPostsQueryOffsetMin = 0;
 
 export const GetApiPostsQueryParams = zod.object({
-  status: zod.enum(["draft", "published", "archived"]).optional(),
+  status: zod.enum(["draft", "published"]).optional(),
   tag: zod.string().optional(),
   limit: zod
     .number()
@@ -51,7 +50,7 @@ export const GetApiPostsResponse = zod.object({
       title: zod.string().nullable(),
       content: zod.string(),
       tags: zod.array(zod.string()),
-      status: zod.enum(["draft", "published", "archived"]),
+      status: zod.enum(["draft", "published"]),
       createdAt: zod.iso.datetime({}),
       updatedAt: zod.iso.datetime({}),
       publications: zod
@@ -81,7 +80,6 @@ export const GetApiPostsSummaryResponse = zod.object({
   statusCounts: zod.object({
     draft: zod.number(),
     published: zod.number(),
-    archived: zod.number(),
   }),
 });
 
@@ -99,7 +97,7 @@ export const GetApiPostsByIdResponse = zod.object({
   title: zod.string().nullable(),
   content: zod.string(),
   tags: zod.array(zod.string()),
-  status: zod.enum(["draft", "published", "archived"]),
+  status: zod.enum(["draft", "published"]),
   createdAt: zod.iso.datetime({}),
   updatedAt: zod.iso.datetime({}),
   publications: zod
@@ -128,7 +126,6 @@ export const PatchApiPostsByIdBody = zod.object({
   title: zod.string().nullish(),
   content: zod.string().min(1).optional(),
   tags: zod.array(zod.string()).optional(),
-  status: zod.enum(["draft", "published", "archived"]).optional(),
 });
 
 export const PatchApiPostsByIdResponse = zod.object({
@@ -137,7 +134,7 @@ export const PatchApiPostsByIdResponse = zod.object({
   title: zod.string().nullable(),
   content: zod.string(),
   tags: zod.array(zod.string()),
-  status: zod.enum(["draft", "published", "archived"]),
+  status: zod.enum(["draft", "published"]),
   createdAt: zod.iso.datetime({}),
   updatedAt: zod.iso.datetime({}),
   publications: zod

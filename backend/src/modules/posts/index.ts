@@ -30,7 +30,6 @@ function toPostResponse(post: {
   title: string | null;
   content: string;
   tags: string[];
-  status: "draft" | "published" | "archived";
   createdAt: Date;
   updatedAt: Date;
   publications?: Array<{
@@ -47,7 +46,7 @@ function toPostResponse(post: {
   title: string | null;
   content: string;
   tags: string[];
-  status: "draft" | "published" | "archived";
+  status: "draft" | "published";
   createdAt: string;
   updatedAt: string;
   publications?: Array<{
@@ -59,8 +58,12 @@ function toPostResponse(post: {
     publishedAt: string;
   }>;
 } {
+  const status =
+    post.publications && post.publications.length > 0 ? "published" : "draft";
+
   return {
     ...post,
+    status,
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString(),
     publications: post.publications?.map((pub) => ({

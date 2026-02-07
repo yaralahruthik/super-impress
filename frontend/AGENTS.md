@@ -12,7 +12,7 @@ with authentication, post creation, and scheduling features.
 - **Framework**: React 19.2 with React Compiler (babel-plugin-react-compiler)
 - **Language**: TypeScript 5.9 (strict mode)
 - **Build Tool**: Vite 7.2
-- **Package Manager**: pnpm 10.25 (required)
+- **Package Manager**: Bun (required)
 - **Node Version**: 24.11.1
 - **Styling**: Tailwind CSS 4.1 (CSS-based config in `src/index.css`)
 - **UI Components**: shadcn/ui (new-york style) with Radix UI primitives
@@ -26,14 +26,14 @@ with authentication, post creation, and scheduling features.
 
 | Command             | Description                              |
 | ------------------- | ---------------------------------------- |
-| `pnpm dev`          | Start development server                 |
-| `pnpm build`        | TypeScript check + Vite production build |
-| `pnpm lint:check`   | Check for ESLint issues                  |
-| `pnpm lint`         | Fix ESLint issues (quiet mode)           |
-| `pnpm format:check` | Check Prettier formatting                |
-| `pnpm format`       | Format code with Prettier                |
-| `pnpm preview`      | Preview production build                 |
-| `pnpm orval`        | Regenerate API client from OpenAPI spec  |
+| `bun dev`           | Start development server                 |
+| `bun run build`     | TypeScript check + Vite production build |
+| `bun run lint:check`| Check for ESLint issues                  |
+| `bun run lint`      | Fix ESLint issues (quiet mode)           |
+| `bun run format:check` | Check Prettier formatting             |
+| `bun run format`    | Format code with Prettier                |
+| `bun run preview`   | Preview production build                 |
+| `bun run orval`     | Regenerate API client from OpenAPI spec  |
 
 **Note**: No test framework is configured. There are no test commands.
 
@@ -180,7 +180,7 @@ onError: (error) => setError(getErrorMessage(error))
 To regenerate after backend API changes:
 
 ```bash
-pnpm orval
+bun run orval
 ```
 
 Use the generated React Query hooks directly:

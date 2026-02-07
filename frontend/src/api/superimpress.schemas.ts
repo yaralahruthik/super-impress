@@ -5,32 +5,13 @@
  * LinkedIn post management tool API
  * OpenAPI spec version: 1.0.0
  */
-export type PostCreateStatus =
-  (typeof PostCreateStatus)[keyof typeof PostCreateStatus];
-
-export const PostCreateStatus = {
-  draft: "draft",
-  published: "published",
-  archived: "archived",
-} as const;
-
 export interface PostCreate {
   /** @nullable */
   title?: string | null;
   /** @minLength 1 */
   content: string;
   tags?: string[];
-  status?: PostCreateStatus;
 }
-
-export type PostUpdateStatus =
-  (typeof PostUpdateStatus)[keyof typeof PostUpdateStatus];
-
-export const PostUpdateStatus = {
-  draft: "draft",
-  published: "published",
-  archived: "archived",
-} as const;
 
 export interface PostUpdate {
   /** @nullable */
@@ -38,7 +19,6 @@ export interface PostUpdate {
   /** @minLength 1 */
   content?: string;
   tags?: string[];
-  status?: PostUpdateStatus;
 }
 
 export type PostResponseStatus =
@@ -47,7 +27,6 @@ export type PostResponseStatus =
 export const PostResponseStatus = {
   draft: "draft",
   published: "published",
-  archived: "archived",
 } as const;
 
 export type PostResponsePublicationsItemPlatform =
@@ -91,7 +70,6 @@ export type PostListQueryStatus =
 export const PostListQueryStatus = {
   draft: "draft",
   published: "published",
-  archived: "archived",
 } as const;
 
 export interface PostListQuery {
@@ -112,7 +90,6 @@ export type PostListResponsePostsItemStatus =
 export const PostListResponsePostsItemStatus = {
   draft: "draft",
   published: "published",
-  archived: "archived",
 } as const;
 
 export type PostListResponsePostsItemPublicationsItemPlatform =
@@ -158,7 +135,6 @@ export interface PostListResponse {
 export type PostSummaryResponseStatusCounts = {
   draft: number;
   published: number;
-  archived: number;
 };
 
 export interface PostSummaryResponse {
@@ -1520,7 +1496,6 @@ export type GetApiPostsStatus =
 export const GetApiPostsStatus = {
   draft: "draft",
   published: "published",
-  archived: "archived",
 } as const;
 
 export type PostApiLinkedinPostBodyTwo = {

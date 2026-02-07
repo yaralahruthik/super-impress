@@ -10,12 +10,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { account, user } from "./auth";
 
-export const postStatusEnum = pgEnum("post_status", [
-  "draft",
-  "published",
-  "archived",
-]);
-
 export const socialPlatformEnum = pgEnum("social_platform", [
   "linkedin",
   "twitter",
@@ -33,7 +27,6 @@ export const post = pgTable(
     title: text("title"),
     content: text("content").notNull(),
     tags: text("tags").array().default([]).notNull(),
-    status: postStatusEnum("status").default("draft").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
@@ -45,7 +38,6 @@ export const post = pgTable(
   (table) => [
     index("post_user_id_idx").on(table.userId),
     index("post_title_idx").on(table.title),
-    index("post_status_idx").on(table.status),
   ]
 );
 

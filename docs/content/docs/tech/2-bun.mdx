@@ -1,0 +1,48 @@
+---
+title: Bun - Fast JavaScript Runtime & Package Manager
+description: Decision to use Bun for fast installs and unified tooling
+---
+
+We use [Bun](https://bun.sh/) for dependency management and tooling. It provides fast installs,
+a built-in JavaScript/TypeScript runtime, and a single toolchain for scripts and package
+management.
+
+## Installation
+
+Follow the [official installation instructions](https://bun.sh/docs/installation).
+
+## Quick Start
+
+```bash
+# Install dependencies
+bun install
+
+# Run dev server
+bun dev
+```
+
+## Why Bun?
+
+- **Fast:** Installs and runs scripts quickly with a modern runtime.
+- **Unified:** One tool for package management, scripts, and TypeScript execution.
+- **Reproducible:** Lockfile (`bun.lockb`) ensures consistent environments.
+- **Simple:** Minimal setup and fewer moving parts.
+
+## Key Commands
+
+```bash
+bun install         # Install dependencies
+bun add <package>   # Add dependency
+bun remove <pkg>    # Remove dependency
+bun run <script>    # Run package.json script
+bun update          # Update all dependencies
+bunx <pkg>          # Run package without installing
+```
+
+## Alternatives Considered
+
+- **npm:** Standard but slower, duplicates dependencies across projects.
+- **yarn:** Fragmented ecosystem after v2 (Berry), added complexity.
+- **pnpm:** Fast and efficient, but we prefer a single Bun toolchain.
+
+[Documentation](https://bun.sh/docs)

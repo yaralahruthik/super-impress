@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "fetch-openapi": "tsx scripts/fetch-openapi.ts",
     "orval": "bun fetch-openapi && orval",
+    "test": "bun test",
     "check": "ultracite check",
     "fix": "ultracite fix"
   },

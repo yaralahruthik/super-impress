@@ -1,8 +1,9 @@
 import { IconExternalLink } from "@tabler/icons-react";
 import type { PostListResponsePostsItemPublicationsItem } from "@/api/superimpress.schemas";
+import { constructSocialLink } from "@/utils/construct-social-links";
 import { getPlatformIcon, getPlatformLabel } from "./utils";
 
-export function PublicationHistory({
+export default function PublicationHistory({
   publications,
 }: {
   publications: PostListResponsePostsItemPublicationsItem[];
@@ -19,6 +20,11 @@ export function PublicationHistory({
         const Icon = getPlatformIcon(pub.platform);
         const label = getPlatformLabel(pub.platform);
         const isManual = !pub.accountId;
+        const resolvedUrl = constructSocialLink({
+          platform: pub.platform,
+          platformPostId: pub.platformPostId,
+          url: pub.url,
+        });
 
         return (
           <li className="flex items-center gap-2 text-xs" key={pub.id}>
@@ -33,10 +39,10 @@ export function PublicationHistory({
             >
               {isManual ? "Manual" : "Via linked account"}
             </span>
-            {pub.url && (
+            {resolvedUrl && (
               <a
                 className="ml-auto inline-flex items-center gap-1 text-muted-foreground hover:text-foreground"
-                href={pub.url}
+                href={resolvedUrl}
                 rel="noopener noreferrer"
                 target="_blank"
               >

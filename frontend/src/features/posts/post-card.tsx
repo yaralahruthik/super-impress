@@ -18,8 +18,8 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/utils/classname";
 import { getErrorMessage } from "@/utils/get-error-message";
-import { MarkAsPublishedDialog } from "./mark-as-published-dialog";
-import { PublicationHistory } from "./publication-history";
+import MarkAsPublishedDialog from "./mark-as-published-dialog";
+import PublicationHistory from "./publication-history";
 
 function StatusBadge({ status }: { status: string }) {
   const styles = {
@@ -122,7 +122,11 @@ export function PostCard({
               title="Copy post"
               variant="outline"
             >
-              {copied ? <IconCheck className="size-4" /> : <IconCopy className="size-4" />}
+              {copied ? (
+                <IconCheck className="size-4" />
+              ) : (
+                <IconCopy className="size-4" />
+              )}
               {copied ? "Copied" : "Copy Post"}
             </Button>
             <Button

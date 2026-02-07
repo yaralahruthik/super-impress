@@ -14,8 +14,8 @@ import {
 import {
   createPost,
   deletePost,
-  getPostsSummary,
   getPostById,
+  getPostsSummary,
   listUserPosts,
   markAsPublished,
   updatePost,
@@ -133,7 +133,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
   )
   .get(
     "/summary",
-    async ({ user }) => {
+    ({ user }) => {
       return getPostsSummary(user.id);
     },
     {

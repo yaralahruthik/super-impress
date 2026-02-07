@@ -2,18 +2,20 @@ import { and, arrayContains, count, desc, eq } from "drizzle-orm";
 import { db } from "../../db";
 import { post, postPublication } from "../../db/schema";
 import type {
-	ManualPublicationRequest,
-	PostCreate,
-	PostStatus,
-	PostUpdate,
+  ManualPublicationRequest,
+  PostCreate,
+  PostStatus,
+  PostUpdate,
 } from "./model";
 
+const WORD_REGEX = /\s+/;
+
 function countWords(content: string): number {
-	const trimmed = content.trim();
-	if (!trimmed) {
-		return 0;
-	}
-	return trimmed.split(/\s+/).length;
+  const trimmed = content.trim();
+  if (!trimmed) {
+    return 0;
+  }
+  return trimmed.split(WORD_REGEX).length;
 }
 
 export async function createPost(
@@ -118,9 +120,9 @@ export async function deletePost(
 }
 
 export async function markAsPublished(
-	userId: string,
-	postId: string,
-	data: ManualPublicationRequest
+  userId: string,
+  postId: string,
+  data: ManualPublicationRequest
 ) {
   const existing = await getPostById(postId, userId);
   if (!existing) {
@@ -146,40 +148,38 @@ export async function markAsPublished(
       .where(and(eq(post.id, postId), eq(post.userId, userId)));
   }
 
-	return publication;
+  return publication;
 }
 
-export async function getPostsSummary(
-	userId: string
-): Promise<{
-	totalPosts: number;
-	totalWordCount: number;
-	statusCounts: { draft: number; published: number; archived: number };
+export async function getPostsSummary(userId: string): Promise<{
+  totalPosts: number;
+  totalWordCount: number;
+  statusCounts: { draft: number; published: number; archived: number };
 }> {
-	const posts = await db.query.post.findMany({
-		where: eq(post.userId, userId),
-		columns: {
-			content: true,
-			status: true,
-		},
-	});
+  const posts = await db.query.post.findMany({
+    where: eq(post.userId, userId),
+    columns: {
+      content: true,
+      status: true,
+    },
+  });
 
-	const statusCounts = {
-		draft: 0,
-		published: 0,
-		archived: 0,
-	};
+  const statusCounts = {
+    draft: 0,
+    published: 0,
+    archived: 0,
+  };
 
-	let totalWordCount = 0;
+  let totalWordCount = 0;
 
-	for (const record of posts) {
-		statusCounts[record.status] += 1;
-		totalWordCount += countWords(record.content);
-	}
+  for (const record of posts) {
+    statusCounts[record.status] += 1;
+    totalWordCount += countWords(record.content);
+  }
 
-	return {
-		totalPosts: posts.length,
-		totalWordCount,
-		statusCounts,
-	};
+  return {
+    totalPosts: posts.length,
+    totalWordCount,
+    statusCounts,
+  };
 }

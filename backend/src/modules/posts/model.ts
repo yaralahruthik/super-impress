@@ -1,5 +1,6 @@
 import { type Static, Type } from "@sinclair/typebox";
 import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
+import { DEFAULT_POSTS_LIMIT } from "../../constants";
 import { post } from "../../db/schema";
 
 // Derive insert schema, customize content validation
@@ -87,7 +88,13 @@ export type PostStatus = Static<typeof PostStatus>;
 export const PostListQuery = Type.Object({
   status: Type.Optional(PostStatus),
   tag: Type.Optional(Type.String()),
-  limit: Type.Optional(Type.Number({ minimum: 1, maximum: 100, default: 100 })),
+  limit: Type.Optional(
+    Type.Number({
+      minimum: 1,
+      maximum: DEFAULT_POSTS_LIMIT,
+      default: DEFAULT_POSTS_LIMIT,
+    })
+  ),
   offset: Type.Optional(Type.Number({ minimum: 0, default: 0 })),
 });
 export type PostListQuery = Static<typeof PostListQuery>;

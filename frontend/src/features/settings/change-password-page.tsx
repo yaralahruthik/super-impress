@@ -18,6 +18,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { PASSWORD } from "@/constants";
 import { getErrorMessage } from "@/utils/get-error-message";
 
 const formSchema = z
@@ -25,8 +26,14 @@ const formSchema = z
     currentPassword: z.string().min(1, "Current password is required"),
     newPassword: z
       .string()
-      .min(8, "Password must be at least 8 characters")
-      .max(15, "Password must be at most 15 characters"),
+      .min(
+        PASSWORD.minLength,
+        `Password must be at least ${PASSWORD.minLength} characters`
+      )
+      .max(
+        PASSWORD.maxLength,
+        `Password must be at most ${PASSWORD.maxLength} characters`
+      ),
     confirmPassword: z.string().min(1, "Please confirm your new password"),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {

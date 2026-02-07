@@ -33,21 +33,16 @@ import {
   EmptyTitle,
 } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
+import { STATUS_STYLES } from "@/constants";
 import { cn } from "@/utils/classname";
 import { formatDate } from "@/utils/format-date";
 
 type StatusKey = "draft" | "published" | "archived";
 
 function StatusBadge({ status }: { status: string }) {
-  const styles: Record<StatusKey, string> = {
-    draft: "bg-yellow-100 text-yellow-800 border-yellow-200",
-    published: "bg-green-100 text-green-800 border-green-200",
-    archived: "bg-gray-100 text-gray-800 border-gray-200",
-  };
-
   const statusKey = status.toLowerCase() as StatusKey;
   const className =
-    styles[statusKey] || "bg-secondary text-secondary-foreground";
+    STATUS_STYLES[statusKey] || "bg-secondary text-secondary-foreground";
 
   return (
     <span

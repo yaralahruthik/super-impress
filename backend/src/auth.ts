@@ -7,14 +7,17 @@ import * as schema from "./db/schema";
 
 export const auth = betterAuth({
   basePath: "/auth",
-  trustedOrigins: ["http://localhost:5173", "https://www.linkedin.com"],
+  trustedOrigins: [
+    process.env.FRONTEND_URL || "http://localhost:5173",
+    "https://www.linkedin.com",
+  ],
   socialProviders: {
     linkedin: {
       clientId: process.env.LINKEDIN_CLIENT_ID as string,
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET as string,
       // Minimal scopes (openid/profile/email) are included by default.
       // Request posting scopes via `/api/auth/link-social` (scopes param).
-      redirectURI: "http://localhost:3000/api/auth/callback/linkedin",
+      redirectURI: `${process.env.BETTER_AUTH_URL || "http://localhost:3000"}/api/auth/callback/linkedin`,
     },
   },
   database: drizzleAdapter(db, {

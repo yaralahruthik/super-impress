@@ -1,4 +1,5 @@
 import type { PostListResponsePostsItemPublicationsItemPlatform } from "@/api/superimpress.schemas";
+import { LINKEDIN } from "@/constants";
 
 type ConstructSocialLinkOptions = {
   platform: PostListResponsePostsItemPublicationsItemPlatform;
@@ -11,7 +12,7 @@ const buildLinkedInUrl = (platformPostId: string): string => {
     ? platformPostId
     : `urn:li:share:${platformPostId}`;
 
-  return `https://www.linkedin.com/feed/update/${urn}`;
+  return `${LINKEDIN.feedBaseUrl}${urn}`;
 };
 
 export const constructSocialLink = ({

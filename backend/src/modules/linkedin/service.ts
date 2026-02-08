@@ -44,7 +44,7 @@ export async function getConnectionStatus(headers: Headers): Promise<{
 
 export async function publishPost(
   userId: string,
-  postId: string,
+  postId: number,
   headers: Headers
 ): Promise<{ linkedInPostId: string }> {
   const [postRecord] = await db
@@ -95,7 +95,7 @@ export async function publishPost(
   return { linkedInPostId };
 }
 
-export async function getPublications(postId: string) {
+export async function getPublications(postId: number) {
   return await db
     .select()
     .from(postPublication)

@@ -60,8 +60,9 @@
         ],
         "properties": {
           "id": {
-            "format": "uuid",
-            "type": "string"
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "type": "integer"
           },
           "userId": {
             "type": "string"
@@ -98,8 +99,8 @@
               "required": ["id", "platform", "publishedAt"],
               "properties": {
                 "id": {
-                  "format": "uuid",
-                  "type": "string"
+                  "minimum": 1,
+                  "type": "integer"
                 },
                 "platform": {
                   "type": "string",
@@ -169,8 +170,9 @@
               ],
               "properties": {
                 "id": {
-                  "format": "uuid",
-                  "type": "string"
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "type": "integer"
                 },
                 "userId": {
                   "type": "string"
@@ -207,8 +209,8 @@
                     "required": ["id", "platform", "publishedAt"],
                     "properties": {
                       "id": {
-                        "format": "uuid",
-                        "type": "string"
+                        "minimum": 1,
+                        "type": "integer"
                       },
                       "platform": {
                         "type": "string",
@@ -284,12 +286,12 @@
         "required": ["id", "postId", "platform", "url", "publishedAt"],
         "properties": {
           "id": {
-            "format": "uuid",
-            "type": "string"
+            "minimum": 1,
+            "type": "integer"
           },
           "postId": {
-            "format": "uuid",
-            "type": "string"
+            "minimum": 1,
+            "type": "integer"
           },
           "platform": {
             "type": "string",
@@ -319,8 +321,8 @@
         "required": ["postId"],
         "properties": {
           "postId": {
-            "format": "uuid",
-            "type": "string"
+            "minimum": 1,
+            "type": "integer"
           }
         }
       },
@@ -541,8 +543,8 @@
         "required": ["postId"],
         "properties": {
           "postId": {
-            "format": "uuid",
-            "type": "string"
+            "minimum": 1,
+            "type": "integer"
           }
         }
       },
@@ -3000,7 +3002,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
+              "pattern": "^[0-9]+$",
               "type": "string"
             }
           }
@@ -3012,6 +3014,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/PostResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Response for status 400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostError"
                 }
               }
             }
@@ -3039,7 +3051,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
+              "pattern": "^[0-9]+$",
               "type": "string"
             }
           }
@@ -3075,6 +3087,16 @@
               }
             }
           },
+          "400": {
+            "description": "Response for status 400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostError"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Response for status 404",
             "content": {
@@ -3098,12 +3120,22 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
+              "pattern": "^[0-9]+$",
               "type": "string"
             }
           }
         ],
         "responses": {
+          "400": {
+            "description": "Response for status 400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostError"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Response for status 404",
             "content": {
@@ -3129,7 +3161,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
+              "pattern": "^[0-9]+$",
               "type": "string"
             }
           }
@@ -3165,6 +3197,16 @@
               }
             }
           },
+          "400": {
+            "description": "Response for status 400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostError"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Response for status 404",
             "content": {
@@ -3190,7 +3232,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
+              "pattern": "^[0-9]+$",
               "type": "string"
             }
           },
@@ -3199,12 +3241,22 @@
             "in": "path",
             "required": true,
             "schema": {
-              "format": "uuid",
+              "pattern": "^[0-9]+$",
               "type": "string"
             }
           }
         ],
         "responses": {
+          "400": {
+            "description": "Response for status 400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostError"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Response for status 404",
             "content": {
@@ -3258,8 +3310,8 @@
                 "required": ["postId"],
                 "properties": {
                   "postId": {
-                    "format": "uuid",
-                    "type": "string"
+                    "minimum": 1,
+                    "type": "integer"
                   }
                 }
               }
@@ -3270,8 +3322,8 @@
                 "required": ["postId"],
                 "properties": {
                   "postId": {
-                    "format": "uuid",
-                    "type": "string"
+                    "minimum": 1,
+                    "type": "integer"
                   }
                 }
               }

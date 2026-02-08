@@ -37,7 +37,7 @@ export type Platform = Static<typeof PlatformSchema>;
 
 // Publication schema for including in post response
 export const Publication = Type.Object({
-  id: Type.String({ format: "uuid" }),
+  id: Type.Integer({ minimum: 1 }),
   platform: PlatformSchema,
   platformPostId: Type.Optional(Type.Union([Type.String(), Type.Null()])),
   url: Type.Optional(Type.Union([Type.String(), Type.Null()])),
@@ -54,8 +54,8 @@ export const ManualPublicationRequest = Type.Object({
 export type ManualPublicationRequest = Static<typeof ManualPublicationRequest>;
 
 export const ManualPublicationResponse = Type.Object({
-  id: Type.String({ format: "uuid" }),
-  postId: Type.String({ format: "uuid" }),
+  id: Type.Integer({ minimum: 1 }),
+  postId: Type.Integer({ minimum: 1 }),
   platform: PlatformSchema,
   url: Type.Union([Type.String(), Type.Null()]),
   publishedAt: Type.String({ format: "date-time" }),

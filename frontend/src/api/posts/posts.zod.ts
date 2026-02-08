@@ -42,10 +42,16 @@ export const GetApiPostsQueryParams = zod.object({
     .default(getApiPostsQueryOffsetDefault),
 });
 
+export const getApiPostsResponsePostsItemIdMin = -9007199254740991;
+export const getApiPostsResponsePostsItemIdMax = 9007199254740991;
+
 export const GetApiPostsResponse = zod.object({
   posts: zod.array(
     zod.object({
-      id: zod.uuid(),
+      id: zod
+        .number()
+        .min(getApiPostsResponsePostsItemIdMin)
+        .max(getApiPostsResponsePostsItemIdMax),
       userId: zod.string(),
       title: zod.string().nullable(),
       content: zod.string(),
@@ -56,7 +62,7 @@ export const GetApiPostsResponse = zod.object({
       publications: zod
         .array(
           zod.object({
-            id: zod.uuid(),
+            id: zod.number().min(1),
             platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
             platformPostId: zod.string().nullish(),
             url: zod.string().nullish(),
@@ -87,12 +93,20 @@ export const GetApiPostsSummaryResponse = zod.object({
  * Get a specific post by ID
  * @summary Get a post
  */
+export const getApiPostsByIdPathIdRegExp = /^[0-9]+$/;
+
 export const GetApiPostsByIdParams = zod.object({
-  id: zod.uuid(),
+  id: zod.string().regex(getApiPostsByIdPathIdRegExp),
 });
 
+export const getApiPostsByIdResponseIdMin = -9007199254740991;
+export const getApiPostsByIdResponseIdMax = 9007199254740991;
+
 export const GetApiPostsByIdResponse = zod.object({
-  id: zod.uuid(),
+  id: zod
+    .number()
+    .min(getApiPostsByIdResponseIdMin)
+    .max(getApiPostsByIdResponseIdMax),
   userId: zod.string(),
   title: zod.string().nullable(),
   content: zod.string(),
@@ -103,7 +117,7 @@ export const GetApiPostsByIdResponse = zod.object({
   publications: zod
     .array(
       zod.object({
-        id: zod.uuid(),
+        id: zod.number().min(1),
         platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
         platformPostId: zod.string().nullish(),
         url: zod.string().nullish(),
@@ -118,8 +132,10 @@ export const GetApiPostsByIdResponse = zod.object({
  * Update a specific post by ID
  * @summary Update a post
  */
+export const patchApiPostsByIdPathIdRegExp = /^[0-9]+$/;
+
 export const PatchApiPostsByIdParams = zod.object({
-  id: zod.uuid(),
+  id: zod.string().regex(patchApiPostsByIdPathIdRegExp),
 });
 
 export const PatchApiPostsByIdBody = zod.object({
@@ -128,8 +144,14 @@ export const PatchApiPostsByIdBody = zod.object({
   tags: zod.array(zod.string()).optional(),
 });
 
+export const patchApiPostsByIdResponseIdMin = -9007199254740991;
+export const patchApiPostsByIdResponseIdMax = 9007199254740991;
+
 export const PatchApiPostsByIdResponse = zod.object({
-  id: zod.uuid(),
+  id: zod
+    .number()
+    .min(patchApiPostsByIdResponseIdMin)
+    .max(patchApiPostsByIdResponseIdMax),
   userId: zod.string(),
   title: zod.string().nullable(),
   content: zod.string(),
@@ -140,7 +162,7 @@ export const PatchApiPostsByIdResponse = zod.object({
   publications: zod
     .array(
       zod.object({
-        id: zod.uuid(),
+        id: zod.number().min(1),
         platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
         platformPostId: zod.string().nullish(),
         url: zod.string().nullish(),
@@ -155,16 +177,20 @@ export const PatchApiPostsByIdResponse = zod.object({
  * Delete a specific post by ID
  * @summary Delete a post
  */
+export const deleteApiPostsByIdPathIdRegExp = /^[0-9]+$/;
+
 export const DeleteApiPostsByIdParams = zod.object({
-  id: zod.uuid(),
+  id: zod.string().regex(deleteApiPostsByIdPathIdRegExp),
 });
 
 /**
  * Manually record that a post was published on a platform
  * @summary Mark post as published
  */
+export const postApiPostsByIdPublicationsPathIdRegExp = /^[0-9]+$/;
+
 export const PostApiPostsByIdPublicationsParams = zod.object({
-  id: zod.uuid(),
+  id: zod.string().regex(postApiPostsByIdPublicationsPathIdRegExp),
 });
 
 export const PostApiPostsByIdPublicationsBody = zod.object({
@@ -176,7 +202,18 @@ export const PostApiPostsByIdPublicationsBody = zod.object({
  * Delete a publication history entry from a post for the authenticated user
  * @summary Delete publication record
  */
+export const deleteApiPostsByIdPublicationsByPublicationIdPathIdRegExp =
+  /^[0-9]+$/;
+export const deleteApiPostsByIdPublicationsByPublicationIdPathPublicationIdRegExp =
+  /^[0-9]+$/;
+
 export const DeleteApiPostsByIdPublicationsByPublicationIdParams = zod.object({
-  id: zod.uuid(),
-  publicationId: zod.uuid(),
+  id: zod
+    .string()
+    .regex(deleteApiPostsByIdPublicationsByPublicationIdPathIdRegExp),
+  publicationId: zod
+    .string()
+    .regex(
+      deleteApiPostsByIdPublicationsByPublicationIdPathPublicationIdRegExp
+    ),
 });

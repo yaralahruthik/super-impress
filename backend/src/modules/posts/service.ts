@@ -36,7 +36,7 @@ export async function createPost(
   return newPost;
 }
 
-export async function getPostById(postId: string, userId: string) {
+export async function getPostById(postId: number, userId: string) {
   const result = await db.query.post.findFirst({
     where: and(eq(post.id, postId), eq(post.userId, userId)),
     with: {
@@ -99,7 +99,7 @@ export async function listUserPosts(options: {
 }
 
 export async function updatePost(
-  postId: string,
+  postId: number,
   userId: string,
   data: PostUpdate
 ): Promise<Awaited<ReturnType<typeof getPostById>>> {
@@ -117,7 +117,7 @@ export async function updatePost(
 }
 
 export async function deletePost(
-  postId: string,
+  postId: number,
   userId: string
 ): Promise<boolean> {
   const existing = await getPostById(postId, userId);
@@ -134,7 +134,7 @@ export async function deletePost(
 
 export async function markAsPublished(
   userId: string,
-  postId: string,
+  postId: number,
   data: ManualPublicationRequest
 ) {
   const existing = await getPostById(postId, userId);
@@ -159,8 +159,8 @@ export async function markAsPublished(
 
 export async function deletePublication(
   userId: string,
-  postId: string,
-  publicationId: string
+  postId: number,
+  publicationId: number
 ): Promise<boolean> {
   const publication = await db.query.postPublication.findFirst({
     where: and(

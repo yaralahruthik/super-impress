@@ -4,7 +4,7 @@ import { type Static, Type } from "@sinclair/typebox";
  * Request to publish a post to LinkedIn
  */
 export const LinkedInPostRequest = Type.Object({
-  postId: Type.String({ format: "uuid" }),
+  postId: Type.Integer({ minimum: 1 }),
 });
 export type LinkedInPostRequest = Static<typeof LinkedInPostRequest>;
 

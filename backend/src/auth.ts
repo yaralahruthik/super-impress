@@ -4,13 +4,13 @@ import { openAPI } from "better-auth/plugins";
 import { Elysia } from "elysia";
 import { db } from "./db";
 import * as schema from "./db/schema";
+import { sendResetPassword } from "./emails/reset-password";
+
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 export const auth = betterAuth({
   basePath: "/auth",
-  trustedOrigins: [
-    process.env.FRONTEND_URL || "http://localhost:5173",
-    "https://www.linkedin.com",
-  ],
+  trustedOrigins: [FRONTEND_URL, "https://www.linkedin.com"],
   socialProviders: {
     linkedin: {
       clientId: process.env.LINKEDIN_CLIENT_ID as string,
@@ -26,6 +26,7 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    sendResetPassword,
   },
   user: {
     deleteUser: {

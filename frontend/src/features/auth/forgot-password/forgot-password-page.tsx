@@ -1,8 +1,8 @@
 import { useForm } from "@tanstack/react-form";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import * as z from "zod";
-import { useSignInEmail } from "@/api/better-auth/better-auth";
+import { useRequestPasswordReset } from "@/api/better-auth/better-auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,40 +19,44 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { URLS } from "@/constants";
 import { AuthLayout } from "@/layouts/auth-layout";
 import { getErrorMessage } from "@/utils/get-error-message";
 
 const formSchema = z.object({
   email: z.email("Invalid email address"),
-  password: z.string().min(1, "Password is required"),
 });
 
-export default function LoginPage() {
-  const router = useRouter();
+export default function ForgotPasswordPage() {
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const { mutate, isPending } = useRequestPasswordReset();
 
-  const { mutate, isPending } = useSignInEmail();
+  const redirectTo = URLS.app.endsWith("/")
+    ? `${URLS.app}reset-password`
+    : `${URLS.app}/reset-password`;
 
   const form = useForm({
     defaultValues: {
       email: "",
-      password: "",
     },
     validators: {
       onSubmit: formSchema,
     },
     onSubmit: ({ value }) => {
       setError(null);
+      setSuccess(false);
+
       mutate(
         {
           data: {
             email: value.email,
-            password: value.password,
+            redirectTo,
           },
         },
         {
           onSuccess: () => {
-            router.invalidate();
+            setSuccess(true);
           },
           onError: (error) => {
             setError(getErrorMessage(error));
@@ -66,15 +70,16 @@ export default function LoginPage() {
     <AuthLayout>
       <Card>
         <CardHeader>
-          <CardTitle>Sign In</CardTitle>
+          <CardTitle>Forgot Password</CardTitle>
           <CardDescription>
-            Enter your email and password to access your account
+            Enter the email address for your account and we will send a reset
+            link.
           </CardDescription>
         </CardHeader>
 
         <CardContent>
           <form
-            id="login-form"
+            id="forgot-password-form"
             onSubmit={(e) => {
               e.preventDefault();
               form.handleSubmit();
@@ -108,41 +113,7 @@ export default function LoginPage() {
                   }}
                   name="email"
                 />
-                <form.Field
-                  children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor="password">Password</FieldLabel>
-                        <Input
-                          aria-invalid={isInvalid}
-                          autoComplete="current-password"
-                          id="password"
-                          name="password"
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          required
-                          type="password"
-                          value={field.state.value}
-                        />
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
-                      </Field>
-                    );
-                  }}
-                  name="password"
-                />
               </FieldGroup>
-              <div className="flex justify-end">
-                <Link
-                  className="font-medium text-primary text-sm hover:underline"
-                  to="/forgot-password"
-                >
-                  Forgot password?
-                </Link>
-              </div>
 
               {error && (
                 <div
@@ -153,8 +124,15 @@ export default function LoginPage() {
                 </div>
               )}
 
+              {success && (
+                <output className="inline-flex rounded-md bg-green-100 px-4 py-3 text-green-800 text-sm dark:bg-green-900/30 dark:text-green-400">
+                  If an account exists for this email, a reset link has been
+                  sent.
+                </output>
+              )}
+
               <Button aria-busy={isPending} className="w-full" type="submit">
-                {isPending ? "Signing in..." : "Sign In"}
+                {isPending ? "Sending link..." : "Send reset link"}
               </Button>
             </fieldset>
           </form>
@@ -162,14 +140,12 @@ export default function LoginPage() {
 
         <CardFooter className="justify-center">
           <div className="text-center text-sm">
-            <span className="text-muted-foreground">
-              Don't have an account?{" "}
-            </span>
+            <span className="text-muted-foreground">Remembered it? </span>
             <Link
               className="font-medium text-primary hover:underline"
-              to="/register"
+              to="/login"
             >
-              Sign up
+              Back to sign in
             </Link>
           </div>
         </CardFooter>

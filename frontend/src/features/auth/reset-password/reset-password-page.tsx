@@ -1,8 +1,8 @@
 import { useForm } from "@tanstack/react-form";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import * as z from "zod";
-import { useSignUpWithEmailAndPassword } from "@/api/better-auth/better-auth";
+import { useResetPassword } from "@/api/better-auth/better-auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,9 +25,7 @@ import { getErrorMessage } from "@/utils/get-error-message";
 
 const formSchema = z
   .object({
-    name: z.string().min(1, "Name is required"),
-    email: z.email("Invalid email address"),
-    password: z
+    newPassword: z
       .string()
       .min(
         PASSWORD.minLength,
@@ -37,42 +35,65 @@ const formSchema = z
         PASSWORD.maxLength,
         `Password must be at most ${PASSWORD.maxLength} characters`
       ),
-    confirmPassword: z.string(),
+    confirmPassword: z.string().min(1, "Please confirm your new password"),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
-export default function RegisterPage() {
-  const [error, setError] = useState<string | null>(null);
+function getResetLinkErrorMessage(error: string): string {
+  if (error === "INVALID_TOKEN") {
+    return "This password reset link is invalid or expired. Request a new one.";
+  }
+  return "This password reset link is invalid. Request a new one.";
+}
 
+export default function ResetPasswordPage() {
   const navigate = useNavigate();
-  const { mutate, isPending } = useSignUpWithEmailAndPassword();
+  const location = useRouterState({ select: (state) => state.location });
+  const searchParams = useMemo(
+    () => new URLSearchParams(location.search),
+    [location.search]
+  );
+
+  const token = searchParams.get("token");
+  const linkError = searchParams.get("error");
+  const hasValidToken = Boolean(token) && !linkError;
+
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const { mutate, isPending } = useResetPassword();
 
   const form = useForm({
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      newPassword: "",
       confirmPassword: "",
     },
     validators: {
       onSubmit: formSchema,
     },
     onSubmit: ({ value }) => {
+      if (!token) {
+        setError("Password reset token is missing. Please request a new link.");
+        return;
+      }
+
       setError(null);
+      setSuccess(false);
       mutate(
         {
           data: {
-            name: value.name,
-            email: value.email,
-            password: value.password,
+            newPassword: value.newPassword,
+            token,
           },
         },
         {
           onSuccess: () => {
-            navigate({ to: "/login" });
+            setSuccess(true);
+            setTimeout(() => {
+              navigate({ to: "/login" });
+            }, 1500);
           },
           onError: (error) => {
             setError(getErrorMessage(error));
@@ -86,21 +107,35 @@ export default function RegisterPage() {
     <AuthLayout>
       <Card>
         <CardHeader>
-          <CardTitle>Create Account</CardTitle>
+          <CardTitle>Reset Password</CardTitle>
           <CardDescription>
-            Enter your details to create a new account
+            Choose a new password for your account
           </CardDescription>
         </CardHeader>
 
         <CardContent>
+          {!hasValidToken && (
+            <div
+              className="mb-4 rounded-md bg-destructive/10 px-4 py-3 text-destructive text-sm"
+              role="alert"
+            >
+              {linkError
+                ? getResetLinkErrorMessage(linkError)
+                : "Password reset token is missing. Request a new reset link."}
+            </div>
+          )}
+
           <form
-            id="register-form"
+            id="reset-password-form"
             onSubmit={(e) => {
               e.preventDefault();
               form.handleSubmit();
             }}
           >
-            <fieldset className="space-y-4" disabled={isPending}>
+            <fieldset
+              className="space-y-4"
+              disabled={!hasValidToken || isPending || success}
+            >
               <FieldGroup>
                 <form.Field
                   children={(field) => {
@@ -108,82 +143,28 @@ export default function RegisterPage() {
                       field.state.meta.isTouched && !field.state.meta.isValid;
                     return (
                       <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor="name">Name</FieldLabel>
-                        <Input
-                          aria-invalid={isInvalid}
-                          autoComplete="name"
-                          id="name"
-                          name="name"
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          required
-                          type="text"
-                          value={field.state.value}
-                        />
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
-                      </Field>
-                    );
-                  }}
-                  name="name"
-                />
-                <form.Field
-                  children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor="email">Email</FieldLabel>
-                        <Input
-                          aria-invalid={isInvalid}
-                          autoComplete="email"
-                          id="email"
-                          name="email"
-                          onBlur={field.handleBlur}
-                          onChange={(e) => field.handleChange(e.target.value)}
-                          required
-                          type="email"
-                          value={field.state.value}
-                        />
-                        {isInvalid && (
-                          <FieldError errors={field.state.meta.errors} />
-                        )}
-                      </Field>
-                    );
-                  }}
-                  name="email"
-                />
-                <form.Field
-                  children={(field) => {
-                    const isInvalid =
-                      field.state.meta.isTouched && !field.state.meta.isValid;
-                    return (
-                      <Field data-invalid={isInvalid}>
-                        <FieldLabel htmlFor="password">Password</FieldLabel>
+                        <FieldLabel htmlFor="newPassword">
+                          New Password
+                        </FieldLabel>
                         <Input
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
-                          id="password"
+                          id="newPassword"
                           minLength={PASSWORD.minLength}
-                          name="password"
+                          name="newPassword"
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}
                           required
                           type="password"
                           value={field.state.value}
                         />
-                        <p className="text-muted-foreground text-xs">
-                          Must be 8-15 characters with uppercase, lowercase,
-                          digit, and special character
-                        </p>
                         {isInvalid && (
                           <FieldError errors={field.state.meta.errors} />
                         )}
                       </Field>
                     );
                   }}
-                  name="password"
+                  name="newPassword"
                 />
                 <form.Field
                   children={(field) => {
@@ -192,7 +173,7 @@ export default function RegisterPage() {
                     return (
                       <Field data-invalid={isInvalid}>
                         <FieldLabel htmlFor="confirmPassword">
-                          Confirm Password
+                          Confirm New Password
                         </FieldLabel>
                         <Input
                           aria-invalid={isInvalid}
@@ -225,8 +206,19 @@ export default function RegisterPage() {
                 </div>
               )}
 
-              <Button aria-busy={isPending} className="w-full" type="submit">
-                {isPending ? "Creating account..." : "Create Account"}
+              {success && (
+                <output className="inline-flex rounded-md bg-green-100 px-4 py-3 text-green-800 text-sm dark:bg-green-900/30 dark:text-green-400">
+                  Password reset successful! Redirecting to sign in...
+                </output>
+              )}
+
+              <Button
+                aria-busy={isPending}
+                className="w-full"
+                disabled={!hasValidToken}
+                type="submit"
+              >
+                {isPending ? "Resetting password..." : "Reset Password"}
               </Button>
             </fieldset>
           </form>
@@ -234,14 +226,11 @@ export default function RegisterPage() {
 
         <CardFooter className="justify-center">
           <div className="text-center text-sm">
-            <span className="text-muted-foreground">
-              Already have an account?{" "}
-            </span>
             <Link
               className="font-medium text-primary hover:underline"
-              to="/login"
+              to="/forgot-password"
             >
-              Sign in
+              Request a new reset link
             </Link>
           </div>
         </CardFooter>

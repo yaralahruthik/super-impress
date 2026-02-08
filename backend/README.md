@@ -33,6 +33,7 @@ cp .env.example .env
 3. Configure your `.env` file with:
    - Database connection string
    - better-auth secret and URL
+   - Resend API key and sender email (for password reset emails)
    - LinkedIn OAuth credentials (see LinkedIn Setup below)
 
 4. Run database migrations:

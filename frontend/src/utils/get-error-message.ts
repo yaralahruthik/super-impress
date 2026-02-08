@@ -1,5 +1,45 @@
 import type { AxiosError } from "axios";
 
+function getDetailErrorMessage(responseData: unknown): string | null {
+  if (
+    !responseData ||
+    typeof responseData !== "object" ||
+    !("detail" in responseData)
+  ) {
+    return null;
+  }
+
+  const detail = (responseData as { detail: unknown }).detail;
+
+  if (typeof detail === "string") {
+    return detail;
+  }
+
+  if (!Array.isArray(detail) || detail.length === 0) {
+    return null;
+  }
+
+  const firstError = detail[0];
+  if (!firstError || typeof firstError !== "object" || !("msg" in firstError)) {
+    return null;
+  }
+
+  return String(firstError.msg);
+}
+
+function getMessageError(responseData: unknown): string | null {
+  if (
+    !responseData ||
+    typeof responseData !== "object" ||
+    !("message" in responseData)
+  ) {
+    return null;
+  }
+
+  const message = (responseData as { message?: unknown }).message;
+  return typeof message === "string" ? message : null;
+}
+
 /**
  * Extracts a user-friendly error message from an Axios error.
  * Handles both FastAPI HTTPException (detail as string) and
@@ -11,26 +51,14 @@ export function getErrorMessage(error: AxiosError<unknown> | null): string {
   }
 
   const responseData = error.response?.data;
+  const detailErrorMessage = getDetailErrorMessage(responseData);
+  if (detailErrorMessage) {
+    return detailErrorMessage;
+  }
 
-  if (
-    responseData &&
-    typeof responseData === "object" &&
-    "detail" in responseData
-  ) {
-    const detail = (responseData as { detail: unknown }).detail;
-
-    // FastAPI HTTPException - detail is a string
-    if (typeof detail === "string") {
-      return detail;
-    }
-
-    // FastAPI HTTPValidationError - detail is an array of validation errors
-    if (Array.isArray(detail) && detail.length > 0) {
-      const firstError = detail[0];
-      if (firstError && typeof firstError === "object" && "msg" in firstError) {
-        return String(firstError.msg);
-      }
-    }
+  const messageError = getMessageError(responseData);
+  if (messageError) {
+    return messageError;
   }
 
   // Fallback to the generic axios error message

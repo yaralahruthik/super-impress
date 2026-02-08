@@ -165,7 +165,6 @@ export default function RegisterPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="password"
-                          maxLength={PASSWORD.maxLength}
                           minLength={PASSWORD.minLength}
                           name="password"
                           onBlur={field.handleBlur}
@@ -199,7 +198,6 @@ export default function RegisterPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="confirmPassword"
-                          maxLength={PASSWORD.maxLength}
                           minLength={PASSWORD.minLength}
                           name="confirmPassword"
                           onBlur={field.handleBlur}

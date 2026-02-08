@@ -150,7 +150,6 @@ export default function ResetPasswordPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="newPassword"
-                          maxLength={PASSWORD.maxLength}
                           minLength={PASSWORD.minLength}
                           name="newPassword"
                           onBlur={field.handleBlur}
@@ -180,7 +179,6 @@ export default function ResetPasswordPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="confirmPassword"
-                          maxLength={PASSWORD.maxLength}
                           minLength={PASSWORD.minLength}
                           name="confirmPassword"
                           onBlur={field.handleBlur}

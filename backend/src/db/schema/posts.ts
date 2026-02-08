@@ -1,12 +1,13 @@
 import { relations } from "drizzle-orm";
 import {
+  bigint,
+  bigserial,
   index,
   jsonb,
   pgEnum,
   pgTable,
   text,
   timestamp,
-  uuid,
 } from "drizzle-orm/pg-core";
 import { account, user } from "./auth";
 
@@ -20,7 +21,7 @@ export const socialPlatformEnum = pgEnum("social_platform", [
 export const post = pgTable(
   "post",
   {
-    id: uuid("id").primaryKey().defaultRandom(),
+    id: bigserial("id", { mode: "number" }).primaryKey(),
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
@@ -44,8 +45,8 @@ export const post = pgTable(
 export const postPublication = pgTable(
   "post_publication",
   {
-    id: uuid("id").primaryKey().defaultRandom(),
-    postId: uuid("post_id")
+    id: bigserial("id", { mode: "number" }).primaryKey(),
+    postId: bigint("post_id", { mode: "number" })
       .notNull()
       .references(() => post.id, { onDelete: "cascade" }),
     platform: socialPlatformEnum("platform").notNull(),

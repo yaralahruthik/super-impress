@@ -21,8 +21,9 @@ export const GetApiLinkedinStatusResponse = zod.object({
  * Publish a post to the authenticated user's LinkedIn account
  * @summary Publish post to LinkedIn
  */
+
 export const PostApiLinkedinPostBody = zod.object({
-  postId: zod.uuid(),
+  postId: zod.number().min(1),
 });
 
 export const PostApiLinkedinPostResponse = zod.object({

@@ -25,7 +25,7 @@ import {
 // Transforms database Post records (with Date objects) to API responses (with ISO string dates).
 // All endpoints MUST use this function to ensure response validation passes.
 function toPostResponse(post: {
-  id: string;
+  id: number;
   userId: string;
   title: string | null;
   content: string;
@@ -33,7 +33,7 @@ function toPostResponse(post: {
   createdAt: Date;
   updatedAt: Date;
   publications?: Array<{
-    id: string;
+    id: number;
     platform: Platform;
     platformPostId: string | null;
     url: string | null;
@@ -41,7 +41,7 @@ function toPostResponse(post: {
     publishedAt: Date;
   }>;
 }): {
-  id: string;
+  id: number;
   userId: string;
   title: string | null;
   content: string;
@@ -50,7 +50,7 @@ function toPostResponse(post: {
   createdAt: string;
   updatedAt: string;
   publications?: Array<{
-    id: string;
+    id: number;
     platform: Platform;
     platformPostId: string | null;
     url: string | null;
@@ -75,6 +75,14 @@ function toPostResponse(post: {
       publishedAt: pub.publishedAt.toISOString(),
     })),
   };
+}
+
+function parseId(value: string): number | null {
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed < 1) {
+    return null;
+  }
+  return parsed;
 }
 
 export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
@@ -152,7 +160,12 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
   .get(
     "/:id",
     async ({ params, user, set }) => {
-      const post = await getPostById(params.id, user.id);
+      const postId = parseId(params.id);
+      if (!postId) {
+        set.status = 400;
+        return { error: "Invalid post id" };
+      }
+      const post = await getPostById(postId, user.id);
       if (!post) {
         set.status = 404;
         return { error: "Post not found" };
@@ -161,10 +174,11 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       auth: true,
-      params: t.Object({ id: t.String({ format: "uuid" }) }),
+      params: t.Object({ id: t.String({ pattern: "^[0-9]+$" }) }),
       response: {
         200: "PostResponse",
         404: "PostError",
+        400: "PostError",
       },
       detail: {
         summary: "Get a post",
@@ -175,7 +189,12 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
   .patch(
     "/:id",
     async ({ params, body, user, set }) => {
-      const post = await updatePost(params.id, user.id, body);
+      const postId = parseId(params.id);
+      if (!postId) {
+        set.status = 400;
+        return { error: "Invalid post id" };
+      }
+      const post = await updatePost(postId, user.id, body);
       if (!post) {
         set.status = 404;
         return { error: "Post not found" };
@@ -184,11 +203,12 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       auth: true,
-      params: t.Object({ id: t.String({ format: "uuid" }) }),
+      params: t.Object({ id: t.String({ pattern: "^[0-9]+$" }) }),
       body: "PostUpdate",
       response: {
         200: "PostResponse",
         404: "PostError",
+        400: "PostError",
       },
       detail: {
         summary: "Update a post",
@@ -199,7 +219,12 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
   .delete(
     "/:id",
     async ({ params, user, set }) => {
-      const deleted = await deletePost(params.id, user.id);
+      const postId = parseId(params.id);
+      if (!postId) {
+        set.status = 400;
+        return { error: "Invalid post id" };
+      }
+      const deleted = await deletePost(postId, user.id);
       if (!deleted) {
         set.status = 404;
         return { error: "Post not found" };
@@ -208,9 +233,10 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       auth: true,
-      params: t.Object({ id: t.String({ format: "uuid" }) }),
+      params: t.Object({ id: t.String({ pattern: "^[0-9]+$" }) }),
       response: {
         404: "PostError",
+        400: "PostError",
       },
       detail: {
         summary: "Delete a post",
@@ -221,7 +247,12 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
   .post(
     "/:id/publications",
     async ({ params, body, user, set }) => {
-      const publication = await markAsPublished(user.id, params.id, body);
+      const postId = parseId(params.id);
+      if (!postId) {
+        set.status = 400;
+        return { error: "Invalid post id" };
+      }
+      const publication = await markAsPublished(user.id, postId, body);
       if (!publication) {
         set.status = 404;
         return { error: "Post not found" };
@@ -237,11 +268,12 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     },
     {
       auth: true,
-      params: t.Object({ id: t.String({ format: "uuid" }) }),
+      params: t.Object({ id: t.String({ pattern: "^[0-9]+$" }) }),
       body: "ManualPublicationRequest",
       response: {
         201: "ManualPublicationResponse",
         404: "PostError",
+        400: "PostError",
       },
       detail: {
         summary: "Mark post as published",
@@ -252,11 +284,13 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
   .delete(
     "/:id/publications/:publicationId",
     async ({ params, user, set }) => {
-      const deleted = await deletePublication(
-        user.id,
-        params.id,
-        params.publicationId
-      );
+      const postId = parseId(params.id);
+      const publicationId = parseId(params.publicationId);
+      if (!(postId && publicationId)) {
+        set.status = 400;
+        return { error: "Invalid publication id" };
+      }
+      const deleted = await deletePublication(user.id, postId, publicationId);
       if (!deleted) {
         set.status = 404;
         return { error: "Publication not found" };
@@ -266,11 +300,12 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     {
       auth: true,
       params: t.Object({
-        id: t.String({ format: "uuid" }),
-        publicationId: t.String({ format: "uuid" }),
+        id: t.String({ pattern: "^[0-9]+$" }),
+        publicationId: t.String({ pattern: "^[0-9]+$" }),
       }),
       response: {
         404: "PostError",
+        400: "PostError",
       },
       detail: {
         summary: "Delete publication record",

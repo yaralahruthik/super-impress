@@ -40,7 +40,8 @@ export const PostResponsePublicationsItemPlatform = {
 } as const;
 
 export type PostResponsePublicationsItem = {
-  id: string;
+  /** @minimum 1 */
+  id: number;
   platform: PostResponsePublicationsItemPlatform;
   /** @nullable */
   platformPostId?: string | null;
@@ -52,7 +53,11 @@ export type PostResponsePublicationsItem = {
 };
 
 export interface PostResponse {
-  id: string;
+  /**
+   * @minimum -9007199254740991
+   * @maximum 9007199254740991
+   */
+  id: number;
   userId: string;
   /** @nullable */
   title: string | null;
@@ -103,7 +108,8 @@ export const PostListResponsePostsItemPublicationsItemPlatform = {
 } as const;
 
 export type PostListResponsePostsItemPublicationsItem = {
-  id: string;
+  /** @minimum 1 */
+  id: number;
   platform: PostListResponsePostsItemPublicationsItemPlatform;
   /** @nullable */
   platformPostId?: string | null;
@@ -115,7 +121,11 @@ export type PostListResponsePostsItemPublicationsItem = {
 };
 
 export type PostListResponsePostsItem = {
-  id: string;
+  /**
+   * @minimum -9007199254740991
+   * @maximum 9007199254740991
+   */
+  id: number;
   userId: string;
   /** @nullable */
   title: string | null;
@@ -169,8 +179,10 @@ export const ManualPublicationResponsePlatform = {
 } as const;
 
 export interface ManualPublicationResponse {
-  id: string;
-  postId: string;
+  /** @minimum 1 */
+  id: number;
+  /** @minimum 1 */
+  postId: number;
   platform: ManualPublicationResponsePlatform;
   /** @nullable */
   url: string | null;
@@ -182,7 +194,8 @@ export interface PostError {
 }
 
 export interface LinkedInPostRequest {
-  postId: string;
+  /** @minimum 1 */
+  postId: number;
 }
 
 export interface LinkedInPostResponse {
@@ -254,7 +267,8 @@ export interface GetApiLinkedinStatusResponse200 {
 }
 
 export interface PostApiLinkedinPostRequest {
-  postId: string;
+  /** @minimum 1 */
+  postId: number;
 }
 
 export interface PostApiLinkedinPostResponse200 {
@@ -1499,11 +1513,13 @@ export const GetApiPostsStatus = {
 } as const;
 
 export type PostApiLinkedinPostBodyTwo = {
-  postId: string;
+  /** @minimum 1 */
+  postId: number;
 };
 
 export type PostApiLinkedinPostBodyThree = {
-  postId: string;
+  /** @minimum 1 */
+  postId: number;
 };
 
 export type GetApiAuthVerifyEmailParams = {

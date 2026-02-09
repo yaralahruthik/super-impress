@@ -10,6 +10,7 @@
     "fetch-openapi": "tsx scripts/fetch-openapi.ts",
     "orval": "bun fetch-openapi && orval",
     "test": "bun test",
+    "e2e": "playwright test",
     "check": "ultracite check",
     "fix": "ultracite fix"
   },

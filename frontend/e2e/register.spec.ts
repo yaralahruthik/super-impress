@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { expect, test } from "@playwright/test";
 
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://localhost:5173";
@@ -10,7 +11,9 @@ function createUniqueEmail(): string {
 test.describe("register", () => {
   test("shows required and format errors", async ({ page }) => {
     await page.goto(`${baseURL}/register`);
-    await page.locator("form#register-form").evaluate((form) => {
+    const form = page.locator("form#register-form");
+    await form.waitFor({ state: "visible" });
+    await form.evaluate((form) => {
       (form as HTMLFormElement).noValidate = true;
     });
 
@@ -35,7 +38,9 @@ test.describe("register", () => {
 
   test("shows password mismatch error", async ({ page }) => {
     await page.goto(`${baseURL}/register`);
-    await page.locator("form#register-form").evaluate((form) => {
+    const form = page.locator("form#register-form");
+    await form.waitFor({ state: "visible" });
+    await form.evaluate((form) => {
       (form as HTMLFormElement).noValidate = true;
     });
 
@@ -55,6 +60,7 @@ test.describe("register", () => {
 
   test("registers and lands on dashboard", async ({ page }) => {
     await page.goto(`${baseURL}/register`);
+    await page.locator("form#register-form").waitFor({ state: "visible" });
 
     await page.getByLabel("Name").fill("Playwright User");
     await page.getByLabel("Email").fill(createUniqueEmail());

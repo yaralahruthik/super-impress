@@ -1,0 +1,85 @@
+name: Frontend E2E (Chromium)
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "frontend/**"
+      - "backend/**"
+
+jobs:
+  frontend-e2e:
+    name: Frontend E2E (Chromium)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: super_impress
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install backend dependencies
+        run: bun install
+        working-directory: backend
+
+      - name: Install frontend dependencies
+        run: bun install
+        working-directory: frontend
+
+      - name: Apply database schema
+        run: bunx drizzle-kit push
+        working-directory: backend
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/super_impress
+
+      - name: Start backend
+        run: bun run dev &
+        working-directory: backend
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/super_impress
+          FRONTEND_URL: http://localhost:5173
+          BETTER_AUTH_URL: http://localhost:3000
+          BETTER_AUTH_SECRET: test-secret
+          LINKEDIN_CLIENT_ID: test-client-id
+          LINKEDIN_CLIENT_SECRET: test-client-secret
+
+      - name: Start frontend
+        run: bun run dev -- --host 0.0.0.0 --port 5173 &
+        working-directory: frontend
+
+      - name: Wait for servers
+        run: bunx wait-on http://localhost:3000/api/openapi http://localhost:5173
+
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps
+        working-directory: frontend
+
+      - name: Run Playwright E2E (Chromium)
+        run: bunx playwright test --project=chromium
+        working-directory: frontend
+        env:
+          PLAYWRIGHT_BASE_URL: http://localhost:5173
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report
+          retention-days: 7

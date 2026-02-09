@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - ".github/workflows/frontend-e2e.yml"
       - "frontend/**"
       - "backend/**"
 
@@ -62,6 +63,9 @@ jobs:
       - name: Start frontend
         run: bun run dev -- --host 0.0.0.0 --port 5173 &
         working-directory: frontend
+        env:
+          VITE_API_BASE: http://localhost:3000
+          VITE_APP_URL: http://localhost:5173
 
       - name: Wait for servers
         run: bunx wait-on http://localhost:3000/api/openapi http://localhost:5173

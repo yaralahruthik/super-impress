@@ -41,7 +41,7 @@ function toPostResponse(post: {
     publishedAt: Date;
   }>;
 }): {
-  id: number;
+  id: string;
   userId: string;
   title: string | null;
   content: string;
@@ -50,7 +50,7 @@ function toPostResponse(post: {
   createdAt: string;
   updatedAt: string;
   publications?: Array<{
-    id: number;
+    id: string;
     platform: Platform;
     platformPostId: string | null;
     url: string | null;
@@ -63,11 +63,12 @@ function toPostResponse(post: {
 
   return {
     ...post,
+    id: String(post.id),
     status,
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt.toISOString(),
     publications: post.publications?.map((pub) => ({
-      id: pub.id,
+      id: String(pub.id),
       platform: pub.platform,
       platformPostId: pub.platformPostId,
       url: pub.url,
@@ -259,8 +260,8 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       }
       set.status = 201;
       return {
-        id: publication.id,
-        postId: publication.postId,
+        id: String(publication.id),
+        postId: String(publication.postId),
         platform: publication.platform,
         url: publication.url,
         publishedAt: publication.publishedAt.toISOString(),

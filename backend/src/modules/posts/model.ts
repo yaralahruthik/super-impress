@@ -37,7 +37,7 @@ export type Platform = Static<typeof PlatformSchema>;
 
 // Publication schema for including in post response
 export const Publication = Type.Object({
-  id: Type.Integer({ minimum: 1 }),
+  id: Type.String(),
   platform: PlatformSchema,
   platformPostId: Type.Optional(Type.Union([Type.String(), Type.Null()])),
   url: Type.Optional(Type.Union([Type.String(), Type.Null()])),
@@ -54,8 +54,8 @@ export const ManualPublicationRequest = Type.Object({
 export type ManualPublicationRequest = Static<typeof ManualPublicationRequest>;
 
 export const ManualPublicationResponse = Type.Object({
-  id: Type.Integer({ minimum: 1 }),
-  postId: Type.Integer({ minimum: 1 }),
+  id: Type.String(),
+  postId: Type.String(),
   platform: PlatformSchema,
   url: Type.Union([Type.String(), Type.Null()]),
   publishedAt: Type.String({ format: "date-time" }),
@@ -71,11 +71,16 @@ export const PostStatus = Type.Union([
 export type PostStatus = Static<typeof PostStatus>;
 
 // PostResponse: override date fields to strings for JSON serialization
-const _postResponseBase = Type.Omit(_postSelect, ["createdAt", "updatedAt"]);
+const _postResponseBase = Type.Omit(_postSelect, [
+  "id",
+  "createdAt",
+  "updatedAt",
+]);
 
 export const PostResponse = Type.Composite([
   _postResponseBase,
   Type.Object({
+    id: Type.String(),
     status: PostStatus,
     createdAt: Type.String({ format: "date-time" }),
     updatedAt: Type.String({ format: "date-time" }),

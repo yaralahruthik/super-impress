@@ -49,21 +49,16 @@
       "PostResponse": {
         "type": "object",
         "required": [
-          "id",
           "userId",
           "title",
           "content",
           "tags",
+          "id",
           "status",
           "createdAt",
           "updatedAt"
         ],
         "properties": {
-          "id": {
-            "minimum": -9007199254740991,
-            "maximum": 9007199254740991,
-            "type": "integer"
-          },
           "userId": {
             "type": "string"
           },
@@ -79,6 +74,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "id": {
+            "type": "string"
           },
           "status": {
             "type": "string",
@@ -99,8 +97,7 @@
               "required": ["id", "platform", "publishedAt"],
               "properties": {
                 "id": {
-                  "minimum": 1,
-                  "type": "integer"
+                  "type": "string"
                 },
                 "platform": {
                   "type": "string",
@@ -159,21 +156,16 @@
             "items": {
               "type": "object",
               "required": [
-                "id",
                 "userId",
                 "title",
                 "content",
                 "tags",
+                "id",
                 "status",
                 "createdAt",
                 "updatedAt"
               ],
               "properties": {
-                "id": {
-                  "minimum": -9007199254740991,
-                  "maximum": 9007199254740991,
-                  "type": "integer"
-                },
                 "userId": {
                   "type": "string"
                 },
@@ -189,6 +181,9 @@
                   "items": {
                     "type": "string"
                   }
+                },
+                "id": {
+                  "type": "string"
                 },
                 "status": {
                   "type": "string",
@@ -209,8 +204,7 @@
                     "required": ["id", "platform", "publishedAt"],
                     "properties": {
                       "id": {
-                        "minimum": 1,
-                        "type": "integer"
+                        "type": "string"
                       },
                       "platform": {
                         "type": "string",
@@ -286,12 +280,10 @@
         "required": ["id", "postId", "platform", "url", "publishedAt"],
         "properties": {
           "id": {
-            "minimum": 1,
-            "type": "integer"
+            "type": "string"
           },
           "postId": {
-            "minimum": 1,
-            "type": "integer"
+            "type": "string"
           },
           "platform": {
             "type": "string",
@@ -321,8 +313,7 @@
         "required": ["postId"],
         "properties": {
           "postId": {
-            "minimum": 1,
-            "type": "integer"
+            "type": "string"
           }
         }
       },
@@ -543,8 +534,7 @@
         "required": ["postId"],
         "properties": {
           "postId": {
-            "minimum": 1,
-            "type": "integer"
+            "type": "string"
           }
         }
       },
@@ -3310,8 +3300,7 @@
                 "required": ["postId"],
                 "properties": {
                   "postId": {
-                    "minimum": 1,
-                    "type": "integer"
+                    "type": "string"
                   }
                 }
               }
@@ -3322,8 +3311,7 @@
                 "required": ["postId"],
                 "properties": {
                   "postId": {
-                    "minimum": 1,
-                    "type": "integer"
+                    "type": "string"
                   }
                 }
               }

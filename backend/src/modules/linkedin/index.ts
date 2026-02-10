@@ -35,7 +35,7 @@ export const linkedInModule = new Elysia({
       },
     }
   )
-.post(
+  .post(
     "/post",
     async ({ body, user, request, set }) => {
       try {

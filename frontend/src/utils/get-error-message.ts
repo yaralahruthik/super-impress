@@ -1,4 +1,4 @@
-import type { AxiosError } from "axios";
+import { isAxiosError } from "axios";
 
 function getDetailErrorMessage(responseData: unknown): string | null {
   if (
@@ -41,26 +41,33 @@ function getMessageError(responseData: unknown): string | null {
 }
 
 /**
- * Extracts a user-friendly error message from an Axios error.
- * Handles both FastAPI HTTPException (detail as string) and
- * HTTPValidationError (detail as array of validation errors).
+ * Extracts a user-friendly error message from an error.
+ * Handles API error responses with detail or message fields,
+ * and falls back to the error message or string representation.
  */
-export function getErrorMessage(error: AxiosError<unknown> | null): string {
+export function getErrorMessage(error: unknown): string {
   if (!error) {
     return "An unknown error occurred";
   }
 
-  const responseData = error.response?.data;
-  const detailErrorMessage = getDetailErrorMessage(responseData);
-  if (detailErrorMessage) {
-    return detailErrorMessage;
+  if (isAxiosError(error)) {
+    const responseData = error.response?.data;
+    const detailErrorMessage = getDetailErrorMessage(responseData);
+    if (detailErrorMessage) {
+      return detailErrorMessage;
+    }
+
+    const messageError = getMessageError(responseData);
+    if (messageError) {
+      return messageError;
+    }
+
+    return error.message || "An unknown error occurred";
   }
 
-  const messageError = getMessageError(responseData);
-  if (messageError) {
-    return messageError;
+  if (error instanceof Error) {
+    return error.message;
   }
 
-  // Fallback to the generic axios error message
-  return error.message || "An unknown error occurred";
+  return String(error);
 }

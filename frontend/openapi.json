@@ -627,7 +627,8 @@
           "scopes": {
             "type": "array",
             "nullable": true,
-            "description": "Array of scopes to request from the provider. This will override the default scopes passed."
+            "description": "Array of scopes to request from the provider. This will override the default scopes passed.",
+            "items": {}
           },
           "requestSignUp": {
             "type": "boolean",
@@ -2162,7 +2163,8 @@
               },
               "scopes": {
                 "type": "array",
-                "nullable": true
+                "nullable": true,
+                "items": {}
               }
             },
             "required": ["token"]
@@ -2174,7 +2176,8 @@
           "scopes": {
             "type": "array",
             "nullable": true,
-            "description": "Additional scopes to request from the provider"
+            "description": "Additional scopes to request from the provider",
+            "items": {}
           },
           "errorCallbackURL": {
             "type": "string",

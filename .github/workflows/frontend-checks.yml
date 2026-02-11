@@ -25,3 +25,11 @@ jobs:
       - name: Check formatting and linting
         run: bun run check
         working-directory: frontend
+
+      - name: Run Typecheck and Build
+        run: bun run build
+        working-directory: frontend
+
+      - name: Run Tests
+        run: bun run test
+        working-directory: frontend

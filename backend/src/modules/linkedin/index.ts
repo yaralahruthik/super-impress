@@ -39,7 +39,8 @@ export const linkedInModule = new Elysia({
     "/post",
     async ({ body, user, request, set }) => {
       try {
-        const result = await publishPost(user.id, body.postId, request.headers);
+        const postId = Number(body.postId);
+        const result = await publishPost(user.id, postId, request.headers);
         return {
           success: true,
           linkedInPostId: result.linkedInPostId,

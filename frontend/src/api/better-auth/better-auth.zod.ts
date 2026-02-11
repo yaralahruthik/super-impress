@@ -46,7 +46,7 @@ export const SocialSignInBody = zod.object({
     })
     .nullish(),
   scopes: zod
-    .array()
+    .array(zod.unknown())
     .nullish()
     .describe(
       "Array of scopes to request from the provider. This will override the default scopes passed."
@@ -505,12 +505,12 @@ export const LinkSocialAccountBody = zod.object({
       nonce: zod.string().nullish(),
       accessToken: zod.string().nullish(),
       refreshToken: zod.string().nullish(),
-      scopes: zod.array().nullish(),
+      scopes: zod.array(zod.unknown()).nullish(),
     })
     .nullish(),
   requestSignUp: zod.boolean().nullish(),
   scopes: zod
-    .array()
+    .array(zod.unknown())
     .nullish()
     .describe("Additional scopes to request from the provider"),
   errorCallbackURL: zod

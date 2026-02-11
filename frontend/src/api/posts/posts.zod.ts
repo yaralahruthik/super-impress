@@ -42,27 +42,21 @@ export const GetApiPostsQueryParams = zod.object({
     .default(getApiPostsQueryOffsetDefault),
 });
 
-export const getApiPostsResponsePostsItemIdMin = -9007199254740991;
-export const getApiPostsResponsePostsItemIdMax = 9007199254740991;
-
 export const GetApiPostsResponse = zod.object({
   posts: zod.array(
     zod.object({
-      id: zod
-        .number()
-        .min(getApiPostsResponsePostsItemIdMin)
-        .max(getApiPostsResponsePostsItemIdMax),
       userId: zod.string(),
       title: zod.string().nullable(),
       content: zod.string(),
       tags: zod.array(zod.string()),
+      id: zod.string(),
       status: zod.enum(["draft", "published"]),
       createdAt: zod.iso.datetime({}),
       updatedAt: zod.iso.datetime({}),
       publications: zod
         .array(
           zod.object({
-            id: zod.number().min(1),
+            id: zod.string(),
             platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
             platformPostId: zod.string().nullish(),
             url: zod.string().nullish(),
@@ -99,25 +93,19 @@ export const GetApiPostsByIdParams = zod.object({
   id: zod.string().regex(getApiPostsByIdPathIdRegExp),
 });
 
-export const getApiPostsByIdResponseIdMin = -9007199254740991;
-export const getApiPostsByIdResponseIdMax = 9007199254740991;
-
 export const GetApiPostsByIdResponse = zod.object({
-  id: zod
-    .number()
-    .min(getApiPostsByIdResponseIdMin)
-    .max(getApiPostsByIdResponseIdMax),
   userId: zod.string(),
   title: zod.string().nullable(),
   content: zod.string(),
   tags: zod.array(zod.string()),
+  id: zod.string(),
   status: zod.enum(["draft", "published"]),
   createdAt: zod.iso.datetime({}),
   updatedAt: zod.iso.datetime({}),
   publications: zod
     .array(
       zod.object({
-        id: zod.number().min(1),
+        id: zod.string(),
         platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
         platformPostId: zod.string().nullish(),
         url: zod.string().nullish(),
@@ -144,25 +132,19 @@ export const PatchApiPostsByIdBody = zod.object({
   tags: zod.array(zod.string()).optional(),
 });
 
-export const patchApiPostsByIdResponseIdMin = -9007199254740991;
-export const patchApiPostsByIdResponseIdMax = 9007199254740991;
-
 export const PatchApiPostsByIdResponse = zod.object({
-  id: zod
-    .number()
-    .min(patchApiPostsByIdResponseIdMin)
-    .max(patchApiPostsByIdResponseIdMax),
   userId: zod.string(),
   title: zod.string().nullable(),
   content: zod.string(),
   tags: zod.array(zod.string()),
+  id: zod.string(),
   status: zod.enum(["draft", "published"]),
   createdAt: zod.iso.datetime({}),
   updatedAt: zod.iso.datetime({}),
   publications: zod
     .array(
       zod.object({
-        id: zod.number().min(1),
+        id: zod.string(),
         platform: zod.enum(["linkedin", "twitter", "threads", "peerlist"]),
         platformPostId: zod.string().nullish(),
         url: zod.string().nullish(),

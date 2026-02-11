@@ -208,6 +208,11 @@ function fixNullableTypes(
     }
   }
 
+  // TODO: Remove when better-auth fixes missing `items` on array schemas upstream
+  if (result.type === "array" && !("items" in result)) {
+    result.items = {};
+  }
+
   return result;
 }
 

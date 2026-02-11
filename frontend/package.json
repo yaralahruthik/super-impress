@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "fetch-openapi": "tsx scripts/fetch-openapi.ts",
     "orval": "bun fetch-openapi && orval",
-    "test": "bun test",
+    "test": "bun test src/",
     "e2e": "playwright test",
     "check": "ultracite check",
     "fix": "ultracite fix"

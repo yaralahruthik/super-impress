@@ -30,7 +30,10 @@ export async function createLinkedInPost(
 
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`LinkedIn API error (${response.status}): ${errorText}`);
+    console.error(`LinkedIn API Error (${response.status}):`, errorText);
+    throw new Error(
+      `LinkedIn API request failed with status ${response.status}`
+    );
   }
 
   const postId = response.headers.get("X-RestLi-Id");

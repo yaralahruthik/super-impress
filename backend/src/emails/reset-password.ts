@@ -1,7 +1,8 @@
 import { Resend } from "resend";
+import { env } from "../env";
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL;
+const RESEND_API_KEY = env.RESEND_API_KEY;
+const RESEND_FROM_EMAIL = env.RESEND_FROM_EMAIL;
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 type SendResetPasswordArgs = {

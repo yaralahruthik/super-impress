@@ -3,6 +3,6 @@
   "extends": [
     "ultracite/biome/core",
     "ultracite/biome/react",
-    "ultracite/biome/remix"
+    "ultracite/biome/next"
   ]
 }

@@ -29,6 +29,9 @@ jobs:
       - name: Run Typecheck and Build
         run: bun run build
         working-directory: frontend
+        env:
+          VITE_API_BASE: http://localhost:3000
+          VITE_APP_URL: http://localhost:5173
 
       - name: Run Tests
         run: bun run test

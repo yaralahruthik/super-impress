@@ -5,6 +5,9 @@ dist
 npm-debug.log*
 pnpm-debug.log*
 .env.example
+.env
+.env.local
+.env.production.local
 coverage
 playwright-report
 test-results

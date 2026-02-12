@@ -6,7 +6,7 @@ COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
 COPY . .
-RUN bun run build
+RUN cp .env.docker .env.production && bun run build
 
 EXPOSE 5173
 

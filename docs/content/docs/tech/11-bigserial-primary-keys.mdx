@@ -1,0 +1,45 @@
+---
+title: Bigserial Primary Keys
+description: Decision to use bigserial for internal relational primary keys instead of int or uuid
+---
+
+For internal relational tables in SuperImpress (for example `post` and `post_publication`), we use
+PostgreSQL `bigserial` IDs by default.
+
+## Why Bigserial
+
+- **Much Larger Range Than Int**: `int` (`int4`) tops out at 2,147,483,647. `bigserial` (`int8`) scales to
+  9,223,372,036,854,775,807, which removes realistic overflow risk as the product grows.
+- **Smaller and Faster Than UUID**: `bigserial` is 8 bytes, while `uuid` is 16 bytes. Smaller keys reduce
+  index size and improve cache locality for joins and lookups.
+- **Append-Friendly Index Behavior**: Sequential values are B-tree friendly and reduce random page writes and
+  index fragmentation compared to random UUID inserts.
+- **Simple Operational Debugging**: Monotonic numeric IDs are easier to sort, inspect, and reason about when
+  debugging incidents or analyzing logs.
+
+## Why Not Int
+
+- **Range Ceiling Is Too Low Long-Term**: `int` can be enough early on, but changing PK size later is painful
+  and risky because it cascades to all foreign keys and indexes.
+- **No Meaningful Benefit Over Bigserial**: Storage savings (4 bytes) are usually not worth the migration
+  risk and lifecycle constraints.
+
+## Why Not UUID (As Primary Key)
+
+- **Larger Index and FK Footprint**: UUID doubles key width versus `bigserial`, increasing index memory and
+  IO cost.
+- **Random Insert Pattern**: Typical random UUID values reduce index locality and can increase write
+  amplification.
+- **Unnecessary for Internal Joins**: Our internal relational keys benefit more from compact, ordered numeric
+  identifiers.
+
+## Tradeoff and Scope
+
+- **Predictable IDs**: `bigserial` values are enumerable, so they should not be used as security tokens.
+- **Public Exposure**: If we need non-enumerable external identifiers, we should add a separate public ID
+  column (for example UUID/CUID) while keeping `bigserial` as the internal primary key.
+
+## Current Usage in SuperImpress
+
+- `post.id` uses `bigserial`
+- `post_publication.id` uses `bigserial`

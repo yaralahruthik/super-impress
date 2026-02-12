@@ -1,5 +1,11 @@
 # SuperImpress
 
+| Project | Status |
+| :--- | :--- |
+| Frontend | |
+| Backend | |
+| Docs | [![Netlify Status](https://api.netlify.com/api/v1/badges/7f8daa6a-9fc6-4c05-b5d3-081db5765441/deploy-status)](https://app.netlify.com/projects/superimpress-docs/deploys) |
+
 SuperImpress is a [Frontend Hire](https://www.frontendhire.com/) initiative where we build a serious product in public as a community.
 
 ## Quick Intro

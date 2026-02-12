@@ -16,7 +16,7 @@ type Platform =
 export const getPlatformLabel = (platform: Platform): string => {
   const labels: Record<Platform, string> = {
     linkedin: "LinkedIn",
-    twitter: "Twitter/X",
+    twitter: "X",
     threads: "Threads",
     peerlist: "Peerlist",
   };

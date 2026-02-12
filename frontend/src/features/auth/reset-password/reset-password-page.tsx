@@ -19,22 +19,12 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { PASSWORD } from "@/constants";
 import { AuthLayout } from "@/layouts/auth-layout";
 import { getErrorMessage } from "@/utils/get-error-message";
 
 const formSchema = z
   .object({
-    newPassword: z
-      .string()
-      .min(
-        PASSWORD.minLength,
-        `Password must be at least ${PASSWORD.minLength} characters`
-      )
-      .max(
-        PASSWORD.maxLength,
-        `Password must be at most ${PASSWORD.maxLength} characters`
-      ),
+    newPassword: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string().min(1, "Please confirm your new password"),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
@@ -150,7 +140,7 @@ export default function ResetPasswordPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="newPassword"
-                          minLength={PASSWORD.minLength}
+                          minLength={8}
                           name="newPassword"
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}
@@ -179,7 +169,7 @@ export default function ResetPasswordPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="confirmPassword"
-                          minLength={PASSWORD.minLength}
+                          minLength={8}
                           name="confirmPassword"
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}

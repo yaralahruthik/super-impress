@@ -184,7 +184,6 @@ export function PostCard({
         onOpenChange={setDialogOpen}
         open={dialogOpen}
         postId={post.id}
-        publications={publications}
       />
     </>
   );

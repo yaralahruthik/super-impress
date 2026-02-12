@@ -1,0 +1,32 @@
+---
+title: Hosting & Domain Structure
+description: Decision on subdomain layout for the SuperImpress platform
+---
+
+SuperImpress uses a subdomain-per-service layout under the `superimpress.com` domain.
+
+## Domain map
+
+| Service  | URL                          | Description                       |
+| -------- | ---------------------------- | --------------------------------- |
+| Frontend | `https://app.superimpress.com`  | React SPA — main user interface   |
+| Backend  | `https://api.superimpress.com`  | Elysia API server                 |
+| Docs     | `https://docs.superimpress.com` | TanStack Start + Fumadocs site    |
+
+## Why subdomains
+
+1. **Clear separation of concerns**: Each service is independently deployable and has its own subdomain, making routing, monitoring, and debugging straightforward.
+2. **Independent scaling**: Frontend, backend, and docs can be scaled and cached differently based on their traffic profiles.
+3. **Simpler CORS configuration**: A well-known API origin (`api.`) makes cross-origin rules explicit and easy to audit.
+4. **Cookie isolation**: Auth cookies can be scoped to `app.` while the API on `api.` uses token-based auth, reducing cookie leakage surface.
+5. **Conventional naming**: `app.` / `api.` / `docs.` is a widely recognised pattern that is intuitive for developers and end-users.
+
+## CORS and auth implications
+
+- The backend at `api.superimpress.com` must allowlist `https://app.superimpress.com` as a permitted origin.
+- Credentials (cookies/tokens) must be forwarded cross-origin; the backend CORS config needs `credentials: true`.
+- The docs site is public and does not require CORS configuration against the API.
+
+## References
+
+- [MDN — CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)

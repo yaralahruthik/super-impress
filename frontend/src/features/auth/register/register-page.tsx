@@ -19,7 +19,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { PASSWORD } from "@/constants";
 import { AuthLayout } from "@/layouts/auth-layout";
 import { getErrorMessage } from "@/utils/get-error-message";
 
@@ -27,16 +26,7 @@ const formSchema = z
   .object({
     name: z.string().min(1, "Name is required"),
     email: z.email("Invalid email address"),
-    password: z
-      .string()
-      .min(
-        PASSWORD.minLength,
-        `Password must be at least ${PASSWORD.minLength} characters`
-      )
-      .max(
-        PASSWORD.maxLength,
-        `Password must be at most ${PASSWORD.maxLength} characters`
-      ),
+    password: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -165,7 +155,7 @@ export default function RegisterPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="password"
-                          minLength={PASSWORD.minLength}
+                          minLength={8}
                           name="password"
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}
@@ -173,10 +163,6 @@ export default function RegisterPage() {
                           type="password"
                           value={field.state.value}
                         />
-                        <p className="text-muted-foreground text-xs">
-                          Must be 8-15 characters with uppercase, lowercase,
-                          digit, and special character
-                        </p>
                         {isInvalid && (
                           <FieldError errors={field.state.meta.errors} />
                         )}
@@ -198,7 +184,7 @@ export default function RegisterPage() {
                           aria-invalid={isInvalid}
                           autoComplete="new-password"
                           id="confirmPassword"
-                          minLength={PASSWORD.minLength}
+                          minLength={8}
                           name="confirmPassword"
                           onBlur={field.handleBlur}
                           onChange={(e) => field.handleChange(e.target.value)}

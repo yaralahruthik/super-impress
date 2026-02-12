@@ -177,9 +177,14 @@ export function PostCard({
       </Card>
 
       <MarkAsPublishedDialog
+        key={`${post.id}-${publications
+          .map((publication) => publication.platform)
+          .sort()
+          .join("-")}`}
         onOpenChange={setDialogOpen}
         open={dialogOpen}
         postId={post.id}
+        publications={publications}
       />
     </>
   );

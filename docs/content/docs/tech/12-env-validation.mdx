@@ -1,0 +1,66 @@
+---
+title: Environment Variable Validation
+description: Decision to validate backend and frontend environment variables at startup
+---
+
+SuperImpress validates environment variables in both the backend and frontend before runtime
+logic depends on them.
+
+## Why validate environment variables
+
+- **Fail Fast**: Catch missing or malformed configuration immediately instead of failing during requests.
+- **Type Safety**: Convert untyped string input into validated, typed config objects.
+- **Safer Deployments**: Reduce config drift between local, Docker, and production environments.
+- **Clear Error Messages**: Return actionable startup errors that identify the invalid key.
+
+## Backend implementation
+
+Backend env validation lives in `backend/src/env.ts`.
+
+- Loads values from `.env` via `dotenv/config`.
+- Defines a TypeBox schema for required and optional variables.
+- Builds a runtime object from `process.env` with defaults for `FRONTEND_URL` and `PORT`.
+- Validates with `Value.Errors(...)` and throws a combined error message when invalid.
+- Applies explicit URL checks for `DATABASE_URL`, `BETTER_AUTH_URL`, and `FRONTEND_URL`.
+- Exports a typed `env` object used by the rest of the backend.
+
+Validated backend keys currently include:
+
+- `DATABASE_URL`
+- `BETTER_AUTH_SECRET`
+- `BETTER_AUTH_URL`
+- `LINKEDIN_CLIENT_ID`
+- `LINKEDIN_CLIENT_SECRET`
+- `FRONTEND_URL`
+- `PORT`
+- `RESEND_API_KEY` (optional)
+- `RESEND_FROM_EMAIL` (optional)
+
+## Frontend implementation
+
+Frontend env validation lives in `frontend/src/env.ts` and `frontend/src/env-schema.ts`.
+
+- Uses `@t3-oss/env-core` `createEnv(...)` with `import.meta.env`.
+- Uses a Zod client schema for `VITE_` variables.
+- Restricts client-visible keys via `clientPrefix: 'VITE_'`.
+- Uses `emptyStringAsUndefined: true` so blank values fail validation.
+- Exports a typed `env` object consumed by app constants and API configuration.
+
+Validated frontend keys currently include:
+
+- `VITE_API_BASE`
+- `VITE_APP_URL`
+
+## Tradeoffs and constraints
+
+- **Schema Maintenance**: Env schemas must be kept in sync with `.env.example` files.
+- **Format vs Reachability**: URL checks validate shape, not whether the endpoint is reachable.
+- **Frontend Visibility**: `VITE_` values are public by design and must never contain secrets.
+
+## References
+
+- [TypeBox](https://github.com/sinclairzx81/typebox)
+- [Elysia](https://elysiajs.com/)
+- [dotenv](https://github.com/motdotla/dotenv)
+- [T3 Env Core](https://env.t3.gg/docs/core)
+- [Zod](https://zod.dev/)

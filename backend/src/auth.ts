@@ -5,19 +5,19 @@ import { Elysia } from "elysia";
 import { db } from "./db";
 import * as schema from "./db/schema";
 import { sendResetPassword } from "./emails/reset-password";
-
-const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+import { env } from "./env";
 
 export const auth = betterAuth({
   basePath: "/auth",
-  trustedOrigins: [FRONTEND_URL, "https://www.linkedin.com"],
+  secret: env.BETTER_AUTH_SECRET,
+  trustedOrigins: [env.FRONTEND_URL, "https://www.linkedin.com"],
   socialProviders: {
     linkedin: {
-      clientId: process.env.LINKEDIN_CLIENT_ID as string,
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET as string,
+      clientId: env.LINKEDIN_CLIENT_ID,
+      clientSecret: env.LINKEDIN_CLIENT_SECRET,
       // Minimal scopes (openid/profile/email) are included by default.
       // Request posting scopes via `/api/auth/link-social` (scopes param).
-      redirectURI: `${process.env.BETTER_AUTH_URL || "http://localhost:3000"}/api/auth/callback/linkedin`,
+      redirectURI: `${env.BETTER_AUTH_URL}/api/auth/callback/linkedin`,
     },
   },
   database: drizzleAdapter(db, {

@@ -2,6 +2,7 @@ import { cors } from "@elysiajs/cors";
 import { openapi } from "@elysiajs/openapi";
 import { Elysia } from "elysia";
 import { betterAuthPlugin, OpenAPI } from "./auth";
+import { env } from "./env";
 import { linkedInModule } from "./modules/linkedin";
 import { postsModule } from "./modules/posts";
 
@@ -23,7 +24,7 @@ const app = new Elysia({
   )
   .use(
     cors({
-      origin: process.env.FRONTEND_URL || "http://localhost:5173",
+      origin: env.FRONTEND_URL,
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       credentials: true,
       allowedHeaders: ["Content-Type", "Authorization"],
@@ -35,7 +36,7 @@ const app = new Elysia({
   .onError(({ error, path }) => {
     console.error(`[${path}]`, error);
   })
-  .listen(Number(process.env.PORT) || 3000);
+  .listen(env.PORT);
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`

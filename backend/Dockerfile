@@ -1,12 +1,18 @@
-FROM oven/bun:1-alpine AS build
-
+# base stage
+FROM oven/bun:1-alpine AS base
 WORKDIR /app
-
 COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
+# development stage
+FROM base AS development
 COPY . .
+EXPOSE 3000
+CMD ["bun", "run", "src/index.ts"]
 
+# build stage
+FROM base AS build
+COPY . .
 RUN bun build \
     --compile \
     --minify-whitespace \
@@ -15,8 +21,8 @@ RUN bun build \
     --outfile server \
     src/index.ts
 
-FROM oven/bun:1-alpine
-
+# production stage
+FROM oven/bun:1-alpine AS production
 WORKDIR /app
 
 COPY --from=build /app/server server

@@ -123,6 +123,13 @@ View current schema:
 bun run drizzle-kit studio
 ```
 
+## Docker
+
+Single multi-stage `Dockerfile` with `development` and `production` targets:
+
+- **`docker compose up`** — targets `development`
+- **`docker compose -f docker-compose.prod.yml up`** — targets `production`
+
 ## Project Structure
 
 ```

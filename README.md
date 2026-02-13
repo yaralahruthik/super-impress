@@ -122,7 +122,11 @@ Best for active development with fast restarts, HMR, and debugging.
 Run everything in Docker with a single command.
 
 ```bash
+# Development (default)
 docker compose up -d
+
+# Production (compiled binary)
+docker compose -f docker-compose.prod.yml up -d
 ```
 
 ### Database Migrations

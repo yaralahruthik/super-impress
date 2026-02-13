@@ -36,7 +36,7 @@ export const Publication = t.Object({
 
 export const ManualPublicationRequest = t.Object({
   platform: PlatformSchema,
-  url: t.String({ format: "uri" }),
+  url: t.String({ format: "url" }),
 });
 
 export const ManualPublicationResponse = t.Object({

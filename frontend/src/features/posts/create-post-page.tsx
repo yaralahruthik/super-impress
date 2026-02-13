@@ -2,7 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import * as z from "zod";
-import { usePostApiPostsWithJson } from "@/api/posts/posts";
+import { usePostApiPosts } from "@/api/posts/posts";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -31,7 +31,7 @@ export default function CreatePostPage() {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { mutate, isPending } = usePostApiPostsWithJson();
+  const { mutate, isPending } = usePostApiPosts();
 
   const form = useForm({
     defaultValues: {

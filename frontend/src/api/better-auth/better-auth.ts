@@ -3695,7 +3695,7 @@ export function useGetApiAuthOk<
  * Displays an error page
  */
 export const getApiAuthError = (signal?: AbortSignal) => {
-  return customInstance<string>({
+  return customInstance<unknown>({
     url: `/api/auth/error`,
     method: "GET",
     signal,

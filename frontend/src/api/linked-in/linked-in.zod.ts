@@ -21,39 +21,11 @@ export const GetApiLinkedinStatusResponse = zod.object({
  * Publish a post to the authenticated user's LinkedIn account
  * @summary Publish post to LinkedIn
  */
-export const PostApiLinkedinPostWithJsonBody = zod.object({
+export const PostApiLinkedinPostBody = zod.object({
   postId: zod.string(),
 });
 
-export const PostApiLinkedinPostWithJsonResponse = zod.object({
-  success: zod.boolean(),
-  linkedInPostId: zod.string().optional(),
-  message: zod.string().optional(),
-});
-
-/**
- * Publish a post to the authenticated user's LinkedIn account
- * @summary Publish post to LinkedIn
- */
-export const PostApiLinkedinPostWithUrlEncodedBody = zod.object({
-  postId: zod.string(),
-});
-
-export const PostApiLinkedinPostWithUrlEncodedResponse = zod.object({
-  success: zod.boolean(),
-  linkedInPostId: zod.string().optional(),
-  message: zod.string().optional(),
-});
-
-/**
- * Publish a post to the authenticated user's LinkedIn account
- * @summary Publish post to LinkedIn
- */
-export const PostApiLinkedinPostWithFormDataBody = zod.object({
-  postId: zod.string(),
-});
-
-export const PostApiLinkedinPostWithFormDataResponse = zod.object({
+export const PostApiLinkedinPostResponse = zod.object({
   success: zod.boolean(),
   linkedInPostId: zod.string().optional(),
   message: zod.string().optional(),

@@ -6,7 +6,7 @@ import {
 } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { usePostApiLinkedinPostWithJson } from "@/api/linked-in/linked-in";
+import { usePostApiLinkedinPost } from "@/api/linked-in/linked-in";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -50,7 +50,7 @@ export function PostCard({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const queryClient = useQueryClient();
-  const { mutate, isPending, error } = usePostApiLinkedinPostWithJson();
+  const { mutate, isPending, error } = usePostApiLinkedinPost();
   const publications = post.publications ?? [];
 
   const handleCopy = async () => {

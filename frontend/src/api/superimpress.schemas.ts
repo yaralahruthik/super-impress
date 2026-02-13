@@ -1522,14 +1522,6 @@ export const GetApiPostsStatus = {
   published: "published",
 } as const;
 
-export type PostApiLinkedinPostWithUrlEncodedBodyTwo = {
-  postId: string;
-};
-
-export type PostApiLinkedinPostWithFormDataBodyThree = {
-  postId: string;
-};
-
 export type GetApiAuthVerifyEmailParams = {
   /**
    * The token to verify the email

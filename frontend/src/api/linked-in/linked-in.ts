@@ -29,8 +29,6 @@ import type {
   PostApiLinkedinPostRequest,
   PostApiLinkedinPostResponse200,
   PostApiLinkedinPostResponse400,
-  PostApiLinkedinPostWithFormDataBodyThree,
-  PostApiLinkedinPostWithUrlEncodedBodyTwo,
 } from "../superimpress.schemas";
 
 /**
@@ -183,7 +181,7 @@ export function useGetApiLinkedinStatus<
  * Publish a post to the authenticated user's LinkedIn account
  * @summary Publish post to LinkedIn
  */
-export const postApiLinkedinPostWithJson = (
+export const postApiLinkedinPost = (
   postApiLinkedinPostRequest: PostApiLinkedinPostRequest,
   signal?: AbortSignal
 ) => {
@@ -196,23 +194,23 @@ export const postApiLinkedinPostWithJson = (
   });
 };
 
-export const getPostApiLinkedinPostWithJsonMutationOptions = <
+export const getPostApiLinkedinPostMutationOptions = <
   TError = ErrorType<PostApiLinkedinPostResponse400>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiLinkedinPostWithJson>>,
+    Awaited<ReturnType<typeof postApiLinkedinPost>>,
     TError,
     { data: PostApiLinkedinPostRequest },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiLinkedinPostWithJson>>,
+  Awaited<ReturnType<typeof postApiLinkedinPost>>,
   TError,
   { data: PostApiLinkedinPostRequest },
   TContext
 > => {
-  const mutationKey = ["postApiLinkedinPostWithJson"];
+  const mutationKey = ["postApiLinkedinPost"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -222,35 +220,34 @@ export const getPostApiLinkedinPostWithJsonMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiLinkedinPostWithJson>>,
+    Awaited<ReturnType<typeof postApiLinkedinPost>>,
     { data: PostApiLinkedinPostRequest }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postApiLinkedinPostWithJson(data);
+    return postApiLinkedinPost(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostApiLinkedinPostWithJsonMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiLinkedinPostWithJson>>
+export type PostApiLinkedinPostMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postApiLinkedinPost>>
 >;
-export type PostApiLinkedinPostWithJsonMutationBody =
-  PostApiLinkedinPostRequest;
-export type PostApiLinkedinPostWithJsonMutationError =
+export type PostApiLinkedinPostMutationBody = PostApiLinkedinPostRequest;
+export type PostApiLinkedinPostMutationError =
   ErrorType<PostApiLinkedinPostResponse400>;
 
 /**
  * @summary Publish post to LinkedIn
  */
-export const usePostApiLinkedinPostWithJson = <
+export const usePostApiLinkedinPost = <
   TError = ErrorType<PostApiLinkedinPostResponse400>,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiLinkedinPostWithJson>>,
+      Awaited<ReturnType<typeof postApiLinkedinPost>>,
       TError,
       { data: PostApiLinkedinPostRequest },
       TContext
@@ -258,199 +255,13 @@ export const usePostApiLinkedinPostWithJson = <
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postApiLinkedinPostWithJson>>,
+  Awaited<ReturnType<typeof postApiLinkedinPost>>,
   TError,
   { data: PostApiLinkedinPostRequest },
   TContext
 > => {
   return useMutation(
-    getPostApiLinkedinPostWithJsonMutationOptions(options),
-    queryClient
-  );
-};
-/**
- * Publish a post to the authenticated user's LinkedIn account
- * @summary Publish post to LinkedIn
- */
-export const postApiLinkedinPostWithUrlEncoded = (
-  postApiLinkedinPostWithUrlEncodedBodyTwo: PostApiLinkedinPostWithUrlEncodedBodyTwo,
-  signal?: AbortSignal
-) => {
-  const formUrlEncoded = new URLSearchParams();
-  formUrlEncoded.append(
-    `postId`,
-    postApiLinkedinPostWithUrlEncodedBodyTwo.postId
-  );
-
-  return customInstance<PostApiLinkedinPostResponse200>({
-    url: `/api/linkedin/post`,
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    data: formUrlEncoded,
-    signal,
-  });
-};
-
-export const getPostApiLinkedinPostWithUrlEncodedMutationOptions = <
-  TError = ErrorType<PostApiLinkedinPostResponse400>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiLinkedinPostWithUrlEncoded>>,
-    TError,
-    { data: PostApiLinkedinPostWithUrlEncodedBodyTwo },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiLinkedinPostWithUrlEncoded>>,
-  TError,
-  { data: PostApiLinkedinPostWithUrlEncodedBodyTwo },
-  TContext
-> => {
-  const mutationKey = ["postApiLinkedinPostWithUrlEncoded"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiLinkedinPostWithUrlEncoded>>,
-    { data: PostApiLinkedinPostWithUrlEncodedBodyTwo }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return postApiLinkedinPostWithUrlEncoded(data);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiLinkedinPostWithUrlEncodedMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiLinkedinPostWithUrlEncoded>>
->;
-export type PostApiLinkedinPostWithUrlEncodedMutationBody =
-  PostApiLinkedinPostWithUrlEncodedBodyTwo;
-export type PostApiLinkedinPostWithUrlEncodedMutationError =
-  ErrorType<PostApiLinkedinPostResponse400>;
-
-/**
- * @summary Publish post to LinkedIn
- */
-export const usePostApiLinkedinPostWithUrlEncoded = <
-  TError = ErrorType<PostApiLinkedinPostResponse400>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiLinkedinPostWithUrlEncoded>>,
-      TError,
-      { data: PostApiLinkedinPostWithUrlEncodedBodyTwo },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof postApiLinkedinPostWithUrlEncoded>>,
-  TError,
-  { data: PostApiLinkedinPostWithUrlEncodedBodyTwo },
-  TContext
-> => {
-  return useMutation(
-    getPostApiLinkedinPostWithUrlEncodedMutationOptions(options),
-    queryClient
-  );
-};
-/**
- * Publish a post to the authenticated user's LinkedIn account
- * @summary Publish post to LinkedIn
- */
-export const postApiLinkedinPostWithFormData = (
-  postApiLinkedinPostWithFormDataBodyThree: PostApiLinkedinPostWithFormDataBodyThree,
-  signal?: AbortSignal
-) => {
-  const formData = new FormData();
-  formData.append(`postId`, postApiLinkedinPostWithFormDataBodyThree.postId);
-
-  return customInstance<PostApiLinkedinPostResponse200>({
-    url: `/api/linkedin/post`,
-    method: "POST",
-    data: formData,
-    signal,
-  });
-};
-
-export const getPostApiLinkedinPostWithFormDataMutationOptions = <
-  TError = ErrorType<PostApiLinkedinPostResponse400>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiLinkedinPostWithFormData>>,
-    TError,
-    { data: PostApiLinkedinPostWithFormDataBodyThree },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiLinkedinPostWithFormData>>,
-  TError,
-  { data: PostApiLinkedinPostWithFormDataBodyThree },
-  TContext
-> => {
-  const mutationKey = ["postApiLinkedinPostWithFormData"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiLinkedinPostWithFormData>>,
-    { data: PostApiLinkedinPostWithFormDataBodyThree }
-  > = (props) => {
-    const { data } = props ?? {};
-
-    return postApiLinkedinPostWithFormData(data);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiLinkedinPostWithFormDataMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiLinkedinPostWithFormData>>
->;
-export type PostApiLinkedinPostWithFormDataMutationBody =
-  PostApiLinkedinPostWithFormDataBodyThree;
-export type PostApiLinkedinPostWithFormDataMutationError =
-  ErrorType<PostApiLinkedinPostResponse400>;
-
-/**
- * @summary Publish post to LinkedIn
- */
-export const usePostApiLinkedinPostWithFormData = <
-  TError = ErrorType<PostApiLinkedinPostResponse400>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiLinkedinPostWithFormData>>,
-      TError,
-      { data: PostApiLinkedinPostWithFormDataBodyThree },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof postApiLinkedinPostWithFormData>>,
-  TError,
-  { data: PostApiLinkedinPostWithFormDataBodyThree },
-  TContext
-> => {
-  return useMutation(
-    getPostApiLinkedinPostWithFormDataMutationOptions(options),
+    getPostApiLinkedinPostMutationOptions(options),
     queryClient
   );
 };

@@ -40,10 +40,7 @@ import type {
  * Create a new post for the authenticated user
  * @summary Create a new post
  */
-export const postApiPostsWithJson = (
-  postCreate: PostCreate,
-  signal?: AbortSignal
-) => {
+export const postApiPosts = (postCreate: PostCreate, signal?: AbortSignal) => {
   return customInstance<PostResponse>({
     url: `/api/posts`,
     method: "POST",
@@ -53,23 +50,23 @@ export const postApiPostsWithJson = (
   });
 };
 
-export const getPostApiPostsWithJsonMutationOptions = <
+export const getPostApiPostsMutationOptions = <
   TError = ErrorType<unknown>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiPostsWithJson>>,
+    Awaited<ReturnType<typeof postApiPosts>>,
     TError,
     { data: PostCreate },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiPostsWithJson>>,
+  Awaited<ReturnType<typeof postApiPosts>>,
   TError,
   { data: PostCreate },
   TContext
 > => {
-  const mutationKey = ["postApiPostsWithJson"];
+  const mutationKey = ["postApiPosts"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -79,33 +76,33 @@ export const getPostApiPostsWithJsonMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiPostsWithJson>>,
+    Awaited<ReturnType<typeof postApiPosts>>,
     { data: PostCreate }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postApiPostsWithJson(data);
+    return postApiPosts(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostApiPostsWithJsonMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiPostsWithJson>>
+export type PostApiPostsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postApiPosts>>
 >;
-export type PostApiPostsWithJsonMutationBody = PostCreate;
-export type PostApiPostsWithJsonMutationError = ErrorType<unknown>;
+export type PostApiPostsMutationBody = PostCreate;
+export type PostApiPostsMutationError = ErrorType<unknown>;
 
 /**
  * @summary Create a new post
  */
-export const usePostApiPostsWithJson = <
+export const usePostApiPosts = <
   TError = ErrorType<unknown>,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiPostsWithJson>>,
+      Awaited<ReturnType<typeof postApiPosts>>,
       TError,
       { data: PostCreate },
       TContext
@@ -113,175 +110,12 @@ export const usePostApiPostsWithJson = <
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postApiPostsWithJson>>,
+  Awaited<ReturnType<typeof postApiPosts>>,
   TError,
   { data: PostCreate },
   TContext
 > => {
-  return useMutation(
-    getPostApiPostsWithJsonMutationOptions(options),
-    queryClient
-  );
-};
-/**
- * Create a new post for the authenticated user
- * @summary Create a new post
- */
-export const postApiPostsWithUrlEncoded = (signal?: AbortSignal) => {
-  return customInstance<PostResponse>({
-    url: `/api/posts`,
-    method: "POST",
-    signal,
-  });
-};
-
-export const getPostApiPostsWithUrlEncodedMutationOptions = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiPostsWithUrlEncoded>>,
-    TError,
-    void,
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiPostsWithUrlEncoded>>,
-  TError,
-  void,
-  TContext
-> => {
-  const mutationKey = ["postApiPostsWithUrlEncoded"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiPostsWithUrlEncoded>>,
-    void
-  > = () => {
-    return postApiPostsWithUrlEncoded();
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiPostsWithUrlEncodedMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiPostsWithUrlEncoded>>
->;
-
-export type PostApiPostsWithUrlEncodedMutationError = ErrorType<unknown>;
-
-/**
- * @summary Create a new post
- */
-export const usePostApiPostsWithUrlEncoded = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiPostsWithUrlEncoded>>,
-      TError,
-      void,
-      TContext
-    >;
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof postApiPostsWithUrlEncoded>>,
-  TError,
-  void,
-  TContext
-> => {
-  return useMutation(
-    getPostApiPostsWithUrlEncodedMutationOptions(options),
-    queryClient
-  );
-};
-/**
- * Create a new post for the authenticated user
- * @summary Create a new post
- */
-export const postApiPostsWithFormData = (signal?: AbortSignal) => {
-  return customInstance<PostResponse>({
-    url: `/api/posts`,
-    method: "POST",
-    signal,
-  });
-};
-
-export const getPostApiPostsWithFormDataMutationOptions = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiPostsWithFormData>>,
-    TError,
-    void,
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiPostsWithFormData>>,
-  TError,
-  void,
-  TContext
-> => {
-  const mutationKey = ["postApiPostsWithFormData"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiPostsWithFormData>>,
-    void
-  > = () => {
-    return postApiPostsWithFormData();
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiPostsWithFormDataMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiPostsWithFormData>>
->;
-
-export type PostApiPostsWithFormDataMutationError = ErrorType<unknown>;
-
-/**
- * @summary Create a new post
- */
-export const usePostApiPostsWithFormData = <
-  TError = ErrorType<unknown>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiPostsWithFormData>>,
-      TError,
-      void,
-      TContext
-    >;
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof postApiPostsWithFormData>>,
-  TError,
-  void,
-  TContext
-> => {
-  return useMutation(
-    getPostApiPostsWithFormDataMutationOptions(options),
-    queryClient
-  );
+  return useMutation(getPostApiPostsMutationOptions(options), queryClient);
 };
 /**
  * List posts for the authenticated user with optional filtering by status and tag
@@ -728,7 +562,7 @@ export function useGetApiPostsById<
  * Update a specific post by ID
  * @summary Update a post
  */
-export const patchApiPostsByIdWithJson = (
+export const patchApiPostsById = (
   id: string,
   postUpdate: PostUpdate,
   signal?: AbortSignal
@@ -742,23 +576,23 @@ export const patchApiPostsByIdWithJson = (
   });
 };
 
-export const getPatchApiPostsByIdWithJsonMutationOptions = <
+export const getPatchApiPostsByIdMutationOptions = <
   TError = ErrorType<PostError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof patchApiPostsByIdWithJson>>,
+    Awaited<ReturnType<typeof patchApiPostsById>>,
     TError,
     { id: string; data: PostUpdate },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof patchApiPostsByIdWithJson>>,
+  Awaited<ReturnType<typeof patchApiPostsById>>,
   TError,
   { id: string; data: PostUpdate },
   TContext
 > => {
-  const mutationKey = ["patchApiPostsByIdWithJson"];
+  const mutationKey = ["patchApiPostsById"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -768,33 +602,33 @@ export const getPatchApiPostsByIdWithJsonMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof patchApiPostsByIdWithJson>>,
+    Awaited<ReturnType<typeof patchApiPostsById>>,
     { id: string; data: PostUpdate }
   > = (props) => {
     const { id, data } = props ?? {};
 
-    return patchApiPostsByIdWithJson(id, data);
+    return patchApiPostsById(id, data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PatchApiPostsByIdWithJsonMutationResult = NonNullable<
-  Awaited<ReturnType<typeof patchApiPostsByIdWithJson>>
+export type PatchApiPostsByIdMutationResult = NonNullable<
+  Awaited<ReturnType<typeof patchApiPostsById>>
 >;
-export type PatchApiPostsByIdWithJsonMutationBody = PostUpdate;
-export type PatchApiPostsByIdWithJsonMutationError = ErrorType<PostError>;
+export type PatchApiPostsByIdMutationBody = PostUpdate;
+export type PatchApiPostsByIdMutationError = ErrorType<PostError>;
 
 /**
  * @summary Update a post
  */
-export const usePatchApiPostsByIdWithJson = <
+export const usePatchApiPostsById = <
   TError = ErrorType<PostError>,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof patchApiPostsByIdWithJson>>,
+      Awaited<ReturnType<typeof patchApiPostsById>>,
       TError,
       { id: string; data: PostUpdate },
       TContext
@@ -802,185 +636,12 @@ export const usePatchApiPostsByIdWithJson = <
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof patchApiPostsByIdWithJson>>,
+  Awaited<ReturnType<typeof patchApiPostsById>>,
   TError,
   { id: string; data: PostUpdate },
   TContext
 > => {
-  return useMutation(
-    getPatchApiPostsByIdWithJsonMutationOptions(options),
-    queryClient
-  );
-};
-/**
- * Update a specific post by ID
- * @summary Update a post
- */
-export const patchApiPostsByIdWithUrlEncoded = (
-  id: string,
-  signal?: AbortSignal
-) => {
-  return customInstance<PostResponse>({
-    url: `/api/posts/${id}`,
-    method: "PATCH",
-    signal,
-  });
-};
-
-export const getPatchApiPostsByIdWithUrlEncodedMutationOptions = <
-  TError = ErrorType<PostError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof patchApiPostsByIdWithUrlEncoded>>,
-    TError,
-    { id: string },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof patchApiPostsByIdWithUrlEncoded>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationKey = ["patchApiPostsByIdWithUrlEncoded"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof patchApiPostsByIdWithUrlEncoded>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {};
-
-    return patchApiPostsByIdWithUrlEncoded(id);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type PatchApiPostsByIdWithUrlEncodedMutationResult = NonNullable<
-  Awaited<ReturnType<typeof patchApiPostsByIdWithUrlEncoded>>
->;
-
-export type PatchApiPostsByIdWithUrlEncodedMutationError = ErrorType<PostError>;
-
-/**
- * @summary Update a post
- */
-export const usePatchApiPostsByIdWithUrlEncoded = <
-  TError = ErrorType<PostError>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof patchApiPostsByIdWithUrlEncoded>>,
-      TError,
-      { id: string },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof patchApiPostsByIdWithUrlEncoded>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  return useMutation(
-    getPatchApiPostsByIdWithUrlEncodedMutationOptions(options),
-    queryClient
-  );
-};
-/**
- * Update a specific post by ID
- * @summary Update a post
- */
-export const patchApiPostsByIdWithFormData = (
-  id: string,
-  signal?: AbortSignal
-) => {
-  return customInstance<PostResponse>({
-    url: `/api/posts/${id}`,
-    method: "PATCH",
-    signal,
-  });
-};
-
-export const getPatchApiPostsByIdWithFormDataMutationOptions = <
-  TError = ErrorType<PostError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof patchApiPostsByIdWithFormData>>,
-    TError,
-    { id: string },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof patchApiPostsByIdWithFormData>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationKey = ["patchApiPostsByIdWithFormData"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof patchApiPostsByIdWithFormData>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {};
-
-    return patchApiPostsByIdWithFormData(id);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type PatchApiPostsByIdWithFormDataMutationResult = NonNullable<
-  Awaited<ReturnType<typeof patchApiPostsByIdWithFormData>>
->;
-
-export type PatchApiPostsByIdWithFormDataMutationError = ErrorType<PostError>;
-
-/**
- * @summary Update a post
- */
-export const usePatchApiPostsByIdWithFormData = <
-  TError = ErrorType<PostError>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof patchApiPostsByIdWithFormData>>,
-      TError,
-      { id: string },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof patchApiPostsByIdWithFormData>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  return useMutation(
-    getPatchApiPostsByIdWithFormDataMutationOptions(options),
-    queryClient
-  );
+  return useMutation(getPatchApiPostsByIdMutationOptions(options), queryClient);
 };
 /**
  * Delete a specific post by ID
@@ -1068,7 +729,7 @@ export const useDeleteApiPostsById = <
  * Manually record that a post was published on a platform
  * @summary Mark post as published
  */
-export const postApiPostsByIdPublicationsWithJson = (
+export const postApiPostsByIdPublications = (
   id: string,
   manualPublicationRequest: ManualPublicationRequest,
   signal?: AbortSignal
@@ -1082,23 +743,23 @@ export const postApiPostsByIdPublicationsWithJson = (
   });
 };
 
-export const getPostApiPostsByIdPublicationsWithJsonMutationOptions = <
+export const getPostApiPostsByIdPublicationsMutationOptions = <
   TError = ErrorType<PostError>,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithJson>>,
+    Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
     TError,
     { id: string; data: ManualPublicationRequest },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithJson>>,
+  Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
   TError,
   { id: string; data: ManualPublicationRequest },
   TContext
 > => {
-  const mutationKey = ["postApiPostsByIdPublicationsWithJson"];
+  const mutationKey = ["postApiPostsByIdPublications"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -1108,35 +769,33 @@ export const getPostApiPostsByIdPublicationsWithJsonMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithJson>>,
+    Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
     { id: string; data: ManualPublicationRequest }
   > = (props) => {
     const { id, data } = props ?? {};
 
-    return postApiPostsByIdPublicationsWithJson(id, data);
+    return postApiPostsByIdPublications(id, data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostApiPostsByIdPublicationsWithJsonMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithJson>>
+export type PostApiPostsByIdPublicationsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postApiPostsByIdPublications>>
 >;
-export type PostApiPostsByIdPublicationsWithJsonMutationBody =
-  ManualPublicationRequest;
-export type PostApiPostsByIdPublicationsWithJsonMutationError =
-  ErrorType<PostError>;
+export type PostApiPostsByIdPublicationsMutationBody = ManualPublicationRequest;
+export type PostApiPostsByIdPublicationsMutationError = ErrorType<PostError>;
 
 /**
  * @summary Mark post as published
  */
-export const usePostApiPostsByIdPublicationsWithJson = <
+export const usePostApiPostsByIdPublications = <
   TError = ErrorType<PostError>,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithJson>>,
+      Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
       TError,
       { id: string; data: ManualPublicationRequest },
       TContext
@@ -1144,187 +803,13 @@ export const usePostApiPostsByIdPublicationsWithJson = <
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithJson>>,
+  Awaited<ReturnType<typeof postApiPostsByIdPublications>>,
   TError,
   { id: string; data: ManualPublicationRequest },
   TContext
 > => {
   return useMutation(
-    getPostApiPostsByIdPublicationsWithJsonMutationOptions(options),
-    queryClient
-  );
-};
-/**
- * Manually record that a post was published on a platform
- * @summary Mark post as published
- */
-export const postApiPostsByIdPublicationsWithUrlEncoded = (
-  id: string,
-  signal?: AbortSignal
-) => {
-  return customInstance<ManualPublicationResponse>({
-    url: `/api/posts/${id}/publications`,
-    method: "POST",
-    signal,
-  });
-};
-
-export const getPostApiPostsByIdPublicationsWithUrlEncodedMutationOptions = <
-  TError = ErrorType<PostError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithUrlEncoded>>,
-    TError,
-    { id: string },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithUrlEncoded>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationKey = ["postApiPostsByIdPublicationsWithUrlEncoded"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithUrlEncoded>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {};
-
-    return postApiPostsByIdPublicationsWithUrlEncoded(id);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiPostsByIdPublicationsWithUrlEncodedMutationResult =
-  NonNullable<
-    Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithUrlEncoded>>
-  >;
-
-export type PostApiPostsByIdPublicationsWithUrlEncodedMutationError =
-  ErrorType<PostError>;
-
-/**
- * @summary Mark post as published
- */
-export const usePostApiPostsByIdPublicationsWithUrlEncoded = <
-  TError = ErrorType<PostError>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithUrlEncoded>>,
-      TError,
-      { id: string },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithUrlEncoded>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  return useMutation(
-    getPostApiPostsByIdPublicationsWithUrlEncodedMutationOptions(options),
-    queryClient
-  );
-};
-/**
- * Manually record that a post was published on a platform
- * @summary Mark post as published
- */
-export const postApiPostsByIdPublicationsWithFormData = (
-  id: string,
-  signal?: AbortSignal
-) => {
-  return customInstance<ManualPublicationResponse>({
-    url: `/api/posts/${id}/publications`,
-    method: "POST",
-    signal,
-  });
-};
-
-export const getPostApiPostsByIdPublicationsWithFormDataMutationOptions = <
-  TError = ErrorType<PostError>,
-  TContext = unknown,
->(options?: {
-  mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithFormData>>,
-    TError,
-    { id: string },
-    TContext
-  >;
-}): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithFormData>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  const mutationKey = ["postApiPostsByIdPublicationsWithFormData"];
-  const { mutation: mutationOptions } = options
-    ? options.mutation &&
-      "mutationKey" in options.mutation &&
-      options.mutation.mutationKey
-      ? options
-      : { ...options, mutation: { ...options.mutation, mutationKey } }
-    : { mutation: { mutationKey } };
-
-  const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithFormData>>,
-    { id: string }
-  > = (props) => {
-    const { id } = props ?? {};
-
-    return postApiPostsByIdPublicationsWithFormData(id);
-  };
-
-  return { mutationFn, ...mutationOptions };
-};
-
-export type PostApiPostsByIdPublicationsWithFormDataMutationResult =
-  NonNullable<
-    Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithFormData>>
-  >;
-
-export type PostApiPostsByIdPublicationsWithFormDataMutationError =
-  ErrorType<PostError>;
-
-/**
- * @summary Mark post as published
- */
-export const usePostApiPostsByIdPublicationsWithFormData = <
-  TError = ErrorType<PostError>,
-  TContext = unknown,
->(
-  options?: {
-    mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithFormData>>,
-      TError,
-      { id: string },
-      TContext
-    >;
-  },
-  queryClient?: QueryClient
-): UseMutationResult<
-  Awaited<ReturnType<typeof postApiPostsByIdPublicationsWithFormData>>,
-  TError,
-  { id: string },
-  TContext
-> => {
-  return useMutation(
-    getPostApiPostsByIdPublicationsWithFormDataMutationOptions(options),
+    getPostApiPostsByIdPublicationsMutationOptions(options),
     queryClient
   );
 };

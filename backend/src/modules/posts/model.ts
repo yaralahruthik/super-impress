@@ -47,10 +47,7 @@ export const ManualPublicationResponse = t.Object({
   publishedAt: PostPublicationSelect.publishedAt,
 });
 
-export const PostStatus = t.Union([
-  t.Literal("draft"),
-  t.Literal("published"),
-]);
+export const PostStatus = t.Union([t.Literal("draft"), t.Literal("published")]);
 
 export const PostResponse = t.Object({
   id: PostSelect.id,

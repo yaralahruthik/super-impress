@@ -126,7 +126,7 @@ Run everything in Docker with a single command.
 docker compose up -d
 
 # Production (compiled binary)
-docker compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
 ### Database Migrations

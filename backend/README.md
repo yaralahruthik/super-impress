@@ -128,7 +128,7 @@ bun run drizzle-kit studio
 Single multi-stage `Dockerfile` with `development` and `production` targets:
 
 - **`docker compose up`** — targets `development`
-- **`docker compose -f docker-compose.prod.yml up`** — targets `production`
+- **`docker compose -f docker-compose.yml -f docker-compose.prod.yml up`** — targets `production`
 
 ## Project Structure
 

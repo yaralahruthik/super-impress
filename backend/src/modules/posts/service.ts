@@ -10,6 +10,14 @@ import type {
 } from "./model";
 
 const WORD_REGEX = /\s+/;
+const publicationColumns = {
+  id: true,
+  platform: true,
+  platformPostId: true,
+  url: true,
+  accountId: true,
+  publishedAt: true,
+} as const;
 
 function countWords(content: string): number {
   const trimmed = content.trim();
@@ -21,7 +29,7 @@ function countWords(content: string): number {
 
 export async function createPost(
   userId: string,
-  data: PostCreate
+  data: typeof PostCreate.static
 ): Promise<typeof post.$inferSelect> {
   const [newPost] = await db
     .insert(post)
@@ -40,7 +48,9 @@ export async function getPostById(postId: number, userId: string) {
   const result = await db.query.post.findFirst({
     where: and(eq(post.id, postId), eq(post.userId, userId)),
     with: {
-      publications: true,
+      publications: {
+        columns: publicationColumns,
+      },
     },
   });
 
@@ -49,7 +59,7 @@ export async function getPostById(postId: number, userId: string) {
 
 export async function listUserPosts(options: {
   userId: string;
-  status?: PostStatus;
+  status?: typeof PostStatus.static;
   tag?: string;
   limit?: number;
   offset?: number;
@@ -89,7 +99,9 @@ export async function listUserPosts(options: {
       limit,
       offset,
       with: {
-        publications: true,
+        publications: {
+          columns: publicationColumns,
+        },
       },
     }),
     db.select({ total: count() }).from(post).where(whereClause),
@@ -101,7 +113,7 @@ export async function listUserPosts(options: {
 export async function updatePost(
   postId: number,
   userId: string,
-  data: PostUpdate
+  data: typeof PostUpdate.static
 ): Promise<Awaited<ReturnType<typeof getPostById>>> {
   const existing = await getPostById(postId, userId);
   if (!existing) {
@@ -135,7 +147,7 @@ export async function deletePost(
 export async function markAsPublished(
   userId: string,
   postId: number,
-  data: ManualPublicationRequest
+  data: typeof ManualPublicationRequest.static
 ) {
   const existing = await getPostById(postId, userId);
   if (!existing) {

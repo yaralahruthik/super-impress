@@ -1,8 +1,4 @@
-import { useForm } from "@tanstack/react-form";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import * as z from "zod";
-import { usePostApiPostsByIdPublications } from "@/api/posts/posts";
+import { usePostApiPostsByIdPublicationsWithJson } from "@/api/posts/posts";
 import { ManualPublicationRequestPlatform } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +17,10 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { getErrorMessage } from "@/utils/get-error-message";
+import { useForm } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import * as z from "zod";
 import { getPlatformLabel } from "./utils";
 
 const platformValues = Object.values(
@@ -42,13 +42,13 @@ export default function MarkAsPublishedDialog({
   open,
   onOpenChange,
 }: {
-  postId: string;
+  postId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
   const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();
-  const { mutate, isPending } = usePostApiPostsByIdPublications();
+  const { mutate, isPending } = usePostApiPostsByIdPublicationsWithJson();
 
   const form = useForm({
     defaultValues: {
@@ -62,7 +62,7 @@ export default function MarkAsPublishedDialog({
       setError(null);
       mutate(
         {
-          id: postId,
+          id: postId.toString(),
           data: {
             platform: value.platform,
             url: value.url,

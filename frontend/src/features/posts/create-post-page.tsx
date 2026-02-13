@@ -1,8 +1,4 @@
-import { useForm } from "@tanstack/react-form";
-import { useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import * as z from "zod";
-import { usePostApiPosts } from "@/api/posts/posts";
+import { usePostApiPostsWithJson } from "@/api/posts/posts";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,6 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { getErrorMessage } from "@/utils/get-error-message";
+import { useForm } from "@tanstack/react-form";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import * as z from "zod";
 
 const formSchema = z.object({
   title: z.string().trim(),
@@ -31,7 +31,7 @@ export default function CreatePostPage() {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { mutate, isPending } = usePostApiPosts();
+  const { mutate, isPending } = usePostApiPostsWithJson();
 
   const form = useForm({
     defaultValues: {

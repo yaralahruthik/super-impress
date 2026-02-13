@@ -1,12 +1,4 @@
-import {
-  IconBrandLinkedin,
-  IconCheck,
-  IconCopy,
-  IconNotebook,
-} from "@tabler/icons-react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import { usePostApiLinkedinPost } from "@/api/linked-in/linked-in";
+import { usePostApiLinkedinPostWithJson } from "@/api/linked-in/linked-in";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +12,14 @@ import { STATUS_STYLES } from "@/constants";
 import { cn } from "@/utils/classname";
 import { formatDate } from "@/utils/format-date";
 import { getErrorMessage } from "@/utils/get-error-message";
+import {
+  IconBrandLinkedin,
+  IconCheck,
+  IconCopy,
+  IconNotebook,
+} from "@tabler/icons-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import MarkAsPublishedDialog from "./mark-as-published-dialog";
 import PublicationHistory from "./publication-history";
 
@@ -50,7 +50,7 @@ export function PostCard({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const queryClient = useQueryClient();
-  const { mutate, isPending, error } = usePostApiLinkedinPost();
+  const { mutate, isPending, error } = usePostApiLinkedinPostWithJson();
   const publications = post.publications ?? [];
 
   const handleCopy = async () => {
@@ -140,7 +140,7 @@ export function PostCard({
                   disabled={isPending}
                   onClick={() =>
                     mutate(
-                      { data: { postId: post.id } },
+                      { data: { postId: post.id.toString() } },
                       {
                         onSuccess: () => {
                           queryClient.invalidateQueries({

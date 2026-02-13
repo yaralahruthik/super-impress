@@ -1,6 +1,3 @@
-import { IconExternalLink, IconTrash } from "@tabler/icons-react";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import { useDeleteApiPostsByIdPublicationsByPublicationId } from "@/api/posts/posts";
 import type { PostListResponsePostsItemPublicationsItem } from "@/api/superimpress.schemas";
 import {
@@ -18,6 +15,9 @@ import { Button } from "@/components/ui/button";
 import { constructSocialLink } from "@/utils/construct-social-links";
 import { formatDate } from "@/utils/format-date";
 import { getErrorMessage } from "@/utils/get-error-message";
+import { IconExternalLink, IconTrash } from "@tabler/icons-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { getPlatformIcon, getPlatformLabel } from "./utils";
 
 function PublicationHistoryItem({
@@ -25,7 +25,7 @@ function PublicationHistoryItem({
   postId,
 }: {
   publication: PostListResponsePostsItemPublicationsItem;
-  postId: string;
+  postId: number;
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -106,7 +106,7 @@ function PublicationHistoryItem({
                 event.preventDefault();
                 setError(null);
                 mutate(
-                  { id: postId, publicationId: publication.id },
+                  { id: postId.toString(), publicationId: publication.id.toString() },
                   {
                     onSuccess: () => {
                       queryClient.invalidateQueries({
@@ -135,7 +135,7 @@ export default function PublicationHistory({
   postId,
 }: {
   publications: PostListResponsePostsItemPublicationsItem[];
-  postId: string;
+  postId: number;
 }) {
   if (publications.length === 0) {
     return (

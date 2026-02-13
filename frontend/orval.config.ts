@@ -17,7 +17,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite: {
-        command: "prettier --write ./src/api/**",
+        command: "bun fix",
         injectGeneratedDirsAndFiles: false,
       },
     },
@@ -32,7 +32,7 @@ export default defineConfig({
     },
     hooks: {
       afterAllFilesWrite: {
-        command: "prettier --write ./src/api/**",
+        command: "bun fix",
         injectGeneratedDirsAndFiles: false,
       },
     },

@@ -49,16 +49,21 @@
       "PostResponse": {
         "type": "object",
         "required": [
+          "id",
           "userId",
           "title",
           "content",
           "tags",
-          "id",
-          "status",
           "createdAt",
-          "updatedAt"
+          "updatedAt",
+          "status"
         ],
         "properties": {
+          "id": {
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "type": "integer"
+          },
           "userId": {
             "type": "string"
           },
@@ -75,29 +80,35 @@
               "type": "string"
             }
           },
-          "id": {
-            "type": "string"
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
           },
           "status": {
             "type": "string",
             "enum": ["draft", "published"]
           },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "updatedAt": {
-            "format": "date-time",
-            "type": "string"
-          },
           "publications": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["id", "platform", "publishedAt"],
+              "required": [
+                "id",
+                "platform",
+                "platformPostId",
+                "url",
+                "accountId",
+                "publishedAt"
+              ],
               "properties": {
                 "id": {
-                  "type": "string"
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "type": "integer"
                 },
                 "platform": {
                   "type": "string",
@@ -116,8 +127,8 @@
                   "nullable": true
                 },
                 "publishedAt": {
-                  "format": "date-time",
-                  "type": "string"
+                  "type": "string",
+                  "format": "date-time"
                 }
               }
             }
@@ -156,16 +167,21 @@
             "items": {
               "type": "object",
               "required": [
+                "id",
                 "userId",
                 "title",
                 "content",
                 "tags",
-                "id",
-                "status",
                 "createdAt",
-                "updatedAt"
+                "updatedAt",
+                "status"
               ],
               "properties": {
+                "id": {
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991,
+                  "type": "integer"
+                },
                 "userId": {
                   "type": "string"
                 },
@@ -182,29 +198,35 @@
                     "type": "string"
                   }
                 },
-                "id": {
-                  "type": "string"
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
                 },
                 "status": {
                   "type": "string",
                   "enum": ["draft", "published"]
                 },
-                "createdAt": {
-                  "format": "date-time",
-                  "type": "string"
-                },
-                "updatedAt": {
-                  "format": "date-time",
-                  "type": "string"
-                },
                 "publications": {
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": ["id", "platform", "publishedAt"],
+                    "required": [
+                      "id",
+                      "platform",
+                      "platformPostId",
+                      "url",
+                      "accountId",
+                      "publishedAt"
+                    ],
                     "properties": {
                       "id": {
-                        "type": "string"
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991,
+                        "type": "integer"
                       },
                       "platform": {
                         "type": "string",
@@ -223,8 +245,8 @@
                         "nullable": true
                       },
                       "publishedAt": {
-                        "format": "date-time",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       }
                     }
                   }
@@ -280,10 +302,14 @@
         "required": ["id", "postId", "platform", "url", "publishedAt"],
         "properties": {
           "id": {
-            "type": "string"
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "type": "integer"
           },
           "postId": {
-            "type": "string"
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991,
+            "type": "integer"
           },
           "platform": {
             "type": "string",
@@ -294,8 +320,8 @@
             "nullable": true
           },
           "publishedAt": {
-            "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "format": "date-time"
           }
         }
       },

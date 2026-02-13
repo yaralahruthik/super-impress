@@ -3,7 +3,6 @@ import { betterAuthPlugin } from "../../auth";
 import {
   ManualPublicationRequest,
   ManualPublicationResponse,
-  type Platform,
   PostCreate,
   PostListQuery,
   PostListResponse,
@@ -22,59 +21,12 @@ import {
   updatePost,
 } from "./service";
 
-// Transforms database Post records (with Date objects) to API responses (with ISO string dates).
-// All endpoints MUST use this function to ensure response validation passes.
-function toPostResponse(post: {
-  id: number;
-  userId: string;
-  title: string | null;
-  content: string;
-  tags: string[];
-  createdAt: Date;
-  updatedAt: Date;
-  publications?: Array<{
-    id: number;
-    platform: Platform;
-    platformPostId: string | null;
-    url: string | null;
-    accountId: string | null;
-    publishedAt: Date;
-  }>;
-}): {
-  id: string;
-  userId: string;
-  title: string | null;
-  content: string;
-  tags: string[];
-  status: "draft" | "published";
-  createdAt: string;
-  updatedAt: string;
-  publications?: Array<{
-    id: string;
-    platform: Platform;
-    platformPostId: string | null;
-    url: string | null;
-    accountId: string | null;
-    publishedAt: string;
-  }>;
-} {
-  const status =
-    post.publications && post.publications.length > 0 ? "published" : "draft";
+function withPostStatus<T>(post: T): T & { status: "draft" | "published" } {
+  const publications = (post as { publications?: unknown[] }).publications;
 
   return {
     ...post,
-    id: String(post.id),
-    status,
-    createdAt: post.createdAt.toISOString(),
-    updatedAt: post.updatedAt.toISOString(),
-    publications: post.publications?.map((pub) => ({
-      id: String(pub.id),
-      platform: pub.platform,
-      platformPostId: pub.platformPostId,
-      url: pub.url,
-      accountId: pub.accountId,
-      publishedAt: pub.publishedAt.toISOString(),
-    })),
+    status: publications && publications.length > 0 ? "published" : "draft",
   };
 }
 
@@ -104,7 +56,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
     async ({ body, user, set }) => {
       const post = await createPost(user.id, body);
       set.status = 201;
-      return toPostResponse(post);
+      return withPostStatus(post);
     },
     {
       auth: true,
@@ -129,7 +81,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         offset: query.offset,
       });
       return {
-        posts: posts.map(toPostResponse),
+        posts: posts.map(withPostStatus),
         total,
       };
     },
@@ -171,7 +123,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         set.status = 404;
         return { error: "Post not found" };
       }
-      return toPostResponse(post);
+      return withPostStatus(post);
     },
     {
       auth: true,
@@ -200,7 +152,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         set.status = 404;
         return { error: "Post not found" };
       }
-      return toPostResponse(post);
+      return withPostStatus(post);
     },
     {
       auth: true,
@@ -259,13 +211,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         return { error: "Post not found" };
       }
       set.status = 201;
-      return {
-        id: String(publication.id),
-        postId: String(publication.postId),
-        platform: publication.platform,
-        url: publication.url,
-        publishedAt: publication.publishedAt.toISOString(),
-      };
+      return publication;
     },
     {
       auth: true,

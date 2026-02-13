@@ -42,7 +42,7 @@ export default function MarkAsPublishedDialog({
   open,
   onOpenChange,
 }: {
-  postId: string;
+  postId: number;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
@@ -62,7 +62,7 @@ export default function MarkAsPublishedDialog({
       setError(null);
       mutate(
         {
-          id: postId,
+          id: postId.toString(),
           data: {
             platform: value.platform,
             url: value.url,

@@ -156,6 +156,14 @@ function fixNullableTypes(
   const result: Record<string, unknown> = {};
 
   for (const [key, value] of Object.entries(schema)) {
+    if (key === "type" && value === "Date") {
+      result.type = "string";
+      if (!("format" in schema)) {
+        result.format = "date-time";
+      }
+      continue;
+    }
+
     // Handle anyOf with null type
     if (key === "anyOf" && Array.isArray(value)) {
       const hasNull = value.some(

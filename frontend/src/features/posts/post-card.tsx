@@ -140,7 +140,7 @@ export function PostCard({
                   disabled={isPending}
                   onClick={() =>
                     mutate(
-                      { data: { postId: post.id } },
+                      { data: { postId: post.id.toString() } },
                       {
                         onSuccess: () => {
                           queryClient.invalidateQueries({

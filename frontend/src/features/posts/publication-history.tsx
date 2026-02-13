@@ -25,7 +25,7 @@ function PublicationHistoryItem({
   postId,
 }: {
   publication: PostListResponsePostsItemPublicationsItem;
-  postId: string;
+  postId: number;
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -106,7 +106,10 @@ function PublicationHistoryItem({
                 event.preventDefault();
                 setError(null);
                 mutate(
-                  { id: postId, publicationId: publication.id },
+                  {
+                    id: postId.toString(),
+                    publicationId: publication.id.toString(),
+                  },
                   {
                     onSuccess: () => {
                       queryClient.invalidateQueries({
@@ -135,7 +138,7 @@ export default function PublicationHistory({
   postId,
 }: {
   publications: PostListResponsePostsItemPublicationsItem[];
-  postId: string;
+  postId: number;
 }) {
   if (publications.length === 0) {
     return (

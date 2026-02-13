@@ -186,8 +186,9 @@ export async function getPostsSummary(userId: string): Promise<{
   const [result] = await db
     .select({
       totalPosts: count(),
-      totalWordCount:
-        sql<number>`coalesce(${sum(post.wordCount)}, 0)`.mapWith(Number),
+      totalWordCount: sql<number>`coalesce(${sum(post.wordCount)}, 0)`.mapWith(
+        Number
+      ),
       publishedCount: sql<number>`count(*) filter (where exists (
         select 1 from ${postPublication} where ${postPublication.postId} = ${post.id}
       ))`.mapWith(Number),

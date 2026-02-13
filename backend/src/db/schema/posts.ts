@@ -1,8 +1,9 @@
-import { relations } from "drizzle-orm";
+import { type SQL, relations, sql } from "drizzle-orm";
 import {
   bigint,
   bigserial,
   index,
+  integer,
   jsonb,
   pgEnum,
   pgTable,
@@ -28,6 +29,10 @@ export const post = pgTable(
     title: text("title"),
     content: text("content").notNull(),
     tags: text("tags").array().default([]).notNull(),
+    wordCount: integer("word_count").generatedAlwaysAs(
+      (): SQL =>
+        sql`coalesce(array_length(regexp_split_to_array(nullif(trim(${post.content}), ''), '\\s+'), 1), 0)`,
+    ),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),

@@ -1,4 +1,4 @@
-import { and, arrayContains, count, desc, eq, sql } from "drizzle-orm";
+import { and, arrayContains, count, desc, eq, sql, sum } from "drizzle-orm";
 import { DEFAULT_POSTS_LIMIT } from "../../constants";
 import { db } from "../../db";
 import { post, postPublication } from "../../db/schema";
@@ -8,16 +8,6 @@ import type {
   PostStatus,
   PostUpdate,
 } from "./model";
-
-const WORD_REGEX = /\s+/;
-
-function countWords(content: string): number {
-  const trimmed = content.trim();
-  if (!trimmed) {
-    return 0;
-  }
-  return trimmed.split(WORD_REGEX).length;
-}
 
 export async function createPost(
   userId: string,
@@ -193,39 +183,24 @@ export async function getPostsSummary(userId: string): Promise<{
   totalWordCount: number;
   statusCounts: { draft: number; published: number };
 }> {
-  const posts = await db.query.post.findMany({
-    where: eq(post.userId, userId),
-    columns: {
-      content: true,
-    },
-    with: {
-      publications: {
-        columns: {
-          id: true,
-        },
-      },
-    },
-  });
-
-  const statusCounts = {
-    draft: 0,
-    published: 0,
-  };
-
-  let totalWordCount = 0;
-
-  for (const record of posts) {
-    if (record.publications.length > 0) {
-      statusCounts.published += 1;
-    } else {
-      statusCounts.draft += 1;
-    }
-    totalWordCount += countWords(record.content);
-  }
+  const [result] = await db
+    .select({
+      totalPosts: count(),
+      totalWordCount:
+        sql<number>`coalesce(${sum(post.wordCount)}, 0)`.mapWith(Number),
+      publishedCount: sql<number>`count(*) filter (where exists (
+        select 1 from ${postPublication} where ${postPublication.postId} = ${post.id}
+      ))`.mapWith(Number),
+    })
+    .from(post)
+    .where(eq(post.userId, userId));
 
   return {
-    totalPosts: posts.length,
-    totalWordCount,
-    statusCounts,
+    totalPosts: result.totalPosts,
+    totalWordCount: result.totalWordCount,
+    statusCounts: {
+      published: result.publishedCount,
+      draft: result.totalPosts - result.publishedCount,
+    },
   };
 }

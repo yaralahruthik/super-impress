@@ -1,0 +1,130 @@
+---
+title: Production Database Deployment
+description: How to run PostgreSQL + backend safely in production, including a DigitalOcean-first setup
+---
+
+This is a practical runbook for taking SuperImpress database operations to production.
+
+## TL;DR
+
+- Keep backend and database in the same region/VPC.
+- Prefer managed PostgreSQL for production.
+- Treat migrations as code (generated, reviewed, committed, applied in deploy pipeline).
+- Never run ad-hoc SQL changes directly in production.
+
+## General production architecture (provider-agnostic)
+
+### 1. Compute + data placement
+
+- Run API compute and PostgreSQL in the same region.
+- Use private networking between API and DB.
+- Restrict database ingress to trusted app/network sources only.
+
+### 2. Database service level
+
+- Start with managed PostgreSQL for automated backups, failover options, and operations support.
+- Turn on daily backups and point-in-time recovery (PITR).
+- Monitor connection count, CPU, memory, storage growth, and slow queries.
+
+### 3. Security baseline
+
+- Enforce TLS for DB connections.
+- Keep DB credentials in secret manager / environment variables, never committed files.
+- Use least-privilege database users for app runtime and admin tasks.
+
+### 4. Deployment and migration model
+
+For schema changes, use Drizzle migrations only:
+
+1. Generate migration files from code changes.
+2. Commit migration files to git.
+3. Deploy backend.
+4. Run migrations exactly once as a release step/job.
+5. Verify health checks and key DB queries after migration.
+
+This avoids schema drift and keeps production reproducible.
+
+## DigitalOcean-specific architecture (recommended first setup)
+
+### Recommended stack
+
+- **Backend**: DigitalOcean App Platform (or a Droplet if you need lower-level control).
+- **Database**: DigitalOcean Managed PostgreSQL.
+- **Cache/state**: DigitalOcean Managed Redis (if used in production flows).
+- **Region**: Same region for all components (for example, NYC3).
+
+### Network model
+
+- Keep DB in a private network / trusted-sources mode.
+- Allow inbound DB access only from backend runtime.
+- Avoid exposing the database publicly unless absolutely necessary.
+
+### Operational defaults
+
+- Enable automated backups and PITR on Managed PostgreSQL.
+- Configure alerts for storage, CPU, and connection saturation.
+- Set conservative connection pools in backend to avoid exhausting DB connections.
+
+## Drizzle migration workflow for production
+
+Run from `backend/`:
+
+```bash
+bun run drizzle-kit generate
+```
+
+Commit generated migration files under `backend/drizzle/`.
+
+In deployment/release phase, run once against production:
+
+```bash
+bun run drizzle-kit push
+```
+
+### Important migration rules
+
+- Always run migrations first in staging.
+- Use one migration runner only (single release job / lock).
+- Prefer additive, backward-compatible changes before destructive cleanup.
+- For large table changes, do phased rollouts to reduce lock risk.
+
+## Suggested release checklist
+
+1. Staging is on same PostgreSQL major version as production.
+2. New migration generated and reviewed in PR.
+3. Backup/PITR confirmed before applying migration.
+4. Production deploy starts.
+5. Migration job runs once (`drizzle-kit push`).
+6. API health checks pass.
+7. Post-release verification query/dashboard checks pass.
+
+## Failure and recovery expectations
+
+- If migration fails, stop rollout and restore service compatibility (rollback app or apply forward fix migration).
+- Keep a tested restore path for backups/PITR; do at least one restore drill before relying on it.
+- Document who can run emergency DB operations and where runbooks live.
+
+## SuperImpress command reference
+
+From local development context:
+
+```bash
+# Generate migration files
+cd backend && bun run drizzle-kit generate
+
+# Apply migrations
+cd backend && bun run drizzle-kit push
+```
+
+When running with Docker-based backend service:
+
+```bash
+docker compose exec backend bun run drizzle-kit generate
+docker compose exec backend bun run drizzle-kit push
+```
+
+## Decision guidance: managed DB vs self-hosted on one Droplet
+
+For initial production, managed PostgreSQL is strongly preferred. Self-hosting PostgreSQL on the same Droplet as the API can be cheaper early, but adds significant operational risk (backup management, upgrades, failover, and restore correctness).
+
+If budget is constrained, optimize compute size first; keep DB managed.

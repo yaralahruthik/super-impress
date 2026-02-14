@@ -1,3 +1,7 @@
+# NOTE: This compose file is for local development of the backend + frontend only.
+# In production, only the backend and database (postgres/redis) are deployed via Docker.
+# UI sites (frontend, marketing-site, docs) are static builds deployed to platforms like Netlify.
+
 services:
   postgres:
     image: postgres:18

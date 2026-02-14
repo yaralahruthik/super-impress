@@ -132,16 +132,12 @@ export async function deletePost(
   postId: number,
   userId: string
 ): Promise<boolean> {
-  const existing = await getPostById(postId, userId);
-  if (!existing) {
-    return false;
-  }
-
-  await db
+  const [deletedPost] = await db
     .delete(post)
-    .where(and(eq(post.id, postId), eq(post.userId, userId)));
+    .where(and(eq(post.id, postId), eq(post.userId, userId)))
+    .returning({ id: post.id });
 
-  return true;
+  return Boolean(deletedPost);
 }
 
 export async function markAsPublished(

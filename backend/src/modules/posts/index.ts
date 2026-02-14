@@ -188,6 +188,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
       auth: true,
       params: t.Object({ id: t.String({ pattern: "^[0-9]+$" }) }),
       response: {
+        204: t.Void(),
         404: "PostError",
         400: "PostError",
       },
@@ -251,6 +252,7 @@ export const postsModule = new Elysia({ prefix: "/posts", tags: ["Posts"] })
         publicationId: t.String({ pattern: "^[0-9]+$" }),
       }),
       response: {
+        204: t.Void(),
         404: "PostError",
         400: "PostError",
       },

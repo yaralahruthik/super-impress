@@ -1,13 +1,27 @@
 import {
+  IconAlertTriangle,
   IconBrandLinkedin,
   IconCheck,
   IconCopy,
   IconNotebook,
+  IconTrash,
 } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { usePostApiLinkedinPost } from "@/api/linked-in/linked-in";
+import { useDeleteApiPostsById } from "@/api/posts/posts";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -48,9 +62,13 @@ export function PostCard({
   linkedInConnected: boolean;
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const queryClient = useQueryClient();
   const { mutate, isPending, error } = usePostApiLinkedinPost();
+  const { mutate: deletePost, isPending: isDeletePending } =
+    useDeleteApiPostsById();
   const publications = post.publications ?? [];
 
   const handleCopy = async () => {
@@ -133,6 +151,70 @@ export function PostCard({
               <IconNotebook className="size-4" />
               Mark as Published
             </Button>
+
+            <AlertDialog
+              onOpenChange={(open) => {
+                setDeleteDialogOpen(open);
+                if (!open) {
+                  setDeleteError(null);
+                }
+              }}
+              open={deleteDialogOpen}
+            >
+              <AlertDialogTrigger asChild>
+                <Button size="sm" variant="outline">
+                  <IconTrash className="size-4" />
+                  Delete Post
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="flex items-center gap-2">
+                    <IconAlertTriangle className="size-5 text-destructive" />
+                    Delete this post?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will permanently delete the post and all publication
+                    history associated with it. This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                {deleteError && (
+                  <div
+                    className="rounded-md bg-destructive/10 px-4 py-3 text-destructive text-sm"
+                    role="alert"
+                  >
+                    {deleteError}
+                  </div>
+                )}
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    disabled={isDeletePending}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      setDeleteError(null);
+                      deletePost(
+                        { id: post.id.toString() },
+                        {
+                          onSuccess: () => {
+                            queryClient.invalidateQueries({
+                              queryKey: ["/api/posts"],
+                            });
+                            setDeleteDialogOpen(false);
+                          },
+                          onError: (error) => {
+                            setDeleteError(getErrorMessage(error));
+                          },
+                        }
+                      );
+                    }}
+                  >
+                    {isDeletePending ? "Deleting..." : "Delete Post"}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
 
             {linkedInConnected && (
               <>

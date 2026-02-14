@@ -7,25 +7,49 @@ SuperImpress uses a subdomain-per-service layout under the `superimpress.com` do
 
 ## Domain map
 
-| Service  | URL                          | Description                       |
-| -------- | ---------------------------- | --------------------------------- |
-| Frontend | `https://app.superimpress.com`  | React SPA — main user interface   |
-| Backend  | `https://api.superimpress.com`  | Elysia API server                 |
-| Docs     | `https://docs.superimpress.com` | TanStack Start + Fumadocs site    |
+| Service         | URL                               | Description                                 |
+| --------------- | --------------------------------- | ------------------------------------------- |
+| Marketing site  | `https://superimpress.com`        | Public landing pages and product messaging  |
+| Frontend app    | `https://app.superimpress.com`    | React SPA — authenticated product experience |
+| Backend API     | `https://api.superimpress.com`    | Elysia API server                            |
+| MCP server      | `https://mcp.superimpress.com`    | MCP endpoint(s) for AI client integrations   |
+| Docs            | `https://docs.superimpress.com`   | TanStack Start + Fumadocs documentation site |
+
+## Hosting model
+
+- **Marketing site (`superimpress.com`)**
+  - Hosted as a static site on the CDN/edge layer for maximal cacheability and low latency.
+  - Uses aggressive edge caching and immutable asset versioning.
+  - Contains no privileged app data and does not require API credentials.
+
+- **App + API (`app.` + `api.`)**
+  - Kept as separate deployments so the SPA and API can scale independently.
+  - `app.` handles user sessions and UI delivery.
+  - `api.` handles business logic, OAuth flows, and database access.
+
+- **MCP (`mcp.superimpress.com`)**
+  - Hosted as an isolated service boundary, even if backed by the same runtime as the API.
+  - Exposed on its own subdomain to simplify auth policy, traffic controls, and observability for machine-to-machine usage.
+  - Can be routed to the same compute cluster as `api.` while still preserving clean ingress rules.
+
+- **Docs (`docs.`)**
+  - Hosted as a static-first documentation site with independent deployment cadence from product code.
 
 ## Why subdomains
 
-1. **Clear separation of concerns**: Each service is independently deployable and has its own subdomain, making routing, monitoring, and debugging straightforward.
-2. **Independent scaling**: Frontend, backend, and docs can be scaled and cached differently based on their traffic profiles.
-3. **Simpler CORS configuration**: A well-known API origin (`api.`) makes cross-origin rules explicit and easy to audit.
-4. **Cookie isolation**: Auth cookies can be scoped to `app.` while the API on `api.` uses token-based auth, reducing cookie leakage surface.
-5. **Conventional naming**: `app.` / `api.` / `docs.` is a widely recognised pattern that is intuitive for developers and end-users.
+1. **Clear separation of concerns**: Each surface (marketing, app, API, MCP, docs) is independently deployable with clean routing boundaries.
+2. **Independent scaling**: Marketing/docs are cache-heavy, while API/MCP are compute-heavy; subdomains let us tune each path appropriately.
+3. **Security isolation**: Auth/session boundaries stay explicit (`app.` for user UI, `api.` for application APIs, `mcp.` for AI tooling access).
+4. **Simpler policy management**: CORS, rate limiting, WAF, and bot controls can be tailored per subdomain without side effects.
+5. **Conventional naming**: `app.` / `api.` / `mcp.` / `docs.` with apex marketing is intuitive for users and developers.
 
 ## CORS and auth implications
 
 - The backend at `api.superimpress.com` must allowlist `https://app.superimpress.com` as a permitted origin.
-- Credentials (cookies/tokens) must be forwarded cross-origin; the backend CORS config needs `credentials: true`.
-- The docs site is public and does not require CORS configuration against the API.
+- If the marketing site calls public API endpoints, `https://superimpress.com` should be explicitly allowlisted as needed.
+- Credentials (cookies/tokens) must be forwarded cross-origin; backend CORS config for browser clients needs `credentials: true`.
+- `mcp.superimpress.com` should use token-based service auth and should not rely on browser cookie auth.
+- The docs site is public and typically does not require direct CORS access to the API.
 
 ## References
 

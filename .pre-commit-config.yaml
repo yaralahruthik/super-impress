@@ -35,6 +35,18 @@ repos:
         types: [file]
         types_or: [javascript, jsx, ts, tsx, json, css]
 
+  # Marketing site hooks (ultracite)
+  - repo: local
+    hooks:
+      - id: ultracite-marketing-site
+        name: ultracite check (marketing-site)
+        entry: bun --cwd marketing-site run check
+        language: system
+        pass_filenames: false
+        files: ^marketing-site/
+        types: [file]
+        types_or: [javascript, jsx, ts, tsx, json, css]
+
   # General hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0

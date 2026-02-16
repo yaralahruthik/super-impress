@@ -6,6 +6,10 @@ backend:
   - changed-files:
       - any-glob-to-any-file: "backend/**"
 
+marketing:
+  - changed-files:
+      - any-glob-to-any-file: "marketing-site/**"
+
 documentation:
   - changed-files:
       - any-glob-to-any-file: "**/*.md"

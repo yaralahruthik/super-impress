@@ -1,7 +1,7 @@
 import { IconLoader2, IconUnlink } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePostApiAuthUnlinkAccount } from "@/api/better-auth/better-auth";
-import { getGetApiLinkedinStatusQueryKey } from "@/api/linked-in/linked-in";
+import { usePostAuthUnlinkAccount } from "@/api/better-auth/better-auth";
+import { getGetLinkedinStatusQueryKey } from "@/api/linked-in/linked-in";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +27,7 @@ export default function DisconnectLinkedinAccount({
     mutate: unlinkAccount,
     isPending: unlinkPending,
     error,
-  } = usePostApiAuthUnlinkAccount();
+  } = usePostAuthUnlinkAccount();
 
   const handleDisconnect = () => {
     unlinkAccount(
@@ -39,7 +39,7 @@ export default function DisconnectLinkedinAccount({
       {
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: getGetApiLinkedinStatusQueryKey(),
+            queryKey: getGetLinkedinStatusQueryKey(),
           });
           queryClient.invalidateQueries({
             queryKey: getLinkedAccountInfoQueryKey(accountId),

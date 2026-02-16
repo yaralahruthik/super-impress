@@ -271,23 +271,23 @@ export interface Verification {
   updatedAt: string;
 }
 
-export interface GetApiLinkedinStatusResponse200 {
+export interface GetLinkedinStatusResponse200 {
   connected: boolean;
   accountId?: string;
   email?: string;
 }
 
-export interface PostApiLinkedinPostRequest {
+export interface PostLinkedinPostRequest {
   postId: string;
 }
 
-export interface PostApiLinkedinPostResponse200 {
+export interface PostLinkedinPostResponse200 {
   success: boolean;
   linkedInPostId?: string;
   message?: string;
 }
 
-export interface PostApiLinkedinPostResponse400 {
+export interface PostLinkedinPostResponse400 {
   success: boolean;
   linkedInPostId?: string;
   message?: string;
@@ -655,33 +655,33 @@ export interface VerifyPasswordResponse500 {
   message?: string;
 }
 
-export interface ApiAuthVerifyEmailGetResponse200 {
+export interface AuthVerifyEmailGetResponse200 {
   user: User;
   /** Indicates if the email was verified successfully */
   status: boolean;
 }
 
-export interface ApiAuthVerifyEmailGetResponse400 {
+export interface AuthVerifyEmailGetResponse400 {
   message: string;
 }
 
-export interface ApiAuthVerifyEmailGetResponse401 {
+export interface AuthVerifyEmailGetResponse401 {
   message: string;
 }
 
-export interface ApiAuthVerifyEmailGetResponse403 {
+export interface AuthVerifyEmailGetResponse403 {
   message?: string;
 }
 
-export interface ApiAuthVerifyEmailGetResponse404 {
+export interface AuthVerifyEmailGetResponse404 {
   message?: string;
 }
 
-export interface ApiAuthVerifyEmailGetResponse429 {
+export interface AuthVerifyEmailGetResponse429 {
   message?: string;
 }
 
-export interface ApiAuthVerifyEmailGetResponse500 {
+export interface AuthVerifyEmailGetResponse500 {
   message?: string;
 }
 
@@ -1034,103 +1034,103 @@ export interface ListUserSessionsResponse500 {
   message?: string;
 }
 
-export interface ApiAuthRevokeSessionPostRequest {
+export interface AuthRevokeSessionPostRequest {
   /** The token to revoke */
   token: string;
 }
 
-export interface ApiAuthRevokeSessionPostResponse200 {
+export interface AuthRevokeSessionPostResponse200 {
   /** Indicates if the session was revoked successfully */
   status: boolean;
 }
 
-export interface ApiAuthRevokeSessionPostResponse400 {
+export interface AuthRevokeSessionPostResponse400 {
   message: string;
 }
 
-export interface ApiAuthRevokeSessionPostResponse401 {
+export interface AuthRevokeSessionPostResponse401 {
   message: string;
 }
 
-export interface ApiAuthRevokeSessionPostResponse403 {
+export interface AuthRevokeSessionPostResponse403 {
   message?: string;
 }
 
-export interface ApiAuthRevokeSessionPostResponse404 {
+export interface AuthRevokeSessionPostResponse404 {
   message?: string;
 }
 
-export interface ApiAuthRevokeSessionPostResponse429 {
+export interface AuthRevokeSessionPostResponse429 {
   message?: string;
 }
 
-export interface ApiAuthRevokeSessionPostResponse500 {
+export interface AuthRevokeSessionPostResponse500 {
   message?: string;
 }
 
-export interface ApiAuthRevokeSessionsPostRequest {
+export interface AuthRevokeSessionsPostRequest {
   [key: string]: unknown;
 }
 
-export interface ApiAuthRevokeSessionsPostResponse200 {
+export interface AuthRevokeSessionsPostResponse200 {
   /** Indicates if all sessions were revoked successfully */
   status: boolean;
 }
 
-export interface ApiAuthRevokeSessionsPostResponse400 {
+export interface AuthRevokeSessionsPostResponse400 {
   message: string;
 }
 
-export interface ApiAuthRevokeSessionsPostResponse401 {
+export interface AuthRevokeSessionsPostResponse401 {
   message: string;
 }
 
-export interface ApiAuthRevokeSessionsPostResponse403 {
+export interface AuthRevokeSessionsPostResponse403 {
   message?: string;
 }
 
-export interface ApiAuthRevokeSessionsPostResponse404 {
+export interface AuthRevokeSessionsPostResponse404 {
   message?: string;
 }
 
-export interface ApiAuthRevokeSessionsPostResponse429 {
+export interface AuthRevokeSessionsPostResponse429 {
   message?: string;
 }
 
-export interface ApiAuthRevokeSessionsPostResponse500 {
+export interface AuthRevokeSessionsPostResponse500 {
   message?: string;
 }
 
-export interface ApiAuthRevokeOtherSessionsPostRequest {
+export interface AuthRevokeOtherSessionsPostRequest {
   [key: string]: unknown;
 }
 
-export interface ApiAuthRevokeOtherSessionsPostResponse200 {
+export interface AuthRevokeOtherSessionsPostResponse200 {
   /** Indicates if all other sessions were revoked successfully */
   status: boolean;
 }
 
-export interface ApiAuthRevokeOtherSessionsPostResponse400 {
+export interface AuthRevokeOtherSessionsPostResponse400 {
   message: string;
 }
 
-export interface ApiAuthRevokeOtherSessionsPostResponse401 {
+export interface AuthRevokeOtherSessionsPostResponse401 {
   message: string;
 }
 
-export interface ApiAuthRevokeOtherSessionsPostResponse403 {
+export interface AuthRevokeOtherSessionsPostResponse403 {
   message?: string;
 }
 
-export interface ApiAuthRevokeOtherSessionsPostResponse404 {
+export interface AuthRevokeOtherSessionsPostResponse404 {
   message?: string;
 }
 
-export interface ApiAuthRevokeOtherSessionsPostResponse429 {
+export interface AuthRevokeOtherSessionsPostResponse429 {
   message?: string;
 }
 
-export interface ApiAuthRevokeOtherSessionsPostResponse500 {
+export interface AuthRevokeOtherSessionsPostResponse500 {
   message?: string;
 }
 
@@ -1250,79 +1250,79 @@ export interface ListUserAccountsResponse500 {
 /**
  * Confirmation message
  */
-export type ApiAuthDeleteUserCallbackGetResponse200Message =
-  (typeof ApiAuthDeleteUserCallbackGetResponse200Message)[keyof typeof ApiAuthDeleteUserCallbackGetResponse200Message];
+export type AuthDeleteUserCallbackGetResponse200Message =
+  (typeof AuthDeleteUserCallbackGetResponse200Message)[keyof typeof AuthDeleteUserCallbackGetResponse200Message];
 
-export const ApiAuthDeleteUserCallbackGetResponse200Message = {
+export const AuthDeleteUserCallbackGetResponse200Message = {
   User_deleted: "User deleted",
 } as const;
 
-export interface ApiAuthDeleteUserCallbackGetResponse200 {
+export interface AuthDeleteUserCallbackGetResponse200 {
   /** Indicates if the deletion was successful */
   success: boolean;
   /** Confirmation message */
-  message: ApiAuthDeleteUserCallbackGetResponse200Message;
+  message: AuthDeleteUserCallbackGetResponse200Message;
 }
 
-export interface ApiAuthDeleteUserCallbackGetResponse400 {
+export interface AuthDeleteUserCallbackGetResponse400 {
   message: string;
 }
 
-export interface ApiAuthDeleteUserCallbackGetResponse401 {
+export interface AuthDeleteUserCallbackGetResponse401 {
   message: string;
 }
 
-export interface ApiAuthDeleteUserCallbackGetResponse403 {
+export interface AuthDeleteUserCallbackGetResponse403 {
   message?: string;
 }
 
-export interface ApiAuthDeleteUserCallbackGetResponse404 {
+export interface AuthDeleteUserCallbackGetResponse404 {
   message?: string;
 }
 
-export interface ApiAuthDeleteUserCallbackGetResponse429 {
+export interface AuthDeleteUserCallbackGetResponse429 {
   message?: string;
 }
 
-export interface ApiAuthDeleteUserCallbackGetResponse500 {
+export interface AuthDeleteUserCallbackGetResponse500 {
   message?: string;
 }
 
-export interface ApiAuthUnlinkAccountPostRequest {
+export interface AuthUnlinkAccountPostRequest {
   providerId: string;
   /** @nullable */
   accountId?: string | null;
 }
 
-export interface ApiAuthUnlinkAccountPostResponse200 {
+export interface AuthUnlinkAccountPostResponse200 {
   status?: boolean;
 }
 
-export interface ApiAuthUnlinkAccountPostResponse400 {
+export interface AuthUnlinkAccountPostResponse400 {
   message: string;
 }
 
-export interface ApiAuthUnlinkAccountPostResponse401 {
+export interface AuthUnlinkAccountPostResponse401 {
   message: string;
 }
 
-export interface ApiAuthUnlinkAccountPostResponse403 {
+export interface AuthUnlinkAccountPostResponse403 {
   message?: string;
 }
 
-export interface ApiAuthUnlinkAccountPostResponse404 {
+export interface AuthUnlinkAccountPostResponse404 {
   message?: string;
 }
 
-export interface ApiAuthUnlinkAccountPostResponse429 {
+export interface AuthUnlinkAccountPostResponse429 {
   message?: string;
 }
 
-export interface ApiAuthUnlinkAccountPostResponse500 {
+export interface AuthUnlinkAccountPostResponse500 {
   message?: string;
 }
 
-export interface ApiAuthRefreshTokenPostRequest {
+export interface AuthRefreshTokenPostRequest {
   /** The provider ID for the OAuth provider */
   providerId: string;
   /**
@@ -1337,7 +1337,7 @@ export interface ApiAuthRefreshTokenPostRequest {
   userId?: string | null;
 }
 
-export interface ApiAuthRefreshTokenPostResponse200 {
+export interface AuthRefreshTokenPostResponse200 {
   tokenType?: string;
   idToken?: string;
   accessToken?: string;
@@ -1346,27 +1346,27 @@ export interface ApiAuthRefreshTokenPostResponse200 {
   refreshTokenExpiresAt?: string;
 }
 
-export interface ApiAuthRefreshTokenPostResponse401 {
+export interface AuthRefreshTokenPostResponse401 {
   message: string;
 }
 
-export interface ApiAuthRefreshTokenPostResponse403 {
+export interface AuthRefreshTokenPostResponse403 {
   message?: string;
 }
 
-export interface ApiAuthRefreshTokenPostResponse404 {
+export interface AuthRefreshTokenPostResponse404 {
   message?: string;
 }
 
-export interface ApiAuthRefreshTokenPostResponse429 {
+export interface AuthRefreshTokenPostResponse429 {
   message?: string;
 }
 
-export interface ApiAuthRefreshTokenPostResponse500 {
+export interface AuthRefreshTokenPostResponse500 {
   message?: string;
 }
 
-export interface ApiAuthGetAccessTokenPostRequest {
+export interface AuthGetAccessTokenPostRequest {
   /** The provider ID for the OAuth provider */
   providerId: string;
   /**
@@ -1381,34 +1381,34 @@ export interface ApiAuthGetAccessTokenPostRequest {
   userId?: string | null;
 }
 
-export interface ApiAuthGetAccessTokenPostResponse200 {
+export interface AuthGetAccessTokenPostResponse200 {
   tokenType?: string;
   idToken?: string;
   accessToken?: string;
   accessTokenExpiresAt?: string;
 }
 
-export interface ApiAuthGetAccessTokenPostResponse401 {
+export interface AuthGetAccessTokenPostResponse401 {
   message: string;
 }
 
-export interface ApiAuthGetAccessTokenPostResponse403 {
+export interface AuthGetAccessTokenPostResponse403 {
   message?: string;
 }
 
-export interface ApiAuthGetAccessTokenPostResponse404 {
+export interface AuthGetAccessTokenPostResponse404 {
   message?: string;
 }
 
-export interface ApiAuthGetAccessTokenPostResponse429 {
+export interface AuthGetAccessTokenPostResponse429 {
   message?: string;
 }
 
-export interface ApiAuthGetAccessTokenPostResponse500 {
+export interface AuthGetAccessTokenPostResponse500 {
   message?: string;
 }
 
-export type ApiAuthAccountInfoGetResponse200User = {
+export type AuthAccountInfoGetResponse200User = {
   id: string;
   name?: string;
   email?: string;
@@ -1416,92 +1416,92 @@ export type ApiAuthAccountInfoGetResponse200User = {
   emailVerified: boolean;
 };
 
-export type ApiAuthAccountInfoGetResponse200Data = { [key: string]: unknown };
+export type AuthAccountInfoGetResponse200Data = { [key: string]: unknown };
 
-export interface ApiAuthAccountInfoGetResponse200 {
-  user: ApiAuthAccountInfoGetResponse200User;
-  data: ApiAuthAccountInfoGetResponse200Data;
+export interface AuthAccountInfoGetResponse200 {
+  user: AuthAccountInfoGetResponse200User;
+  data: AuthAccountInfoGetResponse200Data;
 }
 
-export interface ApiAuthAccountInfoGetResponse400 {
+export interface AuthAccountInfoGetResponse400 {
   message: string;
 }
 
-export interface ApiAuthAccountInfoGetResponse401 {
+export interface AuthAccountInfoGetResponse401 {
   message: string;
 }
 
-export interface ApiAuthAccountInfoGetResponse403 {
+export interface AuthAccountInfoGetResponse403 {
   message?: string;
 }
 
-export interface ApiAuthAccountInfoGetResponse404 {
+export interface AuthAccountInfoGetResponse404 {
   message?: string;
 }
 
-export interface ApiAuthAccountInfoGetResponse429 {
+export interface AuthAccountInfoGetResponse429 {
   message?: string;
 }
 
-export interface ApiAuthAccountInfoGetResponse500 {
+export interface AuthAccountInfoGetResponse500 {
   message?: string;
 }
 
-export interface ApiAuthOkGetResponse200 {
+export interface AuthOkGetResponse200 {
   /** Indicates if the API is working */
   ok: boolean;
 }
 
-export interface ApiAuthOkGetResponse400 {
+export interface AuthOkGetResponse400 {
   message: string;
 }
 
-export interface ApiAuthOkGetResponse401 {
+export interface AuthOkGetResponse401 {
   message: string;
 }
 
-export interface ApiAuthOkGetResponse403 {
+export interface AuthOkGetResponse403 {
   message?: string;
 }
 
-export interface ApiAuthOkGetResponse404 {
+export interface AuthOkGetResponse404 {
   message?: string;
 }
 
-export interface ApiAuthOkGetResponse429 {
+export interface AuthOkGetResponse429 {
   message?: string;
 }
 
-export interface ApiAuthOkGetResponse500 {
+export interface AuthOkGetResponse500 {
   message?: string;
 }
 
-export interface ApiAuthErrorGetResponse400 {
+export interface AuthErrorGetResponse400 {
   message: string;
 }
 
-export interface ApiAuthErrorGetResponse401 {
+export interface AuthErrorGetResponse401 {
   message: string;
 }
 
-export interface ApiAuthErrorGetResponse403 {
+export interface AuthErrorGetResponse403 {
   message?: string;
 }
 
-export interface ApiAuthErrorGetResponse404 {
+export interface AuthErrorGetResponse404 {
   message?: string;
 }
 
-export interface ApiAuthErrorGetResponse429 {
+export interface AuthErrorGetResponse429 {
   message?: string;
 }
 
-export interface ApiAuthErrorGetResponse500 {
+export interface AuthErrorGetResponse500 {
   message?: string;
 }
 
-export type GetApiPostsParams = {
-  status?: GetApiPostsStatus;
+export type GetPostsParams = {
+  status?: GetPostsStatus;
   tag?: string;
   /**
    * @minimum 1
@@ -1514,15 +1514,15 @@ export type GetApiPostsParams = {
   offset?: number;
 };
 
-export type GetApiPostsStatus =
-  (typeof GetApiPostsStatus)[keyof typeof GetApiPostsStatus];
+export type GetPostsStatus =
+  (typeof GetPostsStatus)[keyof typeof GetPostsStatus];
 
-export const GetApiPostsStatus = {
+export const GetPostsStatus = {
   draft: "draft",
   published: "published",
 } as const;
 
-export type GetApiAuthVerifyEmailParams = {
+export type GetAuthVerifyEmailParams = {
   /**
    * The token to verify the email
    */
@@ -1540,7 +1540,7 @@ export type ResetPasswordCallbackParams = {
   callbackURL: string;
 };
 
-export type GetApiAuthDeleteUserCallbackParams = {
+export type GetAuthDeleteUserCallbackParams = {
   /**
    * The token to verify the deletion request
    */

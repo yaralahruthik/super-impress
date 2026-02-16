@@ -3,7 +3,7 @@ import { useForm } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import * as z from "zod";
-import { usePatchApiPostsById } from "@/api/posts/posts";
+import { getGetPostsQueryKey, usePatchPostsById } from "@/api/posts/posts";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,7 +38,7 @@ export default function EditPostButton({
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();
-  const { mutate, isPending } = usePatchApiPostsById();
+  const { mutate, isPending } = usePatchPostsById();
 
   const form = useForm({
     defaultValues: {
@@ -69,7 +69,7 @@ export default function EditPostButton({
         {
           onSuccess: () => {
             queryClient.invalidateQueries({
-              queryKey: ["/api/posts"],
+              queryKey: getGetPostsQueryKey(),
             });
             setOpen(false);
           },

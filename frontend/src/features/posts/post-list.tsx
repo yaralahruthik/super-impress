@@ -2,7 +2,7 @@ import { IconFileText } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import { Masonry } from "masonic";
 import { useMemo } from "react";
-import { useGetApiLinkedinStatus } from "@/api/linked-in/linked-in";
+import { useGetLinkedinStatus } from "@/api/linked-in/linked-in";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -72,7 +72,7 @@ export default function PostList({
 }: {
   posts: PostListResponsePostsItem[];
 }) {
-  const { data: linkedInStatus } = useGetApiLinkedinStatus();
+  const { data: linkedInStatus } = useGetLinkedinStatus();
   const linkedInConnected = linkedInStatus?.connected ?? false;
 
   const items = useMemo(

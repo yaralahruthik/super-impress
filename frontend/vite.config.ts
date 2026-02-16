@@ -24,18 +24,9 @@ function validateBuildEnv(
 
 // https://vite.dev/config/
 export default defineConfig(({ mode, command }) => {
-  const env = loadEnv(mode, process.cwd(), "VITE_");
-  validateBuildEnv(env, command);
+  validateBuildEnv(loadEnv(mode, process.cwd(), "VITE_"), command);
 
   return {
-    server: {
-      proxy: {
-        "/api": {
-          target: env.VITE_API_BASE,
-          changeOrigin: true,
-        },
-      },
-    },
     plugins: [
       tailwindcss(),
       tanstackRouter({

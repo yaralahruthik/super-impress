@@ -540,7 +540,7 @@
           "updatedAt"
         ]
       },
-      "GetApiLinkedinStatusResponse200": {
+      "GetLinkedinStatusResponse200": {
         "type": "object",
         "required": ["connected"],
         "properties": {
@@ -555,7 +555,7 @@
           }
         }
       },
-      "PostApiLinkedinPostRequest": {
+      "PostLinkedinPostRequest": {
         "type": "object",
         "required": ["postId"],
         "properties": {
@@ -564,7 +564,7 @@
           }
         }
       },
-      "PostApiLinkedinPostResponse200": {
+      "PostLinkedinPostResponse200": {
         "type": "object",
         "required": ["success"],
         "properties": {
@@ -579,7 +579,7 @@
           }
         }
       },
-      "PostApiLinkedinPostResponse400": {
+      "PostLinkedinPostResponse400": {
         "type": "object",
         "required": ["success"],
         "properties": {
@@ -1253,7 +1253,7 @@
           }
         }
       },
-      "ApiAuthVerify-emailGetResponse200": {
+      "AuthVerify-emailGetResponse200": {
         "type": "object",
         "properties": {
           "user": {
@@ -1267,7 +1267,7 @@
         },
         "required": ["user", "status"]
       },
-      "ApiAuthVerify-emailGetResponse400": {
+      "AuthVerify-emailGetResponse400": {
         "type": "object",
         "properties": {
           "message": {
@@ -1276,7 +1276,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthVerify-emailGetResponse401": {
+      "AuthVerify-emailGetResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -1285,7 +1285,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthVerify-emailGetResponse403": {
+      "AuthVerify-emailGetResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -1293,7 +1293,7 @@
           }
         }
       },
-      "ApiAuthVerify-emailGetResponse404": {
+      "AuthVerify-emailGetResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -1301,7 +1301,7 @@
           }
         }
       },
-      "ApiAuthVerify-emailGetResponse429": {
+      "AuthVerify-emailGetResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -1309,7 +1309,7 @@
           }
         }
       },
-      "ApiAuthVerify-emailGetResponse500": {
+      "AuthVerify-emailGetResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -1959,7 +1959,7 @@
           }
         }
       },
-      "ApiAuthRevoke-sessionPostRequest": {
+      "AuthRevoke-sessionPostRequest": {
         "type": "object",
         "properties": {
           "token": {
@@ -1969,7 +1969,7 @@
         },
         "required": ["token"]
       },
-      "ApiAuthRevoke-sessionPostResponse200": {
+      "AuthRevoke-sessionPostResponse200": {
         "type": "object",
         "properties": {
           "status": {
@@ -1979,7 +1979,7 @@
         },
         "required": ["status"]
       },
-      "ApiAuthRevoke-sessionPostResponse400": {
+      "AuthRevoke-sessionPostResponse400": {
         "type": "object",
         "properties": {
           "message": {
@@ -1988,7 +1988,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthRevoke-sessionPostResponse401": {
+      "AuthRevoke-sessionPostResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -1997,7 +1997,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthRevoke-sessionPostResponse403": {
+      "AuthRevoke-sessionPostResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2005,7 +2005,7 @@
           }
         }
       },
-      "ApiAuthRevoke-sessionPostResponse404": {
+      "AuthRevoke-sessionPostResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2013,7 +2013,7 @@
           }
         }
       },
-      "ApiAuthRevoke-sessionPostResponse429": {
+      "AuthRevoke-sessionPostResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2021,7 +2021,7 @@
           }
         }
       },
-      "ApiAuthRevoke-sessionPostResponse500": {
+      "AuthRevoke-sessionPostResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2029,11 +2029,11 @@
           }
         }
       },
-      "ApiAuthRevoke-sessionsPostRequest": {
+      "AuthRevoke-sessionsPostRequest": {
         "type": "object",
         "properties": {}
       },
-      "ApiAuthRevoke-sessionsPostResponse200": {
+      "AuthRevoke-sessionsPostResponse200": {
         "type": "object",
         "properties": {
           "status": {
@@ -2043,7 +2043,7 @@
         },
         "required": ["status"]
       },
-      "ApiAuthRevoke-sessionsPostResponse400": {
+      "AuthRevoke-sessionsPostResponse400": {
         "type": "object",
         "properties": {
           "message": {
@@ -2052,7 +2052,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthRevoke-sessionsPostResponse401": {
+      "AuthRevoke-sessionsPostResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -2061,7 +2061,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthRevoke-sessionsPostResponse403": {
+      "AuthRevoke-sessionsPostResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2069,7 +2069,7 @@
           }
         }
       },
-      "ApiAuthRevoke-sessionsPostResponse404": {
+      "AuthRevoke-sessionsPostResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2077,7 +2077,7 @@
           }
         }
       },
-      "ApiAuthRevoke-sessionsPostResponse429": {
+      "AuthRevoke-sessionsPostResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2085,7 +2085,7 @@
           }
         }
       },
-      "ApiAuthRevoke-sessionsPostResponse500": {
+      "AuthRevoke-sessionsPostResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2093,11 +2093,11 @@
           }
         }
       },
-      "ApiAuthRevoke-other-sessionsPostRequest": {
+      "AuthRevoke-other-sessionsPostRequest": {
         "type": "object",
         "properties": {}
       },
-      "ApiAuthRevoke-other-sessionsPostResponse200": {
+      "AuthRevoke-other-sessionsPostResponse200": {
         "type": "object",
         "properties": {
           "status": {
@@ -2107,7 +2107,7 @@
         },
         "required": ["status"]
       },
-      "ApiAuthRevoke-other-sessionsPostResponse400": {
+      "AuthRevoke-other-sessionsPostResponse400": {
         "type": "object",
         "properties": {
           "message": {
@@ -2116,7 +2116,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthRevoke-other-sessionsPostResponse401": {
+      "AuthRevoke-other-sessionsPostResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -2125,7 +2125,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthRevoke-other-sessionsPostResponse403": {
+      "AuthRevoke-other-sessionsPostResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2133,7 +2133,7 @@
           }
         }
       },
-      "ApiAuthRevoke-other-sessionsPostResponse404": {
+      "AuthRevoke-other-sessionsPostResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2141,7 +2141,7 @@
           }
         }
       },
-      "ApiAuthRevoke-other-sessionsPostResponse429": {
+      "AuthRevoke-other-sessionsPostResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2149,7 +2149,7 @@
           }
         }
       },
-      "ApiAuthRevoke-other-sessionsPostResponse500": {
+      "AuthRevoke-other-sessionsPostResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2382,7 +2382,7 @@
           }
         }
       },
-      "ApiAuthDelete-userCallbackGetResponse200": {
+      "AuthDelete-userCallbackGetResponse200": {
         "type": "object",
         "properties": {
           "success": {
@@ -2397,7 +2397,7 @@
         },
         "required": ["success", "message"]
       },
-      "ApiAuthDelete-userCallbackGetResponse400": {
+      "AuthDelete-userCallbackGetResponse400": {
         "type": "object",
         "properties": {
           "message": {
@@ -2406,7 +2406,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthDelete-userCallbackGetResponse401": {
+      "AuthDelete-userCallbackGetResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -2415,7 +2415,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthDelete-userCallbackGetResponse403": {
+      "AuthDelete-userCallbackGetResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2423,7 +2423,7 @@
           }
         }
       },
-      "ApiAuthDelete-userCallbackGetResponse404": {
+      "AuthDelete-userCallbackGetResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2431,7 +2431,7 @@
           }
         }
       },
-      "ApiAuthDelete-userCallbackGetResponse429": {
+      "AuthDelete-userCallbackGetResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2439,7 +2439,7 @@
           }
         }
       },
-      "ApiAuthDelete-userCallbackGetResponse500": {
+      "AuthDelete-userCallbackGetResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2447,7 +2447,7 @@
           }
         }
       },
-      "ApiAuthUnlink-accountPostRequest": {
+      "AuthUnlink-accountPostRequest": {
         "type": "object",
         "properties": {
           "providerId": {
@@ -2460,7 +2460,7 @@
         },
         "required": ["providerId"]
       },
-      "ApiAuthUnlink-accountPostResponse200": {
+      "AuthUnlink-accountPostResponse200": {
         "type": "object",
         "properties": {
           "status": {
@@ -2468,7 +2468,7 @@
           }
         }
       },
-      "ApiAuthUnlink-accountPostResponse400": {
+      "AuthUnlink-accountPostResponse400": {
         "type": "object",
         "properties": {
           "message": {
@@ -2477,7 +2477,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthUnlink-accountPostResponse401": {
+      "AuthUnlink-accountPostResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -2486,7 +2486,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthUnlink-accountPostResponse403": {
+      "AuthUnlink-accountPostResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2494,7 +2494,7 @@
           }
         }
       },
-      "ApiAuthUnlink-accountPostResponse404": {
+      "AuthUnlink-accountPostResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2502,7 +2502,7 @@
           }
         }
       },
-      "ApiAuthUnlink-accountPostResponse429": {
+      "AuthUnlink-accountPostResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2510,7 +2510,7 @@
           }
         }
       },
-      "ApiAuthUnlink-accountPostResponse500": {
+      "AuthUnlink-accountPostResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2518,7 +2518,7 @@
           }
         }
       },
-      "ApiAuthRefresh-tokenPostRequest": {
+      "AuthRefresh-tokenPostRequest": {
         "type": "object",
         "properties": {
           "providerId": {
@@ -2538,7 +2538,7 @@
         },
         "required": ["providerId"]
       },
-      "ApiAuthRefresh-tokenPostResponse200": {
+      "AuthRefresh-tokenPostResponse200": {
         "type": "object",
         "properties": {
           "tokenType": {
@@ -2563,7 +2563,7 @@
           }
         }
       },
-      "ApiAuthRefresh-tokenPostResponse401": {
+      "AuthRefresh-tokenPostResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -2572,7 +2572,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthRefresh-tokenPostResponse403": {
+      "AuthRefresh-tokenPostResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2580,7 +2580,7 @@
           }
         }
       },
-      "ApiAuthRefresh-tokenPostResponse404": {
+      "AuthRefresh-tokenPostResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2588,7 +2588,7 @@
           }
         }
       },
-      "ApiAuthRefresh-tokenPostResponse429": {
+      "AuthRefresh-tokenPostResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2596,7 +2596,7 @@
           }
         }
       },
-      "ApiAuthRefresh-tokenPostResponse500": {
+      "AuthRefresh-tokenPostResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2604,7 +2604,7 @@
           }
         }
       },
-      "ApiAuthGet-access-tokenPostRequest": {
+      "AuthGet-access-tokenPostRequest": {
         "type": "object",
         "properties": {
           "providerId": {
@@ -2624,7 +2624,7 @@
         },
         "required": ["providerId"]
       },
-      "ApiAuthGet-access-tokenPostResponse200": {
+      "AuthGet-access-tokenPostResponse200": {
         "type": "object",
         "properties": {
           "tokenType": {
@@ -2642,7 +2642,7 @@
           }
         }
       },
-      "ApiAuthGet-access-tokenPostResponse401": {
+      "AuthGet-access-tokenPostResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -2651,7 +2651,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthGet-access-tokenPostResponse403": {
+      "AuthGet-access-tokenPostResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2659,7 +2659,7 @@
           }
         }
       },
-      "ApiAuthGet-access-tokenPostResponse404": {
+      "AuthGet-access-tokenPostResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2667,7 +2667,7 @@
           }
         }
       },
-      "ApiAuthGet-access-tokenPostResponse429": {
+      "AuthGet-access-tokenPostResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2675,7 +2675,7 @@
           }
         }
       },
-      "ApiAuthGet-access-tokenPostResponse500": {
+      "AuthGet-access-tokenPostResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2683,7 +2683,7 @@
           }
         }
       },
-      "ApiAuthAccount-infoGetResponse200": {
+      "AuthAccount-infoGetResponse200": {
         "type": "object",
         "properties": {
           "user": {
@@ -2716,7 +2716,7 @@
         "required": ["user", "data"],
         "additionalProperties": false
       },
-      "ApiAuthAccount-infoGetResponse400": {
+      "AuthAccount-infoGetResponse400": {
         "type": "object",
         "properties": {
           "message": {
@@ -2725,7 +2725,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthAccount-infoGetResponse401": {
+      "AuthAccount-infoGetResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -2734,7 +2734,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthAccount-infoGetResponse403": {
+      "AuthAccount-infoGetResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2742,7 +2742,7 @@
           }
         }
       },
-      "ApiAuthAccount-infoGetResponse404": {
+      "AuthAccount-infoGetResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2750,7 +2750,7 @@
           }
         }
       },
-      "ApiAuthAccount-infoGetResponse429": {
+      "AuthAccount-infoGetResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2758,7 +2758,7 @@
           }
         }
       },
-      "ApiAuthAccount-infoGetResponse500": {
+      "AuthAccount-infoGetResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2766,7 +2766,7 @@
           }
         }
       },
-      "ApiAuthOkGetResponse200": {
+      "AuthOkGetResponse200": {
         "type": "object",
         "properties": {
           "ok": {
@@ -2776,7 +2776,7 @@
         },
         "required": ["ok"]
       },
-      "ApiAuthOkGetResponse400": {
+      "AuthOkGetResponse400": {
         "type": "object",
         "properties": {
           "message": {
@@ -2785,7 +2785,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthOkGetResponse401": {
+      "AuthOkGetResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -2794,7 +2794,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthOkGetResponse403": {
+      "AuthOkGetResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2802,7 +2802,7 @@
           }
         }
       },
-      "ApiAuthOkGetResponse404": {
+      "AuthOkGetResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2810,7 +2810,7 @@
           }
         }
       },
-      "ApiAuthOkGetResponse429": {
+      "AuthOkGetResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2818,7 +2818,7 @@
           }
         }
       },
-      "ApiAuthOkGetResponse500": {
+      "AuthOkGetResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2826,7 +2826,7 @@
           }
         }
       },
-      "ApiAuthErrorGetResponse400": {
+      "AuthErrorGetResponse400": {
         "type": "object",
         "properties": {
           "message": {
@@ -2835,7 +2835,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthErrorGetResponse401": {
+      "AuthErrorGetResponse401": {
         "type": "object",
         "properties": {
           "message": {
@@ -2844,7 +2844,7 @@
         },
         "required": ["message"]
       },
-      "ApiAuthErrorGetResponse403": {
+      "AuthErrorGetResponse403": {
         "type": "object",
         "properties": {
           "message": {
@@ -2852,7 +2852,7 @@
           }
         }
       },
-      "ApiAuthErrorGetResponse404": {
+      "AuthErrorGetResponse404": {
         "type": "object",
         "properties": {
           "message": {
@@ -2860,7 +2860,7 @@
           }
         }
       },
-      "ApiAuthErrorGetResponse429": {
+      "AuthErrorGetResponse429": {
         "type": "object",
         "properties": {
           "message": {
@@ -2868,7 +2868,7 @@
           }
         }
       },
-      "ApiAuthErrorGetResponse500": {
+      "AuthErrorGetResponse500": {
         "type": "object",
         "properties": {
           "message": {
@@ -2892,7 +2892,7 @@
     }
   },
   "paths": {
-    "/api/posts": {
+    "/posts": {
       "post": {
         "tags": ["Posts"],
         "summary": "Create a new post",
@@ -2929,7 +2929,7 @@
             }
           }
         },
-        "operationId": "postApiPosts"
+        "operationId": "postPosts"
       },
       "get": {
         "tags": ["Posts"],
@@ -2987,10 +2987,10 @@
             }
           }
         },
-        "operationId": "getApiPosts"
+        "operationId": "getPosts"
       }
     },
-    "/api/posts/summary": {
+    "/posts/summary": {
       "get": {
         "tags": ["Posts"],
         "summary": "Posts summary",
@@ -3007,10 +3007,10 @@
             }
           }
         },
-        "operationId": "getApiPostsSummary"
+        "operationId": "getPostsSummary"
       }
     },
-    "/api/posts/{id}": {
+    "/posts/{id}": {
       "get": {
         "tags": ["Posts"],
         "summary": "Get a post",
@@ -3058,7 +3058,7 @@
             }
           }
         },
-        "operationId": "getApiPostsById"
+        "operationId": "getPostsById"
       },
       "patch": {
         "tags": ["Posts"],
@@ -3127,7 +3127,7 @@
             }
           }
         },
-        "operationId": "patchApiPostsById"
+        "operationId": "patchPostsById"
       },
       "delete": {
         "tags": ["Posts"],
@@ -3145,6 +3145,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "Response for status 204"
+          },
           "400": {
             "description": "Response for status 400",
             "content": {
@@ -3166,10 +3169,10 @@
             }
           }
         },
-        "operationId": "deleteApiPostsById"
+        "operationId": "deletePostsById"
       }
     },
-    "/api/posts/{id}/publications": {
+    "/posts/{id}/publications": {
       "post": {
         "tags": ["Posts"],
         "summary": "Mark post as published",
@@ -3237,10 +3240,10 @@
             }
           }
         },
-        "operationId": "postApiPostsByIdPublications"
+        "operationId": "postPostsByIdPublications"
       }
     },
-    "/api/posts/{id}/publications/{publicationId}": {
+    "/posts/{id}/publications/{publicationId}": {
       "delete": {
         "tags": ["Posts"],
         "summary": "Delete publication record",
@@ -3266,6 +3269,9 @@
           }
         ],
         "responses": {
+          "204": {
+            "description": "Response for status 204"
+          },
           "400": {
             "description": "Response for status 400",
             "content": {
@@ -3287,10 +3293,10 @@
             }
           }
         },
-        "operationId": "deleteApiPostsByIdPublicationsByPublicationId"
+        "operationId": "deletePostsByIdPublicationsByPublicationId"
       }
     },
-    "/api/linkedin/status": {
+    "/linkedin/status": {
       "get": {
         "tags": ["LinkedIn"],
         "summary": "Check LinkedIn connection status",
@@ -3301,16 +3307,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetApiLinkedinStatusResponse200"
+                  "$ref": "#/components/schemas/GetLinkedinStatusResponse200"
                 }
               }
             }
           }
         },
-        "operationId": "getApiLinkedinStatus"
+        "operationId": "getLinkedinStatus"
       }
     },
-    "/api/linkedin/post": {
+    "/linkedin/post": {
       "post": {
         "tags": ["LinkedIn"],
         "summary": "Publish post to LinkedIn",
@@ -3320,7 +3326,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PostApiLinkedinPostRequest"
+                "$ref": "#/components/schemas/PostLinkedinPostRequest"
               }
             },
             "application/x-www-form-urlencoded": {
@@ -3353,7 +3359,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostApiLinkedinPostResponse200"
+                  "$ref": "#/components/schemas/PostLinkedinPostResponse200"
                 }
               }
             }
@@ -3363,16 +3369,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PostApiLinkedinPostResponse400"
+                  "$ref": "#/components/schemas/PostLinkedinPostResponse400"
                 }
               }
             }
           }
         },
-        "operationId": "postApiLinkedinPost"
+        "operationId": "postLinkedinPost"
       }
     },
-    "/api/auth/sign-in/social": {
+    "/auth/sign-in/social": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Sign in with a social provider",
@@ -3467,7 +3473,7 @@
         }
       }
     },
-    "/api/auth/get-session": {
+    "/auth/get-session": {
       "get": {
         "tags": ["Better Auth"],
         "description": "Get the current session",
@@ -3552,7 +3558,7 @@
         }
       }
     },
-    "/api/auth/sign-out": {
+    "/auth/sign-out": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Sign out the current user",
@@ -3646,7 +3652,7 @@
         }
       }
     },
-    "/api/auth/sign-up/email": {
+    "/auth/sign-up/email": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Sign up a user using email and password",
@@ -3750,7 +3756,7 @@
         }
       }
     },
-    "/api/auth/sign-in/email": {
+    "/auth/sign-in/email": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Sign in with email and password",
@@ -3845,7 +3851,7 @@
         }
       }
     },
-    "/api/auth/reset-password": {
+    "/auth/reset-password": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Reset the password for a user",
@@ -3940,7 +3946,7 @@
         }
       }
     },
-    "/api/auth/verify-password": {
+    "/auth/verify-password": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Verify the current user's password",
@@ -4035,7 +4041,7 @@
         }
       }
     },
-    "/api/auth/verify-email": {
+    "/auth/verify-email": {
       "get": {
         "tags": ["Better Auth"],
         "description": "Verify the email of the user",
@@ -4070,7 +4076,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse200"
+                  "$ref": "#/components/schemas/AuthVerify-emailGetResponse200"
                 }
               }
             }
@@ -4079,7 +4085,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse400"
+                  "$ref": "#/components/schemas/AuthVerify-emailGetResponse400"
                 }
               }
             },
@@ -4089,7 +4095,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse401"
+                  "$ref": "#/components/schemas/AuthVerify-emailGetResponse401"
                 }
               }
             },
@@ -4099,7 +4105,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse403"
+                  "$ref": "#/components/schemas/AuthVerify-emailGetResponse403"
                 }
               }
             },
@@ -4109,7 +4115,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse404"
+                  "$ref": "#/components/schemas/AuthVerify-emailGetResponse404"
                 }
               }
             },
@@ -4119,7 +4125,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse429"
+                  "$ref": "#/components/schemas/AuthVerify-emailGetResponse429"
                 }
               }
             },
@@ -4129,7 +4135,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthVerify-emailGetResponse500"
+                  "$ref": "#/components/schemas/AuthVerify-emailGetResponse500"
                 }
               }
             },
@@ -4138,7 +4144,7 @@
         }
       }
     },
-    "/api/auth/send-verification-email": {
+    "/auth/send-verification-email": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Send a verification email to the user",
@@ -4232,7 +4238,7 @@
         }
       }
     },
-    "/api/auth/change-email": {
+    "/auth/change-email": {
       "post": {
         "tags": ["Better Auth"],
         "operationId": "changeEmail",
@@ -4336,7 +4342,7 @@
         }
       }
     },
-    "/api/auth/change-password": {
+    "/auth/change-password": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Change the password of the user",
@@ -4431,7 +4437,7 @@
         }
       }
     },
-    "/api/auth/update-user": {
+    "/auth/update-user": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Update the current user",
@@ -4525,7 +4531,7 @@
         }
       }
     },
-    "/api/auth/delete-user": {
+    "/auth/delete-user": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Delete the user",
@@ -4619,7 +4625,7 @@
         }
       }
     },
-    "/api/auth/request-password-reset": {
+    "/auth/request-password-reset": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Send a password reset email to the user",
@@ -4714,7 +4720,7 @@
         }
       }
     },
-    "/api/auth/reset-password/{token}": {
+    "/auth/reset-password/{token}": {
       "get": {
         "tags": ["Better Auth"],
         "description": "Redirects the user to the callback URL with the token",
@@ -4818,7 +4824,7 @@
         }
       }
     },
-    "/api/auth/list-sessions": {
+    "/auth/list-sessions": {
       "get": {
         "tags": ["Better Auth"],
         "description": "List all active sessions for the user",
@@ -4903,7 +4909,7 @@
         }
       }
     },
-    "/api/auth/revoke-session": {
+    "/auth/revoke-session": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Revoke a single session",
@@ -4917,7 +4923,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiAuthRevoke-sessionPostRequest"
+                "$ref": "#/components/schemas/AuthRevoke-sessionPostRequest"
               }
             }
           }
@@ -4928,7 +4934,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse200"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionPostResponse200"
                 }
               }
             }
@@ -4937,7 +4943,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse400"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionPostResponse400"
                 }
               }
             },
@@ -4947,7 +4953,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse401"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionPostResponse401"
                 }
               }
             },
@@ -4957,7 +4963,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse403"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionPostResponse403"
                 }
               }
             },
@@ -4967,7 +4973,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse404"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionPostResponse404"
                 }
               }
             },
@@ -4977,7 +4983,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse429"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionPostResponse429"
                 }
               }
             },
@@ -4987,7 +4993,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionPostResponse500"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionPostResponse500"
                 }
               }
             },
@@ -4996,7 +5002,7 @@
         }
       }
     },
-    "/api/auth/revoke-sessions": {
+    "/auth/revoke-sessions": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Revoke all sessions for the user",
@@ -5010,7 +5016,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostRequest"
+                "$ref": "#/components/schemas/AuthRevoke-sessionsPostRequest"
               }
             }
           }
@@ -5021,7 +5027,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse200"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionsPostResponse200"
                 }
               }
             }
@@ -5030,7 +5036,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse400"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionsPostResponse400"
                 }
               }
             },
@@ -5040,7 +5046,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse401"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionsPostResponse401"
                 }
               }
             },
@@ -5050,7 +5056,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse403"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionsPostResponse403"
                 }
               }
             },
@@ -5060,7 +5066,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse404"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionsPostResponse404"
                 }
               }
             },
@@ -5070,7 +5076,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse429"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionsPostResponse429"
                 }
               }
             },
@@ -5080,7 +5086,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-sessionsPostResponse500"
+                  "$ref": "#/components/schemas/AuthRevoke-sessionsPostResponse500"
                 }
               }
             },
@@ -5089,7 +5095,7 @@
         }
       }
     },
-    "/api/auth/revoke-other-sessions": {
+    "/auth/revoke-other-sessions": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Revoke all other sessions for the user except the current one",
@@ -5103,7 +5109,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostRequest"
+                "$ref": "#/components/schemas/AuthRevoke-other-sessionsPostRequest"
               }
             }
           }
@@ -5114,7 +5120,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse200"
+                  "$ref": "#/components/schemas/AuthRevoke-other-sessionsPostResponse200"
                 }
               }
             }
@@ -5123,7 +5129,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse400"
+                  "$ref": "#/components/schemas/AuthRevoke-other-sessionsPostResponse400"
                 }
               }
             },
@@ -5133,7 +5139,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse401"
+                  "$ref": "#/components/schemas/AuthRevoke-other-sessionsPostResponse401"
                 }
               }
             },
@@ -5143,7 +5149,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse403"
+                  "$ref": "#/components/schemas/AuthRevoke-other-sessionsPostResponse403"
                 }
               }
             },
@@ -5153,7 +5159,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse404"
+                  "$ref": "#/components/schemas/AuthRevoke-other-sessionsPostResponse404"
                 }
               }
             },
@@ -5163,7 +5169,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse429"
+                  "$ref": "#/components/schemas/AuthRevoke-other-sessionsPostResponse429"
                 }
               }
             },
@@ -5173,7 +5179,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRevoke-other-sessionsPostResponse500"
+                  "$ref": "#/components/schemas/AuthRevoke-other-sessionsPostResponse500"
                 }
               }
             },
@@ -5182,7 +5188,7 @@
         }
       }
     },
-    "/api/auth/link-social": {
+    "/auth/link-social": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Link a social account to the user",
@@ -5277,7 +5283,7 @@
         }
       }
     },
-    "/api/auth/list-accounts": {
+    "/auth/list-accounts": {
       "get": {
         "tags": ["Better Auth"],
         "description": "List all accounts linked to the user",
@@ -5362,7 +5368,7 @@
         }
       }
     },
-    "/api/auth/delete-user/callback": {
+    "/auth/delete-user/callback": {
       "get": {
         "tags": ["Better Auth"],
         "description": "Callback to complete user deletion with verification token",
@@ -5396,7 +5402,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse200"
+                  "$ref": "#/components/schemas/AuthDelete-userCallbackGetResponse200"
                 }
               }
             }
@@ -5405,7 +5411,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse400"
+                  "$ref": "#/components/schemas/AuthDelete-userCallbackGetResponse400"
                 }
               }
             },
@@ -5415,7 +5421,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse401"
+                  "$ref": "#/components/schemas/AuthDelete-userCallbackGetResponse401"
                 }
               }
             },
@@ -5425,7 +5431,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse403"
+                  "$ref": "#/components/schemas/AuthDelete-userCallbackGetResponse403"
                 }
               }
             },
@@ -5435,7 +5441,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse404"
+                  "$ref": "#/components/schemas/AuthDelete-userCallbackGetResponse404"
                 }
               }
             },
@@ -5445,7 +5451,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse429"
+                  "$ref": "#/components/schemas/AuthDelete-userCallbackGetResponse429"
                 }
               }
             },
@@ -5455,7 +5461,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthDelete-userCallbackGetResponse500"
+                  "$ref": "#/components/schemas/AuthDelete-userCallbackGetResponse500"
                 }
               }
             },
@@ -5464,7 +5470,7 @@
         }
       }
     },
-    "/api/auth/unlink-account": {
+    "/auth/unlink-account": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Unlink an account",
@@ -5479,7 +5485,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiAuthUnlink-accountPostRequest"
+                "$ref": "#/components/schemas/AuthUnlink-accountPostRequest"
               }
             }
           }
@@ -5490,7 +5496,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse200"
+                  "$ref": "#/components/schemas/AuthUnlink-accountPostResponse200"
                 }
               }
             }
@@ -5499,7 +5505,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse400"
+                  "$ref": "#/components/schemas/AuthUnlink-accountPostResponse400"
                 }
               }
             },
@@ -5509,7 +5515,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse401"
+                  "$ref": "#/components/schemas/AuthUnlink-accountPostResponse401"
                 }
               }
             },
@@ -5519,7 +5525,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse403"
+                  "$ref": "#/components/schemas/AuthUnlink-accountPostResponse403"
                 }
               }
             },
@@ -5529,7 +5535,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse404"
+                  "$ref": "#/components/schemas/AuthUnlink-accountPostResponse404"
                 }
               }
             },
@@ -5539,7 +5545,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse429"
+                  "$ref": "#/components/schemas/AuthUnlink-accountPostResponse429"
                 }
               }
             },
@@ -5549,7 +5555,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthUnlink-accountPostResponse500"
+                  "$ref": "#/components/schemas/AuthUnlink-accountPostResponse500"
                 }
               }
             },
@@ -5558,7 +5564,7 @@
         }
       }
     },
-    "/api/auth/refresh-token": {
+    "/auth/refresh-token": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Refresh the access token using a refresh token",
@@ -5573,7 +5579,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiAuthRefresh-tokenPostRequest"
+                "$ref": "#/components/schemas/AuthRefresh-tokenPostRequest"
               }
             }
           }
@@ -5584,7 +5590,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse200"
+                  "$ref": "#/components/schemas/AuthRefresh-tokenPostResponse200"
                 }
               }
             }
@@ -5596,7 +5602,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse401"
+                  "$ref": "#/components/schemas/AuthRefresh-tokenPostResponse401"
                 }
               }
             },
@@ -5606,7 +5612,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse403"
+                  "$ref": "#/components/schemas/AuthRefresh-tokenPostResponse403"
                 }
               }
             },
@@ -5616,7 +5622,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse404"
+                  "$ref": "#/components/schemas/AuthRefresh-tokenPostResponse404"
                 }
               }
             },
@@ -5626,7 +5632,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse429"
+                  "$ref": "#/components/schemas/AuthRefresh-tokenPostResponse429"
                 }
               }
             },
@@ -5636,7 +5642,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthRefresh-tokenPostResponse500"
+                  "$ref": "#/components/schemas/AuthRefresh-tokenPostResponse500"
                 }
               }
             },
@@ -5645,7 +5651,7 @@
         }
       }
     },
-    "/api/auth/get-access-token": {
+    "/auth/get-access-token": {
       "post": {
         "tags": ["Better Auth"],
         "description": "Get a valid access token, doing a refresh if needed",
@@ -5660,7 +5666,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiAuthGet-access-tokenPostRequest"
+                "$ref": "#/components/schemas/AuthGet-access-tokenPostRequest"
               }
             }
           }
@@ -5671,7 +5677,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse200"
+                  "$ref": "#/components/schemas/AuthGet-access-tokenPostResponse200"
                 }
               }
             }
@@ -5683,7 +5689,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse401"
+                  "$ref": "#/components/schemas/AuthGet-access-tokenPostResponse401"
                 }
               }
             },
@@ -5693,7 +5699,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse403"
+                  "$ref": "#/components/schemas/AuthGet-access-tokenPostResponse403"
                 }
               }
             },
@@ -5703,7 +5709,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse404"
+                  "$ref": "#/components/schemas/AuthGet-access-tokenPostResponse404"
                 }
               }
             },
@@ -5713,7 +5719,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse429"
+                  "$ref": "#/components/schemas/AuthGet-access-tokenPostResponse429"
                 }
               }
             },
@@ -5723,7 +5729,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthGet-access-tokenPostResponse500"
+                  "$ref": "#/components/schemas/AuthGet-access-tokenPostResponse500"
                 }
               }
             },
@@ -5732,7 +5738,7 @@
         }
       }
     },
-    "/api/auth/account-info": {
+    "/auth/account-info": {
       "get": {
         "tags": ["Better Auth"],
         "description": "Get the account info provided by the provider",
@@ -5748,7 +5754,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse200"
+                  "$ref": "#/components/schemas/AuthAccount-infoGetResponse200"
                 }
               }
             }
@@ -5757,7 +5763,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse400"
+                  "$ref": "#/components/schemas/AuthAccount-infoGetResponse400"
                 }
               }
             },
@@ -5767,7 +5773,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse401"
+                  "$ref": "#/components/schemas/AuthAccount-infoGetResponse401"
                 }
               }
             },
@@ -5777,7 +5783,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse403"
+                  "$ref": "#/components/schemas/AuthAccount-infoGetResponse403"
                 }
               }
             },
@@ -5787,7 +5793,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse404"
+                  "$ref": "#/components/schemas/AuthAccount-infoGetResponse404"
                 }
               }
             },
@@ -5797,7 +5803,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse429"
+                  "$ref": "#/components/schemas/AuthAccount-infoGetResponse429"
                 }
               }
             },
@@ -5807,7 +5813,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthAccount-infoGetResponse500"
+                  "$ref": "#/components/schemas/AuthAccount-infoGetResponse500"
                 }
               }
             },
@@ -5816,7 +5822,7 @@
         }
       }
     },
-    "/api/auth/ok": {
+    "/auth/ok": {
       "get": {
         "tags": ["Better Auth"],
         "description": "Check if the API is working",
@@ -5832,7 +5838,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthOkGetResponse200"
+                  "$ref": "#/components/schemas/AuthOkGetResponse200"
                 }
               }
             }
@@ -5841,7 +5847,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthOkGetResponse400"
+                  "$ref": "#/components/schemas/AuthOkGetResponse400"
                 }
               }
             },
@@ -5851,7 +5857,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthOkGetResponse401"
+                  "$ref": "#/components/schemas/AuthOkGetResponse401"
                 }
               }
             },
@@ -5861,7 +5867,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthOkGetResponse403"
+                  "$ref": "#/components/schemas/AuthOkGetResponse403"
                 }
               }
             },
@@ -5871,7 +5877,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthOkGetResponse404"
+                  "$ref": "#/components/schemas/AuthOkGetResponse404"
                 }
               }
             },
@@ -5881,7 +5887,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthOkGetResponse429"
+                  "$ref": "#/components/schemas/AuthOkGetResponse429"
                 }
               }
             },
@@ -5891,7 +5897,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthOkGetResponse500"
+                  "$ref": "#/components/schemas/AuthOkGetResponse500"
                 }
               }
             },
@@ -5900,7 +5906,7 @@
         }
       }
     },
-    "/api/auth/error": {
+    "/auth/error": {
       "get": {
         "tags": ["Better Auth"],
         "description": "Displays an error page",
@@ -5912,21 +5918,13 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/html": {
-                "schema": {
-                  "type": "string",
-                  "description": "The HTML content of the error page"
-                }
-              }
-            }
+            "description": "Success"
           },
           "400": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthErrorGetResponse400"
+                  "$ref": "#/components/schemas/AuthErrorGetResponse400"
                 }
               }
             },
@@ -5936,7 +5934,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthErrorGetResponse401"
+                  "$ref": "#/components/schemas/AuthErrorGetResponse401"
                 }
               }
             },
@@ -5946,7 +5944,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthErrorGetResponse403"
+                  "$ref": "#/components/schemas/AuthErrorGetResponse403"
                 }
               }
             },
@@ -5956,7 +5954,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthErrorGetResponse404"
+                  "$ref": "#/components/schemas/AuthErrorGetResponse404"
                 }
               }
             },
@@ -5966,7 +5964,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthErrorGetResponse429"
+                  "$ref": "#/components/schemas/AuthErrorGetResponse429"
                 }
               }
             },
@@ -5976,7 +5974,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ApiAuthErrorGetResponse500"
+                  "$ref": "#/components/schemas/AuthErrorGetResponse500"
                 }
               }
             },

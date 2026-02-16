@@ -2,7 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import * as z from "zod";
-import { usePostApiPosts } from "@/api/posts/posts";
+import { usePostPosts } from "@/api/posts/posts";
 import { AppBreadcrumbs } from "@/components/app-breadcrumbs";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +32,7 @@ export default function CreatePostPage() {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { mutate, isPending } = usePostApiPosts();
+  const { mutate, isPending } = usePostPosts();
 
   const form = useForm({
     defaultValues: {

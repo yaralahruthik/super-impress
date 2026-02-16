@@ -1,7 +1,7 @@
 import { IconAlertTriangle, IconTrash } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useDeleteApiPostsById } from "@/api/posts/posts";
+import { getGetPostsQueryKey, useDeletePostsById } from "@/api/posts/posts";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,7 +21,7 @@ export default function DeletePostButton({ postId }: { postId: number }) {
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const queryClient = useQueryClient();
   const { mutate: deletePost, isPending: isDeletePending } =
-    useDeleteApiPostsById();
+    useDeletePostsById();
 
   return (
     <AlertDialog
@@ -71,7 +71,7 @@ export default function DeletePostButton({ postId }: { postId: number }) {
                 {
                   onSuccess: () => {
                     queryClient.invalidateQueries({
-                      queryKey: ["/api/posts"],
+                      queryKey: getGetPostsQueryKey(),
                     });
                     setDeleteDialogOpen(false);
                   },

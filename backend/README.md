@@ -50,8 +50,8 @@ bun run dev
 ```
 
 The API will be available at:
-- Base URL: http://localhost:3000/api
-- API Documentation: http://localhost:3000/api/openapi
+- Base URL: http://localhost:3000
+- API Documentation: http://localhost:3000/openapi
 
 ## LinkedIn OAuth Setup
 
@@ -62,7 +62,7 @@ To enable LinkedIn posting functionality:
 3. Add these products to your app:
    - **Sign In with LinkedIn using OpenID Connect** (for authentication)
    - **Share on LinkedIn** (for posting)
-4. Set the redirect URI: `http://localhost:3000/api/auth/callback/linkedin`
+4. Set the redirect URI: `http://localhost:3000/auth/callback/linkedin`
 5. Copy the Client ID and Client Secret to your `.env` file:
    ```
    LINKEDIN_CLIENT_ID=your_client_id
@@ -80,22 +80,22 @@ The LinkedIn integration uses these scopes:
 ## API Endpoints
 
 ### Authentication (better-auth)
-- `POST /api/auth/signup/email` - Sign up with email
-- `POST /api/auth/signin/email` - Sign in with email
-- `POST /api/auth/signout` - Sign out
-- `POST /api/auth/sign-in/oauth2` - Start LinkedIn OAuth (providerId: linkedin)
-- `GET /api/auth/callback/linkedin` - LinkedIn OAuth callback
+- `POST /auth/signup/email` - Sign up with email
+- `POST /auth/signin/email` - Sign in with email
+- `POST /auth/signout` - Sign out
+- `POST /auth/sign-in/oauth2` - Start LinkedIn OAuth (providerId: linkedin)
+- `GET /auth/callback/linkedin` - LinkedIn OAuth callback
 
 ### Posts
-- `GET /api/posts` - List user's posts
-- `POST /api/posts` - Create a new post
-- `GET /api/posts/:id` - Get a specific post
-- `PATCH /api/posts/:id` - Update a post
-- `DELETE /api/posts/:id` - Delete a post
+- `GET /posts` - List user's posts
+- `POST /posts` - Create a new post
+- `GET /posts/:id` - Get a specific post
+- `PATCH /posts/:id` - Update a post
+- `DELETE /posts/:id` - Delete a post
 
 ### LinkedIn
-- `GET /api/linkedin/status` - Check LinkedIn connection status
-- `POST /api/linkedin/post` - Publish a post to LinkedIn
+- `GET /linkedin/status` - Check LinkedIn connection status
+- `POST /linkedin/post` - Publish a post to LinkedIn
 
 ## Database Schema
 

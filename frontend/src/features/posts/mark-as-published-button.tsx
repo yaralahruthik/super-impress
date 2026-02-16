@@ -3,7 +3,10 @@ import { useForm } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import * as z from "zod";
-import { usePostApiPostsByIdPublications } from "@/api/posts/posts";
+import {
+  getGetPostsQueryKey,
+  usePostPostsByIdPublications,
+} from "@/api/posts/posts";
 import type { PostListResponsePostsItemPublicationsItem } from "@/api/superimpress.schemas";
 import { ManualPublicationRequestPlatform } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
@@ -50,7 +53,7 @@ function MarkAsPublishedDialog({
 }) {
   const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();
-  const { mutate, isPending } = usePostApiPostsByIdPublications();
+  const { mutate, isPending } = usePostPostsByIdPublications();
 
   const form = useForm({
     defaultValues: {
@@ -72,7 +75,7 @@ function MarkAsPublishedDialog({
         },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
+            queryClient.invalidateQueries({ queryKey: getGetPostsQueryKey() });
             onOpenChange(false);
             form.reset();
           },

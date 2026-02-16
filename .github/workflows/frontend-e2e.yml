@@ -68,7 +68,7 @@ jobs:
           VITE_APP_URL: http://localhost:5173
 
       - name: Wait for servers
-        run: bunx wait-on http://localhost:3000/api/openapi http://localhost:5173
+        run: bunx wait-on http://localhost:3000/openapi http://localhost:5173
 
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps

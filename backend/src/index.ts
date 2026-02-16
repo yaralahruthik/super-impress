@@ -6,9 +6,7 @@ import { env } from "./env";
 import { linkedInModule } from "./modules/linkedin";
 import { postsModule } from "./modules/posts";
 
-const app = new Elysia({
-  prefix: "/api",
-})
+const app = new Elysia()
   .use(
     openapi({
       documentation: {

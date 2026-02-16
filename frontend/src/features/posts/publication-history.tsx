@@ -1,7 +1,10 @@
 import { IconExternalLink, IconTrash } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useDeleteApiPostsByIdPublicationsByPublicationId } from "@/api/posts/posts";
+import {
+  getGetPostsQueryKey,
+  useDeletePostsByIdPublicationsByPublicationId,
+} from "@/api/posts/posts";
 import type { PostListResponsePostsItemPublicationsItem } from "@/api/superimpress.schemas";
 import {
   AlertDialog,
@@ -30,8 +33,7 @@ function PublicationHistoryItem({
   const [dialogOpen, setDialogOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();
-  const { mutate, isPending } =
-    useDeleteApiPostsByIdPublicationsByPublicationId();
+  const { mutate, isPending } = useDeletePostsByIdPublicationsByPublicationId();
   const Icon = getPlatformIcon(publication.platform);
   const label = getPlatformLabel(publication.platform);
   const isManual = !publication.accountId;
@@ -113,7 +115,7 @@ function PublicationHistoryItem({
                   {
                     onSuccess: () => {
                       queryClient.invalidateQueries({
-                        queryKey: ["/api/posts"],
+                        queryKey: getGetPostsQueryKey(),
                       });
                       setDialogOpen(false);
                     },

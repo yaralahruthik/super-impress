@@ -11,7 +11,7 @@ import * as zod from "zod";
  * Check if the authenticated user has a LinkedIn account connected
  * @summary Check LinkedIn connection status
  */
-export const GetApiLinkedinStatusResponse = zod.object({
+export const GetLinkedinStatusResponse = zod.object({
   connected: zod.boolean(),
   accountId: zod.string().optional(),
   email: zod.string().optional(),
@@ -21,11 +21,11 @@ export const GetApiLinkedinStatusResponse = zod.object({
  * Publish a post to the authenticated user's LinkedIn account
  * @summary Publish post to LinkedIn
  */
-export const PostApiLinkedinPostBody = zod.object({
+export const PostLinkedinPostBody = zod.object({
   postId: zod.string(),
 });
 
-export const PostApiLinkedinPostResponse = zod.object({
+export const PostLinkedinPostResponse = zod.object({
   success: zod.boolean(),
   linkedInPostId: zod.string().optional(),
   message: zod.string().optional(),

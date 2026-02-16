@@ -8,8 +8,8 @@ import {
 } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import { useGetSession } from "@/api/better-auth/better-auth";
-import { useGetApiLinkedinStatus } from "@/api/linked-in/linked-in";
-import { useGetApiPosts, useGetApiPostsSummary } from "@/api/posts/posts";
+import { useGetLinkedinStatus } from "@/api/linked-in/linked-in";
+import { useGetPosts, useGetPostsSummary } from "@/api/posts/posts";
 import type {
   PostListResponsePostsItem,
   PostSummaryResponse,
@@ -66,17 +66,17 @@ function DashboardDataContainer() {
     data: postsData,
     isPending: postsPending,
     isError: postsError,
-  } = useGetApiPosts();
+  } = useGetPosts();
   const {
     data: summaryData,
     isPending: summaryPending,
     isError: summaryError,
-  } = useGetApiPostsSummary();
+  } = useGetPostsSummary();
   const {
     data: linkedinStatus,
     isPending: linkedinPending,
     isError: linkedinError,
-  } = useGetApiLinkedinStatus();
+  } = useGetLinkedinStatus();
 
   if (sessionPending) {
     return <DashboardLoading />;

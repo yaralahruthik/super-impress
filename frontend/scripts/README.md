@@ -20,7 +20,7 @@ Fetches the OpenAPI spec from the backend, applies transformations, and saves to
 
 **What it does:**
 
-1. Downloads spec from `http://localhost:3000/api/openapi/json` (or `$BACKEND_URL`)
+1. Downloads spec from `http://localhost:3000/openapi/json` (or `$BACKEND_URL`)
 2. Extracts inline requestBody/response schemas to `components.schemas`
 3. Replaces inline schemas with `$ref` pointers
 4. Fixes nullable types (`["string", "null"]` → `{type: "string", nullable: true}`)

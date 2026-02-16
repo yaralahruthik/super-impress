@@ -1,12 +1,13 @@
 import { IconBrandLinkedin } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePostApiLinkedinPost } from "@/api/linked-in/linked-in";
+import { usePostLinkedinPost } from "@/api/linked-in/linked-in";
+import { getGetPostsQueryKey } from "@/api/posts/posts";
 import { Button } from "@/components/ui/button";
 import { getErrorMessage } from "@/utils/get-error-message";
 
 export default function PostToLinkedInButton({ postId }: { postId: number }) {
   const queryClient = useQueryClient();
-  const { mutate, isPending, error } = usePostApiLinkedinPost();
+  const { mutate, isPending, error } = usePostLinkedinPost();
 
   return (
     <>
@@ -18,7 +19,7 @@ export default function PostToLinkedInButton({ postId }: { postId: number }) {
             {
               onSuccess: () => {
                 queryClient.invalidateQueries({
-                  queryKey: ["/api/posts"],
+                  queryKey: getGetPostsQueryKey(),
                 });
               },
             }

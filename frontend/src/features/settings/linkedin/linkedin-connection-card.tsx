@@ -6,7 +6,7 @@ import {
 } from "@tabler/icons-react";
 import { useState } from "react";
 import { useLinkSocialAccount } from "@/api/better-auth/better-auth";
-import { useGetApiLinkedinStatus } from "@/api/linked-in/linked-in";
+import { useGetLinkedinStatus } from "@/api/linked-in/linked-in";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +23,7 @@ import DisconnectLinkedinAccount from "./disconnect-linkedin-account";
 import { useLinkedAccountInfo } from "./use-linked-account-info";
 
 export default function LinkedinConnectionCard() {
-  const { data, isPending, isError } = useGetApiLinkedinStatus();
+  const { data, isPending, isError } = useGetLinkedinStatus();
 
   if (isPending) {
     return <LinkedinConnectionCardLoading />;

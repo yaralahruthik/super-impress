@@ -72,12 +72,9 @@ export default function CreatePostPage() {
   });
 
   return (
-    <div className="max-w-2xl py-8 space-y-4">
+    <div className="max-w-2xl space-y-4 py-8">
       <AppBreadcrumbs
-        items={[
-          { label: "Posts", to: "/posts" },
-          { label: "Create Post" },
-        ]}
+        items={[{ label: "Posts", to: "/posts" }, { label: "Create Post" }]}
       />
       <Card>
         <CardHeader>

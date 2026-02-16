@@ -9,11 +9,11 @@ import {
 import { STATUS_STYLES } from "@/constants";
 import { cn } from "@/utils/classname";
 import { formatDate } from "@/utils/format-date";
-import { CopyPostButton } from "./copy-post-button";
-import { DeletePostButton } from "./delete-post-button";
-import { EditPostButton } from "./edit-post-button";
-import { MarkAsPublishedButton } from "./mark-as-published-button";
-import { PostToLinkedInButton } from "./post-to-linkedin-button";
+import CopyPostButton from "./copy-post-button";
+import DeletePostButton from "./delete-post-button";
+import EditPostButton from "./edit-post-button";
+import MarkAsPublishedButton from "./mark-as-published-button";
+import PostToLinkedInButton from "./post-to-linkedin-button";
 import PublicationHistory from "./publication-history";
 
 function StatusBadge({ status }: { status: string }) {

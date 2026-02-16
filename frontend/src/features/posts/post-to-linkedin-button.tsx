@@ -4,7 +4,7 @@ import { usePostApiLinkedinPost } from "@/api/linked-in/linked-in";
 import { Button } from "@/components/ui/button";
 import { getErrorMessage } from "@/utils/get-error-message";
 
-export function PostToLinkedInButton({ postId }: { postId: number }) {
+export default function PostToLinkedInButton({ postId }: { postId: number }) {
   const queryClient = useQueryClient();
   const { mutate, isPending, error } = usePostApiLinkedinPost();
 

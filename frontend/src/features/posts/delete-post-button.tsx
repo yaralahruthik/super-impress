@@ -16,7 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { getErrorMessage } from "@/utils/get-error-message";
 
-export function DeletePostButton({ postId }: { postId: number }) {
+export default function DeletePostButton({ postId }: { postId: number }) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
   const queryClient = useQueryClient();

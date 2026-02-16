@@ -2,7 +2,7 @@ import { IconCheck, IconCopy } from "@tabler/icons-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 
-export function CopyPostButton({ content }: { content: string }) {
+export default function CopyPostButton({ content }: { content: string }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {

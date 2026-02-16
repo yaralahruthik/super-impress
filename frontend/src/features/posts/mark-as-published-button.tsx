@@ -189,7 +189,7 @@ function MarkAsPublishedDialog({
   );
 }
 
-export function MarkAsPublishedButton({
+export default function MarkAsPublishedButton({
   postId,
   publications,
 }: {

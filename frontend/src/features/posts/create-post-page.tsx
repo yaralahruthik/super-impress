@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import * as z from "zod";
 import { usePostApiPosts } from "@/api/posts/posts";
+import { AppBreadcrumbs } from "@/components/app-breadcrumbs";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -71,7 +72,10 @@ export default function CreatePostPage() {
   });
 
   return (
-    <div className="max-w-2xl py-8">
+    <div className="max-w-2xl space-y-4 py-8">
+      <AppBreadcrumbs
+        items={[{ label: "Posts", to: "/posts" }, { label: "Create Post" }]}
+      />
       <Card>
         <CardHeader>
           <CardTitle>Create Post</CardTitle>

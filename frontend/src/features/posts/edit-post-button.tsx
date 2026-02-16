@@ -30,7 +30,11 @@ const formSchema = z.object({
   tagsInput: z.string().trim(),
 });
 
-export function EditPostButton({ post }: { post: PostListResponsePostsItem }) {
+export default function EditPostButton({
+  post,
+}: {
+  post: PostListResponsePostsItem;
+}) {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();

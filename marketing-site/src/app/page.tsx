@@ -31,10 +31,10 @@ export default function Home() {
           </nav>
           <a
             className="btn btn-primary text-sm"
-            href={siteConfig.waitlistUrl}
+            href={siteConfig.discordUrl}
             {...externalLinkProps}
           >
-            Get Early Access
+            Join Discord
           </a>
         </div>
       </header>
@@ -43,7 +43,7 @@ export default function Home() {
         <section className={`${sectionPadding} pt-20 sm:pt-24`}>
           <div className="site-container">
             <Reveal>
-              <p className="eyebrow">{siteConfig.hero.eyebrow}</p>
+              <p className="eyebrow">Community</p>
             </Reveal>
             <Reveal delay={0.04}>
               <h1 className="hero-title mt-3 max-w-4xl">
@@ -59,10 +59,10 @@ export default function Home() {
               <div className="mt-9 flex flex-wrap items-center gap-3">
                 <a
                   className="btn btn-primary"
-                  href={siteConfig.waitlistUrl}
+                  href={siteConfig.discordUrl}
                   {...externalLinkProps}
                 >
-                  Get Early Access
+                  Join Discord
                 </a>
                 <a
                   className="btn btn-ghost"
@@ -206,20 +206,17 @@ export default function Home() {
           <div className="site-container">
             <Reveal>
               <div className="surface-card p-7 sm:p-10">
-                <p className="eyebrow">Early Access</p>
+                <p className="eyebrow">Community</p>
                 <h2 className="section-title mt-3 max-w-2xl">
-                  Build your LinkedIn writing habit with a lighter workflow.
+                  Join other LinkedIn creators.
                 </h2>
-                <p className="muted-text mt-4 max-w-2xl text-lg">
-                  {siteConfig.launchNote}
-                </p>
                 <div className="mt-7 flex flex-wrap items-center gap-3">
                   <a
                     className="btn btn-primary"
-                    href={siteConfig.waitlistUrl}
+                    href={siteConfig.discordUrl}
                     {...externalLinkProps}
                   >
-                    Get Early Access
+                    Join Discord
                   </a>
                   <a
                     className="text-link"
@@ -227,13 +224,6 @@ export default function Home() {
                     {...externalLinkProps}
                   >
                     Docs
-                  </a>
-                  <a
-                    className="text-link"
-                    href={siteConfig.discordUrl}
-                    {...externalLinkProps}
-                  >
-                    Discord
                   </a>
                 </div>
               </div>

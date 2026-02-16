@@ -27,7 +27,6 @@ interface SiteConfig {
   footerLinks: { href: string; label: string }[];
   hero: {
     chips: string[];
-    eyebrow: string;
     subtitle: string;
     title: string;
   };
@@ -36,26 +35,10 @@ interface SiteConfig {
   navItems: NavItem[];
   principles: Principle[];
   steps: Step[];
-  waitlistUrl: string;
   whyPoints: string[];
 }
 
-const FALLBACK_WAITLIST_URL = "https://superimpress.com/waitlist";
 
-const getWaitlistUrl = (): string => {
-  const rawUrl = process.env.NEXT_PUBLIC_WAITLIST_URL;
-
-  if (!rawUrl) {
-    return FALLBACK_WAITLIST_URL;
-  }
-
-  try {
-    const parsed = new URL(rawUrl);
-    return parsed.toString();
-  } catch {
-    return FALLBACK_WAITLIST_URL;
-  }
-};
 
 export const siteConfig: SiteConfig = {
   brand: "SuperImpress",
@@ -81,13 +64,11 @@ export const siteConfig: SiteConfig = {
     },
   ],
   footerLinks: [
-    { href: "https://app.superimpress.com", label: "App" },
     { href: "https://docs.superimpress.com", label: "Docs" },
     { href: "https://discord.gg/DWAVqksVtx", label: "Discord" },
   ],
   hero: {
     chips: ["Author-first", "LinkedIn scheduling", "Minimal interface"],
-    eyebrow: "Early Access",
     subtitle:
       "Write in your own voice, save drafts quickly, and schedule without wrestling with bloated workflows.",
     title:
@@ -135,7 +116,7 @@ export const siteConfig: SiteConfig = {
       title: "Publish / Track",
     },
   ],
-  waitlistUrl: getWaitlistUrl(),
+
   whyPoints: [
     "Most LinkedIn tools are overcomplicated and distracting.",
     "AI-first flows often push generic, inauthentic writing.",

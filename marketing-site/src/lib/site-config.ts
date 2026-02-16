@@ -38,8 +38,6 @@ interface SiteConfig {
   whyPoints: string[];
 }
 
-
-
 export const siteConfig: SiteConfig = {
   brand: "SuperImpress",
   description:

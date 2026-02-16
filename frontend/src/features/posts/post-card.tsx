@@ -11,6 +11,7 @@ import { cn } from "@/utils/classname";
 import { formatDate } from "@/utils/format-date";
 import { CopyPostButton } from "./copy-post-button";
 import { DeletePostButton } from "./delete-post-button";
+import { EditPostButton } from "./edit-post-button";
 import { MarkAsPublishedButton } from "./mark-as-published-button";
 import { PostToLinkedInButton } from "./post-to-linkedin-button";
 import PublicationHistory from "./publication-history";
@@ -90,6 +91,7 @@ export function PostCard({
       <div className="border-t px-6 py-4">
         <div className="flex flex-wrap gap-2">
           <CopyPostButton content={post.content} />
+          <EditPostButton post={post} />
           <MarkAsPublishedButton postId={post.id} publications={publications} />
           <DeletePostButton postId={post.id} />
           {linkedInConnected && <PostToLinkedInButton postId={post.id} />}

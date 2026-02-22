@@ -1,71 +1,136 @@
 ---
-title: Production Database Deployment
-description: How to run PostgreSQL + backend safely in production, including a DigitalOcean-first setup
+title: Production Backend + Database Deployment (AWS)
+description: Cost-first runbook for deploying backend and PostgreSQL on AWS in ap-south-1
 ---
 
-This is a practical runbook for taking SuperImpress database operations to production.
+This is the current production deployment plan for SuperImpress.
+
+Scope today: move `backend/` and PostgreSQL to AWS, while keeping `frontend/` and
+`marketing-site/` on Netlify Free Plan.
 
 ## TL;DR
 
-- Keep backend and database in the same region/VPC.
-- Prefer managed PostgreSQL for production.
-- Treat migrations as code (generated, reviewed, committed, applied in deploy pipeline).
-- Never run ad-hoc SQL changes directly in production.
+- Standardize AWS region to `ap-south-1` (Mumbai).
+- Run backend on a single EC2 instance for now (cost-first setup).
+- Run PostgreSQL on private-only RDS (single-AZ, smallest practical instance).
+- Keep migrations as a one-off release step after GitHub Actions checks pass.
+- Keep `frontend/` and `marketing-site/` on Netlify Free Plan for now.
 
-## General production architecture (provider-agnostic)
+## Current hosting split
 
-### 1. Compute + data placement
+| Surface | Hosting now | Notes |
+| ------- | ----------- | ----- |
+| `marketing-site/` | Netlify Free | Keep as-is for now |
+| `frontend/` | Netlify Free | Keep as-is for now |
+| `backend/` | AWS EC2 | Move to AWS now |
+| PostgreSQL | AWS RDS | Move to AWS now |
 
-- Run API compute and PostgreSQL in the same region.
-- Use private networking between API and DB.
-- Restrict database ingress to trusted app/network sources only.
+This split keeps costs low while moving the data plane (API + DB) to AWS.
 
-### 2. Database service level
+## Production constraints
 
-- Start with managed PostgreSQL for automated backups, failover options, and operations support.
-- Turn on daily backups and point-in-time recovery (PITR).
-- Monitor connection count, CPU, memory, storage growth, and slow queries.
+- **Region**: `ap-south-1` only.
+- **Environment**: Production only for now.
+- **Budget target**: Stay close to `$25/month` (cost pressure is high).
+- **Paid services now**: EC2 and RDS only.
+- **Deployment gate**: GitHub Actions checks must pass before deploy.
+- **Database access**: Private-only DB, with controlled admin access for migrations/inspection.
 
-### 3. Security baseline
+## Recommended v1 AWS architecture (cost-first)
 
-- Enforce TLS for DB connections.
-- Keep DB credentials in secret manager / environment variables, never committed files.
-- Use least-privilege database users for app runtime and admin tasks.
+### 1. Compute + database placement
 
-### 4. Deployment and migration model
+- Run one backend instance on **EC2**.
+- Run PostgreSQL on **RDS PostgreSQL Single-AZ**.
+- Keep both in the same VPC and same region (`ap-south-1`).
+
+### 2. Network model
+
+- EC2 can be in a public subnet (locked security group).
+- RDS must be in private subnets, **not publicly accessible**.
+- RDS security group should allow inbound `5432` only from the EC2 security group.
+- Do not open RDS inbound to `0.0.0.0/0`.
+
+### 3. Database service level
+
+- Use managed RDS PostgreSQL with automatic backups enabled.
+- Start with the cheapest practical class (typically `db.t4g.micro`) and right-size later.
+- Use conservative backend connection pooling to avoid exhausting DB connections.
+
+### 4. Security baseline
+
+- Enforce TLS on DB connections.
+- Keep credentials in environment variables on the server (no committed secrets).
+- Use a least-privilege runtime DB user and a separate admin user.
+
+## What can cost money (AWS)
+
+Even in this minimal setup, costs are not just "EC2 + RDS" instance hours.
+
+| Service | Why it costs | Cost pressure |
+| ------- | ------------ | ------------- |
+| EC2 | Compute runtime for backend | Medium |
+| EBS | EC2 root/app disk | Low to medium |
+| RDS instance | Managed PostgreSQL runtime | High |
+| RDS storage | Allocated DB storage + backup overages | Medium |
+| Data transfer out | Traffic from AWS to users/Netlify clients | Low to medium |
+| Route 53 (if used) | Hosted zone + DNS queries | Low |
+
+### Budget reality
+
+- A continuously running EC2 + RDS production setup in `ap-south-1` is often **above** `$25/month`.
+- Treat `$25` as a hard optimization target, not a guaranteed outcome.
+- Keep architecture minimal (no ALB, NAT Gateway, Multi-AZ, Redis) while traffic is low.
+
+## Deployment and migration model
+
+### GitHub Actions gate and deploy
+
+Use GitHub Actions as the deployment gate:
+
+1. Run checks (`bun run check`, build/type checks).
+2. If checks pass on `main`, deploy backend to EC2.
+3. Run DB migration as a **one-off** release step.
+4. Verify health endpoint and critical DB-backed endpoint.
+
+Note on "rolling deploy": with a single EC2 instance, deploys are rolling-like but not true
+zero-downtime rolling. True rolling requires multiple instances + load balancer, which increases cost.
+
+### Drizzle migration workflow
 
 For schema changes, use Drizzle migrations only:
 
 1. Generate migration files from code changes.
 2. Commit migration files to git.
-3. Deploy backend.
-4. Run migrations exactly once as a release step/job.
+3. Deploy backend artifact/code.
+4. Run migration exactly once as a release step/job.
 5. Verify health checks and key DB queries after migration.
 
 This avoids schema drift and keeps production reproducible.
 
-## DigitalOcean-specific architecture (recommended first setup)
+## Admin access to private RDS
 
-### Recommended stack
+RDS stays private-only; admin workflows should go through EC2.
 
-- **Backend**: DigitalOcean App Platform (or a Droplet if you need lower-level control).
-- **Database**: DigitalOcean Managed PostgreSQL.
-- **Cache/state**: DigitalOcean Managed Redis (if used in production flows).
-- **Region**: Same region for all components (for example, NYC3).
+### Option A: Run tools from EC2
 
-### Network model
+- SSH to EC2.
+- Run migration/inspection commands from EC2 where private DB is reachable.
 
-- Keep DB in a private network / trusted-sources mode.
-- Allow inbound DB access only from backend runtime.
-- Avoid exposing the database publicly unless absolutely necessary.
+### Option B: SSH tunnel from local machine
 
-### Operational defaults
+- Create a tunnel from your laptop to EC2, then to RDS.
+- Use local DB tooling against `localhost:<forwarded-port>`.
 
-- Enable automated backups and PITR on Managed PostgreSQL.
-- Configure alerts for storage, CPU, and connection saturation.
-- Set conservative connection pools in backend to avoid exhausting DB connections.
+Example:
 
-## Drizzle migration workflow for production
+```bash
+ssh -i <key.pem> -L 5433:<rds-endpoint>:5432 <user>@<ec2-public-ip>
+```
+
+Then connect locally to `localhost:5433`.
+
+## Drizzle commands for production
 
 Run from `backend/`:
 
@@ -81,7 +146,7 @@ In deployment/release phase, run once against production:
 bun run drizzle-kit push
 ```
 
-### Important migration rules
+### Migration rules
 
 - Always run migrations first in staging.
 - Use one migration runner only (single release job / lock).
@@ -90,13 +155,13 @@ bun run drizzle-kit push
 
 ## Suggested release checklist
 
-1. Staging is on same PostgreSQL major version as production.
+1. PR merged to `main` only after checks pass.
 2. New migration generated and reviewed in PR.
-3. Backup/PITR confirmed before applying migration.
-4. Production deploy starts.
-5. Migration job runs once (`drizzle-kit push`).
-6. API health checks pass.
-7. Post-release verification query/dashboard checks pass.
+3. Backup/PITR availability confirmed before migration.
+4. Deploy backend to EC2.
+5. Run one-off migration (`drizzle-kit push`).
+6. API health check passes.
+7. Smoke-test one DB-backed API flow.
 
 ## Failure and recovery expectations
 
@@ -123,8 +188,12 @@ docker compose exec backend bun run drizzle-kit generate
 docker compose exec backend bun run drizzle-kit push
 ```
 
-## Decision guidance: managed DB vs self-hosted on one Droplet
+## Future upgrades (not now)
 
-For initial production, managed PostgreSQL is strongly preferred. Self-hosting PostgreSQL on the same Droplet as the API can be cheaper early, but adds significant operational risk (backup management, upgrades, failover, and restore correctness).
+- ECS Fargate backend service with ALB for true rolling deploys.
+- Secrets Manager or SSM Parameter Store for centralized secret management.
+- CloudWatch alarms and external observability stack.
+- Migration of `frontend/` and `marketing-site/` from Netlify to AWS when needed.
 
-If budget is constrained, optimize compute size first; keep DB managed.
+For an SST-based simplification path, see
+[AWS Deployment Simplification Plan with SST](/tech/15-aws-sst-simplification-plan).

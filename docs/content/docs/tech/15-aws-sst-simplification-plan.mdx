@@ -1,0 +1,96 @@
+---
+title: AWS Deployment Simplification Plan with SST
+description: Pragmatic plan for introducing SST to manage AWS infrastructure with low operational overhead
+---
+
+This document proposes a second path: use SST to simplify AWS infrastructure management for
+SuperImpress while keeping cost constraints explicit.
+
+## Why add SST
+
+- **Infrastructure as code**: Versioned AWS resources in git.
+- **Repeatability**: Consistent deployment setup across machines.
+- **Safer changes**: Review infra diffs in PRs before apply.
+- **Lower manual ops**: Fewer click-ops in AWS console.
+
+## Constraints carried from current plan
+
+- Region remains `ap-south-1`.
+- Production-only focus for now.
+- `frontend/` and `marketing-site/` stay on Netlify Free Plan.
+- Cost-sensitive target around `$25/month`.
+
+## Important cost note
+
+SST itself does not remove AWS resource costs.
+Your bill is still driven by what you provision (EC2, RDS, storage, transfer, etc.).
+
+If you move to higher-level AWS patterns (ALB + ECS/Fargate + multi-instance),
+operational quality improves but monthly cost increases.
+
+## Recommended SST adoption path
+
+### Phase 1: Cost-first baseline (now)
+
+Use SST mainly as an infrastructure wrapper for the minimal setup:
+
+- VPC + subnets (public for EC2, private for RDS).
+- Security groups (RDS only reachable from EC2 SG).
+- Single EC2 instance for backend.
+- Single-AZ RDS PostgreSQL for DB.
+
+Keep deployment simple:
+
+- GitHub Actions runs checks.
+- On success, deploy backend artifact/code.
+- Run Drizzle migration once per release.
+
+### Phase 2: Quality upgrades (later, budget-permitting)
+
+- Multi-instance backend with load balancing.
+- ECS/Fargate for container scheduling.
+- Centralized secret and parameter management.
+- Better observability and alerting.
+
+## Suggested repo structure for SST
+
+Create a dedicated infra workspace under repo root:
+
+```text
+infra/
+  sst.config.ts
+  stacks/
+    network.ts
+    backend.ts
+    database.ts
+```
+
+This keeps app code and infra code separate while staying in one monorepo.
+
+## CI/CD flow with SST
+
+1. `pull_request`: run code checks only.
+2. `push` to `main`: run checks, then apply infra/app deploy for prod.
+3. Run migration as a one-off controlled step after deploy.
+
+Keep migrations explicit even with SST. Do not run schema changes automatically on every app start.
+
+## Security defaults with SST
+
+- RDS is private-only.
+- EC2 inbound is tightly restricted.
+- No hardcoded secrets in repository.
+- IAM permissions scoped to deployment needs.
+
+## Decision checkpoint before implementation
+
+Before introducing SST code, decide which operating mode to optimize for:
+
+1. **Min cost first**: SST-managed EC2 + RDS single instance (best for now).
+2. **Min ops first**: SST-managed ECS/Fargate + LB (cleaner ops, higher cost).
+
+Given current budget constraints, option 1 is the default recommendation.
+
+## Related docs
+
+- [Production Backend + Database Deployment (AWS)](/tech/14-production-database-deployment)

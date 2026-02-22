@@ -1,0 +1,199 @@
+---
+title: Production Backend + Database Deployment (AWS)
+description: Cost-first runbook for deploying backend and PostgreSQL on AWS in ap-south-1
+---
+
+This is the current production deployment plan for SuperImpress.
+
+Scope today: move `backend/` and PostgreSQL to AWS, while keeping `frontend/` and
+`marketing-site/` on Netlify Free Plan.
+
+## TL;DR
+
+- Standardize AWS region to `ap-south-1` (Mumbai).
+- Run backend on a single EC2 instance for now (cost-first setup).
+- Run PostgreSQL on private-only RDS (single-AZ, smallest practical instance).
+- Keep migrations as a one-off release step after GitHub Actions checks pass.
+- Keep `frontend/` and `marketing-site/` on Netlify Free Plan for now.
+
+## Current hosting split
+
+| Surface | Hosting now | Notes |
+| ------- | ----------- | ----- |
+| `marketing-site/` | Netlify Free | Keep as-is for now |
+| `frontend/` | Netlify Free | Keep as-is for now |
+| `backend/` | AWS EC2 | Move to AWS now |
+| PostgreSQL | AWS RDS | Move to AWS now |
+
+This split keeps costs low while moving the data plane (API + DB) to AWS.
+
+## Production constraints
+
+- **Region**: `ap-south-1` only.
+- **Environment**: Production only for now.
+- **Budget target**: Stay close to `$25/month` (cost pressure is high).
+- **Paid services now**: EC2 and RDS only.
+- **Deployment gate**: GitHub Actions checks must pass before deploy.
+- **Database access**: Private-only DB, with controlled admin access for migrations/inspection.
+
+## Recommended v1 AWS architecture (cost-first)
+
+### 1. Compute + database placement
+
+- Run one backend instance on **EC2**.
+- Run PostgreSQL on **RDS PostgreSQL Single-AZ**.
+- Keep both in the same VPC and same region (`ap-south-1`).
+
+### 2. Network model
+
+- EC2 can be in a public subnet (locked security group).
+- RDS must be in private subnets, **not publicly accessible**.
+- RDS security group should allow inbound `5432` only from the EC2 security group.
+- Do not open RDS inbound to `0.0.0.0/0`.
+
+### 3. Database service level
+
+- Use managed RDS PostgreSQL with automatic backups enabled.
+- Start with the cheapest practical class (typically `db.t4g.micro`) and right-size later.
+- Use conservative backend connection pooling to avoid exhausting DB connections.
+
+### 4. Security baseline
+
+- Enforce TLS on DB connections.
+- Keep credentials in environment variables on the server (no committed secrets).
+- Use a least-privilege runtime DB user and a separate admin user.
+
+## What can cost money (AWS)
+
+Even in this minimal setup, costs are not just "EC2 + RDS" instance hours.
+
+| Service | Why it costs | Cost pressure |
+| ------- | ------------ | ------------- |
+| EC2 | Compute runtime for backend | Medium |
+| EBS | EC2 root/app disk | Low to medium |
+| RDS instance | Managed PostgreSQL runtime | High |
+| RDS storage | Allocated DB storage + backup overages | Medium |
+| Data transfer out | Traffic from AWS to users/Netlify clients | Low to medium |
+| Route 53 (if used) | Hosted zone + DNS queries | Low |
+
+### Budget reality
+
+- A continuously running EC2 + RDS production setup in `ap-south-1` is often **above** `$25/month`.
+- Treat `$25` as a hard optimization target, not a guaranteed outcome.
+- Keep architecture minimal (no ALB, NAT Gateway, Multi-AZ, Redis) while traffic is low.
+
+## Deployment and migration model
+
+### GitHub Actions gate and deploy
+
+Use GitHub Actions as the deployment gate:
+
+1. Run checks (`bun run check`, build/type checks).
+2. If checks pass on `main`, deploy backend to EC2.
+3. Run DB migration as a **one-off** release step.
+4. Verify health endpoint and critical DB-backed endpoint.
+
+Note on "rolling deploy": with a single EC2 instance, deploys are rolling-like but not true
+zero-downtime rolling. True rolling requires multiple instances + load balancer, which increases cost.
+
+### Drizzle migration workflow
+
+For schema changes, use Drizzle migrations only:
+
+1. Generate migration files from code changes.
+2. Commit migration files to git.
+3. Deploy backend artifact/code.
+4. Run migration exactly once as a release step/job.
+5. Verify health checks and key DB queries after migration.
+
+This avoids schema drift and keeps production reproducible.
+
+## Admin access to private RDS
+
+RDS stays private-only; admin workflows should go through EC2.
+
+### Option A: Run tools from EC2
+
+- SSH to EC2.
+- Run migration/inspection commands from EC2 where private DB is reachable.
+
+### Option B: SSH tunnel from local machine
+
+- Create a tunnel from your laptop to EC2, then to RDS.
+- Use local DB tooling against `localhost:<forwarded-port>`.
+
+Example:
+
+```bash
+ssh -i <key.pem> -L 5433:<rds-endpoint>:5432 <user>@<ec2-public-ip>
+```
+
+Then connect locally to `localhost:5433`.
+
+## Drizzle commands for production
+
+Run from `backend/`:
+
+```bash
+bun run drizzle-kit generate
+```
+
+Commit generated migration files under `backend/drizzle/`.
+
+In deployment/release phase, run once against production:
+
+```bash
+bun run drizzle-kit push
+```
+
+### Migration rules
+
+- Always run migrations first in staging.
+- Use one migration runner only (single release job / lock).
+- Prefer additive, backward-compatible changes before destructive cleanup.
+- For large table changes, do phased rollouts to reduce lock risk.
+
+## Suggested release checklist
+
+1. PR merged to `main` only after checks pass.
+2. New migration generated and reviewed in PR.
+3. Backup/PITR availability confirmed before migration.
+4. Deploy backend to EC2.
+5. Run one-off migration (`drizzle-kit push`).
+6. API health check passes.
+7. Smoke-test one DB-backed API flow.
+
+## Failure and recovery expectations
+
+- If migration fails, stop rollout and restore service compatibility (rollback app or apply forward fix migration).
+- Keep a tested restore path for backups/PITR; do at least one restore drill before relying on it.
+- Document who can run emergency DB operations and where runbooks live.
+
+## SuperImpress command reference
+
+From local development context:
+
+```bash
+# Generate migration files
+cd backend && bun run drizzle-kit generate
+
+# Apply migrations
+cd backend && bun run drizzle-kit push
+```
+
+When running with Docker-based backend service:
+
+```bash
+docker compose exec backend bun run drizzle-kit generate
+docker compose exec backend bun run drizzle-kit push
+```
+
+## Future upgrades (not now)
+
+- ECS Fargate backend service with ALB for true rolling deploys.
+- Secrets Manager or SSM Parameter Store for centralized secret management.
+- CloudWatch alarms and external observability stack.
+- Migration of `frontend/` and `marketing-site/` from Netlify to AWS when needed.
+
+For an SST-based simplification path, see
+[AWS Deployment Simplification Plan with SST](/tech/15-aws-sst-simplification-plan).

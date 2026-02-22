@@ -2,7 +2,8 @@ import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import * as z from "zod";
-import { usePostApiPosts } from "@/api/posts/posts";
+import { usePostPosts } from "@/api/posts/posts";
+import { AppBreadcrumbs } from "@/components/app-breadcrumbs";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -31,7 +32,7 @@ export default function CreatePostPage() {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const { mutate, isPending } = usePostApiPosts();
+  const { mutate, isPending } = usePostPosts();
 
   const form = useForm({
     defaultValues: {
@@ -71,7 +72,10 @@ export default function CreatePostPage() {
   });
 
   return (
-    <div className="max-w-2xl py-8">
+    <div className="max-w-2xl space-y-4 py-8">
+      <AppBreadcrumbs
+        items={[{ label: "Posts", to: "/posts" }, { label: "Create Post" }]}
+      />
       <Card>
         <CardHeader>
           <CardTitle>Create Post</CardTitle>

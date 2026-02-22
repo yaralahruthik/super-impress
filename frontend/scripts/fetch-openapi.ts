@@ -324,35 +324,42 @@ function transformOpenAPISpec(spec: OpenAPIObject): OpenAPIObject {
       if (op.responses) {
         for (const [statusCode, response] of Object.entries(op.responses)) {
           const resp = response as ResponseObject;
-          if (resp.content?.["application/json"]?.schema) {
-            const inlineSchema = resp.content["application/json"].schema;
+          const jsonContent = resp.content?.["application/json"];
+          if (!jsonContent || typeof jsonContent !== "object") {
+            delete resp.content;
+            continue;
+          }
 
-            // Skip if already a $ref
-            if (!("$ref" in inlineSchema)) {
-              // Generate a schema name and add to components
-              const baseName = generateSchemaName(
-                op.operationId,
-                path,
-                method,
-                "response",
-                statusCode
-              );
-              const schemaName = deduplicateSchemaName(
-                baseName,
-                existingSchemas
-              );
-              existingSchemas.add(schemaName);
+          const inlineSchema = (
+            jsonContent as { schema?: Record<string, unknown> }
+          ).schema;
+          if (!inlineSchema) {
+            delete resp.content;
+            continue;
+          }
 
-              const fixedSchema = normalizeSchema(inlineSchema);
-              transformed.components.schemas![schemaName] = fixedSchema;
+          // Skip if already a $ref
+          if (!("$ref" in inlineSchema)) {
+            // Generate a schema name and add to components
+            const baseName = generateSchemaName(
+              op.operationId,
+              path,
+              method,
+              "response",
+              statusCode
+            );
+            const schemaName = deduplicateSchemaName(baseName, existingSchemas);
+            existingSchemas.add(schemaName);
 
-              // Replace inline schema with $ref
-              resp.content["application/json"].schema = {
-                $ref: `#/components/schemas/${schemaName}`,
-              };
+            const fixedSchema = normalizeSchema(inlineSchema);
+            transformed.components.schemas![schemaName] = fixedSchema;
 
-              transformedCount++;
-            }
+            // Replace inline schema with $ref
+            (jsonContent as { schema?: Record<string, unknown> }).schema = {
+              $ref: `#/components/schemas/${schemaName}`,
+            };
+
+            transformedCount++;
           }
         }
       }
@@ -375,7 +382,7 @@ function transformOpenAPISpec(spec: OpenAPIObject): OpenAPIObject {
 
 async function fetchAndTransformOpenAPI(): Promise<void> {
   const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:3000";
-  const url = `${BACKEND_URL}/api/openapi/json`;
+  const url = `${BACKEND_URL}/openapi/json`;
 
   console.log(`📥 Fetching OpenAPI spec from ${url}...`);
 

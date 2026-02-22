@@ -1,6 +1,6 @@
 import { IconPlus } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
-import { useGetApiPosts } from "@/api/posts/posts";
+import { useGetPosts } from "@/api/posts/posts";
 import { Button } from "@/components/ui/button";
 import PostList, {
   PostListEmpty,
@@ -9,7 +9,7 @@ import PostList, {
 } from "./post-list";
 
 function PostDataContainer() {
-  const { data, isPending, isError } = useGetApiPosts();
+  const { data, isPending, isError } = useGetPosts();
 
   if (isPending) {
     return <PostListLoading />;

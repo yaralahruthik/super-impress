@@ -51,6 +51,9 @@ Validated frontend keys currently include:
 - `VITE_API_BASE`
 - `VITE_APP_URL`
 
+`VITE_API_BASE` is validated as an origin-only URL (no path segment like `/api`) so the
+frontend can call cross-origin backend routes directly.
+
 ## Tradeoffs and constraints
 
 - **Schema Maintenance**: Env schemas must be kept in sync with `.env.example` files.

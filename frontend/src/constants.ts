@@ -3,7 +3,7 @@ import { env } from "@/env";
 const API_BASE = env.VITE_API_BASE;
 
 export const URLS = {
-  authBase: `${API_BASE}/api/auth`,
+  authBase: `${API_BASE}/auth`,
   app: env.VITE_APP_URL,
 } as const;
 

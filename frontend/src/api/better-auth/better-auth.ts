@@ -25,86 +25,86 @@ import type { ErrorType } from ".././axios";
 
 import { customInstance } from ".././axios";
 import type {
-  ApiAuthAccountInfoGetResponse200,
-  ApiAuthAccountInfoGetResponse400,
-  ApiAuthAccountInfoGetResponse401,
-  ApiAuthAccountInfoGetResponse403,
-  ApiAuthAccountInfoGetResponse404,
-  ApiAuthAccountInfoGetResponse429,
-  ApiAuthAccountInfoGetResponse500,
-  ApiAuthDeleteUserCallbackGetResponse200,
-  ApiAuthDeleteUserCallbackGetResponse400,
-  ApiAuthDeleteUserCallbackGetResponse401,
-  ApiAuthDeleteUserCallbackGetResponse403,
-  ApiAuthDeleteUserCallbackGetResponse404,
-  ApiAuthDeleteUserCallbackGetResponse429,
-  ApiAuthDeleteUserCallbackGetResponse500,
-  ApiAuthErrorGetResponse400,
-  ApiAuthErrorGetResponse401,
-  ApiAuthErrorGetResponse403,
-  ApiAuthErrorGetResponse404,
-  ApiAuthErrorGetResponse429,
-  ApiAuthErrorGetResponse500,
-  ApiAuthGetAccessTokenPostRequest,
-  ApiAuthGetAccessTokenPostResponse200,
-  ApiAuthGetAccessTokenPostResponse401,
-  ApiAuthGetAccessTokenPostResponse403,
-  ApiAuthGetAccessTokenPostResponse404,
-  ApiAuthGetAccessTokenPostResponse429,
-  ApiAuthGetAccessTokenPostResponse500,
-  ApiAuthOkGetResponse200,
-  ApiAuthOkGetResponse400,
-  ApiAuthOkGetResponse401,
-  ApiAuthOkGetResponse403,
-  ApiAuthOkGetResponse404,
-  ApiAuthOkGetResponse429,
-  ApiAuthOkGetResponse500,
-  ApiAuthRefreshTokenPostRequest,
-  ApiAuthRefreshTokenPostResponse200,
-  ApiAuthRefreshTokenPostResponse401,
-  ApiAuthRefreshTokenPostResponse403,
-  ApiAuthRefreshTokenPostResponse404,
-  ApiAuthRefreshTokenPostResponse429,
-  ApiAuthRefreshTokenPostResponse500,
-  ApiAuthRevokeOtherSessionsPostRequest,
-  ApiAuthRevokeOtherSessionsPostResponse200,
-  ApiAuthRevokeOtherSessionsPostResponse400,
-  ApiAuthRevokeOtherSessionsPostResponse401,
-  ApiAuthRevokeOtherSessionsPostResponse403,
-  ApiAuthRevokeOtherSessionsPostResponse404,
-  ApiAuthRevokeOtherSessionsPostResponse429,
-  ApiAuthRevokeOtherSessionsPostResponse500,
-  ApiAuthRevokeSessionPostRequest,
-  ApiAuthRevokeSessionPostResponse200,
-  ApiAuthRevokeSessionPostResponse400,
-  ApiAuthRevokeSessionPostResponse401,
-  ApiAuthRevokeSessionPostResponse403,
-  ApiAuthRevokeSessionPostResponse404,
-  ApiAuthRevokeSessionPostResponse429,
-  ApiAuthRevokeSessionPostResponse500,
-  ApiAuthRevokeSessionsPostRequest,
-  ApiAuthRevokeSessionsPostResponse200,
-  ApiAuthRevokeSessionsPostResponse400,
-  ApiAuthRevokeSessionsPostResponse401,
-  ApiAuthRevokeSessionsPostResponse403,
-  ApiAuthRevokeSessionsPostResponse404,
-  ApiAuthRevokeSessionsPostResponse429,
-  ApiAuthRevokeSessionsPostResponse500,
-  ApiAuthUnlinkAccountPostRequest,
-  ApiAuthUnlinkAccountPostResponse200,
-  ApiAuthUnlinkAccountPostResponse400,
-  ApiAuthUnlinkAccountPostResponse401,
-  ApiAuthUnlinkAccountPostResponse403,
-  ApiAuthUnlinkAccountPostResponse404,
-  ApiAuthUnlinkAccountPostResponse429,
-  ApiAuthUnlinkAccountPostResponse500,
-  ApiAuthVerifyEmailGetResponse200,
-  ApiAuthVerifyEmailGetResponse400,
-  ApiAuthVerifyEmailGetResponse401,
-  ApiAuthVerifyEmailGetResponse403,
-  ApiAuthVerifyEmailGetResponse404,
-  ApiAuthVerifyEmailGetResponse429,
-  ApiAuthVerifyEmailGetResponse500,
+  AuthAccountInfoGetResponse200,
+  AuthAccountInfoGetResponse400,
+  AuthAccountInfoGetResponse401,
+  AuthAccountInfoGetResponse403,
+  AuthAccountInfoGetResponse404,
+  AuthAccountInfoGetResponse429,
+  AuthAccountInfoGetResponse500,
+  AuthDeleteUserCallbackGetResponse200,
+  AuthDeleteUserCallbackGetResponse400,
+  AuthDeleteUserCallbackGetResponse401,
+  AuthDeleteUserCallbackGetResponse403,
+  AuthDeleteUserCallbackGetResponse404,
+  AuthDeleteUserCallbackGetResponse429,
+  AuthDeleteUserCallbackGetResponse500,
+  AuthErrorGetResponse400,
+  AuthErrorGetResponse401,
+  AuthErrorGetResponse403,
+  AuthErrorGetResponse404,
+  AuthErrorGetResponse429,
+  AuthErrorGetResponse500,
+  AuthGetAccessTokenPostRequest,
+  AuthGetAccessTokenPostResponse200,
+  AuthGetAccessTokenPostResponse401,
+  AuthGetAccessTokenPostResponse403,
+  AuthGetAccessTokenPostResponse404,
+  AuthGetAccessTokenPostResponse429,
+  AuthGetAccessTokenPostResponse500,
+  AuthOkGetResponse200,
+  AuthOkGetResponse400,
+  AuthOkGetResponse401,
+  AuthOkGetResponse403,
+  AuthOkGetResponse404,
+  AuthOkGetResponse429,
+  AuthOkGetResponse500,
+  AuthRefreshTokenPostRequest,
+  AuthRefreshTokenPostResponse200,
+  AuthRefreshTokenPostResponse401,
+  AuthRefreshTokenPostResponse403,
+  AuthRefreshTokenPostResponse404,
+  AuthRefreshTokenPostResponse429,
+  AuthRefreshTokenPostResponse500,
+  AuthRevokeOtherSessionsPostRequest,
+  AuthRevokeOtherSessionsPostResponse200,
+  AuthRevokeOtherSessionsPostResponse400,
+  AuthRevokeOtherSessionsPostResponse401,
+  AuthRevokeOtherSessionsPostResponse403,
+  AuthRevokeOtherSessionsPostResponse404,
+  AuthRevokeOtherSessionsPostResponse429,
+  AuthRevokeOtherSessionsPostResponse500,
+  AuthRevokeSessionPostRequest,
+  AuthRevokeSessionPostResponse200,
+  AuthRevokeSessionPostResponse400,
+  AuthRevokeSessionPostResponse401,
+  AuthRevokeSessionPostResponse403,
+  AuthRevokeSessionPostResponse404,
+  AuthRevokeSessionPostResponse429,
+  AuthRevokeSessionPostResponse500,
+  AuthRevokeSessionsPostRequest,
+  AuthRevokeSessionsPostResponse200,
+  AuthRevokeSessionsPostResponse400,
+  AuthRevokeSessionsPostResponse401,
+  AuthRevokeSessionsPostResponse403,
+  AuthRevokeSessionsPostResponse404,
+  AuthRevokeSessionsPostResponse429,
+  AuthRevokeSessionsPostResponse500,
+  AuthUnlinkAccountPostRequest,
+  AuthUnlinkAccountPostResponse200,
+  AuthUnlinkAccountPostResponse400,
+  AuthUnlinkAccountPostResponse401,
+  AuthUnlinkAccountPostResponse403,
+  AuthUnlinkAccountPostResponse404,
+  AuthUnlinkAccountPostResponse429,
+  AuthUnlinkAccountPostResponse500,
+  AuthVerifyEmailGetResponse200,
+  AuthVerifyEmailGetResponse400,
+  AuthVerifyEmailGetResponse401,
+  AuthVerifyEmailGetResponse403,
+  AuthVerifyEmailGetResponse404,
+  AuthVerifyEmailGetResponse429,
+  AuthVerifyEmailGetResponse500,
   ChangeEmailRequest,
   ChangeEmailResponse200,
   ChangeEmailResponse400,
@@ -130,8 +130,8 @@ import type {
   DeleteUserResponse404,
   DeleteUserResponse429,
   DeleteUserResponse500,
-  GetApiAuthDeleteUserCallbackParams,
-  GetApiAuthVerifyEmailParams,
+  GetAuthDeleteUserCallbackParams,
+  GetAuthVerifyEmailParams,
   GetSessionResponse200,
   GetSessionResponse400,
   GetSessionResponse401,
@@ -252,7 +252,7 @@ export const socialSignIn = (
   signal?: AbortSignal
 ) => {
   return customInstance<SocialSignInResponse200>({
-    url: `/api/auth/sign-in/social`,
+    url: `/auth/sign-in/social`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: socialSignInRequest,
@@ -350,14 +350,14 @@ export const useSocialSignIn = <
  */
 export const getSession = (signal?: AbortSignal) => {
   return customInstance<GetSessionResponse200 | null>({
-    url: `/api/auth/get-session`,
+    url: `/auth/get-session`,
     method: "GET",
     signal,
   });
 };
 
 export const getGetSessionQueryKey = () => {
-  return [`/api/auth/get-session`] as const;
+  return [`/auth/get-session`] as const;
 };
 
 export const getGetSessionQueryOptions = <
@@ -517,7 +517,7 @@ export const signOut = (
   signal?: AbortSignal
 ) => {
   return customInstance<SignOutResponse200>({
-    url: `/api/auth/sign-out`,
+    url: `/auth/sign-out`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: signOutRequest,
@@ -618,7 +618,7 @@ export const signUpWithEmailAndPassword = (
   signal?: AbortSignal
 ) => {
   return customInstance<SignUpWithEmailAndPasswordResponse200>({
-    url: `/api/auth/sign-up/email`,
+    url: `/auth/sign-up/email`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: signUpWithEmailAndPasswordRequest,
@@ -726,7 +726,7 @@ export const signInEmail = (
   signal?: AbortSignal
 ) => {
   return customInstance<SignInEmailResponse200>({
-    url: `/api/auth/sign-in/email`,
+    url: `/auth/sign-in/email`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: signInEmailRequest,
@@ -827,7 +827,7 @@ export const resetPassword = (
   signal?: AbortSignal
 ) => {
   return customInstance<ResetPasswordResponse200>({
-    url: `/api/auth/reset-password`,
+    url: `/auth/reset-password`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: resetPasswordRequest,
@@ -928,7 +928,7 @@ export const verifyPassword = (
   signal?: AbortSignal
 ) => {
   return customInstance<VerifyPasswordResponse200>({
-    url: `/api/auth/verify-password`,
+    url: `/auth/verify-password`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: verifyPasswordRequest,
@@ -1024,40 +1024,40 @@ export const useVerifyPassword = <
 /**
  * Verify the email of the user
  */
-export const getApiAuthVerifyEmail = (
-  params: GetApiAuthVerifyEmailParams,
+export const getAuthVerifyEmail = (
+  params: GetAuthVerifyEmailParams,
   signal?: AbortSignal
 ) => {
-  return customInstance<ApiAuthVerifyEmailGetResponse200>({
-    url: `/api/auth/verify-email`,
+  return customInstance<AuthVerifyEmailGetResponse200>({
+    url: `/auth/verify-email`,
     method: "GET",
     params,
     signal,
   });
 };
 
-export const getGetApiAuthVerifyEmailQueryKey = (
-  params?: GetApiAuthVerifyEmailParams
+export const getGetAuthVerifyEmailQueryKey = (
+  params?: GetAuthVerifyEmailParams
 ) => {
-  return [`/api/auth/verify-email`, ...(params ? [params] : [])] as const;
+  return [`/auth/verify-email`, ...(params ? [params] : [])] as const;
 };
 
-export const getGetApiAuthVerifyEmailQueryOptions = <
-  TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+export const getGetAuthVerifyEmailQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAuthVerifyEmail>>,
   TError = ErrorType<
-    | ApiAuthVerifyEmailGetResponse400
-    | ApiAuthVerifyEmailGetResponse401
-    | ApiAuthVerifyEmailGetResponse403
-    | ApiAuthVerifyEmailGetResponse404
-    | ApiAuthVerifyEmailGetResponse429
-    | ApiAuthVerifyEmailGetResponse500
+    | AuthVerifyEmailGetResponse400
+    | AuthVerifyEmailGetResponse401
+    | AuthVerifyEmailGetResponse403
+    | AuthVerifyEmailGetResponse404
+    | AuthVerifyEmailGetResponse429
+    | AuthVerifyEmailGetResponse500
   >,
 >(
-  params: GetApiAuthVerifyEmailParams,
+  params: GetAuthVerifyEmailParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+        Awaited<ReturnType<typeof getAuthVerifyEmail>>,
         TError,
         TData
       >
@@ -1067,56 +1067,56 @@ export const getGetApiAuthVerifyEmailQueryOptions = <
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getGetApiAuthVerifyEmailQueryKey(params);
+    queryOptions?.queryKey ?? getGetAuthVerifyEmailQueryKey(params);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getApiAuthVerifyEmail>>
-  > = ({ signal }) => getApiAuthVerifyEmail(params, signal);
+    Awaited<ReturnType<typeof getAuthVerifyEmail>>
+  > = ({ signal }) => getAuthVerifyEmail(params, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+    Awaited<ReturnType<typeof getAuthVerifyEmail>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type GetApiAuthVerifyEmailQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getApiAuthVerifyEmail>>
+export type GetAuthVerifyEmailQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAuthVerifyEmail>>
 >;
-export type GetApiAuthVerifyEmailQueryError = ErrorType<
-  | ApiAuthVerifyEmailGetResponse400
-  | ApiAuthVerifyEmailGetResponse401
-  | ApiAuthVerifyEmailGetResponse403
-  | ApiAuthVerifyEmailGetResponse404
-  | ApiAuthVerifyEmailGetResponse429
-  | ApiAuthVerifyEmailGetResponse500
+export type GetAuthVerifyEmailQueryError = ErrorType<
+  | AuthVerifyEmailGetResponse400
+  | AuthVerifyEmailGetResponse401
+  | AuthVerifyEmailGetResponse403
+  | AuthVerifyEmailGetResponse404
+  | AuthVerifyEmailGetResponse429
+  | AuthVerifyEmailGetResponse500
 >;
 
-export function useGetApiAuthVerifyEmail<
-  TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+export function useGetAuthVerifyEmail<
+  TData = Awaited<ReturnType<typeof getAuthVerifyEmail>>,
   TError = ErrorType<
-    | ApiAuthVerifyEmailGetResponse400
-    | ApiAuthVerifyEmailGetResponse401
-    | ApiAuthVerifyEmailGetResponse403
-    | ApiAuthVerifyEmailGetResponse404
-    | ApiAuthVerifyEmailGetResponse429
-    | ApiAuthVerifyEmailGetResponse500
+    | AuthVerifyEmailGetResponse400
+    | AuthVerifyEmailGetResponse401
+    | AuthVerifyEmailGetResponse403
+    | AuthVerifyEmailGetResponse404
+    | AuthVerifyEmailGetResponse429
+    | AuthVerifyEmailGetResponse500
   >,
 >(
-  params: GetApiAuthVerifyEmailParams,
+  params: GetAuthVerifyEmailParams,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+        Awaited<ReturnType<typeof getAuthVerifyEmail>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+          Awaited<ReturnType<typeof getAuthVerifyEmail>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthVerifyEmail>>
+          Awaited<ReturnType<typeof getAuthVerifyEmail>>
         >,
         "initialData"
       >;
@@ -1125,31 +1125,31 @@ export function useGetApiAuthVerifyEmail<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthVerifyEmail<
-  TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+export function useGetAuthVerifyEmail<
+  TData = Awaited<ReturnType<typeof getAuthVerifyEmail>>,
   TError = ErrorType<
-    | ApiAuthVerifyEmailGetResponse400
-    | ApiAuthVerifyEmailGetResponse401
-    | ApiAuthVerifyEmailGetResponse403
-    | ApiAuthVerifyEmailGetResponse404
-    | ApiAuthVerifyEmailGetResponse429
-    | ApiAuthVerifyEmailGetResponse500
+    | AuthVerifyEmailGetResponse400
+    | AuthVerifyEmailGetResponse401
+    | AuthVerifyEmailGetResponse403
+    | AuthVerifyEmailGetResponse404
+    | AuthVerifyEmailGetResponse429
+    | AuthVerifyEmailGetResponse500
   >,
 >(
-  params: GetApiAuthVerifyEmailParams,
+  params: GetAuthVerifyEmailParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+        Awaited<ReturnType<typeof getAuthVerifyEmail>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+          Awaited<ReturnType<typeof getAuthVerifyEmail>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthVerifyEmail>>
+          Awaited<ReturnType<typeof getAuthVerifyEmail>>
         >,
         "initialData"
       >;
@@ -1158,22 +1158,22 @@ export function useGetApiAuthVerifyEmail<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthVerifyEmail<
-  TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+export function useGetAuthVerifyEmail<
+  TData = Awaited<ReturnType<typeof getAuthVerifyEmail>>,
   TError = ErrorType<
-    | ApiAuthVerifyEmailGetResponse400
-    | ApiAuthVerifyEmailGetResponse401
-    | ApiAuthVerifyEmailGetResponse403
-    | ApiAuthVerifyEmailGetResponse404
-    | ApiAuthVerifyEmailGetResponse429
-    | ApiAuthVerifyEmailGetResponse500
+    | AuthVerifyEmailGetResponse400
+    | AuthVerifyEmailGetResponse401
+    | AuthVerifyEmailGetResponse403
+    | AuthVerifyEmailGetResponse404
+    | AuthVerifyEmailGetResponse429
+    | AuthVerifyEmailGetResponse500
   >,
 >(
-  params: GetApiAuthVerifyEmailParams,
+  params: GetAuthVerifyEmailParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+        Awaited<ReturnType<typeof getAuthVerifyEmail>>,
         TError,
         TData
       >
@@ -1184,22 +1184,22 @@ export function useGetApiAuthVerifyEmail<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useGetApiAuthVerifyEmail<
-  TData = Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+export function useGetAuthVerifyEmail<
+  TData = Awaited<ReturnType<typeof getAuthVerifyEmail>>,
   TError = ErrorType<
-    | ApiAuthVerifyEmailGetResponse400
-    | ApiAuthVerifyEmailGetResponse401
-    | ApiAuthVerifyEmailGetResponse403
-    | ApiAuthVerifyEmailGetResponse404
-    | ApiAuthVerifyEmailGetResponse429
-    | ApiAuthVerifyEmailGetResponse500
+    | AuthVerifyEmailGetResponse400
+    | AuthVerifyEmailGetResponse401
+    | AuthVerifyEmailGetResponse403
+    | AuthVerifyEmailGetResponse404
+    | AuthVerifyEmailGetResponse429
+    | AuthVerifyEmailGetResponse500
   >,
 >(
-  params: GetApiAuthVerifyEmailParams,
+  params: GetAuthVerifyEmailParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthVerifyEmail>>,
+        Awaited<ReturnType<typeof getAuthVerifyEmail>>,
         TError,
         TData
       >
@@ -1209,7 +1209,7 @@ export function useGetApiAuthVerifyEmail<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetApiAuthVerifyEmailQueryOptions(params, options);
+  const queryOptions = getGetAuthVerifyEmailQueryOptions(params, options);
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
@@ -1227,7 +1227,7 @@ export const sendVerificationEmail = (
   signal?: AbortSignal
 ) => {
   return customInstance<SendVerificationEmailResponse200>({
-    url: `/api/auth/send-verification-email`,
+    url: `/auth/send-verification-email`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: sendVerificationEmailRequest,
@@ -1328,7 +1328,7 @@ export const changeEmail = (
   signal?: AbortSignal
 ) => {
   return customInstance<ChangeEmailResponse200>({
-    url: `/api/auth/change-email`,
+    url: `/auth/change-email`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: changeEmailRequest,
@@ -1432,7 +1432,7 @@ export const changePassword = (
   signal?: AbortSignal
 ) => {
   return customInstance<ChangePasswordResponse200>({
-    url: `/api/auth/change-password`,
+    url: `/auth/change-password`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: changePasswordRequest,
@@ -1533,7 +1533,7 @@ export const updateUser = (
   signal?: AbortSignal
 ) => {
   return customInstance<UpdateUserResponse200>({
-    url: `/api/auth/update-user`,
+    url: `/auth/update-user`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: updateUserRequest,
@@ -1634,7 +1634,7 @@ export const deleteUser = (
   signal?: AbortSignal
 ) => {
   return customInstance<DeleteUserResponse200>({
-    url: `/api/auth/delete-user`,
+    url: `/auth/delete-user`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: deleteUserRequest,
@@ -1735,7 +1735,7 @@ export const requestPasswordReset = (
   signal?: AbortSignal
 ) => {
   return customInstance<RequestPasswordResetResponse200>({
-    url: `/api/auth/request-password-reset`,
+    url: `/auth/request-password-reset`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: requestPasswordResetRequest,
@@ -1840,7 +1840,7 @@ export const resetPasswordCallback = (
   signal?: AbortSignal
 ) => {
   return customInstance<ResetPasswordCallbackResponse200>({
-    url: `/api/auth/reset-password/${token}`,
+    url: `/auth/reset-password/${token}`,
     method: "GET",
     params,
     signal,
@@ -1852,7 +1852,7 @@ export const getResetPasswordCallbackQueryKey = (
   params?: ResetPasswordCallbackParams
 ) => {
   return [
-    `/api/auth/reset-password/${token}`,
+    `/auth/reset-password/${token}`,
     ...(params ? [params] : []),
   ] as const;
 };
@@ -2053,14 +2053,14 @@ export function useResetPasswordCallback<
  */
 export const listUserSessions = (signal?: AbortSignal) => {
   return customInstance<ListUserSessionsResponse200>({
-    url: `/api/auth/list-sessions`,
+    url: `/auth/list-sessions`,
     method: "GET",
     signal,
   });
 };
 
 export const getListUserSessionsQueryKey = () => {
-  return [`/api/auth/list-sessions`] as const;
+  return [`/auth/list-sessions`] as const;
 };
 
 export const getListUserSessionsQueryOptions = <
@@ -2231,43 +2231,43 @@ export function useListUserSessions<
 /**
  * Revoke a single session
  */
-export const postApiAuthRevokeSession = (
-  apiAuthRevokeSessionPostRequest: ApiAuthRevokeSessionPostRequest,
+export const postAuthRevokeSession = (
+  authRevokeSessionPostRequest: AuthRevokeSessionPostRequest,
   signal?: AbortSignal
 ) => {
-  return customInstance<ApiAuthRevokeSessionPostResponse200>({
-    url: `/api/auth/revoke-session`,
+  return customInstance<AuthRevokeSessionPostResponse200>({
+    url: `/auth/revoke-session`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    data: apiAuthRevokeSessionPostRequest,
+    data: authRevokeSessionPostRequest,
     signal,
   });
 };
 
-export const getPostApiAuthRevokeSessionMutationOptions = <
+export const getPostAuthRevokeSessionMutationOptions = <
   TError = ErrorType<
-    | ApiAuthRevokeSessionPostResponse400
-    | ApiAuthRevokeSessionPostResponse401
-    | ApiAuthRevokeSessionPostResponse403
-    | ApiAuthRevokeSessionPostResponse404
-    | ApiAuthRevokeSessionPostResponse429
-    | ApiAuthRevokeSessionPostResponse500
+    | AuthRevokeSessionPostResponse400
+    | AuthRevokeSessionPostResponse401
+    | AuthRevokeSessionPostResponse403
+    | AuthRevokeSessionPostResponse404
+    | AuthRevokeSessionPostResponse429
+    | AuthRevokeSessionPostResponse500
   >,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAuthRevokeSession>>,
+    Awaited<ReturnType<typeof postAuthRevokeSession>>,
     TError,
-    { data: ApiAuthRevokeSessionPostRequest },
+    { data: AuthRevokeSessionPostRequest },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiAuthRevokeSession>>,
+  Awaited<ReturnType<typeof postAuthRevokeSession>>,
   TError,
-  { data: ApiAuthRevokeSessionPostRequest },
+  { data: AuthRevokeSessionPostRequest },
   TContext
 > => {
-  const mutationKey = ["postApiAuthRevokeSession"];
+  const mutationKey = ["postAuthRevokeSession"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -2277,102 +2277,101 @@ export const getPostApiAuthRevokeSessionMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiAuthRevokeSession>>,
-    { data: ApiAuthRevokeSessionPostRequest }
+    Awaited<ReturnType<typeof postAuthRevokeSession>>,
+    { data: AuthRevokeSessionPostRequest }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postApiAuthRevokeSession(data);
+    return postAuthRevokeSession(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostApiAuthRevokeSessionMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiAuthRevokeSession>>
+export type PostAuthRevokeSessionMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postAuthRevokeSession>>
 >;
-export type PostApiAuthRevokeSessionMutationBody =
-  ApiAuthRevokeSessionPostRequest;
-export type PostApiAuthRevokeSessionMutationError = ErrorType<
-  | ApiAuthRevokeSessionPostResponse400
-  | ApiAuthRevokeSessionPostResponse401
-  | ApiAuthRevokeSessionPostResponse403
-  | ApiAuthRevokeSessionPostResponse404
-  | ApiAuthRevokeSessionPostResponse429
-  | ApiAuthRevokeSessionPostResponse500
+export type PostAuthRevokeSessionMutationBody = AuthRevokeSessionPostRequest;
+export type PostAuthRevokeSessionMutationError = ErrorType<
+  | AuthRevokeSessionPostResponse400
+  | AuthRevokeSessionPostResponse401
+  | AuthRevokeSessionPostResponse403
+  | AuthRevokeSessionPostResponse404
+  | AuthRevokeSessionPostResponse429
+  | AuthRevokeSessionPostResponse500
 >;
 
-export const usePostApiAuthRevokeSession = <
+export const usePostAuthRevokeSession = <
   TError = ErrorType<
-    | ApiAuthRevokeSessionPostResponse400
-    | ApiAuthRevokeSessionPostResponse401
-    | ApiAuthRevokeSessionPostResponse403
-    | ApiAuthRevokeSessionPostResponse404
-    | ApiAuthRevokeSessionPostResponse429
-    | ApiAuthRevokeSessionPostResponse500
+    | AuthRevokeSessionPostResponse400
+    | AuthRevokeSessionPostResponse401
+    | AuthRevokeSessionPostResponse403
+    | AuthRevokeSessionPostResponse404
+    | AuthRevokeSessionPostResponse429
+    | AuthRevokeSessionPostResponse500
   >,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiAuthRevokeSession>>,
+      Awaited<ReturnType<typeof postAuthRevokeSession>>,
       TError,
-      { data: ApiAuthRevokeSessionPostRequest },
+      { data: AuthRevokeSessionPostRequest },
       TContext
     >;
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postApiAuthRevokeSession>>,
+  Awaited<ReturnType<typeof postAuthRevokeSession>>,
   TError,
-  { data: ApiAuthRevokeSessionPostRequest },
+  { data: AuthRevokeSessionPostRequest },
   TContext
 > => {
   return useMutation(
-    getPostApiAuthRevokeSessionMutationOptions(options),
+    getPostAuthRevokeSessionMutationOptions(options),
     queryClient
   );
 };
 /**
  * Revoke all sessions for the user
  */
-export const postApiAuthRevokeSessions = (
-  apiAuthRevokeSessionsPostRequest: ApiAuthRevokeSessionsPostRequest,
+export const postAuthRevokeSessions = (
+  authRevokeSessionsPostRequest: AuthRevokeSessionsPostRequest,
   signal?: AbortSignal
 ) => {
-  return customInstance<ApiAuthRevokeSessionsPostResponse200>({
-    url: `/api/auth/revoke-sessions`,
+  return customInstance<AuthRevokeSessionsPostResponse200>({
+    url: `/auth/revoke-sessions`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    data: apiAuthRevokeSessionsPostRequest,
+    data: authRevokeSessionsPostRequest,
     signal,
   });
 };
 
-export const getPostApiAuthRevokeSessionsMutationOptions = <
+export const getPostAuthRevokeSessionsMutationOptions = <
   TError = ErrorType<
-    | ApiAuthRevokeSessionsPostResponse400
-    | ApiAuthRevokeSessionsPostResponse401
-    | ApiAuthRevokeSessionsPostResponse403
-    | ApiAuthRevokeSessionsPostResponse404
-    | ApiAuthRevokeSessionsPostResponse429
-    | ApiAuthRevokeSessionsPostResponse500
+    | AuthRevokeSessionsPostResponse400
+    | AuthRevokeSessionsPostResponse401
+    | AuthRevokeSessionsPostResponse403
+    | AuthRevokeSessionsPostResponse404
+    | AuthRevokeSessionsPostResponse429
+    | AuthRevokeSessionsPostResponse500
   >,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAuthRevokeSessions>>,
+    Awaited<ReturnType<typeof postAuthRevokeSessions>>,
     TError,
-    { data: ApiAuthRevokeSessionsPostRequest },
+    { data: AuthRevokeSessionsPostRequest },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiAuthRevokeSessions>>,
+  Awaited<ReturnType<typeof postAuthRevokeSessions>>,
   TError,
-  { data: ApiAuthRevokeSessionsPostRequest },
+  { data: AuthRevokeSessionsPostRequest },
   TContext
 > => {
-  const mutationKey = ["postApiAuthRevokeSessions"];
+  const mutationKey = ["postAuthRevokeSessions"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -2382,102 +2381,101 @@ export const getPostApiAuthRevokeSessionsMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiAuthRevokeSessions>>,
-    { data: ApiAuthRevokeSessionsPostRequest }
+    Awaited<ReturnType<typeof postAuthRevokeSessions>>,
+    { data: AuthRevokeSessionsPostRequest }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postApiAuthRevokeSessions(data);
+    return postAuthRevokeSessions(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostApiAuthRevokeSessionsMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiAuthRevokeSessions>>
+export type PostAuthRevokeSessionsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postAuthRevokeSessions>>
 >;
-export type PostApiAuthRevokeSessionsMutationBody =
-  ApiAuthRevokeSessionsPostRequest;
-export type PostApiAuthRevokeSessionsMutationError = ErrorType<
-  | ApiAuthRevokeSessionsPostResponse400
-  | ApiAuthRevokeSessionsPostResponse401
-  | ApiAuthRevokeSessionsPostResponse403
-  | ApiAuthRevokeSessionsPostResponse404
-  | ApiAuthRevokeSessionsPostResponse429
-  | ApiAuthRevokeSessionsPostResponse500
+export type PostAuthRevokeSessionsMutationBody = AuthRevokeSessionsPostRequest;
+export type PostAuthRevokeSessionsMutationError = ErrorType<
+  | AuthRevokeSessionsPostResponse400
+  | AuthRevokeSessionsPostResponse401
+  | AuthRevokeSessionsPostResponse403
+  | AuthRevokeSessionsPostResponse404
+  | AuthRevokeSessionsPostResponse429
+  | AuthRevokeSessionsPostResponse500
 >;
 
-export const usePostApiAuthRevokeSessions = <
+export const usePostAuthRevokeSessions = <
   TError = ErrorType<
-    | ApiAuthRevokeSessionsPostResponse400
-    | ApiAuthRevokeSessionsPostResponse401
-    | ApiAuthRevokeSessionsPostResponse403
-    | ApiAuthRevokeSessionsPostResponse404
-    | ApiAuthRevokeSessionsPostResponse429
-    | ApiAuthRevokeSessionsPostResponse500
+    | AuthRevokeSessionsPostResponse400
+    | AuthRevokeSessionsPostResponse401
+    | AuthRevokeSessionsPostResponse403
+    | AuthRevokeSessionsPostResponse404
+    | AuthRevokeSessionsPostResponse429
+    | AuthRevokeSessionsPostResponse500
   >,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiAuthRevokeSessions>>,
+      Awaited<ReturnType<typeof postAuthRevokeSessions>>,
       TError,
-      { data: ApiAuthRevokeSessionsPostRequest },
+      { data: AuthRevokeSessionsPostRequest },
       TContext
     >;
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postApiAuthRevokeSessions>>,
+  Awaited<ReturnType<typeof postAuthRevokeSessions>>,
   TError,
-  { data: ApiAuthRevokeSessionsPostRequest },
+  { data: AuthRevokeSessionsPostRequest },
   TContext
 > => {
   return useMutation(
-    getPostApiAuthRevokeSessionsMutationOptions(options),
+    getPostAuthRevokeSessionsMutationOptions(options),
     queryClient
   );
 };
 /**
  * Revoke all other sessions for the user except the current one
  */
-export const postApiAuthRevokeOtherSessions = (
-  apiAuthRevokeOtherSessionsPostRequest: ApiAuthRevokeOtherSessionsPostRequest,
+export const postAuthRevokeOtherSessions = (
+  authRevokeOtherSessionsPostRequest: AuthRevokeOtherSessionsPostRequest,
   signal?: AbortSignal
 ) => {
-  return customInstance<ApiAuthRevokeOtherSessionsPostResponse200>({
-    url: `/api/auth/revoke-other-sessions`,
+  return customInstance<AuthRevokeOtherSessionsPostResponse200>({
+    url: `/auth/revoke-other-sessions`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    data: apiAuthRevokeOtherSessionsPostRequest,
+    data: authRevokeOtherSessionsPostRequest,
     signal,
   });
 };
 
-export const getPostApiAuthRevokeOtherSessionsMutationOptions = <
+export const getPostAuthRevokeOtherSessionsMutationOptions = <
   TError = ErrorType<
-    | ApiAuthRevokeOtherSessionsPostResponse400
-    | ApiAuthRevokeOtherSessionsPostResponse401
-    | ApiAuthRevokeOtherSessionsPostResponse403
-    | ApiAuthRevokeOtherSessionsPostResponse404
-    | ApiAuthRevokeOtherSessionsPostResponse429
-    | ApiAuthRevokeOtherSessionsPostResponse500
+    | AuthRevokeOtherSessionsPostResponse400
+    | AuthRevokeOtherSessionsPostResponse401
+    | AuthRevokeOtherSessionsPostResponse403
+    | AuthRevokeOtherSessionsPostResponse404
+    | AuthRevokeOtherSessionsPostResponse429
+    | AuthRevokeOtherSessionsPostResponse500
   >,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAuthRevokeOtherSessions>>,
+    Awaited<ReturnType<typeof postAuthRevokeOtherSessions>>,
     TError,
-    { data: ApiAuthRevokeOtherSessionsPostRequest },
+    { data: AuthRevokeOtherSessionsPostRequest },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiAuthRevokeOtherSessions>>,
+  Awaited<ReturnType<typeof postAuthRevokeOtherSessions>>,
   TError,
-  { data: ApiAuthRevokeOtherSessionsPostRequest },
+  { data: AuthRevokeOtherSessionsPostRequest },
   TContext
 > => {
-  const mutationKey = ["postApiAuthRevokeOtherSessions"];
+  const mutationKey = ["postAuthRevokeOtherSessions"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -2487,59 +2485,59 @@ export const getPostApiAuthRevokeOtherSessionsMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiAuthRevokeOtherSessions>>,
-    { data: ApiAuthRevokeOtherSessionsPostRequest }
+    Awaited<ReturnType<typeof postAuthRevokeOtherSessions>>,
+    { data: AuthRevokeOtherSessionsPostRequest }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postApiAuthRevokeOtherSessions(data);
+    return postAuthRevokeOtherSessions(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostApiAuthRevokeOtherSessionsMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiAuthRevokeOtherSessions>>
+export type PostAuthRevokeOtherSessionsMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postAuthRevokeOtherSessions>>
 >;
-export type PostApiAuthRevokeOtherSessionsMutationBody =
-  ApiAuthRevokeOtherSessionsPostRequest;
-export type PostApiAuthRevokeOtherSessionsMutationError = ErrorType<
-  | ApiAuthRevokeOtherSessionsPostResponse400
-  | ApiAuthRevokeOtherSessionsPostResponse401
-  | ApiAuthRevokeOtherSessionsPostResponse403
-  | ApiAuthRevokeOtherSessionsPostResponse404
-  | ApiAuthRevokeOtherSessionsPostResponse429
-  | ApiAuthRevokeOtherSessionsPostResponse500
+export type PostAuthRevokeOtherSessionsMutationBody =
+  AuthRevokeOtherSessionsPostRequest;
+export type PostAuthRevokeOtherSessionsMutationError = ErrorType<
+  | AuthRevokeOtherSessionsPostResponse400
+  | AuthRevokeOtherSessionsPostResponse401
+  | AuthRevokeOtherSessionsPostResponse403
+  | AuthRevokeOtherSessionsPostResponse404
+  | AuthRevokeOtherSessionsPostResponse429
+  | AuthRevokeOtherSessionsPostResponse500
 >;
 
-export const usePostApiAuthRevokeOtherSessions = <
+export const usePostAuthRevokeOtherSessions = <
   TError = ErrorType<
-    | ApiAuthRevokeOtherSessionsPostResponse400
-    | ApiAuthRevokeOtherSessionsPostResponse401
-    | ApiAuthRevokeOtherSessionsPostResponse403
-    | ApiAuthRevokeOtherSessionsPostResponse404
-    | ApiAuthRevokeOtherSessionsPostResponse429
-    | ApiAuthRevokeOtherSessionsPostResponse500
+    | AuthRevokeOtherSessionsPostResponse400
+    | AuthRevokeOtherSessionsPostResponse401
+    | AuthRevokeOtherSessionsPostResponse403
+    | AuthRevokeOtherSessionsPostResponse404
+    | AuthRevokeOtherSessionsPostResponse429
+    | AuthRevokeOtherSessionsPostResponse500
   >,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiAuthRevokeOtherSessions>>,
+      Awaited<ReturnType<typeof postAuthRevokeOtherSessions>>,
       TError,
-      { data: ApiAuthRevokeOtherSessionsPostRequest },
+      { data: AuthRevokeOtherSessionsPostRequest },
       TContext
     >;
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postApiAuthRevokeOtherSessions>>,
+  Awaited<ReturnType<typeof postAuthRevokeOtherSessions>>,
   TError,
-  { data: ApiAuthRevokeOtherSessionsPostRequest },
+  { data: AuthRevokeOtherSessionsPostRequest },
   TContext
 > => {
   return useMutation(
-    getPostApiAuthRevokeOtherSessionsMutationOptions(options),
+    getPostAuthRevokeOtherSessionsMutationOptions(options),
     queryClient
   );
 };
@@ -2551,7 +2549,7 @@ export const linkSocialAccount = (
   signal?: AbortSignal
 ) => {
   return customInstance<LinkSocialAccountResponse200>({
-    url: `/api/auth/link-social`,
+    url: `/auth/link-social`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: linkSocialAccountRequest,
@@ -2649,14 +2647,14 @@ export const useLinkSocialAccount = <
  */
 export const listUserAccounts = (signal?: AbortSignal) => {
   return customInstance<ListUserAccountsResponse200>({
-    url: `/api/auth/list-accounts`,
+    url: `/auth/list-accounts`,
     method: "GET",
     signal,
   });
 };
 
 export const getListUserAccountsQueryKey = () => {
-  return [`/api/auth/list-accounts`] as const;
+  return [`/auth/list-accounts`] as const;
 };
 
 export const getListUserAccountsQueryOptions = <
@@ -2827,43 +2825,40 @@ export function useListUserAccounts<
 /**
  * Callback to complete user deletion with verification token
  */
-export const getApiAuthDeleteUserCallback = (
-  params?: GetApiAuthDeleteUserCallbackParams,
+export const getAuthDeleteUserCallback = (
+  params?: GetAuthDeleteUserCallbackParams,
   signal?: AbortSignal
 ) => {
-  return customInstance<ApiAuthDeleteUserCallbackGetResponse200>({
-    url: `/api/auth/delete-user/callback`,
+  return customInstance<AuthDeleteUserCallbackGetResponse200>({
+    url: `/auth/delete-user/callback`,
     method: "GET",
     params,
     signal,
   });
 };
 
-export const getGetApiAuthDeleteUserCallbackQueryKey = (
-  params?: GetApiAuthDeleteUserCallbackParams
+export const getGetAuthDeleteUserCallbackQueryKey = (
+  params?: GetAuthDeleteUserCallbackParams
 ) => {
-  return [
-    `/api/auth/delete-user/callback`,
-    ...(params ? [params] : []),
-  ] as const;
+  return [`/auth/delete-user/callback`, ...(params ? [params] : [])] as const;
 };
 
-export const getGetApiAuthDeleteUserCallbackQueryOptions = <
-  TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+export const getGetAuthDeleteUserCallbackQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
   TError = ErrorType<
-    | ApiAuthDeleteUserCallbackGetResponse400
-    | ApiAuthDeleteUserCallbackGetResponse401
-    | ApiAuthDeleteUserCallbackGetResponse403
-    | ApiAuthDeleteUserCallbackGetResponse404
-    | ApiAuthDeleteUserCallbackGetResponse429
-    | ApiAuthDeleteUserCallbackGetResponse500
+    | AuthDeleteUserCallbackGetResponse400
+    | AuthDeleteUserCallbackGetResponse401
+    | AuthDeleteUserCallbackGetResponse403
+    | AuthDeleteUserCallbackGetResponse404
+    | AuthDeleteUserCallbackGetResponse429
+    | AuthDeleteUserCallbackGetResponse500
   >,
 >(
-  params?: GetApiAuthDeleteUserCallbackParams,
+  params?: GetAuthDeleteUserCallbackParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+        Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
         TError,
         TData
       >
@@ -2873,56 +2868,56 @@ export const getGetApiAuthDeleteUserCallbackQueryOptions = <
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getGetApiAuthDeleteUserCallbackQueryKey(params);
+    queryOptions?.queryKey ?? getGetAuthDeleteUserCallbackQueryKey(params);
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>
-  > = ({ signal }) => getApiAuthDeleteUserCallback(params, signal);
+    Awaited<ReturnType<typeof getAuthDeleteUserCallback>>
+  > = ({ signal }) => getAuthDeleteUserCallback(params, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+    Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type GetApiAuthDeleteUserCallbackQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>
+export type GetAuthDeleteUserCallbackQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAuthDeleteUserCallback>>
 >;
-export type GetApiAuthDeleteUserCallbackQueryError = ErrorType<
-  | ApiAuthDeleteUserCallbackGetResponse400
-  | ApiAuthDeleteUserCallbackGetResponse401
-  | ApiAuthDeleteUserCallbackGetResponse403
-  | ApiAuthDeleteUserCallbackGetResponse404
-  | ApiAuthDeleteUserCallbackGetResponse429
-  | ApiAuthDeleteUserCallbackGetResponse500
+export type GetAuthDeleteUserCallbackQueryError = ErrorType<
+  | AuthDeleteUserCallbackGetResponse400
+  | AuthDeleteUserCallbackGetResponse401
+  | AuthDeleteUserCallbackGetResponse403
+  | AuthDeleteUserCallbackGetResponse404
+  | AuthDeleteUserCallbackGetResponse429
+  | AuthDeleteUserCallbackGetResponse500
 >;
 
-export function useGetApiAuthDeleteUserCallback<
-  TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+export function useGetAuthDeleteUserCallback<
+  TData = Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
   TError = ErrorType<
-    | ApiAuthDeleteUserCallbackGetResponse400
-    | ApiAuthDeleteUserCallbackGetResponse401
-    | ApiAuthDeleteUserCallbackGetResponse403
-    | ApiAuthDeleteUserCallbackGetResponse404
-    | ApiAuthDeleteUserCallbackGetResponse429
-    | ApiAuthDeleteUserCallbackGetResponse500
+    | AuthDeleteUserCallbackGetResponse400
+    | AuthDeleteUserCallbackGetResponse401
+    | AuthDeleteUserCallbackGetResponse403
+    | AuthDeleteUserCallbackGetResponse404
+    | AuthDeleteUserCallbackGetResponse429
+    | AuthDeleteUserCallbackGetResponse500
   >,
 >(
-  params: undefined | GetApiAuthDeleteUserCallbackParams,
+  params: undefined | GetAuthDeleteUserCallbackParams,
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+        Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+          Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>
+          Awaited<ReturnType<typeof getAuthDeleteUserCallback>>
         >,
         "initialData"
       >;
@@ -2931,31 +2926,31 @@ export function useGetApiAuthDeleteUserCallback<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthDeleteUserCallback<
-  TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+export function useGetAuthDeleteUserCallback<
+  TData = Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
   TError = ErrorType<
-    | ApiAuthDeleteUserCallbackGetResponse400
-    | ApiAuthDeleteUserCallbackGetResponse401
-    | ApiAuthDeleteUserCallbackGetResponse403
-    | ApiAuthDeleteUserCallbackGetResponse404
-    | ApiAuthDeleteUserCallbackGetResponse429
-    | ApiAuthDeleteUserCallbackGetResponse500
+    | AuthDeleteUserCallbackGetResponse400
+    | AuthDeleteUserCallbackGetResponse401
+    | AuthDeleteUserCallbackGetResponse403
+    | AuthDeleteUserCallbackGetResponse404
+    | AuthDeleteUserCallbackGetResponse429
+    | AuthDeleteUserCallbackGetResponse500
   >,
 >(
-  params?: GetApiAuthDeleteUserCallbackParams,
+  params?: GetAuthDeleteUserCallbackParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+        Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+          Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>
+          Awaited<ReturnType<typeof getAuthDeleteUserCallback>>
         >,
         "initialData"
       >;
@@ -2964,22 +2959,22 @@ export function useGetApiAuthDeleteUserCallback<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthDeleteUserCallback<
-  TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+export function useGetAuthDeleteUserCallback<
+  TData = Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
   TError = ErrorType<
-    | ApiAuthDeleteUserCallbackGetResponse400
-    | ApiAuthDeleteUserCallbackGetResponse401
-    | ApiAuthDeleteUserCallbackGetResponse403
-    | ApiAuthDeleteUserCallbackGetResponse404
-    | ApiAuthDeleteUserCallbackGetResponse429
-    | ApiAuthDeleteUserCallbackGetResponse500
+    | AuthDeleteUserCallbackGetResponse400
+    | AuthDeleteUserCallbackGetResponse401
+    | AuthDeleteUserCallbackGetResponse403
+    | AuthDeleteUserCallbackGetResponse404
+    | AuthDeleteUserCallbackGetResponse429
+    | AuthDeleteUserCallbackGetResponse500
   >,
 >(
-  params?: GetApiAuthDeleteUserCallbackParams,
+  params?: GetAuthDeleteUserCallbackParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+        Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
         TError,
         TData
       >
@@ -2990,22 +2985,22 @@ export function useGetApiAuthDeleteUserCallback<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useGetApiAuthDeleteUserCallback<
-  TData = Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+export function useGetAuthDeleteUserCallback<
+  TData = Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
   TError = ErrorType<
-    | ApiAuthDeleteUserCallbackGetResponse400
-    | ApiAuthDeleteUserCallbackGetResponse401
-    | ApiAuthDeleteUserCallbackGetResponse403
-    | ApiAuthDeleteUserCallbackGetResponse404
-    | ApiAuthDeleteUserCallbackGetResponse429
-    | ApiAuthDeleteUserCallbackGetResponse500
+    | AuthDeleteUserCallbackGetResponse400
+    | AuthDeleteUserCallbackGetResponse401
+    | AuthDeleteUserCallbackGetResponse403
+    | AuthDeleteUserCallbackGetResponse404
+    | AuthDeleteUserCallbackGetResponse429
+    | AuthDeleteUserCallbackGetResponse500
   >,
 >(
-  params?: GetApiAuthDeleteUserCallbackParams,
+  params?: GetAuthDeleteUserCallbackParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthDeleteUserCallback>>,
+        Awaited<ReturnType<typeof getAuthDeleteUserCallback>>,
         TError,
         TData
       >
@@ -3015,7 +3010,7 @@ export function useGetApiAuthDeleteUserCallback<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetApiAuthDeleteUserCallbackQueryOptions(
+  const queryOptions = getGetAuthDeleteUserCallbackQueryOptions(
     params,
     options
   );
@@ -3031,43 +3026,43 @@ export function useGetApiAuthDeleteUserCallback<
 /**
  * Unlink an account
  */
-export const postApiAuthUnlinkAccount = (
-  apiAuthUnlinkAccountPostRequest: ApiAuthUnlinkAccountPostRequest,
+export const postAuthUnlinkAccount = (
+  authUnlinkAccountPostRequest: AuthUnlinkAccountPostRequest,
   signal?: AbortSignal
 ) => {
-  return customInstance<ApiAuthUnlinkAccountPostResponse200>({
-    url: `/api/auth/unlink-account`,
+  return customInstance<AuthUnlinkAccountPostResponse200>({
+    url: `/auth/unlink-account`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    data: apiAuthUnlinkAccountPostRequest,
+    data: authUnlinkAccountPostRequest,
     signal,
   });
 };
 
-export const getPostApiAuthUnlinkAccountMutationOptions = <
+export const getPostAuthUnlinkAccountMutationOptions = <
   TError = ErrorType<
-    | ApiAuthUnlinkAccountPostResponse400
-    | ApiAuthUnlinkAccountPostResponse401
-    | ApiAuthUnlinkAccountPostResponse403
-    | ApiAuthUnlinkAccountPostResponse404
-    | ApiAuthUnlinkAccountPostResponse429
-    | ApiAuthUnlinkAccountPostResponse500
+    | AuthUnlinkAccountPostResponse400
+    | AuthUnlinkAccountPostResponse401
+    | AuthUnlinkAccountPostResponse403
+    | AuthUnlinkAccountPostResponse404
+    | AuthUnlinkAccountPostResponse429
+    | AuthUnlinkAccountPostResponse500
   >,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAuthUnlinkAccount>>,
+    Awaited<ReturnType<typeof postAuthUnlinkAccount>>,
     TError,
-    { data: ApiAuthUnlinkAccountPostRequest },
+    { data: AuthUnlinkAccountPostRequest },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiAuthUnlinkAccount>>,
+  Awaited<ReturnType<typeof postAuthUnlinkAccount>>,
   TError,
-  { data: ApiAuthUnlinkAccountPostRequest },
+  { data: AuthUnlinkAccountPostRequest },
   TContext
 > => {
-  const mutationKey = ["postApiAuthUnlinkAccount"];
+  const mutationKey = ["postAuthUnlinkAccount"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -3077,102 +3072,101 @@ export const getPostApiAuthUnlinkAccountMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiAuthUnlinkAccount>>,
-    { data: ApiAuthUnlinkAccountPostRequest }
+    Awaited<ReturnType<typeof postAuthUnlinkAccount>>,
+    { data: AuthUnlinkAccountPostRequest }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postApiAuthUnlinkAccount(data);
+    return postAuthUnlinkAccount(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostApiAuthUnlinkAccountMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiAuthUnlinkAccount>>
+export type PostAuthUnlinkAccountMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postAuthUnlinkAccount>>
 >;
-export type PostApiAuthUnlinkAccountMutationBody =
-  ApiAuthUnlinkAccountPostRequest;
-export type PostApiAuthUnlinkAccountMutationError = ErrorType<
-  | ApiAuthUnlinkAccountPostResponse400
-  | ApiAuthUnlinkAccountPostResponse401
-  | ApiAuthUnlinkAccountPostResponse403
-  | ApiAuthUnlinkAccountPostResponse404
-  | ApiAuthUnlinkAccountPostResponse429
-  | ApiAuthUnlinkAccountPostResponse500
+export type PostAuthUnlinkAccountMutationBody = AuthUnlinkAccountPostRequest;
+export type PostAuthUnlinkAccountMutationError = ErrorType<
+  | AuthUnlinkAccountPostResponse400
+  | AuthUnlinkAccountPostResponse401
+  | AuthUnlinkAccountPostResponse403
+  | AuthUnlinkAccountPostResponse404
+  | AuthUnlinkAccountPostResponse429
+  | AuthUnlinkAccountPostResponse500
 >;
 
-export const usePostApiAuthUnlinkAccount = <
+export const usePostAuthUnlinkAccount = <
   TError = ErrorType<
-    | ApiAuthUnlinkAccountPostResponse400
-    | ApiAuthUnlinkAccountPostResponse401
-    | ApiAuthUnlinkAccountPostResponse403
-    | ApiAuthUnlinkAccountPostResponse404
-    | ApiAuthUnlinkAccountPostResponse429
-    | ApiAuthUnlinkAccountPostResponse500
+    | AuthUnlinkAccountPostResponse400
+    | AuthUnlinkAccountPostResponse401
+    | AuthUnlinkAccountPostResponse403
+    | AuthUnlinkAccountPostResponse404
+    | AuthUnlinkAccountPostResponse429
+    | AuthUnlinkAccountPostResponse500
   >,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiAuthUnlinkAccount>>,
+      Awaited<ReturnType<typeof postAuthUnlinkAccount>>,
       TError,
-      { data: ApiAuthUnlinkAccountPostRequest },
+      { data: AuthUnlinkAccountPostRequest },
       TContext
     >;
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postApiAuthUnlinkAccount>>,
+  Awaited<ReturnType<typeof postAuthUnlinkAccount>>,
   TError,
-  { data: ApiAuthUnlinkAccountPostRequest },
+  { data: AuthUnlinkAccountPostRequest },
   TContext
 > => {
   return useMutation(
-    getPostApiAuthUnlinkAccountMutationOptions(options),
+    getPostAuthUnlinkAccountMutationOptions(options),
     queryClient
   );
 };
 /**
  * Refresh the access token using a refresh token
  */
-export const postApiAuthRefreshToken = (
-  apiAuthRefreshTokenPostRequest: ApiAuthRefreshTokenPostRequest,
+export const postAuthRefreshToken = (
+  authRefreshTokenPostRequest: AuthRefreshTokenPostRequest,
   signal?: AbortSignal
 ) => {
-  return customInstance<ApiAuthRefreshTokenPostResponse200>({
-    url: `/api/auth/refresh-token`,
+  return customInstance<AuthRefreshTokenPostResponse200>({
+    url: `/auth/refresh-token`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    data: apiAuthRefreshTokenPostRequest,
+    data: authRefreshTokenPostRequest,
     signal,
   });
 };
 
-export const getPostApiAuthRefreshTokenMutationOptions = <
+export const getPostAuthRefreshTokenMutationOptions = <
   TError = ErrorType<
     | void
-    | ApiAuthRefreshTokenPostResponse401
-    | ApiAuthRefreshTokenPostResponse403
-    | ApiAuthRefreshTokenPostResponse404
-    | ApiAuthRefreshTokenPostResponse429
-    | ApiAuthRefreshTokenPostResponse500
+    | AuthRefreshTokenPostResponse401
+    | AuthRefreshTokenPostResponse403
+    | AuthRefreshTokenPostResponse404
+    | AuthRefreshTokenPostResponse429
+    | AuthRefreshTokenPostResponse500
   >,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAuthRefreshToken>>,
+    Awaited<ReturnType<typeof postAuthRefreshToken>>,
     TError,
-    { data: ApiAuthRefreshTokenPostRequest },
+    { data: AuthRefreshTokenPostRequest },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiAuthRefreshToken>>,
+  Awaited<ReturnType<typeof postAuthRefreshToken>>,
   TError,
-  { data: ApiAuthRefreshTokenPostRequest },
+  { data: AuthRefreshTokenPostRequest },
   TContext
 > => {
-  const mutationKey = ["postApiAuthRefreshToken"];
+  const mutationKey = ["postAuthRefreshToken"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -3182,102 +3176,101 @@ export const getPostApiAuthRefreshTokenMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiAuthRefreshToken>>,
-    { data: ApiAuthRefreshTokenPostRequest }
+    Awaited<ReturnType<typeof postAuthRefreshToken>>,
+    { data: AuthRefreshTokenPostRequest }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postApiAuthRefreshToken(data);
+    return postAuthRefreshToken(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostApiAuthRefreshTokenMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiAuthRefreshToken>>
+export type PostAuthRefreshTokenMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postAuthRefreshToken>>
 >;
-export type PostApiAuthRefreshTokenMutationBody =
-  ApiAuthRefreshTokenPostRequest;
-export type PostApiAuthRefreshTokenMutationError = ErrorType<
+export type PostAuthRefreshTokenMutationBody = AuthRefreshTokenPostRequest;
+export type PostAuthRefreshTokenMutationError = ErrorType<
   | void
-  | ApiAuthRefreshTokenPostResponse401
-  | ApiAuthRefreshTokenPostResponse403
-  | ApiAuthRefreshTokenPostResponse404
-  | ApiAuthRefreshTokenPostResponse429
-  | ApiAuthRefreshTokenPostResponse500
+  | AuthRefreshTokenPostResponse401
+  | AuthRefreshTokenPostResponse403
+  | AuthRefreshTokenPostResponse404
+  | AuthRefreshTokenPostResponse429
+  | AuthRefreshTokenPostResponse500
 >;
 
-export const usePostApiAuthRefreshToken = <
+export const usePostAuthRefreshToken = <
   TError = ErrorType<
     | void
-    | ApiAuthRefreshTokenPostResponse401
-    | ApiAuthRefreshTokenPostResponse403
-    | ApiAuthRefreshTokenPostResponse404
-    | ApiAuthRefreshTokenPostResponse429
-    | ApiAuthRefreshTokenPostResponse500
+    | AuthRefreshTokenPostResponse401
+    | AuthRefreshTokenPostResponse403
+    | AuthRefreshTokenPostResponse404
+    | AuthRefreshTokenPostResponse429
+    | AuthRefreshTokenPostResponse500
   >,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiAuthRefreshToken>>,
+      Awaited<ReturnType<typeof postAuthRefreshToken>>,
       TError,
-      { data: ApiAuthRefreshTokenPostRequest },
+      { data: AuthRefreshTokenPostRequest },
       TContext
     >;
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postApiAuthRefreshToken>>,
+  Awaited<ReturnType<typeof postAuthRefreshToken>>,
   TError,
-  { data: ApiAuthRefreshTokenPostRequest },
+  { data: AuthRefreshTokenPostRequest },
   TContext
 > => {
   return useMutation(
-    getPostApiAuthRefreshTokenMutationOptions(options),
+    getPostAuthRefreshTokenMutationOptions(options),
     queryClient
   );
 };
 /**
  * Get a valid access token, doing a refresh if needed
  */
-export const postApiAuthGetAccessToken = (
-  apiAuthGetAccessTokenPostRequest: ApiAuthGetAccessTokenPostRequest,
+export const postAuthGetAccessToken = (
+  authGetAccessTokenPostRequest: AuthGetAccessTokenPostRequest,
   signal?: AbortSignal
 ) => {
-  return customInstance<ApiAuthGetAccessTokenPostResponse200>({
-    url: `/api/auth/get-access-token`,
+  return customInstance<AuthGetAccessTokenPostResponse200>({
+    url: `/auth/get-access-token`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    data: apiAuthGetAccessTokenPostRequest,
+    data: authGetAccessTokenPostRequest,
     signal,
   });
 };
 
-export const getPostApiAuthGetAccessTokenMutationOptions = <
+export const getPostAuthGetAccessTokenMutationOptions = <
   TError = ErrorType<
     | void
-    | ApiAuthGetAccessTokenPostResponse401
-    | ApiAuthGetAccessTokenPostResponse403
-    | ApiAuthGetAccessTokenPostResponse404
-    | ApiAuthGetAccessTokenPostResponse429
-    | ApiAuthGetAccessTokenPostResponse500
+    | AuthGetAccessTokenPostResponse401
+    | AuthGetAccessTokenPostResponse403
+    | AuthGetAccessTokenPostResponse404
+    | AuthGetAccessTokenPostResponse429
+    | AuthGetAccessTokenPostResponse500
   >,
   TContext = unknown,
 >(options?: {
   mutation?: UseMutationOptions<
-    Awaited<ReturnType<typeof postApiAuthGetAccessToken>>,
+    Awaited<ReturnType<typeof postAuthGetAccessToken>>,
     TError,
-    { data: ApiAuthGetAccessTokenPostRequest },
+    { data: AuthGetAccessTokenPostRequest },
     TContext
   >;
 }): UseMutationOptions<
-  Awaited<ReturnType<typeof postApiAuthGetAccessToken>>,
+  Awaited<ReturnType<typeof postAuthGetAccessToken>>,
   TError,
-  { data: ApiAuthGetAccessTokenPostRequest },
+  { data: AuthGetAccessTokenPostRequest },
   TContext
 > => {
-  const mutationKey = ["postApiAuthGetAccessToken"];
+  const mutationKey = ["postAuthGetAccessToken"];
   const { mutation: mutationOptions } = options
     ? options.mutation &&
       "mutationKey" in options.mutation &&
@@ -3287,91 +3280,90 @@ export const getPostApiAuthGetAccessTokenMutationOptions = <
     : { mutation: { mutationKey } };
 
   const mutationFn: MutationFunction<
-    Awaited<ReturnType<typeof postApiAuthGetAccessToken>>,
-    { data: ApiAuthGetAccessTokenPostRequest }
+    Awaited<ReturnType<typeof postAuthGetAccessToken>>,
+    { data: AuthGetAccessTokenPostRequest }
   > = (props) => {
     const { data } = props ?? {};
 
-    return postApiAuthGetAccessToken(data);
+    return postAuthGetAccessToken(data);
   };
 
   return { mutationFn, ...mutationOptions };
 };
 
-export type PostApiAuthGetAccessTokenMutationResult = NonNullable<
-  Awaited<ReturnType<typeof postApiAuthGetAccessToken>>
+export type PostAuthGetAccessTokenMutationResult = NonNullable<
+  Awaited<ReturnType<typeof postAuthGetAccessToken>>
 >;
-export type PostApiAuthGetAccessTokenMutationBody =
-  ApiAuthGetAccessTokenPostRequest;
-export type PostApiAuthGetAccessTokenMutationError = ErrorType<
+export type PostAuthGetAccessTokenMutationBody = AuthGetAccessTokenPostRequest;
+export type PostAuthGetAccessTokenMutationError = ErrorType<
   | void
-  | ApiAuthGetAccessTokenPostResponse401
-  | ApiAuthGetAccessTokenPostResponse403
-  | ApiAuthGetAccessTokenPostResponse404
-  | ApiAuthGetAccessTokenPostResponse429
-  | ApiAuthGetAccessTokenPostResponse500
+  | AuthGetAccessTokenPostResponse401
+  | AuthGetAccessTokenPostResponse403
+  | AuthGetAccessTokenPostResponse404
+  | AuthGetAccessTokenPostResponse429
+  | AuthGetAccessTokenPostResponse500
 >;
 
-export const usePostApiAuthGetAccessToken = <
+export const usePostAuthGetAccessToken = <
   TError = ErrorType<
     | void
-    | ApiAuthGetAccessTokenPostResponse401
-    | ApiAuthGetAccessTokenPostResponse403
-    | ApiAuthGetAccessTokenPostResponse404
-    | ApiAuthGetAccessTokenPostResponse429
-    | ApiAuthGetAccessTokenPostResponse500
+    | AuthGetAccessTokenPostResponse401
+    | AuthGetAccessTokenPostResponse403
+    | AuthGetAccessTokenPostResponse404
+    | AuthGetAccessTokenPostResponse429
+    | AuthGetAccessTokenPostResponse500
   >,
   TContext = unknown,
 >(
   options?: {
     mutation?: UseMutationOptions<
-      Awaited<ReturnType<typeof postApiAuthGetAccessToken>>,
+      Awaited<ReturnType<typeof postAuthGetAccessToken>>,
       TError,
-      { data: ApiAuthGetAccessTokenPostRequest },
+      { data: AuthGetAccessTokenPostRequest },
       TContext
     >;
   },
   queryClient?: QueryClient
 ): UseMutationResult<
-  Awaited<ReturnType<typeof postApiAuthGetAccessToken>>,
+  Awaited<ReturnType<typeof postAuthGetAccessToken>>,
   TError,
-  { data: ApiAuthGetAccessTokenPostRequest },
+  { data: AuthGetAccessTokenPostRequest },
   TContext
 > => {
   return useMutation(
-    getPostApiAuthGetAccessTokenMutationOptions(options),
+    getPostAuthGetAccessTokenMutationOptions(options),
     queryClient
   );
 };
 /**
  * Get the account info provided by the provider
  */
-export const getApiAuthAccountInfo = (signal?: AbortSignal) => {
-  return customInstance<ApiAuthAccountInfoGetResponse200>({
-    url: `/api/auth/account-info`,
+export const getAuthAccountInfo = (signal?: AbortSignal) => {
+  return customInstance<AuthAccountInfoGetResponse200>({
+    url: `/auth/account-info`,
     method: "GET",
     signal,
   });
 };
 
-export const getGetApiAuthAccountInfoQueryKey = () => {
-  return [`/api/auth/account-info`] as const;
+export const getGetAuthAccountInfoQueryKey = () => {
+  return [`/auth/account-info`] as const;
 };
 
-export const getGetApiAuthAccountInfoQueryOptions = <
-  TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+export const getGetAuthAccountInfoQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAuthAccountInfo>>,
   TError = ErrorType<
-    | ApiAuthAccountInfoGetResponse400
-    | ApiAuthAccountInfoGetResponse401
-    | ApiAuthAccountInfoGetResponse403
-    | ApiAuthAccountInfoGetResponse404
-    | ApiAuthAccountInfoGetResponse429
-    | ApiAuthAccountInfoGetResponse500
+    | AuthAccountInfoGetResponse400
+    | AuthAccountInfoGetResponse401
+    | AuthAccountInfoGetResponse403
+    | AuthAccountInfoGetResponse404
+    | AuthAccountInfoGetResponse429
+    | AuthAccountInfoGetResponse500
   >,
 >(options?: {
   query?: Partial<
     UseQueryOptions<
-      Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+      Awaited<ReturnType<typeof getAuthAccountInfo>>,
       TError,
       TData
     >
@@ -3379,55 +3371,55 @@ export const getGetApiAuthAccountInfoQueryOptions = <
 }) => {
   const { query: queryOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetApiAuthAccountInfoQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetAuthAccountInfoQueryKey();
 
   const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof getApiAuthAccountInfo>>
-  > = ({ signal }) => getApiAuthAccountInfo(signal);
+    Awaited<ReturnType<typeof getAuthAccountInfo>>
+  > = ({ signal }) => getAuthAccountInfo(signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+    Awaited<ReturnType<typeof getAuthAccountInfo>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type GetApiAuthAccountInfoQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getApiAuthAccountInfo>>
+export type GetAuthAccountInfoQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAuthAccountInfo>>
 >;
-export type GetApiAuthAccountInfoQueryError = ErrorType<
-  | ApiAuthAccountInfoGetResponse400
-  | ApiAuthAccountInfoGetResponse401
-  | ApiAuthAccountInfoGetResponse403
-  | ApiAuthAccountInfoGetResponse404
-  | ApiAuthAccountInfoGetResponse429
-  | ApiAuthAccountInfoGetResponse500
+export type GetAuthAccountInfoQueryError = ErrorType<
+  | AuthAccountInfoGetResponse400
+  | AuthAccountInfoGetResponse401
+  | AuthAccountInfoGetResponse403
+  | AuthAccountInfoGetResponse404
+  | AuthAccountInfoGetResponse429
+  | AuthAccountInfoGetResponse500
 >;
 
-export function useGetApiAuthAccountInfo<
-  TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+export function useGetAuthAccountInfo<
+  TData = Awaited<ReturnType<typeof getAuthAccountInfo>>,
   TError = ErrorType<
-    | ApiAuthAccountInfoGetResponse400
-    | ApiAuthAccountInfoGetResponse401
-    | ApiAuthAccountInfoGetResponse403
-    | ApiAuthAccountInfoGetResponse404
-    | ApiAuthAccountInfoGetResponse429
-    | ApiAuthAccountInfoGetResponse500
+    | AuthAccountInfoGetResponse400
+    | AuthAccountInfoGetResponse401
+    | AuthAccountInfoGetResponse403
+    | AuthAccountInfoGetResponse404
+    | AuthAccountInfoGetResponse429
+    | AuthAccountInfoGetResponse500
   >,
 >(
   options: {
     query: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+        Awaited<ReturnType<typeof getAuthAccountInfo>>,
         TError,
         TData
       >
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+          Awaited<ReturnType<typeof getAuthAccountInfo>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthAccountInfo>>
+          Awaited<ReturnType<typeof getAuthAccountInfo>>
         >,
         "initialData"
       >;
@@ -3436,30 +3428,30 @@ export function useGetApiAuthAccountInfo<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthAccountInfo<
-  TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+export function useGetAuthAccountInfo<
+  TData = Awaited<ReturnType<typeof getAuthAccountInfo>>,
   TError = ErrorType<
-    | ApiAuthAccountInfoGetResponse400
-    | ApiAuthAccountInfoGetResponse401
-    | ApiAuthAccountInfoGetResponse403
-    | ApiAuthAccountInfoGetResponse404
-    | ApiAuthAccountInfoGetResponse429
-    | ApiAuthAccountInfoGetResponse500
+    | AuthAccountInfoGetResponse400
+    | AuthAccountInfoGetResponse401
+    | AuthAccountInfoGetResponse403
+    | AuthAccountInfoGetResponse404
+    | AuthAccountInfoGetResponse429
+    | AuthAccountInfoGetResponse500
   >,
 >(
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+        Awaited<ReturnType<typeof getAuthAccountInfo>>,
         TError,
         TData
       >
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+          Awaited<ReturnType<typeof getAuthAccountInfo>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthAccountInfo>>
+          Awaited<ReturnType<typeof getAuthAccountInfo>>
         >,
         "initialData"
       >;
@@ -3468,21 +3460,21 @@ export function useGetApiAuthAccountInfo<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthAccountInfo<
-  TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+export function useGetAuthAccountInfo<
+  TData = Awaited<ReturnType<typeof getAuthAccountInfo>>,
   TError = ErrorType<
-    | ApiAuthAccountInfoGetResponse400
-    | ApiAuthAccountInfoGetResponse401
-    | ApiAuthAccountInfoGetResponse403
-    | ApiAuthAccountInfoGetResponse404
-    | ApiAuthAccountInfoGetResponse429
-    | ApiAuthAccountInfoGetResponse500
+    | AuthAccountInfoGetResponse400
+    | AuthAccountInfoGetResponse401
+    | AuthAccountInfoGetResponse403
+    | AuthAccountInfoGetResponse404
+    | AuthAccountInfoGetResponse429
+    | AuthAccountInfoGetResponse500
   >,
 >(
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+        Awaited<ReturnType<typeof getAuthAccountInfo>>,
         TError,
         TData
       >
@@ -3493,21 +3485,21 @@ export function useGetApiAuthAccountInfo<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useGetApiAuthAccountInfo<
-  TData = Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+export function useGetAuthAccountInfo<
+  TData = Awaited<ReturnType<typeof getAuthAccountInfo>>,
   TError = ErrorType<
-    | ApiAuthAccountInfoGetResponse400
-    | ApiAuthAccountInfoGetResponse401
-    | ApiAuthAccountInfoGetResponse403
-    | ApiAuthAccountInfoGetResponse404
-    | ApiAuthAccountInfoGetResponse429
-    | ApiAuthAccountInfoGetResponse500
+    | AuthAccountInfoGetResponse400
+    | AuthAccountInfoGetResponse401
+    | AuthAccountInfoGetResponse403
+    | AuthAccountInfoGetResponse404
+    | AuthAccountInfoGetResponse429
+    | AuthAccountInfoGetResponse500
   >,
 >(
   options?: {
     query?: Partial<
       UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthAccountInfo>>,
+        Awaited<ReturnType<typeof getAuthAccountInfo>>,
         TError,
         TData
       >
@@ -3517,7 +3509,7 @@ export function useGetApiAuthAccountInfo<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetApiAuthAccountInfoQueryOptions(options);
+  const queryOptions = getGetAuthAccountInfoQueryOptions(options);
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
@@ -3530,80 +3522,80 @@ export function useGetApiAuthAccountInfo<
 /**
  * Check if the API is working
  */
-export const getApiAuthOk = (signal?: AbortSignal) => {
-  return customInstance<ApiAuthOkGetResponse200>({
-    url: `/api/auth/ok`,
+export const getAuthOk = (signal?: AbortSignal) => {
+  return customInstance<AuthOkGetResponse200>({
+    url: `/auth/ok`,
     method: "GET",
     signal,
   });
 };
 
-export const getGetApiAuthOkQueryKey = () => {
-  return [`/api/auth/ok`] as const;
+export const getGetAuthOkQueryKey = () => {
+  return [`/auth/ok`] as const;
 };
 
-export const getGetApiAuthOkQueryOptions = <
-  TData = Awaited<ReturnType<typeof getApiAuthOk>>,
+export const getGetAuthOkQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAuthOk>>,
   TError = ErrorType<
-    | ApiAuthOkGetResponse400
-    | ApiAuthOkGetResponse401
-    | ApiAuthOkGetResponse403
-    | ApiAuthOkGetResponse404
-    | ApiAuthOkGetResponse429
-    | ApiAuthOkGetResponse500
+    | AuthOkGetResponse400
+    | AuthOkGetResponse401
+    | AuthOkGetResponse403
+    | AuthOkGetResponse404
+    | AuthOkGetResponse429
+    | AuthOkGetResponse500
   >,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getApiAuthOk>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof getAuthOk>>, TError, TData>
   >;
 }) => {
   const { query: queryOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetApiAuthOkQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetAuthOkQueryKey();
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAuthOk>>> = ({
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAuthOk>>> = ({
     signal,
-  }) => getApiAuthOk(signal);
+  }) => getAuthOk(signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getApiAuthOk>>,
+    Awaited<ReturnType<typeof getAuthOk>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type GetApiAuthOkQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getApiAuthOk>>
+export type GetAuthOkQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAuthOk>>
 >;
-export type GetApiAuthOkQueryError = ErrorType<
-  | ApiAuthOkGetResponse400
-  | ApiAuthOkGetResponse401
-  | ApiAuthOkGetResponse403
-  | ApiAuthOkGetResponse404
-  | ApiAuthOkGetResponse429
-  | ApiAuthOkGetResponse500
+export type GetAuthOkQueryError = ErrorType<
+  | AuthOkGetResponse400
+  | AuthOkGetResponse401
+  | AuthOkGetResponse403
+  | AuthOkGetResponse404
+  | AuthOkGetResponse429
+  | AuthOkGetResponse500
 >;
 
-export function useGetApiAuthOk<
-  TData = Awaited<ReturnType<typeof getApiAuthOk>>,
+export function useGetAuthOk<
+  TData = Awaited<ReturnType<typeof getAuthOk>>,
   TError = ErrorType<
-    | ApiAuthOkGetResponse400
-    | ApiAuthOkGetResponse401
-    | ApiAuthOkGetResponse403
-    | ApiAuthOkGetResponse404
-    | ApiAuthOkGetResponse429
-    | ApiAuthOkGetResponse500
+    | AuthOkGetResponse400
+    | AuthOkGetResponse401
+    | AuthOkGetResponse403
+    | AuthOkGetResponse404
+    | AuthOkGetResponse429
+    | AuthOkGetResponse500
   >,
 >(
   options: {
     query: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getApiAuthOk>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getAuthOk>>, TError, TData>
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthOk>>,
+          Awaited<ReturnType<typeof getAuthOk>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthOk>>
+          Awaited<ReturnType<typeof getAuthOk>>
         >,
         "initialData"
       >;
@@ -3612,26 +3604,26 @@ export function useGetApiAuthOk<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthOk<
-  TData = Awaited<ReturnType<typeof getApiAuthOk>>,
+export function useGetAuthOk<
+  TData = Awaited<ReturnType<typeof getAuthOk>>,
   TError = ErrorType<
-    | ApiAuthOkGetResponse400
-    | ApiAuthOkGetResponse401
-    | ApiAuthOkGetResponse403
-    | ApiAuthOkGetResponse404
-    | ApiAuthOkGetResponse429
-    | ApiAuthOkGetResponse500
+    | AuthOkGetResponse400
+    | AuthOkGetResponse401
+    | AuthOkGetResponse403
+    | AuthOkGetResponse404
+    | AuthOkGetResponse429
+    | AuthOkGetResponse500
   >,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getApiAuthOk>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getAuthOk>>, TError, TData>
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthOk>>,
+          Awaited<ReturnType<typeof getAuthOk>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthOk>>
+          Awaited<ReturnType<typeof getAuthOk>>
         >,
         "initialData"
       >;
@@ -3640,20 +3632,20 @@ export function useGetApiAuthOk<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthOk<
-  TData = Awaited<ReturnType<typeof getApiAuthOk>>,
+export function useGetAuthOk<
+  TData = Awaited<ReturnType<typeof getAuthOk>>,
   TError = ErrorType<
-    | ApiAuthOkGetResponse400
-    | ApiAuthOkGetResponse401
-    | ApiAuthOkGetResponse403
-    | ApiAuthOkGetResponse404
-    | ApiAuthOkGetResponse429
-    | ApiAuthOkGetResponse500
+    | AuthOkGetResponse400
+    | AuthOkGetResponse401
+    | AuthOkGetResponse403
+    | AuthOkGetResponse404
+    | AuthOkGetResponse429
+    | AuthOkGetResponse500
   >,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getApiAuthOk>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getAuthOk>>, TError, TData>
     >;
   },
   queryClient?: QueryClient
@@ -3661,27 +3653,27 @@ export function useGetApiAuthOk<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useGetApiAuthOk<
-  TData = Awaited<ReturnType<typeof getApiAuthOk>>,
+export function useGetAuthOk<
+  TData = Awaited<ReturnType<typeof getAuthOk>>,
   TError = ErrorType<
-    | ApiAuthOkGetResponse400
-    | ApiAuthOkGetResponse401
-    | ApiAuthOkGetResponse403
-    | ApiAuthOkGetResponse404
-    | ApiAuthOkGetResponse429
-    | ApiAuthOkGetResponse500
+    | AuthOkGetResponse400
+    | AuthOkGetResponse401
+    | AuthOkGetResponse403
+    | AuthOkGetResponse404
+    | AuthOkGetResponse429
+    | AuthOkGetResponse500
   >,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<Awaited<ReturnType<typeof getApiAuthOk>>, TError, TData>
+      UseQueryOptions<Awaited<ReturnType<typeof getAuthOk>>, TError, TData>
     >;
   },
   queryClient?: QueryClient
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetApiAuthOkQueryOptions(options);
+  const queryOptions = getGetAuthOkQueryOptions(options);
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,
@@ -3694,84 +3686,76 @@ export function useGetApiAuthOk<
 /**
  * Displays an error page
  */
-export const getApiAuthError = (signal?: AbortSignal) => {
-  return customInstance<unknown>({
-    url: `/api/auth/error`,
-    method: "GET",
-    signal,
-  });
+export const getAuthError = (signal?: AbortSignal) => {
+  return customInstance<void>({ url: `/auth/error`, method: "GET", signal });
 };
 
-export const getGetApiAuthErrorQueryKey = () => {
-  return [`/api/auth/error`] as const;
+export const getGetAuthErrorQueryKey = () => {
+  return [`/auth/error`] as const;
 };
 
-export const getGetApiAuthErrorQueryOptions = <
-  TData = Awaited<ReturnType<typeof getApiAuthError>>,
+export const getGetAuthErrorQueryOptions = <
+  TData = Awaited<ReturnType<typeof getAuthError>>,
   TError = ErrorType<
-    | ApiAuthErrorGetResponse400
-    | ApiAuthErrorGetResponse401
-    | ApiAuthErrorGetResponse403
-    | ApiAuthErrorGetResponse404
-    | ApiAuthErrorGetResponse429
-    | ApiAuthErrorGetResponse500
+    | AuthErrorGetResponse400
+    | AuthErrorGetResponse401
+    | AuthErrorGetResponse403
+    | AuthErrorGetResponse404
+    | AuthErrorGetResponse429
+    | AuthErrorGetResponse500
   >,
 >(options?: {
   query?: Partial<
-    UseQueryOptions<Awaited<ReturnType<typeof getApiAuthError>>, TError, TData>
+    UseQueryOptions<Awaited<ReturnType<typeof getAuthError>>, TError, TData>
   >;
 }) => {
   const { query: queryOptions } = options ?? {};
 
-  const queryKey = queryOptions?.queryKey ?? getGetApiAuthErrorQueryKey();
+  const queryKey = queryOptions?.queryKey ?? getGetAuthErrorQueryKey();
 
-  const queryFn: QueryFunction<Awaited<ReturnType<typeof getApiAuthError>>> = ({
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof getAuthError>>> = ({
     signal,
-  }) => getApiAuthError(signal);
+  }) => getAuthError(signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof getApiAuthError>>,
+    Awaited<ReturnType<typeof getAuthError>>,
     TError,
     TData
   > & { queryKey: DataTag<QueryKey, TData, TError> };
 };
 
-export type GetApiAuthErrorQueryResult = NonNullable<
-  Awaited<ReturnType<typeof getApiAuthError>>
+export type GetAuthErrorQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getAuthError>>
 >;
-export type GetApiAuthErrorQueryError = ErrorType<
-  | ApiAuthErrorGetResponse400
-  | ApiAuthErrorGetResponse401
-  | ApiAuthErrorGetResponse403
-  | ApiAuthErrorGetResponse404
-  | ApiAuthErrorGetResponse429
-  | ApiAuthErrorGetResponse500
+export type GetAuthErrorQueryError = ErrorType<
+  | AuthErrorGetResponse400
+  | AuthErrorGetResponse401
+  | AuthErrorGetResponse403
+  | AuthErrorGetResponse404
+  | AuthErrorGetResponse429
+  | AuthErrorGetResponse500
 >;
 
-export function useGetApiAuthError<
-  TData = Awaited<ReturnType<typeof getApiAuthError>>,
+export function useGetAuthError<
+  TData = Awaited<ReturnType<typeof getAuthError>>,
   TError = ErrorType<
-    | ApiAuthErrorGetResponse400
-    | ApiAuthErrorGetResponse401
-    | ApiAuthErrorGetResponse403
-    | ApiAuthErrorGetResponse404
-    | ApiAuthErrorGetResponse429
-    | ApiAuthErrorGetResponse500
+    | AuthErrorGetResponse400
+    | AuthErrorGetResponse401
+    | AuthErrorGetResponse403
+    | AuthErrorGetResponse404
+    | AuthErrorGetResponse429
+    | AuthErrorGetResponse500
   >,
 >(
   options: {
     query: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthError>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof getAuthError>>, TError, TData>
     > &
       Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthError>>,
+          Awaited<ReturnType<typeof getAuthError>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthError>>
+          Awaited<ReturnType<typeof getAuthError>>
         >,
         "initialData"
       >;
@@ -3780,30 +3764,26 @@ export function useGetApiAuthError<
 ): DefinedUseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthError<
-  TData = Awaited<ReturnType<typeof getApiAuthError>>,
+export function useGetAuthError<
+  TData = Awaited<ReturnType<typeof getAuthError>>,
   TError = ErrorType<
-    | ApiAuthErrorGetResponse400
-    | ApiAuthErrorGetResponse401
-    | ApiAuthErrorGetResponse403
-    | ApiAuthErrorGetResponse404
-    | ApiAuthErrorGetResponse429
-    | ApiAuthErrorGetResponse500
+    | AuthErrorGetResponse400
+    | AuthErrorGetResponse401
+    | AuthErrorGetResponse403
+    | AuthErrorGetResponse404
+    | AuthErrorGetResponse429
+    | AuthErrorGetResponse500
   >,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthError>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof getAuthError>>, TError, TData>
     > &
       Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getApiAuthError>>,
+          Awaited<ReturnType<typeof getAuthError>>,
           TError,
-          Awaited<ReturnType<typeof getApiAuthError>>
+          Awaited<ReturnType<typeof getAuthError>>
         >,
         "initialData"
       >;
@@ -3812,24 +3792,20 @@ export function useGetApiAuthError<
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 };
-export function useGetApiAuthError<
-  TData = Awaited<ReturnType<typeof getApiAuthError>>,
+export function useGetAuthError<
+  TData = Awaited<ReturnType<typeof getAuthError>>,
   TError = ErrorType<
-    | ApiAuthErrorGetResponse400
-    | ApiAuthErrorGetResponse401
-    | ApiAuthErrorGetResponse403
-    | ApiAuthErrorGetResponse404
-    | ApiAuthErrorGetResponse429
-    | ApiAuthErrorGetResponse500
+    | AuthErrorGetResponse400
+    | AuthErrorGetResponse401
+    | AuthErrorGetResponse403
+    | AuthErrorGetResponse404
+    | AuthErrorGetResponse429
+    | AuthErrorGetResponse500
   >,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthError>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof getAuthError>>, TError, TData>
     >;
   },
   queryClient?: QueryClient
@@ -3837,31 +3813,27 @@ export function useGetApiAuthError<
   queryKey: DataTag<QueryKey, TData, TError>;
 };
 
-export function useGetApiAuthError<
-  TData = Awaited<ReturnType<typeof getApiAuthError>>,
+export function useGetAuthError<
+  TData = Awaited<ReturnType<typeof getAuthError>>,
   TError = ErrorType<
-    | ApiAuthErrorGetResponse400
-    | ApiAuthErrorGetResponse401
-    | ApiAuthErrorGetResponse403
-    | ApiAuthErrorGetResponse404
-    | ApiAuthErrorGetResponse429
-    | ApiAuthErrorGetResponse500
+    | AuthErrorGetResponse400
+    | AuthErrorGetResponse401
+    | AuthErrorGetResponse403
+    | AuthErrorGetResponse404
+    | AuthErrorGetResponse429
+    | AuthErrorGetResponse500
   >,
 >(
   options?: {
     query?: Partial<
-      UseQueryOptions<
-        Awaited<ReturnType<typeof getApiAuthError>>,
-        TError,
-        TData
-      >
+      UseQueryOptions<Awaited<ReturnType<typeof getAuthError>>, TError, TData>
     >;
   },
   queryClient?: QueryClient
 ): UseQueryResult<TData, TError> & {
   queryKey: DataTag<QueryKey, TData, TError>;
 } {
-  const queryOptions = getGetApiAuthErrorQueryOptions(options);
+  const queryOptions = getGetAuthErrorQueryOptions(options);
 
   const query = useQuery(queryOptions, queryClient) as UseQueryResult<
     TData,

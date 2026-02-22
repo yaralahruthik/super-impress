@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const bodyFont = Manrope({
@@ -46,6 +47,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          data-domain="superimpress.com"
+          defer
+          src="https://plausible.withyhr.com/js/script.outbound-links.tagged-events.js"
+          strategy="afterInteractive"
+        />
+        <Script id="plausible-init" strategy="afterInteractive">
+          {
+            "window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }"
+          }
+        </Script>
+      </head>
       <body
         className={`${bodyFont.variable} ${displayFont.variable} antialiased`}
       >

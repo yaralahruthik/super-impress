@@ -3,6 +3,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import * as z from "zod";
 import { useChangePassword } from "@/api/better-auth/better-auth";
+import { AppBreadcrumbs } from "@/components/app-breadcrumbs";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -73,6 +74,12 @@ export default function ChangePasswordPage() {
 
   return (
     <div className="space-y-6">
+      <AppBreadcrumbs
+        items={[
+          { label: "Settings", to: "/settings" },
+          { label: "Change Password" },
+        ]}
+      />
       <div>
         <h1 className="font-bold text-2xl">Change Password</h1>
         <p className="text-muted-foreground">Update your account password</p>

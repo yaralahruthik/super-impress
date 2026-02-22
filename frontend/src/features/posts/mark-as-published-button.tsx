@@ -1,8 +1,13 @@
+import { IconNotebook } from "@tabler/icons-react";
 import { useForm } from "@tanstack/react-form";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import * as z from "zod";
-import { usePostApiPostsByIdPublications } from "@/api/posts/posts";
+import {
+  getGetPostsQueryKey,
+  usePostPostsByIdPublications,
+} from "@/api/posts/posts";
+import type { PostListResponsePostsItemPublicationsItem } from "@/api/superimpress.schemas";
 import { ManualPublicationRequestPlatform } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,7 +42,7 @@ const formSchema = z.object({
   url: z.url("Please enter a valid URL").trim(),
 });
 
-export default function MarkAsPublishedDialog({
+function MarkAsPublishedDialog({
   postId,
   open,
   onOpenChange,
@@ -48,7 +53,7 @@ export default function MarkAsPublishedDialog({
 }) {
   const [error, setError] = useState<string | null>(null);
   const queryClient = useQueryClient();
-  const { mutate, isPending } = usePostApiPostsByIdPublications();
+  const { mutate, isPending } = usePostPostsByIdPublications();
 
   const form = useForm({
     defaultValues: {
@@ -70,7 +75,7 @@ export default function MarkAsPublishedDialog({
         },
         {
           onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["/api/posts"] });
+            queryClient.invalidateQueries({ queryKey: getGetPostsQueryKey() });
             onOpenChange(false);
             form.reset();
           },
@@ -184,5 +189,33 @@ export default function MarkAsPublishedDialog({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+}
+
+export default function MarkAsPublishedButton({
+  postId,
+  publications,
+}: {
+  postId: number;
+  publications: PostListResponsePostsItemPublicationsItem[];
+}) {
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setDialogOpen(true)} size="sm" variant="outline">
+        <IconNotebook className="size-4" />
+        Mark as Published
+      </Button>
+      <MarkAsPublishedDialog
+        key={`${postId}-${publications
+          .map((publication) => publication.platform)
+          .sort()
+          .join("-")}`}
+        onOpenChange={setDialogOpen}
+        open={dialogOpen}
+        postId={postId}
+      />
+    </>
   );
 }

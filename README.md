@@ -2,7 +2,7 @@
 
 | Project | Status |
 | :--- | :--- |
-| Frontend | |
+| Frontend | [![Netlify Status](https://api.netlify.com/api/v1/badges/fcaf45a3-d7c7-4dfe-b82e-02998f65811d/deploy-status)](https://app.netlify.com/projects/superimpress-app/deploys) |
 | Backend | |
 | Docs | [![Netlify Status](https://api.netlify.com/api/v1/badges/7f8daa6a-9fc6-4c05-b5d3-081db5765441/deploy-status)](https://app.netlify.com/projects/superimpress-docs/deploys) |
 | Marketing Site | [![Netlify Status](https://api.netlify.com/api/v1/badges/e1cd233a-d4f6-4187-aa65-563597045d13/deploy-status)](https://app.netlify.com/projects/superimpress/deploys) |

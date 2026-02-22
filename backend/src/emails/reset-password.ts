@@ -12,25 +12,6 @@ type SendResetPasswordArgs = {
   url: string;
 };
 
-function getResetPasswordUrl(url: string): string {
-  try {
-    const parsedUrl = new URL(url);
-    const defaultPathPrefix = "/auth/reset-password/";
-    const apiPathPrefix = "/api/auth/reset-password/";
-
-    if (
-      parsedUrl.pathname.startsWith(defaultPathPrefix) &&
-      !parsedUrl.pathname.startsWith(apiPathPrefix)
-    ) {
-      parsedUrl.pathname = `/api${parsedUrl.pathname}`;
-    }
-
-    return parsedUrl.toString();
-  } catch {
-    return url;
-  }
-}
-
 export function sendResetPassword({
   user,
   url,
@@ -42,15 +23,13 @@ export function sendResetPassword({
     return Promise.resolve();
   }
 
-  const resetPasswordUrl = getResetPasswordUrl(url);
-
   resend.emails
     .send({
       from: RESEND_FROM_EMAIL,
       to: [user.email],
       subject: "Reset your SuperImpress password",
       html: `<p>You requested a password reset for your SuperImpress account.</p>
-<p><a href="${resetPasswordUrl}">Click here to reset your password</a></p>
+<p><a href="${url}">Click here to reset your password</a></p>
 <p>If you did not request this, you can ignore this email.</p>`,
     })
     .then(({ error }) => {

@@ -16,8 +16,8 @@ export const auth = betterAuth({
       clientId: env.LINKEDIN_CLIENT_ID,
       clientSecret: env.LINKEDIN_CLIENT_SECRET,
       // Minimal scopes (openid/profile/email) are included by default.
-      // Request posting scopes via `/api/auth/link-social` (scopes param).
-      redirectURI: `${env.BETTER_AUTH_URL}/api/auth/callback/linkedin`,
+      // Request posting scopes via `/auth/link-social` (scopes param).
+      redirectURI: `${env.BETTER_AUTH_URL}/auth/callback/linkedin`,
     },
   },
   database: drizzleAdapter(db, {
@@ -50,7 +50,7 @@ let _schema: ReturnType<typeof auth.api.generateOpenAPISchema>;
 const getSchema = async () => (_schema ??= auth.api.generateOpenAPISchema());
 
 export const OpenAPI = {
-  getPaths: (prefix = "/api/auth") =>
+  getPaths: (prefix = "/auth") =>
     getSchema().then(({ paths }) => {
       const reference: typeof paths = Object.create(null);
       for (const path of Object.keys(paths)) {
@@ -68,7 +68,7 @@ export const OpenAPI = {
 // biome-ignore-end lint/suspicious/noExplicitAny: openapi schema extraction
 
 export const betterAuthPlugin = new Elysia({ name: "better-auth" })
-  .mount("/auth", auth.handler)
+  .mount("/", auth.handler)
   .macro({
     auth: {
       async resolve({ status, request: { headers } }) {

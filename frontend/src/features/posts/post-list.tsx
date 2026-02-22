@@ -1,6 +1,8 @@
 import { IconFileText } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
-import { useGetApiLinkedinStatus } from "@/api/linked-in/linked-in";
+import { Masonry } from "masonic";
+import { useMemo } from "react";
+import { useGetLinkedinStatus } from "@/api/linked-in/linked-in";
 import type { PostListResponsePostsItem } from "@/api/superimpress.schemas";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,12 +16,23 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { PostCard } from "./post-card";
 
+type MasonryItem = PostListResponsePostsItem & {
+  linkedInConnected: boolean;
+};
+
+function MasonryCard({ data }: { data: MasonryItem }) {
+  return <PostCard linkedInConnected={data.linkedInConnected} post={data} />;
+}
+
 export function PostListLoading() {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {[...new Array(6)].map((_, i) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: okay for skeleton
-        <Skeleton className="h-48 w-full rounded-xl" key={i} />
+        <Skeleton
+          className="h-48 w-full rounded-xl"
+          // biome-ignore lint/suspicious/noArrayIndexKey: okay for skeleton
+          key={i}
+        />
       ))}
     </div>
   );
@@ -59,18 +72,20 @@ export default function PostList({
 }: {
   posts: PostListResponsePostsItem[];
 }) {
-  const { data: linkedInStatus } = useGetApiLinkedinStatus();
+  const { data: linkedInStatus } = useGetLinkedinStatus();
   const linkedInConnected = linkedInStatus?.connected ?? false;
 
+  const items = useMemo(
+    () => posts.map((post) => ({ ...post, linkedInConnected })),
+    [posts, linkedInConnected]
+  );
+
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post) => (
-        <PostCard
-          key={post.id}
-          linkedInConnected={linkedInConnected}
-          post={post}
-        />
-      ))}
-    </div>
+    <Masonry
+      columnGutter={16}
+      columnWidth={340}
+      items={items}
+      render={MasonryCard}
+    />
   );
 }

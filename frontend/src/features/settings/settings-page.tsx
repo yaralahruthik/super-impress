@@ -1,6 +1,8 @@
+import { IconChevronRight } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 import {
   Card,
+  CardAction,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -22,9 +24,12 @@ export default function SettingsPage() {
         <h2 className="font-semibold text-lg">Security</h2>
         <Link to="/settings/change-password">
           <Card className="transition-colors hover:bg-muted/50">
-            <CardHeader>
+            <CardHeader className="flex-row items-center justify-between">
               <CardTitle>Change Password</CardTitle>
               <CardDescription>Update your account password</CardDescription>
+              <CardAction>
+                <IconChevronRight className="size-5 text-muted-foreground" />
+              </CardAction>
             </CardHeader>
           </Card>
         </Link>

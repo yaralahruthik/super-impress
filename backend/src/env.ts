@@ -12,6 +12,7 @@ const envSchema = t.Object({
   PORT: t.Number({ minimum: 1, maximum: 65_535, multipleOf: 1 }),
   RESEND_API_KEY: t.Optional(t.String({ minLength: 1 })),
   RESEND_FROM_EMAIL: t.Optional(t.String({ minLength: 1 })),
+  REDIS_URL: t.String({ minLength: 1 }),
 });
 
 const runtimeEnv = {
@@ -24,6 +25,7 @@ const runtimeEnv = {
   PORT: Number(process.env.PORT ?? "3000"),
   RESEND_API_KEY: process.env.RESEND_API_KEY,
   RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL,
+  REDIS_URL: process.env.REDIS_URL ?? "redis://localhost:6379",
 };
 
 const schemaErrors = [...Value.Errors(envSchema, runtimeEnv)];
@@ -67,4 +69,5 @@ export const env = {
   PORT: validatedEnv.PORT,
   RESEND_API_KEY: validatedEnv.RESEND_API_KEY,
   RESEND_FROM_EMAIL: validatedEnv.RESEND_FROM_EMAIL,
+  REDIS_URL: validatedEnv.REDIS_URL,
 } as const;

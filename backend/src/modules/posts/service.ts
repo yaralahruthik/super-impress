@@ -1,12 +1,26 @@
-import { and, arrayContains, count, desc, eq, sql } from "drizzle-orm";
+import {
+  and,
+  arrayContains,
+  asc,
+  count,
+  desc,
+  eq,
+  gte,
+  isNotNull,
+  lte,
+  sql,
+} from "drizzle-orm";
 import { DEFAULT_POSTS_LIMIT } from "../../constants";
 import { db } from "../../db";
-import { post, postPublication } from "../../db/schema";
+import { post, postPublication, postSchedule } from "../../db/schema";
 import type {
+  CreateScheduleRequest,
   ManualPublicationRequest,
   PostCreate,
   PostStatus,
   PostUpdate,
+  ScheduleStatus,
+  UpdateScheduleRequest,
 } from "./model";
 
 const WORD_REGEX = /\s+/;
@@ -19,6 +33,8 @@ const publicationColumns = {
   publishedAt: true,
 } as const;
 
+const MAX_SCHEDULE_DAYS = 31;
+
 function countWords(content: string): number {
   const trimmed = content.trim();
   if (!trimmed) {
@@ -26,6 +42,8 @@ function countWords(content: string): number {
   }
   return trimmed.split(WORD_REGEX).length;
 }
+
+// ── Post CRUD ───────────────────────────────────────────────────────────
 
 export async function createPost(
   userId: string,
@@ -236,4 +254,380 @@ export async function getPostsSummary(userId: string): Promise<{
     totalWordCount,
     statusCounts,
   };
+}
+
+// ── Scheduling ──────────────────────────────────────────────────────────
+
+function validateScheduleTime(scheduledAt: Date): void {
+  if (scheduledAt <= new Date()) {
+    throw new Error("Scheduled time must be in the future");
+  }
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + MAX_SCHEDULE_DAYS);
+  if (scheduledAt > maxDate) {
+    throw new Error(
+      `Cannot schedule more than ${MAX_SCHEDULE_DAYS} days in advance`
+    );
+  }
+}
+
+export async function createSchedule(
+  userId: string,
+  postId: number,
+  data: typeof CreateScheduleRequest.static
+): Promise<typeof postSchedule.$inferSelect> {
+  const existing = await getPostById(postId, userId);
+  if (!existing) {
+    throw new Error("Post not found");
+  }
+
+  const scheduledAt = new Date(data.scheduledAt);
+  validateScheduleTime(scheduledAt);
+
+  const [schedule] = await db
+    .insert(postSchedule)
+    .values({
+      postId,
+      userId,
+      platform: data.platform,
+      accountId: data.accountId,
+      scheduledAt,
+      status: "pending",
+    })
+    .returning();
+
+  return schedule;
+}
+
+export async function updateSchedule(
+  userId: string,
+  scheduleId: number,
+  data: typeof UpdateScheduleRequest.static
+): Promise<typeof postSchedule.$inferSelect | null> {
+  const existing = await db.query.postSchedule.findFirst({
+    where: and(
+      eq(postSchedule.id, scheduleId),
+      eq(postSchedule.userId, userId)
+    ),
+  });
+
+  if (!existing) {
+    return null;
+  }
+
+  if (existing.status !== "pending") {
+    throw new Error("Can only reschedule pending schedules");
+  }
+
+  const scheduledAt = new Date(data.scheduledAt);
+  validateScheduleTime(scheduledAt);
+
+  const [updated] = await db
+    .update(postSchedule)
+    .set({ scheduledAt })
+    .where(
+      and(eq(postSchedule.id, scheduleId), eq(postSchedule.userId, userId))
+    )
+    .returning();
+
+  return updated;
+}
+
+export async function cancelSchedule(
+  userId: string,
+  scheduleId: number
+): Promise<boolean> {
+  const existing = await db.query.postSchedule.findFirst({
+    where: and(
+      eq(postSchedule.id, scheduleId),
+      eq(postSchedule.userId, userId)
+    ),
+  });
+
+  if (!existing) {
+    return false;
+  }
+
+  if (existing.status === "processing") {
+    throw new Error(
+      "Cannot cancel a schedule that is currently being published"
+    );
+  }
+
+  if (existing.status !== "pending") {
+    throw new Error("Can only cancel pending schedules");
+  }
+
+  await db
+    .update(postSchedule)
+    .set({ status: "cancelled" })
+    .where(
+      and(eq(postSchedule.id, scheduleId), eq(postSchedule.userId, userId))
+    );
+
+  return true;
+}
+
+export async function deleteSchedule(
+  userId: string,
+  scheduleId: number
+): Promise<boolean> {
+  const existing = await db.query.postSchedule.findFirst({
+    where: and(
+      eq(postSchedule.id, scheduleId),
+      eq(postSchedule.userId, userId)
+    ),
+  });
+
+  if (!existing) {
+    return false;
+  }
+
+  if (!["cancelled", "failed"].includes(existing.status)) {
+    throw new Error("Can only delete cancelled or failed schedules");
+  }
+
+  const [deleted] = await db
+    .delete(postSchedule)
+    .where(
+      and(eq(postSchedule.id, scheduleId), eq(postSchedule.userId, userId))
+    )
+    .returning({ id: postSchedule.id });
+
+  return Boolean(deleted);
+}
+
+export function getSchedulesByPostId(userId: string, postId: number) {
+  return db.query.postSchedule.findMany({
+    where: and(
+      eq(postSchedule.postId, postId),
+      eq(postSchedule.userId, userId)
+    ),
+    orderBy: [asc(postSchedule.scheduledAt)],
+  });
+}
+
+export async function listSchedules(options: {
+  userId: string;
+  startDate: Date;
+  endDate: Date;
+  status?: typeof ScheduleStatus.static;
+  limit?: number;
+  offset?: number;
+}) {
+  const {
+    userId,
+    startDate,
+    endDate,
+    status,
+    limit = 50,
+    offset = 0,
+  } = options;
+
+  const conditions = [
+    eq(postSchedule.userId, userId),
+    gte(postSchedule.scheduledAt, startDate),
+    lte(postSchedule.scheduledAt, endDate),
+  ];
+
+  if (status) {
+    conditions.push(eq(postSchedule.status, status));
+  }
+
+  const whereClause = and(...conditions);
+
+  const [schedules, [{ total }]] = await Promise.all([
+    db.query.postSchedule.findMany({
+      where: whereClause,
+      orderBy: [asc(postSchedule.scheduledAt)],
+      limit,
+      offset,
+      with: {
+        post: {
+          columns: {
+            id: true,
+            title: true,
+            content: true,
+            tags: true,
+          },
+        },
+      },
+    }),
+    db.select({ total: count() }).from(postSchedule).where(whereClause),
+  ]);
+
+  return { schedules, total };
+}
+
+// ── Worker helpers ──────────────────────────────────────────────────────
+
+export function getSchedulesDueForPublishing(): Promise<
+  (typeof postSchedule.$inferSelect)[]
+> {
+  return db
+    .select()
+    .from(postSchedule)
+    .where(
+      and(
+        eq(postSchedule.status, "pending"),
+        isNotNull(postSchedule.scheduledAt),
+        lte(postSchedule.scheduledAt, new Date())
+      )
+    );
+}
+
+export async function markScheduleProcessing(
+  scheduleId: number
+): Promise<boolean> {
+  const [updated] = await db
+    .update(postSchedule)
+    .set({ status: "processing" })
+    .where(
+      and(eq(postSchedule.id, scheduleId), eq(postSchedule.status, "pending"))
+    )
+    .returning();
+
+  return Boolean(updated);
+}
+
+export async function markSchedulePublished(
+  scheduleId: number,
+  publicationId: number
+): Promise<void> {
+  await db
+    .update(postSchedule)
+    .set({ status: "published", publicationId })
+    .where(eq(postSchedule.id, scheduleId));
+}
+
+export async function markScheduleFailed(
+  scheduleId: number,
+  error: string,
+  attempts: number
+): Promise<void> {
+  await db
+    .update(postSchedule)
+    .set({
+      status: "failed",
+      error,
+      attempts,
+    })
+    .where(eq(postSchedule.id, scheduleId));
+}
+
+export async function resetStaleProcessingSchedules(): Promise<number> {
+  const result = await db
+    .update(postSchedule)
+    .set({ status: "pending" })
+    .where(eq(postSchedule.status, "processing"))
+    .returning({ id: postSchedule.id });
+
+  return result.length;
+}
+
+// ── Publish History ─────────────────────────────────────────────────────
+
+export async function getPublishHistory(
+  userId: string,
+  postId: number,
+  options: { limit?: number; offset?: number } = {}
+) {
+  const { limit = 50, offset = 0 } = options;
+
+  const existing = await getPostById(postId, userId);
+  if (!existing) {
+    return null;
+  }
+
+  const [publications, schedules] = await Promise.all([
+    db.query.postPublication.findMany({
+      where: eq(postPublication.postId, postId),
+      orderBy: [desc(postPublication.publishedAt)],
+    }),
+    db.query.postSchedule.findMany({
+      where: and(
+        eq(postSchedule.postId, postId),
+        eq(postSchedule.userId, userId)
+      ),
+      orderBy: [desc(postSchedule.scheduledAt)],
+    }),
+  ]);
+
+  const schedulePublicationIds = new Set(
+    schedules
+      .filter((s) => s.publicationId !== null)
+      .map((s) => s.publicationId)
+  );
+
+  type HistoryEntry = {
+    id: number;
+    postId: number;
+    type: "scheduled" | "manual" | "direct";
+    platform: string;
+    publishedAt: string | null;
+    scheduledAt?: string | null;
+    status: string;
+    error?: string | null;
+    url?: string | null;
+    platformPostId?: string | null;
+    sortDate: Date;
+  };
+
+  const history: HistoryEntry[] = [];
+
+  for (const pub of publications) {
+    if (schedulePublicationIds.has(pub.id)) {
+      continue;
+    }
+
+    const metadata = pub.metadata as Record<string, unknown> | null;
+    const isManual = metadata?.manual === true;
+
+    history.push({
+      id: pub.id,
+      postId: pub.postId,
+      type: isManual ? "manual" : "direct",
+      platform: pub.platform,
+      publishedAt: pub.publishedAt.toISOString(),
+      status: "published",
+      url: pub.url,
+      platformPostId: pub.platformPostId,
+      sortDate: pub.publishedAt,
+    });
+  }
+
+  for (const sched of schedules) {
+    const entry: HistoryEntry = {
+      id: sched.id,
+      postId: sched.postId,
+      type: "scheduled",
+      platform: sched.platform,
+      publishedAt: null,
+      scheduledAt: sched.scheduledAt.toISOString(),
+      status: sched.status,
+      error: sched.error,
+      sortDate: sched.scheduledAt,
+    };
+
+    if (sched.publicationId !== null) {
+      const linkedPub = publications.find((p) => p.id === sched.publicationId);
+      if (linkedPub) {
+        entry.publishedAt = linkedPub.publishedAt.toISOString();
+        entry.url = linkedPub.url;
+        entry.platformPostId = linkedPub.platformPostId;
+        entry.sortDate = linkedPub.publishedAt;
+      }
+    }
+
+    history.push(entry);
+  }
+
+  history.sort((a, b) => b.sortDate.getTime() - a.sortDate.getTime());
+
+  const total = history.length;
+  const paged = history
+    .slice(offset, offset + limit)
+    .map(({ sortDate: _sortDate, ...rest }) => rest);
+
+  return { history: paged, total };
 }

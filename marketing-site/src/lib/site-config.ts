@@ -41,7 +41,7 @@ interface SiteConfig {
 export const siteConfig: SiteConfig = {
   brand: "SuperImpress",
   description:
-    "Human-first LinkedIn writing and scheduling, without the clutter of traditional growth tools.",
+    "Turn any pasted content into a minimal-text carousel draft with sharp sequencing and visual cues.",
   discordUrl: "https://discord.gg/DWAVqksVtx",
   docsUrl: "https://docs.superimpress.com",
   faq: [
@@ -52,13 +52,13 @@ export const siteConfig: SiteConfig = {
     },
     {
       answer:
-        "The current MVP focuses on LinkedIn so we can keep the experience simple and reliable.",
-      question: "Which platforms are supported today?",
+        "The MVP focuses on carousel generation only: paste content, generate a slide-by-slide draft, edit it, and export the copy with visualization notes.",
+      question: "What does the MVP do today?",
     },
     {
       answer:
-        "Yes. You can still draft and organize your posts, and mark them as published manually when needed.",
-      question: "Can I use it without connecting social accounts?",
+        "Yes. The first version does not require social account connections because it is focused on carousel creation, not publishing.",
+      question: "Do I need to connect social accounts?",
     },
   ],
   footerLinks: [
@@ -66,14 +66,19 @@ export const siteConfig: SiteConfig = {
     { href: "https://discord.gg/DWAVqksVtx", label: "Discord" },
   ],
   hero: {
-    chips: ["Author-first", "LinkedIn scheduling", "Minimal interface"],
+    chips: ["Carousel-first", "Minimal text", "Visual storytelling"],
     subtitle:
-      "Write in your own voice, save drafts quickly, and schedule without wrestling with bloated workflows.",
-    title:
-      "Write consistently on LinkedIn with a tool that stays out of your way.",
+      "Paste dense source content, get a cleaner 6-10 slide narrative with short copy and visualization notes.",
+    title: "Turn any idea into a minimal-text carousel that feels deliberate.",
   },
   launchNote: "Limited early-access seats open in small batches.",
-  mvpItems: ["Create a post", "Save a post", "Schedule to LinkedIn"],
+  mvpItems: [
+    "Paste content of any length",
+    "Generate up to 10 carousel slides",
+    "Get text plus visualization notes",
+    "Edit, reorder, and regenerate slides",
+    "Copy the draft for downstream design and publishing",
+  ],
   navItems: [
     { href: "#why", label: "Why" },
     { href: "#how", label: "How" },
@@ -83,41 +88,40 @@ export const siteConfig: SiteConfig = {
   principles: [
     {
       description:
-        "You write first. AI should help refine your voice, not replace it.",
-      title: "Author first, AI second",
+        "The source material drives the output. AI should structure and compress ideas, not fabricate them.",
+      title: "Source first, AI assisted",
     },
     {
       description:
-        "Every screen and workflow is designed for clarity, not feature sprawl.",
-      title: "Minimal by design",
+        "Each slide should earn attention with very little text and a clear role in the narrative.",
+      title: "Minimal text, sharp flow",
     },
     {
       description:
-        "Publish directly or track manually. Keep your workflow private and flexible.",
-      title: "Flexible publishing",
+        "The product stops at a strong draft so creators can keep their design and publishing workflows flexible.",
+      title: "Draft, then design anywhere",
     },
   ],
   steps: [
     {
       description:
-        "Capture ideas and drafts with a straightforward editor focused on writing flow.",
-      title: "Write",
+        "Paste the raw source material, whether it is a rough note, article, transcript, or long-form draft.",
+      title: "Paste",
     },
     {
       description:
-        "Queue posts for LinkedIn with a simple schedule, no unnecessary setup.",
-      title: "Schedule",
+        "Set the audience, tone, and desired outcome so the carousel aims at the right reader response.",
+      title: "Direct",
     },
     {
       description:
-        "Publish through supported flows or mark a post as published and track the live link manually.",
-      title: "Publish / Track",
+        "Get a structured carousel draft with short slide copy and visualization notes you can refine and export.",
+      title: "Generate",
     },
   ],
-
   whyPoints: [
-    "Most LinkedIn tools are overcomplicated and distracting.",
-    "AI-first flows often push generic, inauthentic writing.",
-    "Consistency drops when posting takes too many steps.",
+    "Turning long-form content into a good carousel still takes too many manual decisions.",
+    "Most AI outputs read like stuffed captions split into slides, not actual carousel storytelling.",
+    "Creators need help compressing ideas into a cleaner visual sequence, not another bloated content suite.",
   ],
 };

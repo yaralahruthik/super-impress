@@ -13,18 +13,18 @@ SuperImpress is a [Frontend Hire](https://www.frontendhire.com/) initiative wher
 
 This is why I am (or hopefully, we are) building SuperImpress.
 
-There are many LinkedIn tools out there but:
+There are many content tools out there but:
 
-- They make excessive use of AI to create content.
-- This automatically results in not-so-authentic content.
-- In order to sell themselves, they are marketing writing on LinkedIn in a wrong way.
+- They over-automate the thinking and under-serve the storytelling.
+- They turn source material into generic slide decks instead of sharp carousel narratives.
+- They often make it harder to turn strong long-form thinking into simple visual content.
 
 SuperImpress will:
 
-- Be author first and AI second.
-- You write, then if needed you use AI to fix the writing.
-- Give you templates that are plagiarism safe.
-- And more, as I myself use the product.
+- Turn pasted content into minimal-text carousels.
+- Be author first and AI assisted, using the source material instead of inventing fluff.
+- Break ideas into clear slide-by-slide stories with visualization notes.
+- Stay intentionally narrow so the workflow feels fast and useful.
 
 ---
 

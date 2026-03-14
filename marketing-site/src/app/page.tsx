@@ -90,7 +90,8 @@ export default function Home() {
             <Reveal>
               <p className="eyebrow">Why SuperImpress</p>
               <h2 className="section-title mt-3 max-w-2xl">
-                For LinkedIn creators who want consistency without noise.
+                For creators who want carousel storytelling without bloated
+                tooling.
               </h2>
             </Reveal>
             <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -110,7 +111,7 @@ export default function Home() {
             <Reveal>
               <p className="eyebrow">How It Works</p>
               <h2 className="section-title mt-3 max-w-2xl">
-                A straightforward path from draft to published post.
+                A straightforward path from raw content to a carousel draft.
               </h2>
             </Reveal>
             <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -159,7 +160,7 @@ export default function Home() {
             <Reveal>
               <p className="eyebrow">Principles</p>
               <h2 className="section-title mt-3 max-w-2xl">
-                Product choices grounded in real writing workflows.
+                Product choices grounded in real content breakdown workflows.
               </h2>
             </Reveal>
             <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -208,7 +209,7 @@ export default function Home() {
               <div className="surface-card p-7 sm:p-10">
                 <p className="eyebrow">Community</p>
                 <h2 className="section-title mt-3 max-w-2xl">
-                  Join other LinkedIn creators.
+                  Join other creators shaping the product.
                 </h2>
                 <div className="mt-7 flex flex-wrap items-center gap-3">
                   <a

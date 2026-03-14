@@ -16,17 +16,17 @@ const displayFont = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL("https://superimpress.com"),
   title: {
-    default: "SuperImpress | Human-first LinkedIn Writing and Scheduling",
+    default: "SuperImpress | Minimal-Text Carousel Generation",
     template: "%s | SuperImpress",
   },
   description:
-    "SuperImpress helps LinkedIn creators write consistently with a minimal, author-first workflow.",
+    "SuperImpress helps creators turn pasted content into minimal-text carousel drafts with stronger sequencing and visual cues.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     description:
-      "A minimal interface to write, save, and schedule LinkedIn posts without bloated workflows.",
+      "Generate slide-by-slide carousel drafts from any pasted content without bloated content workflows.",
     siteName: "SuperImpress",
     title: "SuperImpress",
     type: "website",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     description:
-      "Author-first LinkedIn writing and scheduling with a clean, minimal workflow.",
+      "Minimal-text carousel generation for creators who want sharper visual storytelling.",
     title: "SuperImpress",
   },
 };
